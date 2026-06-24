@@ -1,8 +1,13 @@
 {
   "name": "api",
-  "module": "index.ts",
+  "module": "server.ts",
   "type": "module",
   "private": true,
+  "scripts": {
+    "dev": "bun --hot ./src/server.ts",
+    "start": "bun ./src/server.ts",
+    "test": "bun test"
+  },
   "devDependencies": {
     "@types/bun": "latest"
   },
