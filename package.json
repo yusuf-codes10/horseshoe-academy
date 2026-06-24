@@ -9,6 +9,10 @@
   "peerDependencies": {
     "typescript": "^5"
   },
+  "scripts": {
+    "dev:web": "bun run --cwd apps/web dev",
+    "dev:api": "bun run --cwd apps/api dev"
+  },
   "workspaces": [
     "app/*",
     "packages/*"
