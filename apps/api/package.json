@@ -10,6 +10,7 @@
     "typescript": "^5"
   },
   "dependencies": {
+    "@classroom/shared": "workspace:*",
     "hono": "^4.12.27"
   }
 }
