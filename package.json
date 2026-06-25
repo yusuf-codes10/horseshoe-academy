@@ -14,7 +14,7 @@
     "dev:api": "bun run --cwd apps/api dev"
   },
   "workspaces": [
-    "app/*",
+    "apps/*",
     "packages/*"
   ]
 }
