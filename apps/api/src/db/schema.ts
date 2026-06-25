@@ -16,3 +16,11 @@ export const users = pgTable('users', {
 export const teachers = pgTable('teachers', {
     id: bigserial('id', {mode: "number"}).primaryKey().references(() => users.id)
 })
+
+export const students = pgTable('students', {
+    id: bigserial('id', {mode: "number"}).primaryKey().references(() => users.id)
+})
+
+export const admins = pgTable('admins', {
+    id: bigserial('id', {mode: "number"}).primaryKey().references(() => users.id)
+})
