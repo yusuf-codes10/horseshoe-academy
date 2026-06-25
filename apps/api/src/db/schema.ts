@@ -8,5 +8,6 @@ export const users = pgTable('users', {
     username: text('username').unique().notNull(),
     email: text('email').unique().notNull(),
     fullName: text('fullName'),
+    role: roleEnum('role'),
     createdAt: timestamp('createdAt').defaultNow()
 })
