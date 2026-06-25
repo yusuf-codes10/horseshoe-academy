@@ -11,3 +11,8 @@ export const users = pgTable('users', {
     role: roleEnum('role'),
     createdAt: timestamp('createdAt').defaultNow()
 })
+
+// 1-on-1 relationship to respresent inheritance
+export const teachers = pgTable('teachers', {
+    id: bigserial('id', {mode: "number"}).primaryKey().references(() => users.id)
+})
