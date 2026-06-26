@@ -64,5 +64,26 @@ export const sessions = pgTable('sessions', {
     location: text('location').notNull(),
     classId: bigint('class_id', {mode: 'number'}).references(() => classes.id)
 })
+
+// conjuction tables
+export const applications = pgTable('applications', {
+    id: bigserial('id', {mode: 'number'}).primaryKey(),
+    status: varchar('status', {length: 10}).notNull(),
+    studentId: bigint('student_id', {mode: 'number'}).references(() => students.id),
+    classId: bigint('class_id', {mode: 'number'}).references(() => classes.id)
+})
+
+export const enrollements = pgTable('enrollements', {
+    id: bigserial('id', {mode: 'number'}).primaryKey(),
+    studentId: bigint('student_id', {mode: 'number'}).references(() => students.id),
+    classId: bigint('class_id', {mode: 'number'}).references(() => classes.id)
+})
+
+export const attendances = pgTable('attendances', {
+    id: bigserial('id', {mode: 'number'}).primaryKey(),
+    enrollId: bigint('enroll_id', {mode: 'number'}).references(() => enrollements.id),
+    sessionId: bigint('session_id', {mode: 'number'}).references(() => sessions.id)
+})
+
 // expandable
 // export const teacherRelations = relations(teachers, ({one}) => ({users: one(users)}));
