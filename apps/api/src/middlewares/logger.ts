@@ -30,7 +30,7 @@ const customLogger = async (c: Context, next: Next) => {
           : chalk.green;
 
   console.log(
-    `${colorFn(c.req.method)} ${c.req.path} ${statusColor(String(status))} ${chalk.gray(`${ms}ms`)}`,
+    `${colorFn(c.req.method)} ${c.req.url} ${statusColor(String(status))} ${chalk.gray(`${ms}ms`)}`,
   );
 };
 
