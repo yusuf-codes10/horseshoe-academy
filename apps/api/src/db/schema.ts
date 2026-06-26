@@ -48,7 +48,7 @@ export const subjects = pgTable("subjects", {
   id: bigserial("id", { mode: "number" }).primaryKey(),
   name: varchar("name", { length: 20 }).notNull(),
   description: text("descriptions"),
-  departement_id: bigint("departement_id").references(() => departements.id),
+  departementId: bigint("departement_id", {mode: 'number'}).references(() => departements.id),
 });
 
 // expandable
