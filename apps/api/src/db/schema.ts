@@ -12,11 +12,19 @@ import {
 
 const roleEnum = pgEnum("role", ["admin", "teacher", "student"]);
 const statusEnum = pgEnum('status', ['pending', 'accepted', 'rejected']);
+const degreeEnum = pgEnum("degree", [
+  "Associate",
+  "Bachelor's",
+  "Master's",
+  "PhD",
+]);
+const genderEnum = pgEnum('gender', ['female', 'male']);
 
 export const users = pgTable("users", {
   id: bigserial("id", { mode: "number" }).primaryKey(),
   username: text("username").unique().notNull(),
   email: text("email").unique().notNull(),
+  gender: genderEnum('gender').notNull(),
   fullName: text("fullName"),
   role: roleEnum("role"),
   createdAt: timestamp("createdAt").defaultNow(),
@@ -27,7 +35,8 @@ export const teachers = pgTable("teachers", {
   id: bigint("id", { mode: "number" })
     .primaryKey()
     .references(() => users.id),
-  degree: varchar("degree", { length: 255 }).notNull(),
+  degree: degreeEnum('degree').notNull().default('Associate'),
+  major: varchar('major', {length: 30}).notNull(),
   salary: decimal("salary", { precision: 10, scale: 2 }).notNull(),
 });
 
