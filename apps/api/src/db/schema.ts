@@ -11,6 +11,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 const roleEnum = pgEnum("role", ["admin", "teacher", "student"]);
+const statusEnum = pgEnum('status', ['pending', 'accepted', 'rejected']);
 
 export const users = pgTable("users", {
   id: bigserial("id", { mode: "number" }).primaryKey(),
@@ -68,7 +69,7 @@ export const sessions = pgTable('sessions', {
 // conjuction tables
 export const applications = pgTable('applications', {
     id: bigserial('id', {mode: 'number'}).primaryKey(),
-    status: varchar('status', {length: 10}).notNull(),
+    status: statusEnum('status').notNull().default('pending'),
     studentId: bigint('student_id', {mode: 'number'}).references(() => students.id),
     classId: bigint('class_id', {mode: 'number'}).references(() => classes.id)
 })
