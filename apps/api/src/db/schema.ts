@@ -38,7 +38,7 @@ export const students = pgTable("students", {
 });
 
 // other tables
-export const departements = pgTable("departements", {
+export const departments = pgTable("departments", {
   id: bigserial("id", { mode: "number" }).primaryKey(),
   code: varchar("code", { length: 7 }).notNull().unique(),
   name: varchar("name", { length: 50 }).notNull(),
@@ -48,8 +48,21 @@ export const subjects = pgTable("subjects", {
   id: bigserial("id", { mode: "number" }).primaryKey(),
   name: varchar("name", { length: 20 }).notNull(),
   description: text("descriptions"),
-  departementId: bigint("departement_id", {mode: 'number'}).references(() => departements.id),
+  departmentId: bigint("department_id", {mode: 'number'}).references(() => departments.id),
 });
 
+export const classes = pgTable('classes', {
+    id: bigserial('id', {mode: 'number'}).primaryKey(),
+    capacity: bigint('capacity', {mode: 'number'}).notNull(),
+    subjectId: bigint('subject_id', {mode: 'number'}).references(() => subjects.id),
+    teacherId: bigint('teacher_id', { mode: 'number'}).references(() => teachers.id)
+})
+
+export const sessions = pgTable('sessions', {
+    id: bigserial('id', {mode: 'number'}).primaryKey(),
+    date: timestamp('date').notNull(),
+    location: text('location').notNull(),
+    classId: bigint('class_id', {mode: 'number'}).references(() => classes.id)
+})
 // expandable
 // export const teacherRelations = relations(teachers, ({one}) => ({users: one(users)}));
