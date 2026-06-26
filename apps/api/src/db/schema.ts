@@ -1,5 +1,6 @@
 // the database schema is going to be here
 import {bigserial, pgTable, text, timestamp, pgEnum} from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
 
 const roleEnum = pgEnum('role', ['admin', 'teacher', 'student']);
 
@@ -24,3 +25,5 @@ export const students = pgTable('students', {
 export const admins = pgTable('admins', {
     id: bigserial('id', {mode: "number"}).primaryKey().references(() => users.id)
 })
+
+export const teacherRelations = relations(teachers, ({one}) => ({users: one(users)}));
