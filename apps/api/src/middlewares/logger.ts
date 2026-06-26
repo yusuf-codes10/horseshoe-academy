@@ -1,7 +1,7 @@
 import type { Context, Next } from "hono";
 import chalk from "chalk";
 
-type chalkfn = (text: string) => string;
+type ChalkFn = (text: string) => string;
 
 const customLogger = async (c: Context, next: Next) => {
   const methodColors: Record<string, ChalkFn> = {
@@ -12,8 +12,26 @@ const customLogger = async (c: Context, next: Next) => {
     PATCH: chalk.magenta,
   };
 
-  c.json({ msg: "hey" });
-  next();
+  const start = Date.now();
+  const colorFn: ChalkFn = methodColors[c.req.method] ?? chalk.white;
+
+  await next();
+
+  const ms = Date.now() - start;
+  const status = c.res.status;
+
+  const statusColor =
+    status >= 500
+      ? chalk.red
+      : status >= 400
+        ? chalk.yellow
+        : status >= 300
+          ? chalk.cyan
+          : chalk.green;
+
+  console.log(
+    `${colorFn(c.req.method)} ${c.req.path} ${statusColor(String(status))} ${chalk.gray(`${ms}ms`)}`,
+  );
 };
 
 export default customLogger;
