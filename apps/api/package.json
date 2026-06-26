@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@classroom/shared": "workspace:*",
+    "chalk": "^5.6.2",
     "drizzle-orm": "^0.45.2",
     "hono": "^4.12.27",
     "postgres": "^3.4.9"
