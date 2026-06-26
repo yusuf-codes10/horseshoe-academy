@@ -85,5 +85,11 @@ export const attendances = pgTable('attendances', {
     sessionId: bigint('session_id', {mode: 'number'}).references(() => sessions.id)
 })
 
-// expandable
-// export const teacherRelations = relations(teachers, ({one}) => ({users: one(users)}));
+// extra
+export const notifications = pgTable('notifications', {
+    id: bigserial('id', {mode: 'number'}).primaryKey(),
+    title: varchar('title', {length: 20}).notNull(),
+    content: text('content').notNull(),
+    time: timestamp('time').defaultNow().notNull(),
+    userId: bigint('user_id', {mode: 'number'}).references(() => users.id)
+})
