@@ -1,10 +1,12 @@
 import type { Context } from "hono";
-import type { StatusCode } from "hono/utils/http-status";
+import type { StatusCode, ContentfulStatusCode } from "hono/utils/http-status";
 import chalk from "chalk";
 
 const errorHandler = (err: Error & { status?: StatusCode }, c: Context) => {
-  const status = err.status ?? 500;
+//   const status: StatusCode = (err.status ?? 500) as StatusCode;
+//   const status: StatusCode = (err.status ?? 500) as StatusCode;
 
+const status = (err.status ?? 500) as ContentfulStatusCode;
   console.error(
     chalk.red(`[ERROR] ${c.req.method} ${c.req.path}`) +
     chalk.gray(` → ${status} ${err.message}`)
