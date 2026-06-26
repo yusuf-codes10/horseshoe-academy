@@ -6,7 +6,10 @@
   "scripts": {
     "dev": "bun --hot ./src/server.ts",
     "start": "bun ./src/server.ts",
-    "test": "bun test"
+    "test": "bun test",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:push": "drizzle-kit push"
   },
   "devDependencies": {
     "@types/bun": "latest",
