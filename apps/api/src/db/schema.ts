@@ -1,5 +1,5 @@
 // the database schema is going to be here
-import {bigserial, pgTable, text, timestamp, pgEnum} from 'drizzle-orm/pg-core';
+import {bigserial, pgTable, decimal, text, varchar, timestamp, pgEnum} from 'drizzle-orm/pg-core';
 
 const roleEnum = pgEnum('role', ['admin', 'teacher', 'student']);
 
@@ -14,15 +14,14 @@ export const users = pgTable('users', {
 
 // 1-on-1 relationship to respresent inheritance
 export const teachers = pgTable('teachers', {
-    id: bigserial('id', {mode: "number"}).primaryKey().references(() => users.id)
+    id: bigserial('id', {mode: "number"}).primaryKey().references(() => users.id),
+    degree: varchar('degree', {length: 255}).notNull(),
+    salary: decimal('salary', {precision: 10, scale: 2}).notNull()
 })
 
 export const students = pgTable('students', {
-    id: bigserial('id', {mode: "number"}).primaryKey().references(() => users.id)
-})
-
-export const admins = pgTable('admins', {
-    id: bigserial('id', {mode: "number"}).primaryKey().references(() => users.id)
+    id: bigserial('id', {mode: "number"}).primaryKey().references(() => users.id),
+    gpa: decimal('gpa', {precision: 10, scale: 2}).notNull()
 })
 
 // expandable
