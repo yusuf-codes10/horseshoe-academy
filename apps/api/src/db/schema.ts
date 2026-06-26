@@ -23,7 +23,7 @@ export const users = pgTable("users", {
 
 // 1-on-1 relationship to respresent inheritance
 export const teachers = pgTable("teachers", {
-  id: bigserial("id", { mode: "number" })
+  id: bigint("id", { mode: "number" })
     .primaryKey()
     .references(() => users.id),
   degree: varchar("degree", { length: 255 }).notNull(),
@@ -31,7 +31,7 @@ export const teachers = pgTable("teachers", {
 });
 
 export const students = pgTable("students", {
-  id: bigserial("id", { mode: "number" })
+  id: bigint("id", { mode: "number" })
     .primaryKey()
     .references(() => users.id),
   gpa: decimal("gpa", { precision: 10, scale: 2 }).notNull(),
