@@ -20,8 +20,7 @@ router.post("/", zValidator('json', registerSchema), async (c) => {
 
     const data = await response.json();
     if (!response.ok) {
-        console.log("HTTP Error:", response.status, response.statusText);
-      console.log("Response body:", data);
+        return c.json(data, response.status as any);
     }
 
     console.log('raw data', data);
