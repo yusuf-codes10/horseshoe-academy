@@ -11,7 +11,9 @@ import { zValidator } from "@hono/zod-validator";
 
 const router = new Hono();
 
-router.post("/register", zValidator("json", registerSchema), async (c) => {
+router.post("/register",
+    // registerSchema: validates what the client sends
+    zValidator("json", registerSchema), async (c) => {
   try {
     const body = c.req.valid("json");
 
@@ -28,6 +30,7 @@ router.post("/register", zValidator("json", registerSchema), async (c) => {
       return c.json(raw, response.status as any);
     }
 
+    // this validates what sekisho sends back
     const data = sekishoRegisterResponseSchema.parse(raw);
     const { safeUser, token } = data;
     console.log("actual user", safeUser);
@@ -42,6 +45,8 @@ router.post("/register", zValidator("json", registerSchema), async (c) => {
 router.post("/login", zValidator("json", loginSchema), async (c) => {
   try {
     const body = c.req.valid("json");
+    console.log("Sekisho raw response:", JSON.stringify(body, null, 2));
+
 
     const response = await fetch("https://sekisho.onrender.com/auth/login", {
       method: "POST",
