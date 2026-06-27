@@ -1,11 +1,8 @@
-type User = {
-    id: number,
-    username: string,
-    email: string,
-    fullName?: string | null,
-    role: string,
-    gender: string,
-    createdAt: Date,
-}
+import { users } from '../../../apps/api/src/db/schema';
+import { InferSelectModel } from 'drizzle-orm';
 
-export type {User};
+// Base infered types
+type User = InferSelectModel<typeof users>;
+
+
+export type { User };
