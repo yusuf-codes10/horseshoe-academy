@@ -20,9 +20,11 @@
   },
   "dependencies": {
     "@classroom/shared": "workspace:*",
+    "@hono/zod-validator": "^0.8.0",
     "chalk": "^5.6.2",
     "drizzle-orm": "^0.45.2",
     "hono": "^4.12.27",
-    "postgres": "^3.4.9"
+    "postgres": "^3.4.9",
+    "zod-validator": "^1.0.1"
   }
 }
