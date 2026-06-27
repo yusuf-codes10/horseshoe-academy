@@ -13,13 +13,12 @@ router.get("/", async (c: Context) => {
       headers: { "Content-Type": "application/json" },
     });
 
+    const data = await response.json();
     if (!response.ok) {
-              console.log("HTTP Error:", response.status, response.statusText);
-      const body = await response.text(); // use text() not json() in case it's not JSON
-      console.log("Response body:", body);
+        console.log("HTTP Error:", response.status, response.statusText);
+      console.log("Response body:", data);
     }
 
-    const data = await response.json();
     console.log('raw data', data);
 
     const user = selectUserSchema.parse(data);
