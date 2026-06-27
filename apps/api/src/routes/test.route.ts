@@ -7,7 +7,7 @@ import { zValidator} from '@hono/zod-validator';
 
 const router = new Hono();
 
-router.get("/", zValidator('json', registerSchema), async (c) => {
+router.post("/", zValidator('json', registerSchema), async (c) => {
   try {
     const body = c.req.valid("json");
 
