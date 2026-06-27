@@ -69,6 +69,38 @@ export type Notification = z.infer<typeof selectNotificationSchema>;
 export type NewNotification = z.infer<typeof insertNotificationSchema>;
 
 // validation for registering a user
-export const registerSchema = insertUserSchema.extend({
-  password: z.string().min(8),
-})
+export const registerSchema = insertUserSchema
+  .pick({
+    username: true,
+    email: true,
+    gender: true,
+    fullName: true, // optional anyway
+    role: true, // optional anyway
+  })
+  .extend({
+    password: z.string().min(8),
+  });
+
+export const loginSchema = insertUserSchema
+  .pick({
+    username: true,
+  })
+  .extend({
+    password: z.string().min(8),
+  });
+
+// sekisho schema
+// user
+export const sekishoUserSchema = z.object({
+  id: z.number(),
+  username: z.string(),
+  email: z.string(),
+  fullName: z.string().nullable(),
+  createdAt: z.string(), // Sekisho returns string not Date
+});
+
+// full object
+export const sekishoRegisterResponseSchema = z.object({
+  safeUser: sekishoUserSchema,
+  token: z.string(),
+});

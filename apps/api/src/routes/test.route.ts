@@ -1,33 +1,34 @@
 import { Hono } from "hono";
 // import type { Context } from "hono";
 // import type { User } from "@classroom/shared";
-import { selectUserSchema, registerSchema } from "@classroom/shared";
+import { registerSchema, loginSchema, sekishoRegisterResponseSchema } from "@classroom/shared";
 import { HTTPException } from "hono/http-exception";
 import { zValidator} from '@hono/zod-validator';
 
 const router = new Hono();
 
-router.post("/", zValidator('json', registerSchema), async (c) => {
+router.post("/", zValidator('json', loginSchema), async (c) => {
   try {
     const body = c.req.valid("json");
 
     // const {username, password, email, fullName} = body;
-    const response = await fetch("https://sekisho.onrender.com/auth/register", {
+    const response = await fetch("https://sekisho.onrender.com/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body)
     });
 
-    const data = await response.json();
+    const raw = await response.json();
+    console.log("Sekisho raw response:", JSON.stringify(raw, null, 2));
     if (!response.ok) {
-        return c.json(data, response.status as any);
+        return c.json(raw, response.status as any);
     }
 
-    console.log('raw data', data);
 
-    const user = selectUserSchema.parse(data);
-    console.log('actual error', user);
-    return c.json({ msg: "Hello, is everything working?", user });
+    const data = sekishoRegisterResponseSchema.parse(raw);
+    const {safeUser, token} = data;
+    console.log('actual user', safeUser);
+    return c.json({ user: safeUser, token });
   } catch (error) {
     console.log(error);
 
