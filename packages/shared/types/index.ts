@@ -1,50 +1,69 @@
-import type { InferSelectModel, InferInsertModel } from "drizzle-orm";
+import { z } from "zod";
 import {
-  users, teachers, students, departments,
-  subjects, classes, sessions, applications,
-  enrollements, attendances, notifications
-} from "../../../apps/api/src/db/schema";
+  selectUserSchema,
+  insertUserSchema,
+  selectTeacherSchema,
+  insertTeacherSchema,
+  selectStudentSchema,
+  insertStudentSchema,
+  selectDepartmentSchema,
+  insertDepartmentSchema,
+  selectSubjectSchema,
+  insertSubjectSchema,
+  selectClassSchema,
+  insertClassSchema,
+  selectSessionSchema,
+  insertSessionSchema,
+  selectApplicationSchema,
+  insertApplicationSchema,
+  selectEnrollementSchema,
+  insertEnrollementSchema,
+  selectAttendanceSchema,
+  insertAttendanceSchema,
+  selectNotificationSchema,
+  insertNotificationSchema,
+} from "../validation";
 
 // Users
-export type User = InferSelectModel<typeof users>;
-export type NewUser = InferInsertModel<typeof users>;
+export type User = z.infer<typeof selectUserSchema>;
+export type NewUser = z.infer<typeof insertUserSchema>;
 
 // Teachers
-export type Teacher = InferSelectModel<typeof teachers>;
-export type NewTeacher = InferInsertModel<typeof teachers>;
+export type Teacher = z.infer<typeof selectTeacherSchema>;
+export type NewTeacher = z.infer<typeof insertTeacherSchema>;
 
 // Students
-export type Student = InferSelectModel<typeof students>;
-export type NewStudent = InferInsertModel<typeof students>;
+export type Student = z.infer<typeof selectStudentSchema>;
+export type NewStudent = z.infer<typeof insertStudentSchema>;
 
 // Departments
-export type Department = InferSelectModel<typeof departments>;
-export type NewDepartment = InferInsertModel<typeof departments>;
+export type Department = z.infer<typeof selectDepartmentSchema>;
+export type NewDepartment = z.infer<typeof insertDepartmentSchema>;
 
 // Subjects
-export type Subject = InferSelectModel<typeof subjects>;
-export type NewSubject = InferInsertModel<typeof subjects>;
+export type Subject = z.infer<typeof selectSubjectSchema>;
+export type NewSubject = z.infer<typeof insertSubjectSchema>;
 
 // Classes
-export type Class = InferSelectModel<typeof classes>;
-export type NewClass = InferInsertModel<typeof classes>;
+export type Class = z.infer<typeof selectClassSchema>;
+export type NewClass = z.infer<typeof insertClassSchema>;
 
 // Sessions
-export type Session = InferSelectModel<typeof sessions>;
-export type NewSession = InferInsertModel<typeof sessions>;
+export type Session = z.infer<typeof selectSessionSchema>;
+export type NewSession = z.infer<typeof insertSessionSchema>;
 
 // Applications
-export type Application = InferSelectModel<typeof applications>;
-export type NewApplication = InferInsertModel<typeof applications>;
+export type Application = z.infer<typeof selectApplicationSchema>;
+export type NewApplication = z.infer<typeof insertApplicationSchema>;
 
 // Enrollements
-export type Enrollement = InferSelectModel<typeof enrollements>;
-export type NewEnrollement = InferInsertModel<typeof enrollements>;
+export type Enrollement = z.infer<typeof selectEnrollementSchema>;
+export type NewEnrollement = z.infer<typeof insertEnrollementSchema>;
 
 // Attendances
-export type Attendance = InferSelectModel<typeof attendances>;
-export type NewAttendance = InferInsertModel<typeof attendances>;
+export type Attendance = z.infer<typeof selectAttendanceSchema>;
+export type NewAttendance = z.infer<typeof insertAttendanceSchema>;
 
 // Notifications
-export type Notification = InferSelectModel<typeof notifications>;
-export type NewNotification = InferInsertModel<typeof notifications>;
+export type Notification = z.infer<typeof selectNotificationSchema>;
+export type NewNotification = z.infer<typeof insertNotificationSchema>;
