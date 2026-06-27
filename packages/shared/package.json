@@ -4,6 +4,7 @@
   "main": "./src/index.ts",
   "dependencies": {
     "drizzle": "^1.4.0",
-    "drizzle-orm": "^0.45.2"
+    "drizzle-orm": "^0.45.2",
+    "drizzle-zod": "^0.8.3"
   }
 }
