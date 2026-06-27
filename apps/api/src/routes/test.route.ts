@@ -8,7 +8,7 @@ const router = new Hono();
 
 router.get("/", async (c: Context) => {
   try {
-    const response = await fetch("https://sekisho.onrender.com/register", {
+    const response = await fetch("https://sekisho.onrender.com/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });
