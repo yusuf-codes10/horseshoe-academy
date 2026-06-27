@@ -67,3 +67,8 @@ export type NewAttendance = z.infer<typeof insertAttendanceSchema>;
 // Notifications
 export type Notification = z.infer<typeof selectNotificationSchema>;
 export type NewNotification = z.infer<typeof insertNotificationSchema>;
+
+// validation for registering a user
+export const registerSchema = insertUserSchema.extend({
+  password: z.string().min(8),
+})

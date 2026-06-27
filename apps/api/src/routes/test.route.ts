@@ -1,20 +1,21 @@
 import { Hono } from "hono";
-import type { Context } from "hono";
+// import type { Context } from "hono";
 // import type { User } from "@classroom/shared";
-import { selectUserSchema } from "@classroom/shared";
+import { selectUserSchema, registerSchema } from "@classroom/shared";
 import { HTTPException } from "hono/http-exception";
 import { zValidator} from '@hono/zod-validator';
 
 const router = new Hono();
 
-router.get("/", zValidator('json', selectUserSchema), async (c: Context) => {
+router.get("/", zValidator('json', registerSchema), async (c) => {
   try {
-    const body = c.req.valid('json');
+    const body = c.req.valid("json");
 
-    const {username, password, email} = body;
+    // const {username, password, email, fullName} = body;
     const response = await fetch("https://sekisho.onrender.com/auth/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body)
     });
 
     const data = await response.json();
