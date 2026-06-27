@@ -2,6 +2,9 @@
   "name": "@classroom/shared",
   "version": "1.0.0",
   "main": "./src/index.ts",
+  "exports": {
+    ".": "./index.ts"
+  },
   "dependencies": {
     "drizzle": "^1.4.0",
     "drizzle-orm": "^0.45.2",
