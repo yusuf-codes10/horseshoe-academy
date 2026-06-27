@@ -1,6 +1,7 @@
 import { Hono } from "hono";
 import type { Context } from "hono";
-import type { User } from "@classroom/shared";
+// import type { User } from "@classroom/shared";
+import { selectUserSchema } from "@classroom/shared";
 import { HTTPException } from "hono/http-exception";
 
 const router = new Hono();
@@ -11,7 +12,8 @@ router.get("/", async (c: Context) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });
-    const user: User = await response.json();
+    const data = await response.json();
+    const user = selectUserSchema.parse(data);
     console.log(user);
   } catch (error) {
     console.log(error);
