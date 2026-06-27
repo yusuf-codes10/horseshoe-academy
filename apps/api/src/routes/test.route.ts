@@ -12,15 +12,24 @@ router.get("/", async (c: Context) => {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });
+
+    if (!response.ok) {
+              console.log("HTTP Error:", response.status, response.statusText);
+      const body = await response.text(); // use text() not json() in case it's not JSON
+      console.log("Response body:", body);
+    }
+
     const data = await response.json();
+    console.log('raw data', data);
+
     const user = selectUserSchema.parse(data);
-    console.log(user);
+    console.log('actual error', user);
+    return c.json({ msg: "Hello, is everything working?", user });
   } catch (error) {
     console.log(error);
 
     throw new HTTPException(500, { message: "something went wrong" });
   }
-  return c.json({ msg: "Hello, is everything working?" });
 });
 
 export default router;
