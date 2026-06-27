@@ -1,6 +1,4 @@
 import { Hono } from "hono";
-// import type { Context } from "hono";
-// import type { User } from "@classroom/shared";
 import {
   registerSchema,
   loginSchema,
@@ -60,7 +58,7 @@ router.post("/login", zValidator("json", loginSchema), async (c) => {
       return c.json(raw, response.status as any);
     }
 
-        const data = sekishoRegisterResponseSchema.parse(raw);
+    const data = sekishoRegisterResponseSchema.parse(raw);
     const { safeUser, token } = data;
     console.log("actual user", safeUser);
     return c.json({ user: safeUser, token });
