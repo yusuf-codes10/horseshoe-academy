@@ -104,3 +104,8 @@ export const sekishoRegisterResponseSchema = z.object({
   safeUser: sekishoUserSchema,
   token: z.string(),
 });
+
+// infered types
+export type SekishoUser = z.infer<typeof sekishoUserSchema>;
+export type RegisterDTO = z.infer<typeof registerSchema>;
+export type LoginDTO = z.infer<typeof loginSchema>;
