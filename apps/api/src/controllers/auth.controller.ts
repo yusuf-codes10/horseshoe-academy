@@ -35,7 +35,8 @@ export const registerUser = factory.createHandlers(
     const { safeUser, token } = data;
     console.log("actual user", safeUser);
 
-    // check classroom db
+    try {
+       // check classroom db
     const [duplicateUser] = await db.select()
     .from(users)
     .where(eq(users.username, safeUser.username));
@@ -54,6 +55,10 @@ export const registerUser = factory.createHandlers(
     }).returning();
 
     console.log(newUser);
+    } catch (error) {
+      console.log('failed inserting user', error);
+
+    }
 
     signToken(c, token);
     return c.json({ user: safeUser, token });
