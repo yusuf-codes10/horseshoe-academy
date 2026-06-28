@@ -1,13 +1,15 @@
 import  { createFactory } from 'hono/factory';
-import type { NewUser } from '@classroom/shared';
+import type { SekishoUser } from '@classroom/shared';
 import { registerSchema, sekishoRegisterResponseSchema }from '@classroom/shared';
 import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
 
 
-const factory = createFactory<{Variables: {user: NewUser}}>();
+const factory = createFactory<{Variables: {user: SekishoUser}}>();
 
-export const registerUser = factory.createHandlers(zValidator("json", registerSchema), async (c) => {
+export const registerUser = factory.createHandlers(
+    // registerSchema: validates what the client sends
+    zValidator("json", registerSchema), async (c) => {
   try {
     const body = c.req.valid("json");
 
