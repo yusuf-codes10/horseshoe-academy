@@ -120,6 +120,7 @@ export const logUserIn = factory.createHandlers(
         return c.json({ user: foundUser, token });
       } catch (dbError) {
         console.log("failed inserting user", dbError);
+        if (dbError instanceof HTTPException) throw dbError; // ← let it bubble up
         throw new HTTPException(500, {
           message: "registered but classroom setup failed",
         });
