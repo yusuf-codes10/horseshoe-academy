@@ -5,6 +5,8 @@ import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
 import { signToken } from '../utils/signToken';
 import {db } from '../db/index';
+import { users } from '../db/schema';
+import { eq } from 'drizzle-orm';
 
 
 const factory = createFactory<{Variables: {user: SekishoUser}}>();
@@ -32,6 +34,22 @@ export const registerUser = factory.createHandlers(
     const data = sekishoRegisterResponseSchema.parse(raw);
     const { safeUser, token } = data;
     console.log("actual user", safeUser);
+
+    // check classroom db
+    const [duplicateUser] = await db.select()
+    .from(users)
+    .where(eq(users.username, safeUser.username));
+
+    if (duplicateUser)
+        throw new HTTPException(400, { message: "username already exits!" });
+
+    const [newUser] = await db.insert(users).values({
+      username: safeUser.username,
+      email: safeUser.email,
+      fullName: safeUser.fullName
+    }).returning();
+
+    console.log(newUser);
 
     signToken(c, token);
     return c.json({ user: safeUser, token });
