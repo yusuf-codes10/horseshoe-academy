@@ -127,6 +127,8 @@ export const logUserIn = factory.createHandlers(
       }
     } catch (error) {
       console.log(error);
+        if (error instanceof HTTPException) throw error;
+
 
       throw new HTTPException(500, { message: "something went wrong" });
     }
