@@ -10,6 +10,7 @@ import {
   pgEnum,
 } from "drizzle-orm/pg-core";
 
+// ! have to export the enums
 export const roleEnum = pgEnum("role", ["admin", "teacher", "student"]);
 export const statusEnum = pgEnum('status', ['pending', 'accepted', 'rejected']);
 export const degreeEnum = pgEnum("degree", [
