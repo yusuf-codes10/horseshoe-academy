@@ -1,8 +1,11 @@
 // setting a cookie with the hono helper
-import { setSignedCookie } from "hono/cookie";
+import { setCookie } from "hono/cookie";
 
-const secret = process.env.JWT_TOKEN!;
-
-export const signToken = async(c, token) => {
-    
-}
+export const signToken = (c: any, token: any) => {
+  setCookie(c, "auth", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "Strict",
+    maxAge: 60 * 60 * 24 * 7,
+  });
+};
