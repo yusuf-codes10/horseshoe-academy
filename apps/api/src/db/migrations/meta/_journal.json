@@ -15,6 +15,13 @@
       "when": 1782670345253,
       "tag": "0001_solid_hawkeye",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1782672818364,
+      "tag": "0002_youthful_wild_pack",
+      "breakpoints": true
     }
   ]
 }

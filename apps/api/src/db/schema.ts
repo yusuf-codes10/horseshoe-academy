@@ -10,15 +10,15 @@ import {
   pgEnum,
 } from "drizzle-orm/pg-core";
 
-const roleEnum = pgEnum("role", ["admin", "teacher", "student"]);
-const statusEnum = pgEnum('status', ['pending', 'accepted', 'rejected']);
-const degreeEnum = pgEnum("degree", [
+export const roleEnum = pgEnum("role", ["admin", "teacher", "student"]);
+export const statusEnum = pgEnum('status', ['pending', 'accepted', 'rejected']);
+export const degreeEnum = pgEnum("degree", [
   "Associate",
   "Bachelor's",
   "Master's",
   "PhD",
 ]);
-const genderEnum = pgEnum('gender', ['female', 'male']);
+export const genderEnum = pgEnum('gender', ['female', 'male']);
 
 export const users = pgTable("users", {
   id: bigint("id", { mode: "number" }).primaryKey(),
