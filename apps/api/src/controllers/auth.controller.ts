@@ -70,13 +70,14 @@ export const registerUser = factory.createHandlers(
         return c.json({ user: newUser, token });
       } catch (dbError) {
         console.log("failed inserting user", dbError);
+        if (dbError instanceof HTTPException) throw dbError; 
         throw new HTTPException(500, {
           message: "registered but classroom setup failed",
         });
       }
     } catch (error) {
       console.log(error);
-
+      if (error instanceof HTTPException) throw error;
       throw new HTTPException(500, { message: "something went wrong" });
     }
   },
