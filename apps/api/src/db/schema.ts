@@ -21,7 +21,7 @@ const degreeEnum = pgEnum("degree", [
 const genderEnum = pgEnum('gender', ['female', 'male']);
 
 export const users = pgTable("users", {
-  id: bigserial("id", { mode: "number" }).primaryKey(),
+  id: bigint("id", { mode: "number" }).primaryKey(),
   username: text("username").unique().notNull(),
   email: text("email").unique().notNull(),
   gender: genderEnum('gender').notNull(),
