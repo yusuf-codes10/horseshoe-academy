@@ -4,6 +4,7 @@ import { registerSchema, loginSchema, sekishoRegisterResponseSchema }from '@clas
 import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
 import { signToken } from '../utils/signToken';
+import {db } from '../db/index';
 
 
 const factory = createFactory<{Variables: {user: SekishoUser}}>();
