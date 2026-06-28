@@ -3,6 +3,7 @@ import type { SekishoUser } from '@classroom/shared';
 import { registerSchema, loginSchema, sekishoRegisterResponseSchema }from '@classroom/shared';
 import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
+import { signToken } from '../utils/signToken';
 
 
 const factory = createFactory<{Variables: {user: SekishoUser}}>();
@@ -30,6 +31,8 @@ export const registerUser = factory.createHandlers(
     const data = sekishoRegisterResponseSchema.parse(raw);
     const { safeUser, token } = data;
     console.log("actual user", safeUser);
+
+    signToken(c, token);
     return c.json({ user: safeUser, token });
   } catch (error) {
     console.log(error);
@@ -56,6 +59,7 @@ export const logUserIn = factory.createHandlers(
         }
         const data = sekishoRegisterResponseSchema.parse(raw);
         const { safeUser, token } = data;
+        signToken(c, token);
         console.log("actual user", safeUser);
         return c.json({ user: safeUser, token });
       } catch (error) {
