@@ -13,7 +13,7 @@ const factory = createFactory<{Variables: {user: SekishoUser}}>();
 
 export const registerUser = factory.createHandlers(
     // registerSchema: validates what the client sends
-    zValidator("json", registerSchema), async (c) => {
+  zValidator("json", registerSchema), async (c) => {
   try {
     const body = c.req.valid("json");
 
@@ -44,9 +44,13 @@ export const registerUser = factory.createHandlers(
         throw new HTTPException(400, { message: "username already exits!" });
 
     const [newUser] = await db.insert(users).values({
+      id: safeUser.id,
       username: safeUser.username,
       email: safeUser.email,
-      fullName: safeUser.fullName
+      fullName: safeUser.fullName,
+      gender: body.gender,
+      role: body.role,
+
     }).returning();
 
     console.log(newUser);
