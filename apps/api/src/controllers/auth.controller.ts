@@ -68,13 +68,12 @@ export const registerUser = factory.createHandlers(
         console.log(newUser);
         signToken(c, token);
         return c.json({ user: newUser, token });
-      } catch (error) {
-        console.log("failed inserting user", error);
+      } catch (dbError) {
+        console.log("failed inserting user", dbError);
         throw new HTTPException(500, {
           message: "registered but classroom setup failed",
         });
       }
-
     } catch (error) {
       console.log(error);
 
@@ -102,9 +101,29 @@ export const logUserIn = factory.createHandlers(
       }
       const data = sekishoRegisterResponseSchema.parse(raw);
       const { safeUser, token } = data;
-      signToken(c, token);
-      console.log("actual user", safeUser);
-      return c.json({ user: safeUser, token });
+
+      // deal with classroom db
+      try {
+        // find user in db
+        const [foundUser] = await db
+          .select()
+          .from(users)
+          .where(eq(users.username, safeUser.username));
+
+        if (!foundUser)
+          throw new HTTPException(404, {
+            message: "username does not exist! Please, Reister first",
+          });
+
+        signToken(c, token);
+        console.log("actual user", foundUser);
+        return c.json({ user: foundUser, token });
+      } catch (dbError) {
+        console.log("failed inserting user", dbError);
+        throw new HTTPException(500, {
+          message: "registered but classroom setup failed",
+        });
+      }
     } catch (error) {
       console.log(error);
 
