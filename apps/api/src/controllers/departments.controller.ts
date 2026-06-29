@@ -9,8 +9,16 @@ import { HTTPException } from "hono/http-exception";
 
 const factory = createFactory<{ Variables: { department: NewDepartment } }>();
 
-export const getAllDeps = factory.createHandlers((c) => {
-  return c.json({ msg: "All..." });
+export const getAllDeps = factory.createHandlers(async (c) => {
+
+    try {
+        const [deps] = await db.select()
+        .from(departments)
+
+        return c.json({msg: 'departemetns', deps});
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 export const createNewDepartment = factory.createHandlers(
