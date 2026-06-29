@@ -9,7 +9,7 @@ import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
 import { signToken } from "../utils/signToken";
 import { db } from "../db/index";
-import { users, teachers, students } from "../db/schema";
+import { users, students } from "../db/schema";
 import { eq } from "drizzle-orm";
 
 const factory = createFactory<{ Variables: { user: SekishoUser } }>();
@@ -66,16 +66,17 @@ export const registerUser = factory.createHandlers(
           .returning();
 
           // insert to db based on role
-          // if (newUser?.role === 'student') {
-          //   try {
-          //     await db.insert(students).values({
-
-          //     })
-          //   } catch (error) {
-          //     console.log(error);
-              
-          //   }
-          // }
+          // leaving teachers for later
+          if (newUser?.role === 'student') {
+            try {
+              await db.insert(students).values({
+                id: newUser.id
+              })
+              console.log('student inserted successfully');
+            } catch (error) {
+              console.log('error inserting student', error);
+            }
+          }
 
         console.log(newUser);
         signToken(c, token);
