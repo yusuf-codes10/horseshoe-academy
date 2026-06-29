@@ -12,7 +12,7 @@ const factory = createFactory<{ Variables: { department: NewDepartment } }>();
 export const getAllDeps = factory.createHandlers(async (c) => {
 
     try {
-        const [deps] = await db.select()
+        const deps = await db.select()
         .from(departments)
 
         return c.json({msg: 'departemetns', deps});
