@@ -6,6 +6,6 @@ const router = new Hono();
 // get all departements
 
 // create a departement
-router.get('/', ...createNewDepartment);
+router.post('/', ...createNewDepartment);
 
 export default router;
