@@ -45,7 +45,7 @@ export const students = pgTable("students", {
   id: bigint("id", { mode: "number" })
     .primaryKey()
     .references(() => users.id),
-  gpa: decimal("gpa", { precision: 10, scale: 2 }).notNull(),
+  gpa: decimal("gpa", { precision: 10, scale: 2 }),
 });
 
 // other tables
