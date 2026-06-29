@@ -28,7 +28,7 @@ export const getAllDeps = factory.createHandlers(async (c) => {
 });
 
 export const getDepById = factory.createHandlers(async (c) => {
-  const id = c.req.param('id');
+  const id = Number(c.req.param('id'));
   try {
     const [dep] = await db
       .select()
