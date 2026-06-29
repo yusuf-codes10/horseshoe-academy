@@ -6,5 +6,11 @@ import { zValidator } from '@hono/zod-validator';
 const factory = createFactory<{Variables: {department: NewDepartment}}>();
 
 export const createNewDepartment = factory.createHandlers(
-    zValidator("json", insertDepartmentSchema),
+    // zValidator("json", insertDepartmentSchema),
+    (c) => {
+        // grab user data
+        // const 
+
+        return c.json({msg: 'departements'});
+    }
 );
