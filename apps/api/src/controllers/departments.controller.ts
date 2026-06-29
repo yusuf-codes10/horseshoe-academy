@@ -19,7 +19,7 @@ export const createNewDepartment = factory.createHandlers(
         try {
             const [duplicate] = await db.select()
             .from(departments)
-            .where(eq(body.code, departments.code));
+            .where(eq(departments.code, body.code));
 
             if (!duplicate) throw new HTTPException(400, {message: 'Department already exists!'});
         } catch (error) {
