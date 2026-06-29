@@ -13,13 +13,15 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   const pageQuery = c.req.query("page");
   const limitQuery = c.req.query("limit");
 
-    const page = Number(pageQuery) || 1;
+  const page = Number(pageQuery) || 1;
   const limit = Number(limitQuery) || 5;
   const skip = (page - 1) * limit;
+
   try {
     const deps = await db.select().from(departments);
+    const filteredDeps = deps.slice(skip, skip + limit);
 
-    return c.json({ msg: "departemetns", deps });
+    return c.json({ msg: "departemetns", filteredDeps });
   } catch (error) {
     console.log(error);
   }
