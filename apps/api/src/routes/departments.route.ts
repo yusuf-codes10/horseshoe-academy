@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { createNewDepartment, getAllDeps } from '../controllers/departments.controller';
+import { createNewDepartment, getAllDeps, getDepById } from '../controllers/departments.controller';
 
 const router = new Hono();
 
@@ -7,7 +7,7 @@ const router = new Hono();
 router.get('/', ...getAllDeps);
 
 // get dep by id
-router.get('/:id');
+router.get('/:id', ...getDepById);
 
 // create a departement
 router.post('/', ...createNewDepartment);

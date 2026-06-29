@@ -36,6 +36,8 @@ export const getDepById = factory.createHandlers(async (c) => {
       .where(eq(departments.id, id));
 
     if (!dep) throw new HTTPException(404, { message: "dep not found" });
+
+    return c.json({msg: 'found!', dep});
   } catch (error) {
     if (error instanceof HTTPException) throw error;
     console.log(error);
