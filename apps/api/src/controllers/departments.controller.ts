@@ -9,6 +9,10 @@ import { HTTPException } from 'hono/http-exception';
 
 const factory = createFactory<{Variables: {department: NewDepartment}}>();
 
+export const getAllDeps = factory.createHandlers((c) => {
+    return c.json({msg: 'All...'});
+})
+
 export const createNewDepartment = factory.createHandlers(
     zValidator("json", insertDepartmentSchema),
     async (c) => {
