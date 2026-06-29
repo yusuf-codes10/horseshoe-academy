@@ -1,0 +1,1 @@
+ALTER TABLE "students" ALTER COLUMN "gpa" DROP NOT NULL;
