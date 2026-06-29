@@ -27,6 +27,22 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   }
 });
 
+export const getDepById = factory.createHandlers(async (c) => {
+  const id = c.req.param;
+  try {
+    const [dep] = await db
+      .select()
+      .from(departments)
+      .where(eq(departments.id, id));
+
+    if (!dep) throw new HTTPException(404, { message: "dep not found" });
+  } catch (error) {
+    if (error instanceof HTTPException) throw error;
+    console.log(error);
+    throw new HTTPException(500, { message: "something went wrong" });
+  }
+});
+
 export const createNewDepartment = factory.createHandlers(
   zValidator("json", insertDepartmentSchema),
   async (c) => {

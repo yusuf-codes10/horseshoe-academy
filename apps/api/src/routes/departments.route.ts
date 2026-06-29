@@ -6,6 +6,9 @@ const router = new Hono();
 // get all departements
 router.get('/', ...getAllDeps);
 
+// get dep by id
+router.get('/:id');
+
 // create a departement
 router.post('/', ...createNewDepartment);
 
