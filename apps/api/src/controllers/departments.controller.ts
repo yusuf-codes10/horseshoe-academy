@@ -22,11 +22,16 @@ export const createNewDepartment = factory.createHandlers(
             .where(eq(departments.code, body.code));
 
             if (!duplicate) throw new HTTPException(400, {message: 'Department already exists!'});
+
+            // insert a new departement
+            const [dep] = await db.insert(departments).values({
+                name: body.name,
+                code: body.code
+            }).returning();
+            return c.json({msg: 'departement has been created!', dep});
         } catch (error) {
             console.log(error);
-            
         }
 
-        return c.json({msg: 'departements'});
     }
 );
