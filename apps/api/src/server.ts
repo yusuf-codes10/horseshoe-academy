@@ -13,7 +13,9 @@ server.use(customLogger);
 
 server.get('/', (c) => c.text('Hono!'));
 server.route('/test', testRouter);
+//TODO: might need some flat routes too
 server.route('/departments', DepRouter);
+server.route('/subject', SubjectRouter);
 server.route('/departments/:id/subjects', SubjectRouter);
 server.route('/departments/:id/subjects/:subjectId/classes', classeRouter);
 
