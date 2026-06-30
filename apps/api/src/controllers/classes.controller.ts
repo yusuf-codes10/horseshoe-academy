@@ -28,6 +28,7 @@ export const createClass = factory.createHandlers(
             const [insertedClass] =  await db.insert(classes)
             .values({
                 capacity: body.capacity,
+                // TODO: we might assign a teacher to a class right here
                 subjectId: subjectId,
             })
 
