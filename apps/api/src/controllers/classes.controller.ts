@@ -110,3 +110,24 @@ export const getClassesById = factory.createHandlers(
         }
     }
 );
+
+// get a single class by id
+export const getClassById = factory.createHandlers(
+    async (c) => {
+        const classId = Number(c.req.param('classId'));
+
+        try {
+            const [foundClass] = await db.select()
+            .from(classes)
+            .where(eq(classes.id, classId));
+
+            if (!foundClass) throw new HTTPException(404, {message: 'class does not exist!'});
+
+            return c.json({msg: 'class: ', foundClass});
+        } catch (error) {
+                        console.log(error);
+      if (error instanceof HTTPException) throw error;
+      throw new HTTPException(500, { message: "something went wrong" });
+        }
+    }
+);
