@@ -7,6 +7,6 @@ const router = new Hono();
 router.post('/', ...createClass);
 
 // assign a teacher to a class
-router.patch('/', ...assignTacherToClass);
+router.patch('/:classId', ...assignTacherToClass);
 
 export default router;

@@ -27,11 +27,14 @@ export const createClass = factory.createHandlers(
         throw new HTTPException(404, { message: "Subject does not exist" });
 
       // insert a new class
-      const insertedClass = await db.insert(classes).values({
-        capacity: body.capacity,
-        // TODO: we might assign a teacher to a class right here
-        subjectId: subjectId,
-      }).returning();
+      const insertedClass = await db
+        .insert(classes)
+        .values({
+          capacity: body.capacity,
+          // TODO: we might assign a teacher to a class right here
+          subjectId: subjectId,
+        })
+        .returning();
 
       return c.json({ msg: "class has been created", insertedClass });
     } catch (error) {
@@ -44,10 +47,34 @@ export const createClass = factory.createHandlers(
 
 // asign a teacher to a class
 export const assignTacherToClass = factory.createHandlers(
-    zValidator('json', insertClassSchema.pick({
-        teacherId: true
-    })),
-    (c) => {
-        
+  zValidator(
+    "json",
+    insertClassSchema.pick({
+      teacherId: true,
+    }),
+  ),
+  async (c) => {
+    // grab the class id
+    const classId = Number(c.req.param("classId"));
+    const body = c.req.valid('json');
+
+    try {
+        // check if class exists
+        const [foundClass] = await db.select()
+        .from(classes)
+        .where(eq(classes.id, classId));
+
+        if (!foundClass) throw new HTTPException(404, {message: 'class not found!'});
+
+        const [updatedClass] = await db.update(classes)
+        .set({teacherId: body.teacherId})
+        .where(eq(classes.id, classId));
+
+        return c.json({msg: 'teacher assigned', updatedClass})
+    } catch (error) {
+      console.log(error);
+      if (error instanceof HTTPException) throw error;
+      throw new HTTPException(500, { message: "something went wrong" });
     }
+  },
 );
