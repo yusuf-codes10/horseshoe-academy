@@ -3,7 +3,7 @@ import type { NewClass } from "@classroom/shared";
 import { insertClassSchema } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
 import { db } from "../db/index";
-import { classes, subjects } from "../db/schema";
+import { classes, subjects, teachers } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 
@@ -65,6 +65,13 @@ export const assignTacherToClass = factory.createHandlers(
         .where(eq(classes.id, classId));
 
         if (!foundClass) throw new HTTPException(404, {message: 'class not found!'});
+
+        // check if the teacher exists too
+        const [foundTeacher] = await db.select()
+        .from(teachers)
+        .where(eq(teachers.id, Number(body.teacherId)));
+
+        if (!foundTeacher) throw new HTTPException(404, {message: 'Teacher does not exist!'});
 
         const [updatedClass] = await db.update(classes)
         .set({teacherId: body.teacherId})
