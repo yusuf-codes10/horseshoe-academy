@@ -27,11 +27,11 @@ export const createClass = factory.createHandlers(
         throw new HTTPException(404, { message: "Subject does not exist" });
 
       // insert a new class
-      const [insertedClass] = await db.insert(classes).values({
+      const insertedClass = await db.insert(classes).values({
         capacity: body.capacity,
         // TODO: we might assign a teacher to a class right here
         subjectId: subjectId,
-      });
+      }).returning();
 
       return c.json({ msg: "class has been created", insertedClass });
     } catch (error) {
@@ -41,3 +41,6 @@ export const createClass = factory.createHandlers(
     }
   },
 );
+
+// asign a teacher to a class
+export const assignTacherToClass = factory.createHandlers();
