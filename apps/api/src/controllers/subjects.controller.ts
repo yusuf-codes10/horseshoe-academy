@@ -93,3 +93,23 @@ export const deleteSujectById = factory.createHandlers(async (c) => {
     throw new HTTPException(500, { message: "something went wrong" });
   }
 });
+
+export const getSubjectById = factory.createHandlers(
+  async (c) => {
+    const subjectId = Number(c.req.param('subjectId'));
+
+    try {
+      const [foundSubject] = await db.select()
+      .from(subjects)
+      .where(eq(subjects.id, subjectId));
+
+      if (!foundSubject) throw new HTTPException(404, {message: 'Subject not found!'});
+
+      return c.json({msg: 'subject: ', foundSubject});
+    } catch (error) {
+          console.log(error);
+    if (error instanceof HTTPException) throw error;
+    throw new HTTPException(500, { message: "something went wrong" });
+    }
+  }
+);
