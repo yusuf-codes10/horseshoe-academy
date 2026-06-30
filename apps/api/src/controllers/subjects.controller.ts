@@ -18,21 +18,24 @@ export const createSubjectForDepartment = factory.createHandlers(
     // grab credentials from the body
     const body = c.req.valid("json");
     try {
-        // make sure the dep exists
-        const [dep] = await db
-          .select()
-          .from(departments)
-          .where(eq(departments.id, depId));
+      // make sure the dep exists
+      const [dep] = await db
+        .select()
+        .from(departments)
+        .where(eq(departments.id, depId));
 
-        if (!dep)
-          throw new HTTPException(404, { message: "departmnet does not exist!" });
+      if (!dep)
+        throw new HTTPException(404, { message: "departmnet does not exist!" });
 
-        const [subject] = await db.insert(subjects).values({
-            name: body.name,
-            description: body.description,
-            departmentId: depId
-        }).returning();
-        return c.json(subject);
+      const [subject] = await db
+        .insert(subjects)
+        .values({
+          name: body.name,
+          description: body.description,
+          departmentId: depId,
+        })
+        .returning();
+      return c.json(subject);
     } catch (error) {
       console.log(error);
       if (error instanceof HTTPException) throw error;
@@ -44,22 +47,24 @@ export const createSubjectForDepartment = factory.createHandlers(
 // get subject by departements
 export const getSubjectByDepId = factory.createHandlers(async (c) => {
   //grab dep id
-  const depId = Number(c.req.param('id'));
+  const depId = Number(c.req.param("id"));
 
   try {
-    const [foundDep] = await db.select()
-    .from(departments)
-    .where(eq(departments.id, depId));
+    const [foundDep] = await db
+      .select()
+      .from(departments)
+      .where(eq(departments.id, depId));
 
-    if (!foundDep) throw new HTTPException(404, {message: 'deprtements does not exist!'});
+    if (!foundDep)
+      throw new HTTPException(404, { message: "deprtements does not exist!" });
 
     // getting all  subjects related to foundDep
-    const foundSubjects = await db.select()
-    .from(subjects)
-    .where(eq(subjects.departmentId, depId));
+    const foundSubjects = await db
+      .select()
+      .from(subjects)
+      .where(eq(subjects.departmentId, depId));
 
     return c.json(foundSubjects);
-
   } catch (error) {
     console.log(error);
   }
@@ -67,21 +72,24 @@ export const getSubjectByDepId = factory.createHandlers(async (c) => {
 
 // delete a subject
 export const deleteSujectById = factory.createHandlers(async (c) => {
-  const subjectId = Number(c.req.param('subjectId'));
+  const subjectId = Number(c.req.param("subjectId"));
 
   try {
-    const [foundSubject] = await db.select()
-    .from(subjects)
-    .where(eq(subjects.id, subjectId));
+    const [foundSubject] = await db
+      .select()
+      .from(subjects)
+      .where(eq(subjects.id, subjectId));
 
-    if (!foundSubject) throw new HTTPException(404, {message: 'subject does not exist!'});
+    if (!foundSubject)
+      throw new HTTPException(404, { message: "subject does not exist!" });
 
     // it exists now!
-    await db.delete(subjects)
-    .where(eq(subjects.id, subjectId));
+    await db.delete(subjects).where(eq(subjects.id, subjectId));
 
-    return c.json({msg: 'subject deleted successfuly!'});
+    return c.json({ msg: "subject deleted successfuly!" });
   } catch (error) {
     console.log(error);
+    if (error instanceof HTTPException) throw error;
+    throw new HTTPException(500, { message: "something went wrong" });
   }
-})
+});
