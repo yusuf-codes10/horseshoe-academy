@@ -13,7 +13,7 @@ server.use(customLogger);
 server.get('/', (c) => c.text('Hono!'));
 server.route('/test', testRouter);
 server.route('/departments', DepRouter);
-server.route('/subjects', SubjectRouter);
+server.route('/departments/:id/subjects', SubjectRouter);
 
 server.notFound(catchAll);
 server.onError(errorHandler);

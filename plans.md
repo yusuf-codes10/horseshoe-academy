@@ -11,3 +11,7 @@
 - pagination always be default and:
     - And always return pagination meta so the client knows what's going on:
     - DB pagination vs typescript (slice)
+
+## June 30th:
+
+    - nested routes vs saprate files for children
