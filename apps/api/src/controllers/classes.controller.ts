@@ -43,4 +43,8 @@ export const createClass = factory.createHandlers(
 );
 
 // asign a teacher to a class
-export const assignTacherToClass = factory.createHandlers();
+export const assignTacherToClass = factory.createHandlers(
+    zValidator('json', insertClassSchema.pick({
+        teacherId: true
+    }))
+);
