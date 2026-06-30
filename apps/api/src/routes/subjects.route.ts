@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { createSubjectForDepartment, getSubjectByDepId } from '../controllers/subjects.controller';
+import { createSubjectForDepartment, getSubjectByDepId, deleteSujectById } from '../controllers/subjects.controller';
 
 const router = new Hono();
 
@@ -10,6 +10,6 @@ router.post('/', ...createSubjectForDepartment);
 router.get('/', ...getSubjectByDepId);
 
 // delete subject
-router.delete('/:subjectId');
+router.delete('/:subjectId', ...deleteSujectById);
 
 export default router;
