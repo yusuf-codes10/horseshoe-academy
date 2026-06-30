@@ -15,3 +15,6 @@
 ## June 30th:
 
     - nested routes vs saprate files for children
+
+    -  single trycatch for when operations fails in the same way,
+    multiple for when we have something like external api call with dealing with our own db
