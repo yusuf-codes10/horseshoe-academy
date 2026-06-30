@@ -85,3 +85,22 @@ export const assignTacherToClass = factory.createHandlers(
     }
   },
 );
+
+// get classes per subject
+export const getClassesById = factory.createHandlers(
+    async (c) => {
+        const subjectId = Number(c.req.param('subjectId'));
+
+        try {
+            const [foundSubject] = await db.select()
+            .from(subjects)
+            .where(eq(subjects.id, subjectId));
+
+            if (!foundSubject) throw new HTTPException(404, {message: 'subject does not exist!'});
+        } catch (error) {
+            console.log(error);
+      if (error instanceof HTTPException) throw error;
+      throw new HTTPException(500, { message: "something went wrong" });
+        }
+    }
+);

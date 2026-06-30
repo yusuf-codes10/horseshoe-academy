@@ -9,4 +9,7 @@ router.post('/', ...createClass);
 // assign a teacher to a class
 router.patch('/:classId', ...assignTacherToClass);
 
+// get classes per subject
+router.get('/', );
+
 export default router;
