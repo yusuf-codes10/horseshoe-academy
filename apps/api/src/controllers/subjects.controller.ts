@@ -40,3 +40,27 @@ export const createSubjectForDepartment = factory.createHandlers(
     }
   },
 );
+
+// get subject by departements
+export const getSubjectByDepId = factory.createHandlers(async (c) => {
+  //grab dep id
+  const depId = Number(c.req.param('id'));
+
+  try {
+    const [foundDep] = await db.select()
+    .from(departments)
+    .where(eq(departments.id, depId));
+
+    if (!foundDep) throw new HTTPException(404, {message: 'deprtements does not exist!'});
+
+    // getting all  subjects related to foundDep
+    const foundSubjects = await db.select()
+    .from(subjects)
+    .where(eq(subjects.departmentId, depId));
+
+    return c.json(foundSubjects);
+
+  } catch (error) {
+    console.log(error);
+  }
+});

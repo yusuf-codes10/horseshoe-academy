@@ -1,9 +1,12 @@
 import { Hono } from 'hono';
-import { createSubjectForDepartment } from '../controllers/subjects.controller';
+import { createSubjectForDepartment, getSubjectByDepId } from '../controllers/subjects.controller';
 
 const router = new Hono();
 
 // create a subject
 router.post('/', ...createSubjectForDepartment);
+
+// get subject by dep id
+router.get('/', ...getSubjectByDepId);
 
 export default router;
