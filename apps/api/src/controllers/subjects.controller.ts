@@ -64,3 +64,24 @@ export const getSubjectByDepId = factory.createHandlers(async (c) => {
     console.log(error);
   }
 });
+
+// delete a subject
+export const deleteSujectById = factory.createHandlers(async (c) => {
+  const subjectId = Number(c.req.param('subjectId'));
+
+  try {
+    const [foundSubject] = await db.select()
+    .from(subjects)
+    .where(eq(subjects.id, subjectId));
+
+    if (!foundSubject) throw new HTTPException(404, {message: 'subject does not exist!'});
+
+    // it exists now!
+    await db.delete(subjects)
+    .where(eq(subjects.id, subjectId));
+
+    return c.json({msg: 'subject deleted successfuly!'});
+  } catch (error) {
+    console.log(error);
+  }
+})

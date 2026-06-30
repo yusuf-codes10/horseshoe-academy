@@ -9,4 +9,7 @@ router.post('/', ...createSubjectForDepartment);
 // get subject by dep id
 router.get('/', ...getSubjectByDepId);
 
+// delete subject
+router.delete('/:subjectId');
+
 export default router;
