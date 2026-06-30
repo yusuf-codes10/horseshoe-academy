@@ -97,6 +97,12 @@ export const getClassesById = factory.createHandlers(
             .where(eq(subjects.id, subjectId));
 
             if (!foundSubject) throw new HTTPException(404, {message: 'subject does not exist!'});
+
+            const foundClasses = await db.select()
+            .from(classes)
+            .where(eq(classes.subjectId, subjectId));
+
+            return c.json({msg: 'classes...', foundClasses});
         } catch (error) {
             console.log(error);
       if (error instanceof HTTPException) throw error;
