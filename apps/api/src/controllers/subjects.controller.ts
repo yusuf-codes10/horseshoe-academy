@@ -27,8 +27,12 @@ export const createSubjectForDepartment = factory.createHandlers(
         if (!dep)
           throw new HTTPException(404, { message: "departmnet does not exist!" });
 
-        console.log(depId);
-        return c.json({ msg: "The dep is...", depId });
+        const [subject] = await db.insert(subjects).values({
+            name: body.name,
+            description: body.description,
+            departmentId: depId
+        }).returning();
+        return c.json(subject);
     } catch (error) {
       console.log(error);
       if (error instanceof HTTPException) throw error;
