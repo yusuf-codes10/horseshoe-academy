@@ -17,7 +17,7 @@ server.route('/test', testRouter);
 server.route('/departments', DepRouter);
 server.route('/subject', SubjectRouter);
 server.route('/departments/:id/subjects', SubjectRouter);
-server.route('/departments/:id/subjects/:subjectId/classes', classeRouter);
+server.route('/subjects/:subjectId/classes', classeRouter);
 
 server.notFound(catchAll);
 server.onError(errorHandler);
