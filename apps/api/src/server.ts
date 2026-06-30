@@ -4,6 +4,7 @@ import customLogger from './middlewares/logger';
 import errorHandler from './utils/errorHandler';
 import testRouter from './routes/test.route';
 import DepRouter from './routes/departments.route';
+import SubjectRouter from './routes/subjects.route';
 
 const server = new Hono();
 
@@ -12,6 +13,7 @@ server.use(customLogger);
 server.get('/', (c) => c.text('Hono!'));
 server.route('/test', testRouter);
 server.route('/departments', DepRouter);
+server.route('/subjects', SubjectRouter);
 
 server.notFound(catchAll);
 server.onError(errorHandler);
