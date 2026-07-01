@@ -9,6 +9,7 @@ router.post('/', ...createApplication);
 // my applications | student
 
 // see all applications per class | teacher
+router.get('/', );
 
 // delete my application | student
 

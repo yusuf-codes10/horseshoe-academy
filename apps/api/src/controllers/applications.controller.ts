@@ -39,3 +39,21 @@ export const createApplication = factory.createHandlers(
         }
     }
 );
+
+// get all applications per class
+export const getApplicationsPerClass = factory.createHandlers(
+    async (c) => {
+        // grab class id
+        const classId = Number(c.req.param('classId'));
+
+        try {
+            const [foundClass] = await db.select()
+            .from(classes)
+            .where(eq(classes.id, classId));
+
+            if (!foundClass) throw new HTTPException(404, {message: "class does not exist"});
+        } catch (error) {
+            console.log(error);
+        }
+    }
+);
