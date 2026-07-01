@@ -3,7 +3,7 @@ import type { NewSession } from '@classroom/shared';
 import { zValidator } from "@hono/zod-validator";
 import { insertSessionSchema } from '@classroom/shared';
 import { db } from '../db/index';
-import { classes } from "../db/schema";
+import { classes, sessions } from "../db/schema";
 import { eq } from 'drizzle-orm';
 import { HTTPException } from "hono/http-exception";
 
@@ -14,6 +14,7 @@ export const createSession = factory.createHandlers(
     async (c) => {
         // grab the class id
         const classId = Number(c.req.param('classId'));
+        const body = c.req.valid('json');
 
         try {
             const [foundClass] = await db.select()
@@ -23,6 +24,11 @@ export const createSession = factory.createHandlers(
             if (!foundClass) throw new HTTPException(404, {message: 'class does not exist!'});
 
             // now create the session
+            await db.insert(sessions).values({
+                date: body.date,
+                location: body.location,
+                classId: classId
+            })
 
 
         } catch (error) {
