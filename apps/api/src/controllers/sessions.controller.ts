@@ -98,12 +98,17 @@ export const deleteSession = factory.createHandlers(async(c) => {
   const sessionId = Number(c.req.param("sessionId"));
 
   try {
-    await db.delete(sessions)
+
+    // make sure the session exist
+    const result = await db.delete(sessions)
     .where(eq(sessions.id, sessionId));
+
+    if (result.length === 0) throw new HTTPException(404, {message: 'session does not exist'});
 
     return c.json({msg: 'record has been deleted!'});
   } catch (error) {
     console.log(error);
+    if (error instanceof HTTPException) throw error;
     throw new HTTPException(500, { message: "something went wrong" });
   }
 });

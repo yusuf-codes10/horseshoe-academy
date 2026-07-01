@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { createSession, getSessionPerClass, getSessionById } from '../controllers/sessions.controller';
+import { createSession, getSessionPerClass, getSessionById, deleteSession } from '../controllers/sessions.controller';
 
 const router = new Hono();
 
@@ -11,5 +11,8 @@ router.get('/', ...getSessionPerClass);
 
 // get a single session by id
 router.get('/:sessionId', ...getSessionById);
+
+// delete a session
+router.delete('/:sessionId', ...deleteSession);
 
 export default router;
