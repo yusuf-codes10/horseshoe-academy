@@ -6,7 +6,13 @@ const router = new Hono();
 // create a session
 router.post('/', ...createSession);
 
-// get all sessions
+// get all sessions per class
+router.get('/');
+
+// get a single session by id
+router.get('/:sessionId');
+
+// get all session | dev testing
 router.get('/');
 
 export default router;
