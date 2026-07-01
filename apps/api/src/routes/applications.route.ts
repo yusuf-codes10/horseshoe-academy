@@ -1,9 +1,10 @@
 import { Hono } from 'hono';
+import { createApplication } from '../controllers/applications.controller';
 
 const router = new Hono();
 
 // apply
-router.post('/');
+router.post('/', ...createApplication);
 
 // my applications | student
 
