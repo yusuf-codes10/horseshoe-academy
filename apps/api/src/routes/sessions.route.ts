@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { createSession } from '../controllers/sessions.controller';
+import { createSession, getSessionPerClass } from '../controllers/sessions.controller';
 
 const router = new Hono();
 
@@ -7,7 +7,7 @@ const router = new Hono();
 router.post('/', ...createSession);
 
 // get all sessions per class
-router.get('/');
+router.get('/', ...getSessionPerClass);
 
 // get a single session by id
 router.get('/:sessionId');

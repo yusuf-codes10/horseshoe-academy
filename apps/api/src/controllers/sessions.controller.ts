@@ -44,5 +44,31 @@ export const createSession = factory.createHandlers(
 );
 
 // get all sessions per class
+export const getSessionPerClass = factory.createHandlers(async (c) => {
+  // grab classId
+  const classId = Number(c.req.param("classId"));
+
+  try {
+    // make sure class exist
+    const [foundClass] = await db
+      .select()
+      .from(classes)
+      .where(eq(classes.id, classId));
+
+    if (!foundClass)
+      throw new HTTPException(404, { message: "class does not exit" });
+
+    const foundSessions = await db
+      .select()
+      .from(sessions)
+      .where(eq(sessions.classId, classId));
+
+    return c.json({ msg: "session: ", foundSessions });
+  } catch (error) {
+    console.log(error);
+    if (error instanceof HTTPException) throw error;
+    throw new HTTPException(500, { message: "something went wrong" });
+  }
+});
 
 // get a single session by id
