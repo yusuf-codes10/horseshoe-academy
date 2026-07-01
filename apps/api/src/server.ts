@@ -20,6 +20,7 @@ server.route('/subject', SubjectRouter);
 server.route('/departments/:id/subjects', SubjectRouter);
 server.route('/classes', classeRouter);
 server.route('/subjects/:subjectId/classes', classeRouter);
+server.route('classes/:classId/sessions', sessionRouter);
 server.route('/sessions', sessionRouter);
 
 server.notFound(catchAll);
