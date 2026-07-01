@@ -56,6 +56,12 @@ export const getApplicationsPerClass = factory.createHandlers(async (c) => {
 
     if (!foundClass)
       throw new HTTPException(404, { message: "class does not exist" });
+
+    const foundApplications = await db.select()
+    .from(applications)
+    .where(eq(applications.classId, classId));
+
+    return c.json({msg: 'applications: ', foundApplications});
   } catch (error) {
     console.log(error);
     if (error instanceof HTTPException) throw error;

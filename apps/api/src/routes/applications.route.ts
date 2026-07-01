@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { createApplication } from '../controllers/applications.controller';
+import { createApplication, getApplicationsPerClass } from '../controllers/applications.controller';
 
 const router = new Hono();
 
@@ -9,7 +9,7 @@ router.post('/', ...createApplication);
 // my applications | student
 
 // see all applications per class | teacher
-router.get('/', );
+router.get('/', ...getApplicationsPerClass);
 
 // delete my application | student
 
