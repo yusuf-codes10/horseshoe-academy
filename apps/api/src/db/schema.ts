@@ -9,6 +9,7 @@ import {
   timestamp,
   date,
   pgEnum,
+  unique
 } from "drizzle-orm/pg-core";
 
 // ! have to export the enums
@@ -83,7 +84,13 @@ export const applications = pgTable('applications', {
     status: statusEnum('status').notNull().default('pending'),
     studentId: bigint('student_id', {mode: 'number'}).references(() => students.id),
     classId: bigint('class_id', {mode: 'number'}).references(() => classes.id)
-})
+},
+  (table) => [
+    unique("applications_student_class_unique").on(
+      table.studentId,
+      table.classId
+    ),
+  ])
 
 export const enrollements = pgTable('enrollements', {
     id: bigserial('id', {mode: 'number'}).primaryKey(),
