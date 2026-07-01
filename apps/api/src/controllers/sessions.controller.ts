@@ -46,14 +46,3 @@ export const createSession = factory.createHandlers(
 // get all sessions per class
 
 // get a single session by id
-
-// get all session | dev testing
-export const getAllSessions = factory.createHandlers(
-    (c) => {
-        try {
-            
-        } catch (error) {
-            
-        }
-    }
-);

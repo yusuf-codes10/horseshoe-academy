@@ -12,7 +12,4 @@ router.get('/');
 // get a single session by id
 router.get('/:sessionId');
 
-// get all session | dev testing
-router.get('/');
-
 export default router;
