@@ -12,7 +12,7 @@ router.patch('/:classId', ...assignTacherToClass);
 // get classes per subject
 router.get('/', ...getClassesById);
 
-// get a single class by id
+// get a single class by its id
 router.get('/:classId', ...getClassById);
 
 export default router;
