@@ -6,6 +6,7 @@ import authRouter from './routes/auth.route';
 import DepRouter from './routes/departments.route';
 import SubjectRouter from './routes/subjects.route';
 import classeRouter from './routes/classes.route';
+import sessionRouter from './routes/sessions.route';
 
 const server = new Hono();
 
@@ -19,6 +20,7 @@ server.route('/subject', SubjectRouter);
 server.route('/departments/:id/subjects', SubjectRouter);
 server.route('/classes', classeRouter);
 server.route('/subjects/:subjectId/classes', classeRouter);
+server.route('/sessions', sessionRouter);
 
 server.notFound(catchAll);
 server.onError(errorHandler);
