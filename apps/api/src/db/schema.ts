@@ -7,6 +7,7 @@ import {
   text,
   varchar,
   timestamp,
+  date,
   pgEnum,
 } from "drizzle-orm/pg-core";
 
@@ -71,7 +72,7 @@ export const classes = pgTable('classes', {
 
 export const sessions = pgTable('sessions', {
     id: bigserial('id', {mode: 'number'}).primaryKey(),
-    date: timestamp('date').notNull(),
+    date: date('date').notNull(),
     location: text('location').notNull(),
     classId: bigint('class_id', {mode: 'number'}).references(() => classes.id)
 })
