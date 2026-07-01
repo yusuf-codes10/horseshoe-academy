@@ -17,7 +17,7 @@ export const createApplication = factory.createHandlers(
     const classId = Number(c.req.param("classId"));
 
     // TODO: replace with c.get('jwtPayload').id once auth middleware is in place
-    const studentId = 1;
+    const studentId = 18;
 
     try {
       // verify that class exists
@@ -32,7 +32,7 @@ export const createApplication = factory.createHandlers(
       const [insertedApplication] = await db.insert(applications).values({
         studentId: studentId,
         classId: classId,
-      });
+      }).returning();
 
       return c.json({ msg: "application: ", insertedApplication });
     } catch (error) {
