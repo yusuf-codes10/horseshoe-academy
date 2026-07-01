@@ -5,8 +5,8 @@ import type { JwtVariables } from 'hono/jwt';
 type AuthContext = Context<{Variables: JwtVariables}>;
 
 export const isAdmin = async (c: AuthContext, next: Next) => {
-    const user = c.get('jwtPayload'); // should read this automatically from the auth middleware
-    if (user.role !== 'admin') {
+    const payload = c.get('jwtPayload'); // should read this automatically from the auth middleware
+    if (payload.role !== 'admin') {
         throw new HTTPException(403, { message: "admins only" });
     }
     await next();
