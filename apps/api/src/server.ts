@@ -8,8 +8,10 @@ import SubjectRouter from './routes/subjects.route';
 import classeRouter from './routes/classes.route';
 import sessionRouter from './routes/sessions.route';
 import applicationRouter from './routes/applications.route';
+import type { JwtVariables } from 'hono/jwt'
 
-const server = new Hono();
+type Variables = JwtVariables; // types c.get and c.set for the jwt mw
+const server = new Hono<{Variables: Variables}>();
 
 server.use(customLogger);
 
