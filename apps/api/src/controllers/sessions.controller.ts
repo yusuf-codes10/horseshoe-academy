@@ -91,3 +91,19 @@ export const getSessionById = factory.createHandlers(async (c) => {
     throw new HTTPException(500, { message: "something went wrong" });
   }
 });
+
+// delete session
+export const deleteSession = factory.createHandlers(async(c) => {
+  // grab the session id
+  const sessionId = Number(c.req.param("sessionId"));
+
+  try {
+    await db.delete(sessions)
+    .where(eq(sessions.id, sessionId));
+
+    return c.json({msg: 'record has been deleted!'});
+  } catch (error) {
+    console.log(error);
+    throw new HTTPException(500, { message: "something went wrong" });
+  }
+});
