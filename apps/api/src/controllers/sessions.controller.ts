@@ -72,3 +72,22 @@ export const getSessionPerClass = factory.createHandlers(async (c) => {
 });
 
 // get a single session by id
+export const getSessionById = factory.createHandlers(async (c) => {
+  // grab the id
+  const sessionId = Number(c.req.param("sessionId"));
+  try {
+    const [foundSession] = await db
+      .select()
+      .from(sessions)
+      .where(eq(sessions.id, sessionId));
+
+    if (!foundSession)
+      throw new HTTPException(404, { message: "Session does not exist!" });
+
+    return c.json({ msg: "session: ", foundSession });
+  } catch (error) {
+    console.log(error);
+    if (error instanceof HTTPException) throw error;
+    throw new HTTPException(500, { message: "something went wrong" });
+  }
+});
