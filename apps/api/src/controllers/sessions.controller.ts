@@ -112,3 +112,4 @@ export const deleteSession = factory.createHandlers(async(c) => {
     throw new HTTPException(500, { message: "something went wrong" });
   }
 });
+// TODO: next clean the usage of the ! operator when needed
