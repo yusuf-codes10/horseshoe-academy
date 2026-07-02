@@ -5,9 +5,11 @@ import { ref } from "vue";
 import { School, GraduationCap } from "lucide-vue-next";
 import {useUserStore} from '@/stores/userStore';
 import { registerUserSchema } from '@classroom/shared';
+import { useRouter } from "vue-router";
 
 
 const userStore = useUserStore();
+const router = useRouter();
 
 const username = ref('')
 const email = ref('')
@@ -19,13 +21,13 @@ const role = ref<'admin' | 'teacher' | 'student'>();
 const isDragging = ref(false);
 const previewUrl = ref(false);
 const error = ref(false);
-const laoding = ref(false)
+const loading = ref(false)
 
 
 // send a post request
 const registerUser = async () => {
-
-  laoding.value = true
+  console.log('registering');
+  loading.value = true
   // TODO: we have to vaidate with zod before hitting the api
   const result = registerUserSchema.safeParse({
     username: username.value,
@@ -41,11 +43,12 @@ const registerUser = async () => {
   }
   try {
     await userStore.register(result.data)
+    router.push('/dashboard')
   } catch (error) {
     console.log(error);
 
   } finally {
-    laoding.value= false
+    loading.value= false
   }
 }
 </script>
@@ -139,7 +142,7 @@ const registerUser = async () => {
         <p>something went Wrong!</p>
       </div>
 
-      <MainButton title="Sign Up" type="submit"/>
+      <MainButton title="Sign Up" type="submit" :loading="loading"/>
     </form>
   </div>
 </template>
