@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
-import { ref } from 'vue';
+import { ref } from "vue";
+import { School, GraduationCap } from 'lucide-vue-next'
 
-const isDragging = ref(false)
-const previewUrl = ref(false)
+const isDragging = ref(false);
+const previewUrl = ref(false);
+
+const role = ref('')
 </script>
 
 <template>
@@ -13,8 +16,34 @@ const previewUrl = ref(false)
     <div
       class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-80 shadow-sm"
     >
-
-          <div
+      <p class="sub-text">Select your role</p>
+      <div class="flex gap-2">
+        <div
+          @click="role = 'teacher'"
+          class="flex flex-col items-center gap-1 flex-1 border border-border rounded-lg p-2 cursor-pointer transition-all duration-150"
+          :class="
+            role === 'teacher'
+              ? 'border-primary bg-accent text-accent-foreground'
+              : 'hover:border-input hover:bg-accent'
+          "
+        >
+          <School :size="16" />
+          <span class="text-xs">Teacher</span>
+        </div>
+        <div
+          @click="role = 'student'"
+          class="flex flex-col items-center gap-1 flex-1 border border-border rounded-lg p-2 cursor-pointer transition-all duration-150"
+          :class="
+            role === 'student'
+              ? 'border-primary bg-accent text-accent-foreground'
+              : 'hover:border-input hover:bg-accent'
+          "
+        >
+          <GraduationCap :size="16" />
+          <span class="text-xs">Student</span>
+        </div>
+      </div>
+      <div
         class="relative border border-dashed rounded-lg transition-all duration-200 cursor-pointer"
         :class="isDragging ? 'border-primary bg-accent' : 'border-border hover:border-input'"
         @dragover.prevent="isDragging = true"
