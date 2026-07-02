@@ -3,11 +3,18 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import { ref } from "vue";
 import { School, GraduationCap } from "lucide-vue-next";
+import api from '@/services/api';
+
+const username = ref('')
+const email = ref('')
+const fullName = ref('')
+const password = ref('')
+
+const role = ref("");
 
 const isDragging = ref(false);
 const previewUrl = ref(false);
-
-const role = ref("");
+const error = ref(false);
 </script>
 
 <template>
@@ -82,17 +89,21 @@ const role = ref("");
       </div>
       <!-- form -->
       <div class="flex flex-col md:flex-row gap-2">
-        <BaseInput placeholder="Full Name" />
-        <BaseInput placeholder="username" />
+        <BaseInput placeholder="Full Name" v-model="fullName"/>
+        <BaseInput placeholder="username" v-model="username"/>
       </div>
 
       <div class="flex flex-col md:flex-row gap-2">
-        <BaseInput placeholder="email" type="email" />
-        <BaseInput placeholder="password" type="password" />
+        <BaseInput placeholder="email" type="email" v-model="email"/>
+        <BaseInput placeholder="password" type="password" v-model="password"/>
       </div>
       <p class="sub-text hover:underline cursor-pointer">
         <RouterLink :to="{ name: 'Login' }">Already have an account?</RouterLink>
       </p>
+
+      <div v-if="error">
+        <p>something went Wrong!</p>
+      </div>
 
       <MainButton title="Log in" />
     </div>
