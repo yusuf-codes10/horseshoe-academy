@@ -25,6 +25,7 @@ const laoding = ref(false)
 const registerUser = async () => {
 
   laoding.value = true
+  // TODO: we have to vaidate with zod before hitting the api
   try {
     await userStore.register({
     username: username.value,
