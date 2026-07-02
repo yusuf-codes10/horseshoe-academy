@@ -1,9 +1,21 @@
 <script setup lang="ts">
-
+import BaseInput from "@/components/shared/BaseInput.vue";
+import MainButton from "@/components/shared/MainButton.vue";
 </script>
 
 <template>
   <div>
-    <h2 class="title">Login</h2>
+    <h1 class="title">Welcome Back</h1>
+    <div
+      class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-80 shadow-sm"
+    >
+      <BaseInput placeholder="username" />
+      <BaseInput placeholder="password" type="password" />
+      <p class="sub-text hover:underline cursor-pointer">
+        <RouterLink :to="{ name: 'Register' }">Don't have an account?</RouterLink>
+      </p>
+
+      <MainButton title="Sign up" />
+    </div>
   </div>
 </template>

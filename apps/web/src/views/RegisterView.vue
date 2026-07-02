@@ -14,7 +14,7 @@ import MainButton from "@/components/shared/MainButton.vue";
       <BaseInput placeholder="email" type="email" />
       <BaseInput placeholder="password" type="password" />
       <p class="sub-text hover:underline cursor-pointer">
-        <a href="#">Don't have an account?</a>
+        <RouterLink :to="{ name: 'Login' }">Already have an account?</RouterLink>
       </p>
 
       <MainButton title="Log in" />
