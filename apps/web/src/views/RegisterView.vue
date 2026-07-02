@@ -5,6 +5,10 @@ import { ref } from "vue";
 import { School, GraduationCap } from "lucide-vue-next";
 import api from '@/services/api';
 import type { NewUser } from '@classroom/shared';
+import {useUserStore} from '@/stores/userStore';
+
+
+const userStore = useUserStore();
 
 const username = ref('')
 const email = ref('')
@@ -16,10 +20,17 @@ const role = ref("");
 const isDragging = ref(false);
 const previewUrl = ref(false);
 const error = ref(false);
+const laoding = ref(false)
 
 
 // send a post request
-// const registerUser = api.post('/auth/register')
+const registerUser = async () => {
+  await userStore.register({
+    username: username,
+    email: email,
+    password: password
+  })
+}
 </script>
 
 <template>
