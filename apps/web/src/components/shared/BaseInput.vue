@@ -21,9 +21,10 @@ const emit = defineEmits(['update:modelValue'])
 </script>
 
 <template>
+  <!-- simple inline cast to avoid null ts issue -->
   <input
     :value="props.modelValue"
-    @input="emit('update:modelValue', $event.target.value)"
+    @input="emit('update:modelValue', ($event.target as HTMLInputElement).value)"
     :type="props.type"
     :placeholder="props.placeholder"
     :required="props.required"
