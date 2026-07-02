@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import api from '@/services/api'
-import type { RegisterDTO } from '@classroom/shared';
+import type { RegisterDTO, LoginDTO } from '@classroom/shared';
 
 export const useUserStore = defineStore('user', () => {
 
@@ -11,8 +11,13 @@ export const useUserStore = defineStore('user', () => {
   const register = async (credentials: RegisterDTO) => {
     await api.post('/auth/register', credentials);
   }
+
+  const login = async (credentials: LoginDTO) => {
+    await api.post('/auth/login', credentials);
+  }
   return {
     user,
-    register
+    register,
+    login
   }
 })
