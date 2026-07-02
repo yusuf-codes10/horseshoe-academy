@@ -3,8 +3,6 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import { ref } from "vue";
 import { School, GraduationCap } from "lucide-vue-next";
-import api from '@/services/api';
-import type { NewUser } from '@classroom/shared';
 import {useUserStore} from '@/stores/userStore';
 
 
@@ -15,7 +13,7 @@ const email = ref('')
 const fullName = ref('')
 const password = ref('')
 
-const role = ref("");
+const role = ref<'admin' | 'teacher' | 'student'>();
 
 const isDragging = ref(false);
 const previewUrl = ref(false);
@@ -33,7 +31,7 @@ const registerUser = async () => {
     email: email.value,
     password: password.value,
     gender: 'female',
-    // role: role.value
+    role: role.value
   })
   } catch (error) {
     console.log(error);
