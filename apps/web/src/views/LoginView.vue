@@ -4,11 +4,12 @@ import MainButton from "@/components/shared/MainButton.vue";
 </script>
 
 <template>
-  <div>
-    <h1 class="title">Welcome Back</h1>
+  <div class="flex justify-center items-center mx-4">
     <div
-      class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-80 shadow-sm"
+    class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-full my-4 md:w-90 shadow-sm"
+
     >
+    <h1 class="title">Welcome Back</h1>
       <BaseInput placeholder="username" />
       <BaseInput placeholder="password" type="password" />
       <p class="sub-text hover:underline cursor-pointer">
