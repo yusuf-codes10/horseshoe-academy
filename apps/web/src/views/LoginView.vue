@@ -30,7 +30,7 @@ const logUserIn = async () => {
 
   try {
     await userStore.login(result.data);
-    router.push('/dashboard');
+    router.push("/dashboard");
   } catch (error) {
     console.log(error);
   } finally {
@@ -41,7 +41,8 @@ const logUserIn = async () => {
 
 <template>
   <div class="flex justify-center items-center mx-4">
-    <div
+    <form
+      @submit.prevent="logUserIn"
       class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-full my-4 md:w-90 shadow-sm"
     >
       <h1 class="title">Welcome Back</h1>
@@ -53,7 +54,7 @@ const logUserIn = async () => {
 
       <div v-if="error">something went wrong!</div>
 
-      <MainButton title="Sign up" :loading="loading" />
-    </div>
+      <MainButton title="Sign up" :loading="loading" type="submit" />
+    </form>
   </div>
 </template>
