@@ -4,6 +4,7 @@ import {
   subjects, classes, sessions, applications,
   enrollements, attendances, notifications
 } from "../../../apps/api/src/db/schema";
+import {z} from 'zod';
 
 // Users
 export const selectUserSchema = createSelectSchema(users);
@@ -48,3 +49,8 @@ export const insertAttendanceSchema = createInsertSchema(attendances).omit({ id:
 // Notifications
 export const selectNotificationSchema = createSelectSchema(notifications);
 export const insertNotificationSchema = createInsertSchema(notifications).omit({ id: true })
+
+// validation for a full user schema
+export const registerUserSchema = insertUserSchema.extend({
+  password: z.string().min(8)
+})

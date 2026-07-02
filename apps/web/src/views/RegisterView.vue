@@ -4,7 +4,7 @@ import MainButton from "@/components/shared/MainButton.vue";
 import { ref } from "vue";
 import { School, GraduationCap } from "lucide-vue-next";
 import {useUserStore} from '@/stores/userStore';
-import { insertUserSchema } from '@classroom/shared';
+import { registerUserSchema } from '@classroom/shared';
 
 
 const userStore = useUserStore();
@@ -27,7 +27,7 @@ const registerUser = async () => {
 
   laoding.value = true
   // TODO: we have to vaidate with zod before hitting the api
-  const result = insertUserSchema.safeParse({
+  const result = registerUserSchema.safeParse({
     username: username.value,
     email: email.value,
     password: password.value,
@@ -35,18 +35,12 @@ const registerUser = async () => {
     role: role.value
   })
 
-  if (result.success) {
+  if (!result.success) {
     console.log(result.error);
     return
   }
   try {
-    await userStore.register({
-    username: username.value,
-    email: email.value,
-    password: password.value,
-    gender: 'female',
-    role: role.value
-  })
+    await userStore.register(result.data)
   } catch (error) {
     console.log(error);
 
