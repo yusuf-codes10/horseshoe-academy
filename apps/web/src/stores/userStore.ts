@@ -15,6 +15,8 @@ export const useUserStore = defineStore('user', () => {
   const login = async (credentials: LoginDTO) => {
     await api.post('/auth/login', credentials);
   }
+
+  // TODO: we need a way to fetch the user from the cookie for login
   return {
     user,
     register,
