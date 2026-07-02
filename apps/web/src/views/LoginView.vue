@@ -1,6 +1,18 @@
 <script setup lang="ts">
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
+import { ref } from 'vue'
+import { useUserStore } from "@/stores/userStore";
+import { useRouter } from "vue-router";
+
+const userStrore = useUserStore();
+const router = useRouter();
+
+const username = ref('')
+const password = ref('')
+
+const error = ref(false)
+const loading = ref(false)
 </script>
 
 <template>
@@ -10,13 +22,17 @@ import MainButton from "@/components/shared/MainButton.vue";
 
     >
     <h1 class="title">Welcome Back</h1>
-      <BaseInput placeholder="username" />
-      <BaseInput placeholder="password" type="password" />
+      <BaseInput placeholder="username" v-model="username"/>
+      <BaseInput placeholder="password" type="password" v-model="password"/>
       <p class="sub-text hover:underline cursor-pointer">
         <RouterLink :to="{ name: 'Register' }">Don't have an account?</RouterLink>
       </p>
 
-      <MainButton title="Sign up" />
+      <div v-if="error">
+        something went wrong!
+      </div>
+
+      <MainButton title="Sign up" :loading="loading"/>
     </div>
   </div>
 </template>
