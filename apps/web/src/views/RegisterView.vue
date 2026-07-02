@@ -11,7 +11,7 @@ const role = ref("");
 </script>
 
 <template>
-  <div class="flex justify-center items-center my-2">
+  <div class="flex justify-center items-center mx-4">
     <div
     class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-full my-4 md:w-180 shadow-sm"
     >
