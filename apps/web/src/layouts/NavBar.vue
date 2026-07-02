@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import MainButton from '@/components/shared/MainButton.vue';
+// import SecondaryButton from '@/components/shared/SecondaryButton.vue';
 </script>
 
 <template>
@@ -7,6 +8,7 @@ import MainButton from '@/components/shared/MainButton.vue';
     <h1>ClassRoom</h1>
     <!-- <MainButton v-if="!userStroe.user" title="Log in" /> -->
     <div  class="flex justify-between items-center">
+      <!-- <SecondaryButton :isGhost="false" :loading="false" title="Sign In"/> -->
       <MainButton title="Sign Up"/>
     </div>
   </nav>
