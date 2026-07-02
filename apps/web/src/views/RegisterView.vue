@@ -2,20 +2,21 @@
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import { ref } from "vue";
-import { School, GraduationCap } from 'lucide-vue-next'
+import { School, GraduationCap } from "lucide-vue-next";
 
 const isDragging = ref(false);
 const previewUrl = ref(false);
 
-const role = ref('')
+const role = ref("");
 </script>
 
 <template>
   <div>
     <h1 class="title">Register</h1>
     <div
-      class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-80 shadow-sm"
+      class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-full md:w-180 shadow-sm"
     >
+      <!-- role selection -->
       <p class="sub-text">Select your role</p>
       <div class="flex gap-2">
         <div
@@ -43,6 +44,7 @@ const role = ref('')
           <span class="text-xs">Student</span>
         </div>
       </div>
+      <!-- profile drop zone -->
       <div
         class="relative border border-dashed rounded-lg transition-all duration-200 cursor-pointer"
         :class="isDragging ? 'border-primary bg-accent' : 'border-border hover:border-input'"
@@ -78,10 +80,16 @@ const role = ref('')
           </div>
         </div>
       </div>
-      <BaseInput placeholder="Full Name" />
-      <BaseInput placeholder="username" />
-      <BaseInput placeholder="email" type="email" />
-      <BaseInput placeholder="password" type="password" />
+      <!-- form -->
+      <div class="flex flex-col md:flex-row gap-2">
+        <BaseInput placeholder="Full Name" />
+        <BaseInput placeholder="username" />
+      </div>
+
+      <div class="flex flex-col md:flex-row gap-2">
+        <BaseInput placeholder="email" type="email" />
+        <BaseInput placeholder="password" type="password" />
+      </div>
       <p class="sub-text hover:underline cursor-pointer">
         <RouterLink :to="{ name: 'Login' }">Already have an account?</RouterLink>
       </p>
