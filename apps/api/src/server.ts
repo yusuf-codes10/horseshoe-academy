@@ -9,10 +9,17 @@ import classeRouter from './routes/classes.route';
 import sessionRouter from './routes/sessions.route';
 import applicationRouter from './routes/applications.route';
 import type { JwtVariables } from 'hono/jwt'
+import {cors } from 'hono/cors';
 
 type Variables = JwtVariables; // types c.get and c.set for the jwt mw
 const server = new Hono<{Variables: Variables}>();
 
+server.use('*', cors({
+  origin: 'http://localhost:5173', // my Vue dev server
+  allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  allowHeaders: ['Content-Type', 'Authorization'],
+  credentials: true, // ← important for cookies
+}));
 server.use(customLogger);
 
 server.get('/', (c) => c.text('Hono!'));
