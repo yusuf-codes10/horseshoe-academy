@@ -9,7 +9,7 @@ import MainButton from '@/components/shared/MainButton.vue';
     <h1>ClassRoom</h1>
     <!-- <MainButton v-if="!userStroe.user" title="Log in" /> -->
     <div  class="flex justify-between items-center">
-      <MainButton />
+      <MainButton title="Sign Up"/>
     </div>
   </nav>
 </template>
