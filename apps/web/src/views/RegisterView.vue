@@ -25,11 +25,22 @@ const laoding = ref(false)
 
 // send a post request
 const registerUser = async () => {
-  await userStore.register({
-    username: username,
-    email: email,
-    password: password
+
+  laoding.value = true
+  try {
+    await userStore.register({
+    username: username.value,
+    email: email.value,
+    password: password.value,
+    gender: 'female',
+    // role: role.value
   })
+  } catch (error) {
+    console.log(error);
+
+  } finally {
+    laoding.value= false
+  }
 }
 </script>
 
