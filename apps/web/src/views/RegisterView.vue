@@ -4,6 +4,7 @@ import MainButton from "@/components/shared/MainButton.vue";
 import { ref } from "vue";
 import { School, GraduationCap } from "lucide-vue-next";
 import api from '@/services/api';
+import type { NewUser } from '@classroom/shared';
 
 const username = ref('')
 const email = ref('')
@@ -15,6 +16,10 @@ const role = ref("");
 const isDragging = ref(false);
 const previewUrl = ref(false);
 const error = ref(false);
+
+
+// send a post request
+// const registerUser = api.post('/auth/register')
 </script>
 
 <template>
