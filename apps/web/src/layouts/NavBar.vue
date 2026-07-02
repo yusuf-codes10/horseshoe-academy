@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import MainButton from '@/components/shared/MainButton.vue';
-
-
 </script>
 
 <template>
