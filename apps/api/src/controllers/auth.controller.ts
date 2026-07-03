@@ -11,8 +11,8 @@ import { signToken } from "../utils/signToken";
 import { db } from "../db/index";
 import { users, students } from "../db/schema";
 import { eq } from "drizzle-orm";
-import { clearToken } from '../utils/destroyToken';
-import { createToken } from '../utils/createToken';
+import { clearToken } from "../utils/destroyToken";
+import { createToken } from "../utils/createToken";
 
 const factory = createFactory<{ Variables: { user: SekishoUser } }>();
 
@@ -67,22 +67,29 @@ export const registerUser = factory.createHandlers(
           })
           .returning();
 
-          // insert to db based on role
-          // leaving teachers for later
-          if (newUser?.role === 'student') {
-            try {
-              await db.insert(students).values({
-                id: newUser.id
-              })
-              console.log('student inserted successfully');
-            } catch (error) {
-              console.log('error inserting student', error);
-            }
+        // insert to db based on role
+        // leaving teachers for later
+        if (newUser?.role === "student") {
+          try {
+            await db.insert(students).values({
+              id: newUser.id,
+            });
+            console.log("student inserted successfully");
+          } catch (error) {
+            console.log("error inserting student", error);
           }
+        }
 
         console.log(newUser);
+        if (!newUser) {
+          throw new HTTPException(500, { message: "failed to create user" });
+        }
         // creating our own token first
-        const myToken = createToken(newUser.pick());
+        const myToken = createToken({
+          id: newUser.id,
+          username: newUser.username,
+          email: newUser.email,
+        });
         signToken(c, token); //? issue is here
         return c.json({ user: newUser, token });
       } catch (dbError) {
@@ -145,8 +152,7 @@ export const logUserIn = factory.createHandlers(
       }
     } catch (error) {
       console.log(error);
-        if (error instanceof HTTPException) throw error;
-
+      if (error instanceof HTTPException) throw error;
 
       throw new HTTPException(500, { message: "something went wrong" });
     }
@@ -154,17 +160,13 @@ export const logUserIn = factory.createHandlers(
 );
 
 // /me controller
-export const verifyUser = factory.createHandlers(
-  (c) => {
-    const user = c.get('jwtPayload');
-    return c.json({user});
-  }
-);
+export const verifyUser = factory.createHandlers((c) => {
+  const user = c.get("jwtPayload");
+  return c.json({ user });
+});
 
 // logout | destroy the cookie
-export const logout = factory.createHandlers(
-  (c) => {
-    clearToken(c);
-    return c.json({msg: 'logged out succesfuly!'});
-  }
-);
+export const logout = factory.createHandlers((c) => {
+  clearToken(c);
+  return c.json({ msg: "logged out succesfuly!" });
+});
