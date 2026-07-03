@@ -156,3 +156,6 @@ export const verifyUser = factory.createHandlers(
     return c.json({user});
   }
 );
+
+// logout | destroy the cookie
+export const logout = factory.createHandlers();
