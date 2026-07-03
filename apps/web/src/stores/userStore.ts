@@ -18,7 +18,14 @@ export const useUserStore = defineStore('user', () => {
 
   // fetch user
   const fetchUser = async () => {
-    await api.get('/auth/me');
+    try {
+      const res = await api.get('/auth/me');
+      user.value = res.data
+      console.log(user.value);
+    } catch (error) {
+      console.log(error);
+      user.value = null //cookie expired
+    }
     // set the user ref right here
   }
   // TODO: we need a way to fetch the user from the cookie for login
