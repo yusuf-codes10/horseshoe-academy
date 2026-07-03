@@ -7,7 +7,7 @@ import {
 } from "@classroom/shared";
 import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
-import { signToken } from "../utils/signToken";
+import { signToken, clearToken } from "../utils/signToken";
 import { db } from "../db/index";
 import { users, students } from "../db/schema";
 import { eq } from "drizzle-orm";
@@ -158,4 +158,9 @@ export const verifyUser = factory.createHandlers(
 );
 
 // logout | destroy the cookie
-export const logout = factory.createHandlers();
+export const logout = factory.createHandlers(
+  (c) => {
+    clearToken(c);
+    return c.json({msg: 'logged out succesfuly!'});
+  }
+);
