@@ -1,6 +1,18 @@
 <script setup lang="ts">
 import MainButton from "@/components/shared/MainButton.vue";
 // import SecondaryButton from '@/components/shared/SecondaryButton.vue';
+import { useUserStore } from "@/stores/userStore";
+import { onMounted } from "vue";
+
+const userStrore = useUserStore();
+
+onMounted(async() => {
+  await userStrore.fetchUser();
+  if (!userStrore.user) {
+    console.log('no logged in user!');
+  }
+  console.log(userStrore.user);
+})
 </script>
 
 <template>
