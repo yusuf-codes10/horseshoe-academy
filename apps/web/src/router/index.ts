@@ -3,6 +3,7 @@ import HomeView from '@/views/HomeView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/stores/userStore'
 
 const routes = [
   {
@@ -31,5 +32,14 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 })
+
+// runs before every route, guarantees user is resolved before any component mounts
+router.beforeEach(async () => {
+  const authStore = useUserStore()
+  if (authStore.user === null) {
+    await authStore.fetchUser()
+  }
+})
+
 
 export default router
