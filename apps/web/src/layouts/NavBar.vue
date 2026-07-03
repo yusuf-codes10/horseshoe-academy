@@ -22,9 +22,9 @@ onMounted(async() => {
     <div class="flex justify-between items-center">
       <!-- <SecondaryButton :isGhost="false" :loading="false" title="Sign In"/> -->
        <div v-if="userStore.isLoggedIn">
-        Welcome {{ userStore.user.username }}
+        Welcome {{ userStore.user?.username }}
        </div>
-      <RouterLink :to="{ name: 'Register' }">
+      <RouterLink v-else :to="{ name: 'Register' }">
         <MainButton title="Sign Up" />
       </RouterLink>
     </div>
