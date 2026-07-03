@@ -82,12 +82,12 @@ export const registerUser = factory.createHandlers(
 
         console.log(newUser);
         // creating our own token first
-        const myToken = createToken(newUser);
+        const myToken = createToken(newUser.pick());
         signToken(c, token); //? issue is here
         return c.json({ user: newUser, token });
       } catch (dbError) {
         console.log("failed inserting user", dbError);
-        if (dbError instanceof HTTPException) throw dbError; 
+        if (dbError instanceof HTTPException) throw dbError;
         throw new HTTPException(500, {
           message: "registered but classroom setup failed",
         });
