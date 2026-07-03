@@ -6,5 +6,5 @@ if (!secret) throw new Error('JWT_SECRET is not defined');
 export const verifyToken = jwt({
   secret,
   alg: 'HS256',
-  cookie: 'token', // no defaults, check my named cookie
+  cookie: 'auth', // no defaults, check my named cookie is is auth
 });
