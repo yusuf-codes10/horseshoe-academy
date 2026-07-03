@@ -148,3 +148,10 @@ export const logUserIn = factory.createHandlers(
     }
   },
 );
+
+// /me controller
+export const verifyUser = factory.createHandlers(
+  (c) => {
+    return c.req.user;
+  }
+);
