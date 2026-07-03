@@ -92,6 +92,7 @@ export const registerUser = factory.createHandlers(
         });
         signToken(c, myToken); //? issue is here
         return c.json({ user: newUser, token });
+        // TODO: next we remove the token from the response and return the user
       } catch (dbError) {
         console.log("failed inserting user", dbError);
         if (dbError instanceof HTTPException) throw dbError;
