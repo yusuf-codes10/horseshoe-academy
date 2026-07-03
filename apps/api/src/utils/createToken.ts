@@ -1,7 +1,8 @@
 // utils/createToken.ts
 import { sign } from 'hono/jwt'
+import type { User } from '@classroom/shared';
 
-export const createToken = async (user: { id: number; username: string; email: string }) => {
+export const createToken = async (user: User) => {
   const secret = process.env.JWT_SECRET
   if (!secret) throw new Error('JWT_SECRET is not defined')
 

@@ -12,6 +12,7 @@ import { db } from "../db/index";
 import { users, students } from "../db/schema";
 import { eq } from "drizzle-orm";
 import { clearToken } from '../utils/destroyToken';
+import { createToken } from '../utils/createToken';
 
 const factory = createFactory<{ Variables: { user: SekishoUser } }>();
 
@@ -80,7 +81,9 @@ export const registerUser = factory.createHandlers(
           }
 
         console.log(newUser);
-        signToken(c, token);
+        // creating our own token first
+        const myToken = createToken(newUser);
+        signToken(c, token); //? issue is here
         return c.json({ user: newUser, token });
       } catch (dbError) {
         console.log("failed inserting user", dbError);
