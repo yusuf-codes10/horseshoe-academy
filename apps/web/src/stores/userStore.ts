@@ -14,6 +14,7 @@ export const useUserStore = defineStore('user', () => {
 
   const login = async (credentials: LoginDTO) => {
     await api.post('/auth/login', credentials);
+    await fetchUser()
   }
 
   // fetch user
