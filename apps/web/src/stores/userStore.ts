@@ -16,10 +16,15 @@ export const useUserStore = defineStore('user', () => {
     await api.post('/auth/login', credentials);
   }
 
+  // fetch user
+  const fetchUser = async () => {
+    await api.get('/auth/me');
+  }
   // TODO: we need a way to fetch the user from the cookie for login
   return {
     user,
     register,
-    login
+    login,
+    fetchUser
   }
 })
