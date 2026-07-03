@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import api from '@/services/api'
 import type { RegisterDTO, LoginDTO } from '@classroom/shared';
 
@@ -35,8 +35,14 @@ export const useUserStore = defineStore('user', () => {
     user.value = null
   }
   // TODO: we need a way to fetch the user from the cookie for login
+
+
+  const isLoggedIn = computed(() => !!user.value)
   return {
     user,
+    isLoggedIn,
+
+
     register,
     login,
     fetchUser,
