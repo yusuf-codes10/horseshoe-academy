@@ -4,14 +4,14 @@ import MainButton from "@/components/shared/MainButton.vue";
 import { useUserStore } from "@/stores/userStore";
 import { onMounted } from "vue";
 
-const userStrore = useUserStore();
+const userStore = useUserStore();
 
 onMounted(async() => {
-  await userStrore.fetchUser();
-  if (!userStrore.user) {
+  await userStore.fetchUser();
+  if (!userStore.user) {
     console.log('no logged in user!');
   }
-  console.log(userStrore.user);
+  console.log(userStore.user);
 })
 </script>
 
@@ -21,6 +21,9 @@ onMounted(async() => {
     <!-- <MainButton v-if="!userStroe.user" title="Log in" /> -->
     <div class="flex justify-between items-center">
       <!-- <SecondaryButton :isGhost="false" :loading="false" title="Sign In"/> -->
+       <div v-if="userStore.isLoggedIn">
+        Welcome {{ userStore.user.username }}
+       </div>
       <RouterLink :to="{ name: 'Register' }">
         <MainButton title="Sign Up" />
       </RouterLink>
