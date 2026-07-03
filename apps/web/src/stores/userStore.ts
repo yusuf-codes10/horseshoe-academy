@@ -27,12 +27,18 @@ export const useUserStore = defineStore('user', () => {
       user.value = null //cookie expired
     }
     // set the user ref right here
+
+  }
+  const logout = async () => {
+    await api.post('/auth/logout');
+    user.value = null
   }
   // TODO: we need a way to fetch the user from the cookie for login
   return {
     user,
     register,
     login,
-    fetchUser
+    fetchUser,
+    logout
   }
 })
