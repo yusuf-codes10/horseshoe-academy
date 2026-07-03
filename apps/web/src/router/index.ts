@@ -24,7 +24,8 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    component: DashboardView
+    component: DashboardView,
+    meta: { requiresAuth: true },
   }
 ]
 
@@ -34,10 +35,14 @@ const router = createRouter({
 })
 
 // runs before every route, guarantees user is resolved before any component mounts
-router.beforeEach(async () => {
+router.beforeEach(async (to) => {
   const authStore = useUserStore()
   if (authStore.user === null) {
     await authStore.fetchUser()
+  }
+
+  if (to.meta.requiresAuth && !authStore.user) {
+    return { name: 'Login' } // block + redirect
   }
 })
 
