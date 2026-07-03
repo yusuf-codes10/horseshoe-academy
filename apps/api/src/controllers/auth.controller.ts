@@ -85,12 +85,12 @@ export const registerUser = factory.createHandlers(
           throw new HTTPException(500, { message: "failed to create user" });
         }
         // creating our own token first
-        const myToken = createToken({
+        const myToken = await createToken({
           id: newUser.id,
           username: newUser.username,
           email: newUser.email,
         });
-        signToken(c, token); //? issue is here
+        signToken(c, myToken); //? issue is here
         return c.json({ user: newUser, token });
       } catch (dbError) {
         console.log("failed inserting user", dbError);
