@@ -33,14 +33,14 @@ const registerUser = async () => {
     error.value = "role is required";
     return;
   }
-  // TODO: we have to vaidate with zod before hitting the api
+  // we have to vaidate with zod before hitting the api
   const userToRegister: RegisterDTO = {
     username: username.value,
     email: email.value,
     password: password.value,
     fullName: fullName.value,
     gender: "female",
-    // role: role.value,
+    role: role.value,
     //? zod silently ignore these
   };
   const result = registerUserSchema.safeParse(userToRegister);
