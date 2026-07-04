@@ -12,7 +12,7 @@ import { db } from "@/db/index";
 import { users, students } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { clearToken } from "@/utils/destroyToken";
-import { createToken } from "@/utils/createToken";
+import { issueSession } from '@/utils/issueSession';
 
 const factory = createFactory<{ Variables: { user: SekishoUser } }>();
 
@@ -85,12 +85,17 @@ export const registerUser = factory.createHandlers(
           throw new HTTPException(500, { message: "failed to create user" });
         }
         // creating our own token first
-        const myToken = await createToken({
+        // const myToken = await createToken({
+        //   id: newUser.id,
+        //   username: newUser.username,
+        //   email: newUser.email,
+        // });
+        issueSession(c, {
           id: newUser.id,
           username: newUser.username,
           email: newUser.email,
         });
-        signToken(c, myToken); //? issue is here
+        // signToken(c, myToken); //? issue is here
         // ! we do not even need that sekisho token
         return c.json({ user: newUser, token });
         // TODO: next we remove the token from the response and return the user
