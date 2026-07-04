@@ -3,9 +3,11 @@ import MainButton from "@/components/shared/MainButton.vue";
 import SecondaryButton from "@/components/shared/SecondaryButton.vue";
 // import SecondaryButton from '@/components/shared/SecondaryButton.vue';
 import { useUserStore } from "@/stores/userStore";
+import { useRouter } from "vue-router";
 import { onMounted } from "vue";
 
 const userStore = useUserStore();
+const router = useRouter();
 
 onMounted(async() => {
   await userStore.fetchUser();
@@ -14,6 +16,13 @@ onMounted(async() => {
   }
   console.log(userStore.user);
 })
+
+// logout function
+const logout = async () => {
+  console.log('logging out....');
+  await userStore.logout();
+  router.push('/');
+}
 </script>
 
 <template>
@@ -23,7 +32,7 @@ onMounted(async() => {
     <div class="flex justify-between items-center">
       <!-- <SecondaryButton :isGhost="false" :loading="false" title="Sign In"/> -->
        <div v-if="userStore.isLoggedIn">
-         <SecondaryButton @click="console.log('log out')" title="Log out"/>
+         <SecondaryButton @click="logout" title="Log out"/>
         Welcome {{ userStore.user?.username }}
        </div>
       <RouterLink v-else :to="{ name: 'Register' }">
