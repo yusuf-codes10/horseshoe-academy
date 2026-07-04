@@ -29,7 +29,7 @@ const emit = defineEmits(['click'])
   >
     <div
       v-if="loading"
-      class="animate-spin rounded-full w-4 h-4 border-2 border-white/30 border-t-white"
+      class="animate-spin rounded-full mx-auto w-4 h-4 border-2 border-white/30 border-t-white"
     />
     {{ props.loading ? '' : props.title }}
   </button>
