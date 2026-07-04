@@ -39,6 +39,9 @@ const registerUser = async () => {
     password: password.value,
     gender: "female",
     role: role.value,
+    //? zod silently ignore these
+    lastName: 'alan',
+    geberish: 'something random'
   });
 
   if (!result.success) {
