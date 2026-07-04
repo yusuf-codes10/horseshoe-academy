@@ -3,70 +3,73 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import { ref } from "vue";
 import { School, GraduationCap } from "lucide-vue-next";
-import {useUserStore} from '@/stores/userStore';
-import { registerUserSchema } from '@classroom/shared';
+import { useUserStore } from "@/stores/userStore";
+import { registerUserSchema } from "@classroom/shared";
 import { useRouter } from "vue-router";
-
+import { AxiosError } from "axios";
 
 const userStore = useUserStore();
 const router = useRouter();
 
-const username = ref('')
-const email = ref('')
-const fullName = ref('')
-const password = ref('')
+const username = ref("");
+const email = ref("");
+const fullName = ref("");
+const password = ref("");
 
-const role = ref<'admin' | 'teacher' | 'student'>();
+const role = ref<"admin" | "teacher" | "student">();
 
 const isDragging = ref(false);
 const previewUrl = ref(false);
-const error = ref('');
-const loading = ref(false)
-
+const error = ref("");
+const loading = ref(false);
 
 // send a post request
 const registerUser = async () => {
-  console.log('registering');
+  console.log("registering");
   // check if role is empty
   if (role.value == undefined) {
-    console.log('you have to enter a role');
-    error.value = 'role is required'
-    return
+    console.log("you have to enter a role");
+    error.value = "role is required";
+    return;
   }
   // TODO: we have to vaidate with zod before hitting the api
   const result = registerUserSchema.safeParse({
     username: username.value,
     email: email.value,
     password: password.value,
-    gender: 'female',
-    role: role.value
-  })
+    gender: "female",
+    role: role.value,
+  });
 
   if (!result.success) {
     console.log(result.error);
-    return
+    return;
   }
-  loading.value = true
+  loading.value = true;
+  error.value = "";
   try {
-    await userStore.register(result.data)
-    router.push('/dashboard')
+    await userStore.register(result.data);
+    router.push("/dashboard");
   } catch (err) {
-    console.log(err);
+    console.log("pinia error", err);
+    if (err instanceof AxiosError) {
+      console.log(err.response?.data.msg);
+    }
     // we better force it to be a string
     error.value = err instanceof Error ? err.message : String(err);
   } finally {
-    loading.value= false
+    loading.value = false;
   }
-}
+};
 </script>
 
 <template>
   <div class="flex justify-center items-center mx-4">
     <form
-    @submit.prevent="registerUser"
-    class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-full my-4 md:w-180 shadow-sm"
+      @submit.prevent="registerUser"
+      class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-full my-4 md:w-180 shadow-sm"
     >
-    <h1 class="title">Register</h1>
+      <h1 class="title">Register</h1>
       <!-- role selection -->
       <p class="sub-text">Select your role</p>
       <!-- <BaseInput placeholder="heeeeeeeeeeey" type="radio"/>
@@ -137,13 +140,13 @@ const registerUser = async () => {
       </div>
       <!-- form -->
       <div class="flex flex-col md:flex-row gap-2">
-        <BaseInput placeholder="Full Name" v-model="fullName"/>
-        <BaseInput placeholder="username" v-model="username"/>
+        <BaseInput placeholder="Full Name" v-model="fullName" />
+        <BaseInput placeholder="username" v-model="username" />
       </div>
 
       <div class="flex flex-col md:flex-row gap-2">
-        <BaseInput placeholder="email" type="email" v-model="email"/>
-        <BaseInput placeholder="password" type="password" v-model="password"/>
+        <BaseInput placeholder="email" type="email" v-model="email" />
+        <BaseInput placeholder="password" type="password" v-model="password" />
       </div>
       <p class="sub-text hover:underline cursor-pointer">
         <RouterLink :to="{ name: 'Login' }">Already have an account?</RouterLink>
@@ -153,7 +156,7 @@ const registerUser = async () => {
         <p class="text-red-400 text-sm">{{ error }}</p>
       </div>
 
-      <MainButton title="Sign Up" type="submit" :loading="loading"/>
+      <MainButton title="Sign Up" type="submit" :loading="loading" />
     </form>
   </div>
 </template>
