@@ -12,11 +12,10 @@ const router = useRouter();
 const username = ref("");
 const password = ref("");
 
-const error = ref(false);
+const error = ref('');
 const loading = ref(false);
 
 const logUserIn = async () => {
-  loading.value = true;
 
   const result = loginSchema.safeParse({
     username: username.value,
@@ -28,11 +27,14 @@ const logUserIn = async () => {
     return;
   }
 
+  loading.value = true;
+  error.value = ''
   try {
     await userStore.login(result.data);
     router.push("/dashboard");
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
+    error.value = err instanceof Error ? err.message : String(err)
   } finally {
     loading.value = false;
   }
@@ -52,7 +54,9 @@ const logUserIn = async () => {
         <RouterLink :to="{ name: 'Register' }">Don't have an account?</RouterLink>
       </p>
 
-      <div v-if="error">something went wrong!</div>
+      <div v-if="error">
+        <p class="text-red-400 text.sm">{{ error }}</p>
+      </div>
 
       <MainButton title="Sign up" :loading="loading" type="submit" />
     </form>
