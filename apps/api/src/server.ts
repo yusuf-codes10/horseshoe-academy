@@ -1,13 +1,13 @@
 import { Hono } from 'hono';
-import catchAll from './middlewares/catchAll';
-import customLogger from './middlewares/logger';
-import errorHandler from './utils/errorHandler';
-import authRouter from './routes/auth.route';
-import DepRouter from './routes/departments.route';
-import SubjectRouter from './routes/subjects.route';
-import classeRouter from './routes/classes.route';
-import sessionRouter from './routes/sessions.route';
-import applicationRouter from './routes/applications.route';
+import catchAll from '@/middlewares/catchAll';
+import customLogger from '@/middlewares/logger';
+import errorHandler from '@/utils/errorHandler';
+import authRouter from '@/routes/auth.route';
+import DepRouter from '@/routes/departments.route';
+import SubjectRouter from '@/routes/subjects.route';
+import classeRouter from '@/routes/classes.route';
+import sessionRouter from '@/routes/sessions.route';
+import applicationRouter from '@/routes/applications.route';
 import type { JwtVariables } from 'hono/jwt'
 import {cors } from 'hono/cors';
 
