@@ -7,7 +7,6 @@ import {
 } from "@classroom/shared";
 import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
-import { signToken } from "@/utils/signToken";
 import { db } from "@/db/index";
 import { users, students } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -147,7 +146,12 @@ export const logUserIn = factory.createHandlers(
             message: "username does not exist! Please, Reister first",
           });
 
-        signToken(c, token);
+        await issueSession(c, {
+          id: foundUser.id,
+          username: foundUser.username,
+          email: foundUser.email,
+        });
+        // signToken(c, token);
         console.log("actual user", foundUser);
         return c.json({ user: foundUser, token });
       } catch (dbError) {
