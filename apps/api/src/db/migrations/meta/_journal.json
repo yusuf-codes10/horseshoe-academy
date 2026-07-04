@@ -43,6 +43,13 @@
       "when": 1782932431409,
       "tag": "0005_wild_champions",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1783184514675,
+      "tag": "0006_fuzzy_gertrude_yorkes",
+      "breakpoints": true
     }
   ]
 }

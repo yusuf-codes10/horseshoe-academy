@@ -29,7 +29,7 @@ export const users = pgTable("users", {
   email: text("email").unique().notNull(),
   gender: genderEnum('gender').notNull(),
   fullName: text("fullName"),
-  role: roleEnum("role"),
+  role: roleEnum("role").notNull(),
   createdAt: timestamp("createdAt").defaultNow(),
 });
 

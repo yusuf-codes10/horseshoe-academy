@@ -40,7 +40,7 @@ const registerUser = async () => {
     password: password.value,
     fullName: fullName.value,
     gender: "female",
-    role: role.value,
+    // role: role.value,
     //? zod silently ignore these
   };
   const result = registerUserSchema.safeParse(userToRegister);
