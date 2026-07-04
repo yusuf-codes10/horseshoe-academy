@@ -20,7 +20,7 @@ const role = ref<'admin' | 'teacher' | 'student'>();
 
 const isDragging = ref(false);
 const previewUrl = ref(false);
-const error = ref('');
+const error = ref<string | unknown>('');
 const loading = ref(false)
 
 
