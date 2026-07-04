@@ -7,6 +7,7 @@ import { useUserStore } from "@/stores/userStore";
 import { registerUserSchema } from "@classroom/shared";
 import { useRouter } from "vue-router";
 import { AxiosError } from "axios";
+import type { RegisterDTO } from "@classroom/shared";
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -33,7 +34,7 @@ const registerUser = async () => {
     return;
   }
   // TODO: we have to vaidate with zod before hitting the api
-  const result = registerUserSchema.safeParse({
+  const userToRegister: RegisterDTO = {
     username: username.value,
     email: email.value,
     password: password.value,
@@ -41,9 +42,8 @@ const registerUser = async () => {
     gender: "female",
     role: role.value,
     //? zod silently ignore these
-    lastName: 'alan',
-    geberish: 'something random'
-  });
+  };
+  const result = registerUserSchema.safeParse(userToRegister);
 
   if (!result.success) {
     console.log(result.error);
