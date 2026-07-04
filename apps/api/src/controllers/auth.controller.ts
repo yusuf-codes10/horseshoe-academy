@@ -90,7 +90,7 @@ export const registerUser = factory.createHandlers(
         //   username: newUser.username,
         //   email: newUser.email,
         // });
-        issueSession(c, {
+        await issueSession(c, {
           id: newUser.id,
           username: newUser.username,
           email: newUser.email,
