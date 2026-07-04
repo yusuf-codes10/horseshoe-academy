@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import MainButton from "@/components/shared/MainButton.vue";
+import SecondaryButton from "@/components/shared/SecondaryButton.vue";
 // import SecondaryButton from '@/components/shared/SecondaryButton.vue';
 import { useUserStore } from "@/stores/userStore";
 import { onMounted } from "vue";
@@ -22,6 +23,7 @@ onMounted(async() => {
     <div class="flex justify-between items-center">
       <!-- <SecondaryButton :isGhost="false" :loading="false" title="Sign In"/> -->
        <div v-if="userStore.isLoggedIn">
+         <SecondaryButton @click="console.log('log out')" title="Log out"/>
         Welcome {{ userStore.user?.username }}
        </div>
       <RouterLink v-else :to="{ name: 'Register' }">
