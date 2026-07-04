@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { createApplication, getApplicationsPerClass } from '../controllers/applications.controller';
+import { createApplication, getApplicationsPerClass } from '@/controllers/applications.controller';
 
 const router = new Hono();
 

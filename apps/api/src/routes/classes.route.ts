@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { createClass, assignTacherToClass, getClassesById, getClassById } from '../controllers/classes.controller';
+import { createClass, assignTacherToClass, getClassesById, getClassById } from '@/controllers/classes.controller';
 
 const router = new Hono();
 

@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { createSession, getSessionPerClass, getSessionById, deleteSession } from '../controllers/sessions.controller';
+import { createSession, getSessionPerClass, getSessionById, deleteSession } from '@/controllers/sessions.controller';
 
 const router = new Hono();
 

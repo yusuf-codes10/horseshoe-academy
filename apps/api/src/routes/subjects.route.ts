@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { createSubjectForDepartment, getSubjectByDepId, deleteSujectById, getSubjectById } from '../controllers/subjects.controller';
+import { createSubjectForDepartment, getSubjectByDepId, deleteSujectById, getSubjectById } from '@/controllers/subjects.controller';
 
 const router = new Hono();
 
