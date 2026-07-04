@@ -11,7 +11,7 @@ export const useUserStore = defineStore('user', () => {
   // toggle theme right here
 
   const register = async (credentials: RegisterDTO) => {
-      return await api.post('/auth/register', credentials);
+      await api.post('/auth/register', credentials);
   }
 
   const login = async (credentials: LoginDTO) => {

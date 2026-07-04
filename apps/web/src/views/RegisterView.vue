@@ -56,7 +56,8 @@ const registerUser = async () => {
       console.log(err.response?.data.msg);
     }
     // we better force it to be a string
-    error.value = err instanceof Error ? err.message : String(err);
+    error.value = err instanceof AxiosError ? err.response?.data.msg : String(err);
+    // error.value = err instanceof Error ? err.message : String(err);
   } finally {
     loading.value = false;
   }
