@@ -20,17 +20,17 @@ const role = ref<'admin' | 'teacher' | 'student'>();
 
 const isDragging = ref(false);
 const previewUrl = ref(false);
-const error = ref<string | unknown>('');
+const error = ref('');
 const loading = ref(false)
 
 
 // send a post request
 const registerUser = async () => {
   console.log('registering');
-  loading.value = true
   // check if role is empty
   if (role.value == undefined) {
     console.log('you have to enter a role');
+    error.value = 'role is required'
     return
   }
   // TODO: we have to vaidate with zod before hitting the api
@@ -46,12 +46,14 @@ const registerUser = async () => {
     console.log(result.error);
     return
   }
+  loading.value = true
   try {
     await userStore.register(result.data)
     router.push('/dashboard')
   } catch (err) {
     console.log(err);
-    error.value = err;
+    // we better force it to be a string
+    error.value = err instanceof Error ? err.message : String(err);
   } finally {
     loading.value= false
   }
@@ -67,9 +69,9 @@ const registerUser = async () => {
     <h1 class="title">Register</h1>
       <!-- role selection -->
       <p class="sub-text">Select your role</p>
+      <!-- <BaseInput placeholder="heeeeeeeeeeey" type="radio"/>
       <BaseInput placeholder="heeeeeeeeeeey" type="radio"/>
-      <BaseInput placeholder="heeeeeeeeeeey" type="radio"/>
-      <BaseInput placeholder="heeeeeeeeeeey" type="radio"/>
+      <BaseInput placeholder="heeeeeeeeeeey" type="radio"/> -->
 
       <div class="flex gap-2">
         <div
