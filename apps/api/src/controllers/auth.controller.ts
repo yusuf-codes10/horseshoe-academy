@@ -91,6 +91,7 @@ export const registerUser = factory.createHandlers(
           email: newUser.email,
         });
         signToken(c, myToken); //? issue is here
+        // ! we do not even need that sekisho token
         return c.json({ user: newUser, token });
         // TODO: next we remove the token from the response and return the user
       } catch (dbError) {
