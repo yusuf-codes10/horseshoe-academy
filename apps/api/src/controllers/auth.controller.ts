@@ -41,7 +41,7 @@ export const registerUser = factory.createHandlers(
 
       // this validates what sekisho sends back
       const data = sekishoRegisterResponseSchema.parse(raw);
-      const { safeUser, token } = data;
+      const { safeUser } = data;
       console.log("actual user", safeUser);
 
       // check classroom db
@@ -83,21 +83,13 @@ export const registerUser = factory.createHandlers(
         if (!newUser) {
           throw new HTTPException(500, { message: "failed to create user" });
         }
-        // creating our own token first
-        // const myToken = await createToken({
-        //   id: newUser.id,
-        //   username: newUser.username,
-        //   email: newUser.email,
-        // });
+        // creating our own token first, and sign in that in one go
         await issueSession(c, {
           id: newUser.id,
           username: newUser.username,
           email: newUser.email,
         });
-        // signToken(c, myToken); //? issue is here
-        // ! we do not even need that sekisho token
-        return c.json({ user: newUser, token });
-        // TODO: next we remove the token from the response and return the user
+        return c.json({ user: newUser });
       } catch (dbError) {
         console.log("failed inserting user", dbError);
         if (dbError instanceof HTTPException) throw dbError;
@@ -131,7 +123,7 @@ export const logUserIn = factory.createHandlers(
         return c.json(raw, response.status as any);
       }
       const data = sekishoRegisterResponseSchema.parse(raw);
-      const { safeUser, token } = data;
+      const { safeUser } = data;
 
       // deal with classroom db
       try {
@@ -145,15 +137,14 @@ export const logUserIn = factory.createHandlers(
           throw new HTTPException(404, {
             message: "username does not exist! Please, Reister first",
           });
-
+          // create & sign the JWT token
         await issueSession(c, {
           id: foundUser.id,
           username: foundUser.username,
           email: foundUser.email,
         });
-        // signToken(c, token);
         console.log("actual user", foundUser);
-        return c.json({ user: foundUser, token });
+        return c.json({ user: foundUser });
       } catch (dbError) {
         console.log("failed inserting user", dbError);
         if (dbError instanceof HTTPException) throw dbError; // ← let it bubble up
