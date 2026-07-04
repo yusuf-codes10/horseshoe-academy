@@ -17,6 +17,10 @@
 
     // Best practices
     "strict": true,
+    // adding paths for absolute paths!
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "skipLibCheck": true,
     "noFallthroughCasesInSwitch": true,
     "noUncheckedIndexedAccess": true,

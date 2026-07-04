@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { registerUser, logUserIn, verifyUser, logout } from '../controllers/auth.controller'
-import { verifyToken } from "../middlewares/verifyToken";
+import { verifyToken } from "@/middlewares/verifyToken";
 
 const router = new Hono();
 
