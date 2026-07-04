@@ -6,6 +6,7 @@ import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import { loginSchema } from "@classroom/shared";
 import { AxiosError } from "axios";
+import type { LoginDTO } from '@classroom/shared';
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -18,10 +19,12 @@ const loading = ref(false);
 
 const logUserIn = async () => {
 
-  const result = loginSchema.safeParse({
+  const userToLogin: LoginDTO = {
     username: username.value,
     password: password.value,
-  });
+  }
+
+  const result = loginSchema.safeParse(userToLogin);
 
   if (!result.success) {
     console.log(result.error);
