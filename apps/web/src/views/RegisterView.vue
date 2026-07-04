@@ -37,6 +37,7 @@ const registerUser = async () => {
     username: username.value,
     email: email.value,
     password: password.value,
+    fullName: fullName.value,
     gender: "female",
     role: role.value,
     //? zod silently ignore these
