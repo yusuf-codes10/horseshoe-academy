@@ -2,8 +2,8 @@ import { createFactory } from "hono/factory";
 import type { NewClass } from "@classroom/shared";
 import { insertClassSchema } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
-import { db } from "../db/index";
-import { classes, subjects, teachers } from "../db/schema";
+import { db } from "@/db/index";
+import { classes, subjects, teachers } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 
