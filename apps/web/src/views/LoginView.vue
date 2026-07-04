@@ -5,6 +5,7 @@ import { ref } from "vue";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import { loginSchema } from "@classroom/shared";
+import { AxiosError } from "axios";
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -34,7 +35,7 @@ const logUserIn = async () => {
     router.push("/dashboard");
   } catch (err) {
     console.log(err);
-    error.value = err instanceof Error ? err.message : String(err)
+    error.value = err instanceof AxiosError ? err.response?.data.msg : String(err)
   } finally {
     loading.value = false;
   }
