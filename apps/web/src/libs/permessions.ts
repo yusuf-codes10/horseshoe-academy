@@ -3,7 +3,7 @@
 export type Role = keyof typeof ROLES;
 import type { NewUser} from '@classroom/shared';
 
-type Permession = (typeof ROLES)[Role] //getting the values this time not the keys
+type Permession = (typeof ROLES)[Role][number] //getting the values this time not the keys
 
 export const ROLES = {
   admin: [
