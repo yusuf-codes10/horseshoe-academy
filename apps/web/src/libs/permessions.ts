@@ -5,6 +5,7 @@ import type { NewUser} from '@classroom/shared';
 
 type Permession = (typeof ROLES)[Role][number] //getting the values this time not the keys
 
+// a fancy way to write this is to use Indexed Access Types in TypeScript
 type P = "view:departments" | "create:departmens" | "view:departmens"
 
 export const ROLES = {
