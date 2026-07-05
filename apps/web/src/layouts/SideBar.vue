@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSideStore } from '@/stores/sideStore';
-import { Home, LayoutDashboard, Building2, BookOpen, School } from "lucide-vue-next"
+import {  LayoutDashboard, Building2, BookOpen, School, PanelLeft, X } from "lucide-vue-next"
 
 defineProps({
   isOpen: {
@@ -29,7 +29,11 @@ const sideStore = useSideStore();
   >
   <!-- Toggle -->
     <div class="border-b border-bg-border px-3 py-4 flex items-center justify-center">
-      <Home @click="emit('toggle')" class="cursor-pointer shrink-0" :size="22" />
+      <PanelLeft v-if="!sideStore.isOpen" @click="emit('toggle')" class="cursor-pointer shrink-0" :size="22" />
+      <div v-if="sideStore.isOpen" class="flex  gap-4">
+        <span >Classroom</span>
+        <X @click="emit('toggle')" :size="22" class="justify-self-end cursor-pointer"/>
+      </div>
     </div>
 
     <!-- Nav Links -->
