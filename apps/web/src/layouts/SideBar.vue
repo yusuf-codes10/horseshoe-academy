@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useSideStore } from '@/stores/sideStore';
-import { Home } from "lucide-vue-next"
+import { Home, LayoutDashboard, Building2, BookOpen, School } from "lucide-vue-next"
 
 defineProps({
   isOpen: {
@@ -27,6 +27,44 @@ const sideStore = useSideStore();
       'fixed md:relative z-40',
     ]"
   >
-  <Home @click="emit('toggle')" class="cursor-pointer"/>
+  <!-- Toggle -->
+    <div class="border-b border-bg-border px-3 py-4 flex items-center justify-center">
+      <Home @click="emit('toggle')" class="cursor-pointer shrink-0" :size="22" />
+    </div>
+
+    <!-- Nav Links -->
+    <nav class="flex-1 flex flex-col gap-1 px-2 py-3">
+      <RouterLink
+        to="/dashboard"
+        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-raised transition-colors group"
+      >
+        <LayoutDashboard :size="18" class="shrink-0" />
+        <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Home</span>
+      </RouterLink>
+
+      <RouterLink
+        to="/departments"
+        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-raised transition-colors group"
+      >
+        <Building2 :size="18" class="shrink-0" />
+        <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Departments</span>
+      </RouterLink>
+
+      <RouterLink
+        to="/subjects"
+        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-raised transition-colors group"
+      >
+        <BookOpen :size="18" class="shrink-0" />
+        <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Subjects</span>
+      </RouterLink>
+
+      <RouterLink
+        to="/classes"
+        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-raised transition-colors group"
+      >
+        <School :size="18" class="shrink-0" />
+        <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Classes</span>
+      </RouterLink>
+      </nav>
   </aside>
 </template>
