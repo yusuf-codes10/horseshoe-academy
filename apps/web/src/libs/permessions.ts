@@ -22,5 +22,5 @@ export const ROLES = {
 } as const;
 
 export const hasPermession = (user: NewUser, permession: Permession) => {
-
+  return (ROLES[user.role] as readonly Permession[]).includes(permession)
 }
