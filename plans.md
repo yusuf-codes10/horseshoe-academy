@@ -18,3 +18,9 @@
 
     -  single trycatch for when operations fails in the same way,
     multiple for when we have something like external api call with dealing with our own db
+
+
+## July 5th:
+
+    - Role based Access Control RBAC!
+    This is not only related to roles, but we are basicaly switching siwtching to Premession-based mindest.
