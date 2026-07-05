@@ -8,7 +8,7 @@ const sideStore = useSideStore();
 </script>
 
 <template>
-  <div>
+  <div class="flex h-[calc(100vh-72px)]">
     <SideBar @toggle="sideStore.toggle"/>
     <div>
       <h1 class="title">This is the main dashboard</h1>
