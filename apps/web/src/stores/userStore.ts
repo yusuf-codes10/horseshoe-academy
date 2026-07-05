@@ -36,8 +36,6 @@ export const useUserStore = defineStore('user', () => {
     await api.post('/auth/logout');
     user.value = null
   }
-  // TODO: we need a way to fetch the user from the cookie for login
-
 
   const isLoggedIn = computed(() => !!user.value)
   return {

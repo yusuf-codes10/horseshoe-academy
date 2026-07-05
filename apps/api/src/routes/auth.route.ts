@@ -8,7 +8,6 @@ router.post("/register", ...registerUser);
 
 router.post("/login", ...logUserIn);
 
-// TODO: adding both /me and /logout right here
 router.get('/me', verifyToken, ...verifyUser);
 
 router.post('/logout', ...logout);

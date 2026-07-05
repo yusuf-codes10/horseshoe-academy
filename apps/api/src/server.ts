@@ -24,7 +24,7 @@ server.use(customLogger);
 
 server.get('/', (c) => c.text('Hono!'));
 server.route('/auth', authRouter);
-//TODO: might need some flat routes too
+//? might need some flat routes too
 server.route('/departments', DepRouter);
 server.route('/subject', SubjectRouter);
 server.route('/departments/:id/subjects', SubjectRouter);

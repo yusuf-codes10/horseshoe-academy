@@ -32,6 +32,7 @@ export const createClass = factory.createHandlers(
         .values({
           capacity: body.capacity,
           // TODO: we might assign a teacher to a class right here
+          // or a patch request instead (admin assigns)
           subjectId: subjectId,
         })
         .returning();
