@@ -1,15 +1,8 @@
 <script setup lang="ts">
-import SideBar from '@/layouts/SideBar.vue';
-
-
 </script>
 
 <template>
   <div>
-    <SideBar />
-    <div>
-      <h2>Home</h2>
-      <RouterView />
-    </div>
+    <h2 class="title">Home of dashboard</h2>
   </div>
 </template>

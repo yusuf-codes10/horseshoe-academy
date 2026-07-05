@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useSideStore } from '@/stores/sideStore';
+import { Home } from "lucide-vue-next"
 
 defineProps({
   isOpen: {
@@ -26,5 +27,6 @@ const sideStore = useSideStore();
       'fixed md:relative z-40',
     ]"
   >
+  <Home @click="emit('toggle')" />
   </aside>
 </template>
