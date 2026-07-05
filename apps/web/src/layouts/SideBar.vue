@@ -27,6 +27,6 @@ const sideStore = useSideStore();
       'fixed md:relative z-40',
     ]"
   >
-  <Home @click="emit('toggle')" />
+  <Home @click="emit('toggle')" class="cursor-pointer"/>
   </aside>
 </template>
