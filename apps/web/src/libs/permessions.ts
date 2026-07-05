@@ -5,13 +5,15 @@ import type { NewUser} from '@classroom/shared';
 
 type Permession = (typeof ROLES)[Role][number] //getting the values this time not the keys
 
+type P = "view:departments" | "create:departmens" | "view:departmens"
+
 export const ROLES = {
   admin: [
     "view:departments",
-    "create:departmens"
+    "create:departments"
   ],
   student: [
-    "view:departmens"
+    "view:departments"
   ],
   teacher: [
     "view:departments"
