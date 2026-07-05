@@ -4,6 +4,8 @@ import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
+import DashHomeView from '@/views/dashboard/HomeView.vue'
+import DepartmentsView from '@/views/dashboard/DepartmentsView.vue'
 
 const routes = [
   {
@@ -26,6 +28,18 @@ const routes = [
     name: 'Dashboard',
     component: DashboardView,
     meta: { requiresAuth: true },
+    children: [
+      {
+        path: '',
+        name: 'DashboardHome',
+        component: DashHomeView
+      },
+      {
+        path: 'departments',
+        name: 'Departments',
+        component: DepartmentsView
+      }
+    ]
   }
 ]
 
