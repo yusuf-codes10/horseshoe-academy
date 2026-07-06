@@ -20,6 +20,10 @@ const userStore = useUserStore();
 const createDep = () => {
   router.push({ name: "CreateDepartment" });
 };
+if (userStore.user)  {
+  console.log(`user role is"${userStore.user.role}"`)
+}
+
 </script>
 
 <template>

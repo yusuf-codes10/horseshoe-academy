@@ -22,5 +22,7 @@ export const ROLES = {
 } as const;
 
 export const hasPermession = (user: NewUser, permession: Permession) => {
+  const permissions = ROLES[user.role]
+  if (!permissions) return false
   return (ROLES[user.role] as readonly Permession[]).includes(permession)
 }
