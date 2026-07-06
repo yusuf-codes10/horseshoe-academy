@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ActionsBar from '@/components/shared/ActionsBar.vue';
+import MainButton from '@/components/shared/MainButton.vue';
 import MainTable from '@/components/shared/MainTable.vue';
 const departments = [
   { code: 'CS', name: 'Computer Science', subject_count: 12, description: 'lorem' },
@@ -9,7 +11,12 @@ const departments = [
 
 <template>
   <div>
-    <h2 class="title">Departments</h2>
+    <!-- <h2 class="title">Departments</h2> -->
+    <ActionsBar title="Departments" description="lorem lorem">
+        <div class="flex gap-2">
+          <MainButton title="+ Create"/>
+        </div>
+    </ActionsBar>
     <MainTable   :columns="[
     { key: 'code', label: 'Code' },
     { key: 'name', label: 'Name' },
