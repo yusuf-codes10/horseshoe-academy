@@ -2,12 +2,12 @@ import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
 import api from '@/services/api'
 import type { RegisterDTO, LoginDTO } from '@classroom/shared';
-import type { NewUser} from '@classroom/shared';
+import type { User} from '@classroom/shared';
 
 
 export const useUserStore = defineStore('user', () => {
 
-  const user = ref<NewUser | null>(null);
+  const user = ref<User | null>(null);
   // toggle theme right here
 
   const register = async (credentials: RegisterDTO) => {

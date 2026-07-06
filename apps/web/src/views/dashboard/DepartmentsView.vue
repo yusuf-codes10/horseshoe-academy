@@ -22,8 +22,8 @@ const createDep = () => {
 };
 if (userStore.user)  {
   console.log(`user role is"${userStore.user.role}"`)
+  console.log(userStore.user);
 }
-
 </script>
 
 <template>
