@@ -63,33 +63,12 @@ const sideStore = useSideStore();
         to="/dashboard"
         class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
         @click="selectedElement"
+        v-for="(item, index) in sideBarItem" :key="index"
       >
-        <LayoutDashboard :size="18" class="shrink-0" />
-        <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Home</span>
-      </RouterLink>
-
-      <RouterLink
-        to="/departments"
-        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary  hover:bg-primary transition-colors group"
-      >
-        <Building2 :size="18" class="shrink-0" />
-        <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Departments</span>
-      </RouterLink>
-
-      <RouterLink
-        to="/subjects"
-        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
-      >
-        <BookOpen :size="18" class="shrink-0" />
-        <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Subjects</span>
-      </RouterLink>
-
-      <RouterLink
-        to="/classes"
-        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary  hover:bg-primary transition-colors group"
-      >
-        <School :size="18" class="shrink-0" />
-        <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Classes</span>
+        <!-- <LayoutDashboard :size="18" class="shrink-0" />
+          -->
+        <component :is="item.icon" :size="18" class="shrink-0"/>
+        <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">{{ item.name }}</span>
       </RouterLink>
       </nav>
   </aside>
