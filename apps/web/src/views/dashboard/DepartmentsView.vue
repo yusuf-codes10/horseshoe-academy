@@ -15,9 +15,10 @@ const departments = [
     { key: 'name', label: 'Name' },
     { key: 'subject_count', label: 'Subjects' },
     { key: 'description', label: 'Description' },
+    {key: 'details', label: 'Details'}
   ]"
     :data="departments"
-  :loading="false"
+  :loading="true"
   />
   </div>
 </template>

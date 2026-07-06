@@ -13,7 +13,6 @@ const sideStore = useSideStore();
     <SideBar @toggle="sideStore.toggle"/>
     <div class="w-full">
       <TopBar />
-      <h1 class="title">This is the main dashboard</h1>
       <RouterView />
     </div>
   </div>
