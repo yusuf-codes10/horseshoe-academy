@@ -61,6 +61,11 @@ router.beforeEach(async (to) => {
   if (to.meta.requiresAuth && !authStore.user) {
     return { name: 'Login' } // block + redirect
   }
+
+  // Guest Only guard
+  if (to.meta.guestOnly && authStore.user) {
+    return { name: 'Dashboard' }
+  }
 })
 
 
