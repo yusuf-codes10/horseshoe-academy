@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ActionsBar from '@/components/shared/ActionsBar.vue';
+import BaseInput from '@/components/shared/BaseInput.vue';
 import MainButton from '@/components/shared/MainButton.vue';
 import MainTable from '@/components/shared/MainTable.vue';
 const departments = [
@@ -14,7 +15,8 @@ const departments = [
     <!-- <h2 class="title">Departments</h2> -->
     <ActionsBar title="Departments" description="lorem lorem">
         <div class="flex gap-2">
-          <MainButton title="+ Create"/>
+          <BaseInput type="search" placeholder="Search Department" class="h-10"/>
+          <MainButton title="Create" />
         </div>
     </ActionsBar>
     <MainTable   :columns="[

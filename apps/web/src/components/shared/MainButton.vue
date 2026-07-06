@@ -2,7 +2,7 @@
 const props = defineProps({
   title: {
     type: String,
-    default: 'Click',
+    default: "Click",
   },
   type: String,
   disabled: {
@@ -15,22 +15,23 @@ const props = defineProps({
   },
   isGhost: {
     type: Boolean,
-    default: false
-  }
-})
-const emit = defineEmits(['click'])
+    default: false,
+  },
+});
+const emit = defineEmits(["click"]);
 </script>
 
 <template>
   <button
     :disabled="props.disabled || props.loading"
     @click="emit('click')"
-    :class="props.isGhost ? 'text-primary-foreground px-4 py-2 cursor-pointer rounded-md hover:opacity-90 transition-opacity' : 'mt-4 bg-primary text-primary-foreground px-4 py-2 cursor-pointer rounded-md hover:opacity-90 transition-opacity'"
+    class="h-10 border-none px-4 py-2 cursor-pointer rounded-md hover:opacity-90 transition-opacity"
+    :class="props.isGhost ? 'text-primary-foreground' : 'bg-primary text-primary-foreground'"
   >
     <div
       v-if="loading"
       class="animate-spin rounded-full mx-auto w-4 h-4 border-2 border-white/30 border-t-white"
     />
-    {{ props.loading ? '' : props.title }}
+    {{ props.loading ? "" : props.title }}
   </button>
 </template>
