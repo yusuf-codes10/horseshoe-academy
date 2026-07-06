@@ -41,7 +41,9 @@ const sideBarItem: Item[] = [
 const sideStore = useSideStore();
 
 const chooseItem = (item: Item) => {
+  console.log('clicked', item)
   selectedItem.value = item
+  console.log('selected', selectedItem.value)
 }
 </script>
 
@@ -72,7 +74,7 @@ const chooseItem = (item: Item) => {
       <RouterLink
         to="/dashboard"
         class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
-        :class="{'bg-primary': selectedItem === item}"
+        :class="{'bg-primary': selectedItem?.name === item.name}"
         v-for="(item, index) in sideBarItem" :key="index"
         @click="chooseItem(item)"
       >
