@@ -171,11 +171,12 @@ type JWTPayloadShape = {
 // /me controller
 export const verifyUser = factory.createHandlers(async (c) => {
   const payload = c.get("jwtPayload") as JWTPayloadShape;
-  console.log('user is: ', payload);
   // we have to return a user not what the jwt decoded!
   const [user] = await db.select()
   .from(users)
   .where(eq(users.id, payload.id))
+  console.log('user is: ', user);
+  console.log('payload is ', payload);
   return c.json({ user });
 });
 
