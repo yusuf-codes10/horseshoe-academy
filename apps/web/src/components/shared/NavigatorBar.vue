@@ -6,9 +6,15 @@ import { computed } from 'vue';
 
 const route = useRoute();
 
-const segments = computed(() => route.path.split('/').filter(Boolean))
-console.log('segments length is: ', segments.value.length);
-
+const segments = computed(() =>
+  route.path
+    .split('/')
+    .filter(Boolean)
+    .map((seg, index, arr) => ({
+      label: seg,
+      path: '/' + arr.slice(0, index + 1).join('/')
+    }))
+)
 </script>
 
 <template>
@@ -18,9 +24,9 @@ console.log('segments length is: ', segments.value.length);
     </RouterLink>
     <div v-for="(seg, index) in segments" :key="index">
       <p class="inline">> </p>
-      <RouterLink :to="{path: `/${seg}`}">
+      <RouterLink :to="{path: seg.path}">
         <p class="cursor-pointer inline">
-          {{ seg }}
+          {{ seg.label }}
         </p>
       </RouterLink>
     </div>
