@@ -2,7 +2,7 @@
 import { useSideStore } from '@/stores/sideStore';
 import {  Home, Building2, BookOpen, School, PanelLeft, X } from "lucide-vue-next"
 import { ref } from 'vue';
-import type { FunctionalComponent } from 'lucide-vue-next';
+import type { Component } from 'vue';
 
 defineProps({
   isOpen: {
@@ -15,7 +15,7 @@ const emit = defineEmits(['toggle'])
 
 interface Item {
   name: string,
-  icon: FunctionalComponent
+  icon: Component
 }
 
 const selectedItem = ref<Item | null>(null)
@@ -36,7 +36,7 @@ const sideBarItem: Item[] = [
     name: 'Classes',
     icon: School
   }
- ]
+ ] as Item[];
 
 const sideStore = useSideStore();
 
