@@ -11,20 +11,23 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: HomeView
+    component: HomeView,
+    meta: { guestOnly: true }
   },
   {
     path: '/register',
     name: 'Register',
-    component: RegisterView
+    component: RegisterView,
+    meta: { guestOnly: true }
   },
   {
     path: '/login',
     name: 'Login',
-    component: LoginView
+    component: LoginView,
+    meta: { guestOnly: true }
   },
   {
-    path: '/dashboard',
+    path: '/',
     name: 'Dashboard',
     component: DashboardView,
     meta: { requiresAuth: true },
