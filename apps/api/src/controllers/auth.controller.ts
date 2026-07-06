@@ -12,6 +12,7 @@ import { users, students } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { clearToken } from "@/utils/destroyToken";
 import { issueSession } from '@/utils/issueSession';
+import type { User } from '@classroom/shared';
 
 const factory = createFactory<{ Variables: { user: SekishoUser } }>();
 
@@ -164,6 +165,8 @@ export const logUserIn = factory.createHandlers(
 // /me controller
 export const verifyUser = factory.createHandlers((c) => {
   const user = c.get("jwtPayload");
+  console.log('user is: ', user);
+  // we have to return a user not what the jwt decoded!
   return c.json({ user });
 });
 

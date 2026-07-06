@@ -4,7 +4,6 @@ import api from '@/services/api'
 import type { RegisterDTO, LoginDTO } from '@classroom/shared';
 import type { User} from '@classroom/shared';
 
-
 export const useUserStore = defineStore('user', () => {
 
   const user = ref<User | null>(null);
