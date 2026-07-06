@@ -13,28 +13,33 @@ defineProps({
 
 const emit = defineEmits(['toggle'])
 
-interface Item {
+type Item = {
   name: string,
-  icon: Component
+  icon: Component,
+  path: string
 }
 
 const selectedItem = ref<Item | null>(null)
 const sideBarItem: Item[] = [
   {
     name: 'Home',
-    icon: Home
+    icon: Home,
+    path: '/dashboard'
   },
   {
     name: 'Departments',
-    icon: Building2
+    icon: Building2,
+    path: '/dashboard/departments'
   },
   {
     name: 'Subjects',
-    icon: BookOpen
+    icon: BookOpen,
+    path: ''
   },
   {
     name: 'Classes',
-    icon: School
+    icon: School,
+    path: ''
   }
  ] as Item[];
 
@@ -72,11 +77,11 @@ const chooseItem = (item: Item) => {
     <!-- Nav Links -->
     <nav class="flex-1 flex flex-col gap-1 px-2 py-3">
       <RouterLink
-        to="/dashboard"
-        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
-        :class="{'bg-primary': selectedItem?.name === item.name}"
-        v-for="(item, index) in sideBarItem" :key="index"
-        @click="chooseItem(item)"
+      class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
+      :class="{'bg-primary': selectedItem?.name === item.name}"
+      v-for="(item, index) in sideBarItem" :key="index"
+      @click="chooseItem(item)"
+      :to="item?.path"
       >
         <!-- <LayoutDashboard :size="18" class="shrink-0" />
           -->
