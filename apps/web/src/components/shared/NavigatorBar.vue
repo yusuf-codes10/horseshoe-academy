@@ -18,7 +18,7 @@ console.log('segments length is: ', segments.value.length);
     <div v-for="(seg, index) in segments" :key="index">
       <p class="inline">> </p>
       <p class="cursor-pointer inline">
-        {{ segments[index] }}
+        {{ seg }}
       </p>
     </div>
   </div>
