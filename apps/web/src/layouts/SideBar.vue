@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { useSideStore } from '@/stores/sideStore';
 import {  Home, Building2, BookOpen, School, PanelLeft, X } from "lucide-vue-next"
-import { ref, Component } from 'vue';
+import { ref } from 'vue';
+import type { FunctionalComponent } from 'lucide-vue-next';
 
 defineProps({
   isOpen: {
@@ -14,11 +15,11 @@ const emit = defineEmits(['toggle'])
 
 interface Item {
   name: string,
-  icon: Component
+  icon: FunctionalComponent
 }
 
 const selectedItem = ref<Item | null>(null)
-const sideBarItem = [
+const sideBarItem: Item[] = [
   {
     name: 'Home',
     icon: Home
@@ -39,7 +40,7 @@ const sideBarItem = [
 
 const sideStore = useSideStore();
 
-const chooseItem = (item) => {
+const chooseItem = (item: Item) => {
   selectedItem.value = item
 }
 </script>
@@ -72,8 +73,8 @@ const chooseItem = (item) => {
         to="/dashboard"
         class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
         :class="{'bg-primary': selectedItem === item}"
-        @click="chooseItem(item)"
         v-for="(item, index) in sideBarItem" :key="index"
+        @click="chooseItem(item)"
       >
         <!-- <LayoutDashboard :size="18" class="shrink-0" />
           -->
