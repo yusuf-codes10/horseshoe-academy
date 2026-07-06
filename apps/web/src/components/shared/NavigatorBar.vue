@@ -9,7 +9,7 @@ const segments = route.path.split('/').filter(Boolean)
 </script>
 
 <template>
-  <div class="flex gap-2 w-full p-2 bg-amber-600">
+  <div class="flex gap-2 w-full p-2">
     <RouterLink :to="{name: 'Dashboard'}">
       <Home :size="18"/>
     </RouterLink>

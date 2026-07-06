@@ -34,7 +34,7 @@ const sideBarItem: Item[] = [
   {
     name: 'Subjects',
     icon: BookOpen,
-    path: ''
+    path: '/subjects'
   },
   {
     name: 'Classes',

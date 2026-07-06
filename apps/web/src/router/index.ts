@@ -6,6 +6,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import DashHomeView from '@/views/dashboard/HomeView.vue'
 import DepartmentsView from '@/views/dashboard/DepartmentsView.vue'
+import SubjectsView from '@/views/dashboard/SubjectsView.vue'
 
 const routes = [
   {
@@ -41,6 +42,11 @@ const routes = [
         path: 'departments',
         name: 'Departments',
         component: DepartmentsView
+      },
+      {
+        path: 'subjects',
+        name: 'Subjects',
+        component: SubjectsView
       }
     ]
   }
