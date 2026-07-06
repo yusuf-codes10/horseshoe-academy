@@ -12,7 +12,6 @@ import { users, students } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { clearToken } from "@/utils/destroyToken";
 import { issueSession } from '@/utils/issueSession';
-import type { User } from '@classroom/shared';
 
 const factory = createFactory<{ Variables: { user: SekishoUser } }>();
 
@@ -162,11 +161,21 @@ export const logUserIn = factory.createHandlers(
   },
 );
 
+type JWTPayloadShape = {
+  id: number;
+  username: string;
+  email: string;
+  exp: number;
+};
+
 // /me controller
-export const verifyUser = factory.createHandlers((c) => {
-  const user = c.get("jwtPayload");
-  console.log('user is: ', user);
+export const verifyUser = factory.createHandlers(async (c) => {
+  const payload = c.get("jwtPayload") as JWTPayloadShape;
+  console.log('user is: ', payload);
   // we have to return a user not what the jwt decoded!
+  const [user] = await db.select()
+  .from(users)
+  .where(eq(users.id, payload.id))
   return c.json({ user });
 });
 
