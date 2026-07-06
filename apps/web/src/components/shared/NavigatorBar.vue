@@ -18,5 +18,9 @@ const segments = computed(() => route.path.split('/').filter(Boolean))
 
       {{ segments[0] }}
     </p>
+    <p>
+      >
+    </p>
+    <p>{{ segments[1] }}</p>
   </div>
 </template>
