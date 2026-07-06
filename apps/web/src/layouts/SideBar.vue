@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useSideStore } from '@/stores/sideStore';
 import {  LayoutDashboard, Building2, BookOpen, School, PanelLeft, X } from "lucide-vue-next"
+import { ref } from 'vue';
 
 defineProps({
   isOpen: {
@@ -10,6 +11,26 @@ defineProps({
 })
 
 const emit = defineEmits(['toggle'])
+
+const selectedElement = ref(null)
+const sideBarItem = [
+  {
+    name: 'Home',
+    icon: LayoutDashboard
+  },
+  {
+    name: 'Departments',
+    icon: Building2
+  },
+  {
+    name: 'Subjects',
+    icon: BookOpen
+  },
+  {
+    name: 'Classes',
+    icon: School
+  }
+ ]
 
 const sideStore = useSideStore();
 </script>
@@ -41,6 +62,7 @@ const sideStore = useSideStore();
       <RouterLink
         to="/dashboard"
         class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
+        @click="selectedElement"
       >
         <LayoutDashboard :size="18" class="shrink-0" />
         <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Home</span>
