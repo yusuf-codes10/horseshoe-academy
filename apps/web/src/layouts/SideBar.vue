@@ -40,7 +40,7 @@ const sideStore = useSideStore();
     <nav class="flex-1 flex flex-col gap-1 px-2 py-3">
       <RouterLink
         to="/dashboard"
-        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-raised transition-colors group"
+        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
       >
         <LayoutDashboard :size="18" class="shrink-0" />
         <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Home</span>
@@ -48,7 +48,7 @@ const sideStore = useSideStore();
 
       <RouterLink
         to="/departments"
-        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-raised transition-colors group"
+        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary  hover:bg-primary transition-colors group"
       >
         <Building2 :size="18" class="shrink-0" />
         <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Departments</span>
@@ -56,7 +56,7 @@ const sideStore = useSideStore();
 
       <RouterLink
         to="/subjects"
-        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-raised transition-colors group"
+        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
       >
         <BookOpen :size="18" class="shrink-0" />
         <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Subjects</span>
@@ -64,7 +64,7 @@ const sideStore = useSideStore();
 
       <RouterLink
         to="/classes"
-        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-raised transition-colors group"
+        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary  hover:bg-primary transition-colors group"
       >
         <School :size="18" class="shrink-0" />
         <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">Classes</span>
