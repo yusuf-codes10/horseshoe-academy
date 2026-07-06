@@ -4,6 +4,7 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import MainTable from "@/components/shared/MainTable.vue";
 import { useRouter } from "vue-router";
+import { useRoute } from 'vue-router';
 
 const departments = [
   { code: "CS", name: "Computer Science", subject_count: 12, description: "lorem" },
@@ -11,6 +12,7 @@ const departments = [
 ];
 
 const router = useRouter();
+const route = useRoute();
 
 const createDep = () => {
   router.push({ name: "CreateDepartment" });
@@ -26,8 +28,9 @@ const createDep = () => {
         <MainButton title="Create" @click="createDep" />
       </div>
     </ActionsBar>
-    <RouterView />
+    <RouterView v-if="route.name=== 'CreateDepartment'" />
     <MainTable
+      v-else
       :columns="[
         { key: 'code', label: 'Code' },
         { key: 'name', label: 'Name' },
