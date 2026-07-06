@@ -24,12 +24,12 @@ const sideBarItem: Item[] = [
   {
     name: 'Home',
     icon: Home,
-    path: '/dashboard'
+    path: '/'
   },
   {
     name: 'Departments',
     icon: Building2,
-    path: '/dashboard/departments'
+    path: '/departments'
   },
   {
     name: 'Subjects',

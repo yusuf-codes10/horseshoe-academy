@@ -53,7 +53,7 @@ const registerUser = async () => {
   error.value = "";
   try {
     await userStore.register(result.data);
-    router.push("/dashboard");
+    router.push("/");
   } catch (err) {
     console.log("pinia error", err);
     if (err instanceof AxiosError) {

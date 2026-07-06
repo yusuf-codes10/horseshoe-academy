@@ -35,7 +35,7 @@ const logUserIn = async () => {
   error.value = ''
   try {
     await userStore.login(result.data);
-    router.push("/dashboard");
+    router.push("/");
   } catch (err) {
     console.log(err);
     error.value = err instanceof AxiosError ? err.response?.data.msg : String(err)
