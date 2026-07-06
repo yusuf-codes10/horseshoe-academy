@@ -7,6 +7,7 @@ import { useUserStore } from '@/stores/userStore'
 import DashHomeView from '@/views/dashboard/HomeView.vue'
 import DepartmentsView from '@/views/dashboard/DepartmentsView.vue'
 import SubjectsView from '@/views/dashboard/SubjectsView.vue'
+import CreateDepView from '@/views/dashboard/CreateDepView.vue'
 
 const routes = [
   {
@@ -41,7 +42,14 @@ const routes = [
       {
         path: 'departments',
         name: 'Departments',
-        component: DepartmentsView
+        component: DepartmentsView,
+        children: [
+          {
+            path: 'create',
+            name: 'CreateDepartment',
+            component: CreateDepView
+          }
+        ]
       },
       {
         path: 'subjects',
