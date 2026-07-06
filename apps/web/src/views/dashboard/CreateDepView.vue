@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BaseInput from '@/components/shared/BaseInput.vue';
-
+import MainButton from '@/components/shared/MainButton.vue';
+import { NewDepartment } from '@classroom/shared';
 
 </script>
 
@@ -14,6 +15,7 @@ import BaseInput from '@/components/shared/BaseInput.vue';
     <BaseInput type="text" id="code" name="code" placeholder="CS"/>
     <label for="name">Department name *</label>
     <BaseInput type="text" id="name" placeholder="Computer Science"/>
+    <MainButton title="Create Department"/>
     </form>
   </div>
 </template>
