@@ -26,6 +26,7 @@ const createDep = () => {
         <MainButton title="Create" @click="createDep" />
       </div>
     </ActionsBar>
+    <RouterView />
     <MainTable
       :columns="[
         { key: 'code', label: 'Code' },
