@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSideStore } from '@/stores/sideStore';
-import {  LayoutDashboard, Building2, BookOpen, School, PanelLeft, X } from "lucide-vue-next"
-import { ref } from 'vue';
+import {  Home, Building2, BookOpen, School, PanelLeft, X } from "lucide-vue-next"
+import { ref, Component } from 'vue';
 
 defineProps({
   isOpen: {
@@ -12,11 +12,16 @@ defineProps({
 
 const emit = defineEmits(['toggle'])
 
-const selectedElement = ref(null)
+interface Item {
+  name: string,
+  icon: Component
+}
+
+const selectedItem = ref<Item | null>(null)
 const sideBarItem = [
   {
     name: 'Home',
-    icon: LayoutDashboard
+    icon: Home
   },
   {
     name: 'Departments',
@@ -33,6 +38,10 @@ const sideBarItem = [
  ]
 
 const sideStore = useSideStore();
+
+const chooseItem = (item) => {
+  selectedItem.value = item
+}
 </script>
 
 <template>
@@ -62,7 +71,8 @@ const sideStore = useSideStore();
       <RouterLink
         to="/dashboard"
         class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
-        @click="selectedElement"
+        :class="{'bg-primary': selectedItem === item}"
+        @click="chooseItem(item)"
         v-for="(item, index) in sideBarItem" :key="index"
       >
         <!-- <LayoutDashboard :size="18" class="shrink-0" />
