@@ -5,6 +5,8 @@ import MainButton from "@/components/shared/MainButton.vue";
 import MainTable from "@/components/shared/MainTable.vue";
 import { useRouter } from "vue-router";
 import { useRoute } from 'vue-router';
+import { hasPermession } from "@/libs/permessions";
+import { useUserStore } from "@/stores/userStore";
 
 const departments = [
   { code: "CS", name: "Computer Science", subject_count: 12, description: "lorem" },
@@ -13,6 +15,7 @@ const departments = [
 
 const router = useRouter();
 const route = useRoute();
+const userStore = useUserStore();
 
 const createDep = () => {
   router.push({ name: "CreateDepartment" });
@@ -25,7 +28,9 @@ const createDep = () => {
     <ActionsBar title="Departments" description="lorem lorem">
       <div class="flex gap-2">
         <BaseInput type="search" placeholder="Search Department" class="h-10" />
-        <MainButton title="Create" @click="createDep" />
+        <MainButton
+        v-if="userStore.user && hasPermession(userStore.user, 'create:departments')"
+        title="Create" @click="createDep" />
       </div>
     </ActionsBar>
     <RouterView v-if="route.name=== 'CreateDepartment'" />
