@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
 import {  Home } from "lucide-vue-next"
+import { computed } from 'vue';
 
 
 const route = useRoute();
-const segments = route.path.split('/').filter(Boolean)
-
+const segments = computed(() => route.path.split('/').filter(Boolean))
 </script>
 
 <template>
