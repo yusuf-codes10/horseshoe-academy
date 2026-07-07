@@ -82,5 +82,5 @@ router.beforeEach(async (to) => {
   }
 })
 
-
+// TODO: we need to protect the routes from non admin users too
 export default router
