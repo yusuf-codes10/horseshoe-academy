@@ -13,6 +13,9 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   const pageQuery = c.req.query("page");
   const limitQuery = c.req.query("limit");
 
+  // implementing the ?includes param
+  const includes = c.req.query("includes")?.split(',') ?? [];
+
   const page = Number(pageQuery) || 1;
   const limit = Number(limitQuery) || 5;
   const skip = (page - 1) * limit;
