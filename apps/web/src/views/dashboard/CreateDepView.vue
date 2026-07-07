@@ -22,7 +22,7 @@ const createDep = async () => {
     console.log(createdDep);
   } catch (err) {
     console.log(err);
-    error.value = err instanceof AxiosError ? err.response?.data.msg : String(err);
+    error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
   } finally {
     loading.value = false;
   }
