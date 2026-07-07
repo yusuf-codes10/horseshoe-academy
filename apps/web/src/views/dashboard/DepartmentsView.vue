@@ -28,7 +28,7 @@ if (userStore.user)  {
 }
 
 const fetchAllDeps = async () => {
-  const response = await api.post('/departments');
+  const response = await api.get('/departments');
   console.log(response);
 }
 
