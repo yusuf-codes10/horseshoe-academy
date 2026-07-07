@@ -24,6 +24,8 @@ if (userStore.user)  {
   console.log(`user role is"${userStore.user.role}"`)
   console.log(userStore.user);
 }
+
+// fetch the real departments first
 </script>
 
 <template>

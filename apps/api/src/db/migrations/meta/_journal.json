@@ -50,6 +50,13 @@
       "when": 1783184514675,
       "tag": "0006_fuzzy_gertrude_yorkes",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1783419127633,
+      "tag": "0007_previous_quicksilver",
+      "breakpoints": true
     }
   ]
 }

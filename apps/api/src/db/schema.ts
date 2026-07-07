@@ -55,6 +55,7 @@ export const departments = pgTable("departments", {
   id: bigserial("id", { mode: "number" }).primaryKey(),
   code: varchar("code", { length: 7 }).notNull().unique(),
   name: varchar("name", { length: 50 }).notNull(),
+  description: text('description')
 });
 
 export const subjects = pgTable("subjects", {
