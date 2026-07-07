@@ -4,7 +4,7 @@ import MainButton from "@/components/shared/MainButton.vue";
 import type { NewDepartment } from "@classroom/shared";
 import { ref } from "vue";
 import api from "@/services/api";
-// import { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 
 const code = ref("");
 const name = ref("");
@@ -26,7 +26,7 @@ const createDep = async () => {
     console.log(createdDep);
   } catch (err) {
     console.log(err);
-    error.value = err as string;
+    error.value = err instanceof AxiosError ? err.response?.data.msg : String(err)
   } finally {
     loading.value = false;
   }
