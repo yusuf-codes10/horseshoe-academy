@@ -24,8 +24,8 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   if (subjects_count) {
     counts = await db.select({depId: departments.id,
       count: count()})
-    .from(subjects)
-    .innerJoin(departments, eq(departments.id, subjects.departmentId))
+    .from(departments)
+    .leftJoin(subjects, eq(subjects.departmentId, departments.id))
     .groupBy(departments.id)
   }
 
