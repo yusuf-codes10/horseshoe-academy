@@ -28,7 +28,7 @@ if (userStore.user)  {
 }
 
 const fetchAllDeps = async () => {
-  const response = await api.get('/departments');
+  const response = await api.get('/departments?includes=subjects_count%2Cmessi');
   console.log(response.data);
 }
 
