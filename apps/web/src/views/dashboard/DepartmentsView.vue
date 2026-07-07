@@ -11,8 +11,8 @@ import { ref, onMounted } from 'vue';
 import api from '@/services/api';
 // import type { NewDepartment } from '@classroom/shared';
 
-const departments = ref<any[]>([]);
-const counts = ref<any[]>([]);
+const departments = ref([]);
+const counts = ref([]);
 
 const router = useRouter();
 const route = useRoute();
