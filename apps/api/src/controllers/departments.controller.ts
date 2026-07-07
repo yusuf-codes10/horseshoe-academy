@@ -20,8 +20,9 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   // destructuring that
   const [subjects_count ] = includes;
 
-  if (!subjects_count) {
-    await db.select({depId: departments.id,
+  let counts;
+  if (subjects_count) {
+    counts = await db.select({depId: departments.id,
       count: count()})
     .from(subjects)
     .innerJoin(departments, eq(departments.id, subjects.departmentId))
@@ -36,7 +37,7 @@ export const getAllDeps = factory.createHandlers(async (c) => {
     const deps = await db.select().from(departments);
     const filteredDeps = deps.slice(skip, skip + limit);
 
-    return c.json({ msg: "departemetns", filteredDeps });
+    return c.json({ msg: "departemetns", filteredDeps, counts});
   } catch (error) {
     console.log(error);
   }
