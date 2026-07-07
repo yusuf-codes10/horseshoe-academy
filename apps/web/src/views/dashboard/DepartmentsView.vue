@@ -41,6 +41,7 @@ const fetchAllDeps = async () => {
 };
 
 // fetch the real departments first
+// :TODO fix the type here later
 onMounted(async () => {
   const data = await fetchAllDeps();
   // console.log('data is', data.counts.map(c => c.count));
