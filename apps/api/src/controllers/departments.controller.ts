@@ -14,11 +14,11 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   const limitQuery = c.req.query("limit");
 
   // implementing the ?includes param
-  const includes = c.req.query("includes")?.split(',') ?? [];
+  const includes = c.req.query("includes")?.split(",") ?? [];
 
   console.log(includes);
   // destructuring that
-  const [subjects_count ] = includes;
+  const [subjects_count] = includes;
 
   let counts;
 
@@ -26,32 +26,34 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   const limit = Number(limitQuery) || 2;
   const skip = (page - 1) * limit;
 
-  if (subjects_count) {
-    counts = await db.select({depId: departments.id,
-      count: count()})
-    .from(departments)
-    .leftJoin(subjects, eq(subjects.departmentId, departments.id))
-    .groupBy(departments.id)
-    .limit(limit)
-    .offset(skip)
-  }
-
-
   try {
-    const deps = await db.select()
-    .from(departments)
-    .limit(limit)
-    .offset(skip);
+    if (subjects_count) {
+      counts = await db
+        .select({ depId: departments.id, count: count() })
+        .from(departments)
+        .leftJoin(subjects, eq(subjects.departmentId, departments.id))
+        .groupBy(departments.id)
+        .limit(limit)
+        .offset(skip)
+        .orderBy(departments.id);
+    }
+
+    const deps = await db
+      .select()
+      .from(departments)
+      .limit(limit)
+      .offset(skip)
+      .orderBy(departments.id);
     // const filteredDeps = deps.slice(skip, skip + limit);
 
-    return c.json({ msg: "departemetns", deps, counts});
+    return c.json({ msg: "departemetns", deps, counts });
   } catch (error) {
     console.log(error);
   }
 });
 
 export const getDepById = factory.createHandlers(async (c) => {
-  const id = Number(c.req.param('id'));
+  const id = Number(c.req.param("id"));
   try {
     const [dep] = await db
       .select()
@@ -60,7 +62,7 @@ export const getDepById = factory.createHandlers(async (c) => {
 
     if (!dep) throw new HTTPException(404, { message: "dep not found" });
 
-    return c.json({msg: 'found!', dep});
+    return c.json({ msg: "found!", dep });
   } catch (error) {
     if (error instanceof HTTPException) throw error;
     console.log(error);
