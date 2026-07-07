@@ -7,13 +7,12 @@ import { useRouter } from "vue-router";
 import { useRoute } from 'vue-router';
 import { hasPermession } from "@/libs/permessions";
 import { useUserStore } from "@/stores/userStore";
-import { onMounted } from 'vue';
+import { ref, onMounted } from 'vue';
 import api from '@/services/api';
+// import type { NewDepartment } from '@classroom/shared';
 
-const departments = [
-  { code: "CS", name: "Computer Science", subject_count: 12, description: "lorem" },
-  { code: "EE", name: "Electrical Engineering", subject_count: 8, description: "lorem" },
-];
+const departments = ref<any[]>([]);
+const counts = ref<any[]>([]);
 
 const router = useRouter();
 const route = useRoute();
@@ -29,12 +28,24 @@ if (userStore.user)  {
 
 const fetchAllDeps = async () => {
   const response = await api.get('/departments?includes=subjects_count%2Cmessi');
-  console.log(response.data);
+  console.log(response.data.deps);
+  console.log(response.data.counts);
+  // const departments: NewDepartment = response.data.deps;
+  // const counts = response.data.counts
+  // console.log(departments);
+  // console.log(counts);
+  return {
+    deps: response.data.deps,
+    counsts: response.data.counts
+  }
 }
 
 // fetch the real departments first
-onMounted(() => {
-  fetchAllDeps();
+onMounted(async() => {
+  const data = await fetchAllDeps();
+  console.log('data is', data);
+  departments.value = data.deps;
+  counts.value = data.counsts
 });
 </script>
 
