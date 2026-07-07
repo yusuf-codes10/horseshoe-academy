@@ -7,6 +7,8 @@ import { useRouter } from "vue-router";
 import { useRoute } from 'vue-router';
 import { hasPermession } from "@/libs/permessions";
 import { useUserStore } from "@/stores/userStore";
+import { onMounted } from 'vue';
+import api from '@/services/api';
 
 const departments = [
   { code: "CS", name: "Computer Science", subject_count: 12, description: "lorem" },
@@ -25,7 +27,15 @@ if (userStore.user)  {
   console.log(userStore.user);
 }
 
+const fetchAllDeps = async () => {
+  const response = await api.post('/departments');
+  console.log(response);
+}
+
 // fetch the real departments first
+onMounted(() => {
+  fetchAllDeps();
+});
 </script>
 
 <template>
