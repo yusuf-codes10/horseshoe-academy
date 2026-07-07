@@ -21,17 +21,21 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   const [subjects_count ] = includes;
 
   let counts;
+
+  const page = Number(pageQuery) || 2;
+  const limit = Number(limitQuery) || 2;
+  const skip = (page - 1) * limit;
+
   if (subjects_count) {
     counts = await db.select({depId: departments.id,
       count: count()})
     .from(departments)
     .leftJoin(subjects, eq(subjects.departmentId, departments.id))
     .groupBy(departments.id)
+    .limit(limit)
+    .offset(page)
   }
 
-  const page = Number(pageQuery) || 1;
-  const limit = Number(limitQuery) || 10;
-  const skip = (page - 1) * limit;
 
   try {
     const deps = await db.select().from(departments);
