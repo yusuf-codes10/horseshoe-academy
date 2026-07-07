@@ -75,6 +75,7 @@ export const createNewDepartment = factory.createHandlers(
   async (c) => {
     // grab user data
     const body = c.req.valid("json");
+    console.log('body', body);
 
     // check is the depratemnt is already in the databse
     try {

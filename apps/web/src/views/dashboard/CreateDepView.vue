@@ -1,32 +1,28 @@
 <script setup lang="ts">
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
-import type { NewDepartment } from "@classroom/shared";
+// import type { NewDepartment } from "@classroom/shared";
 import { ref } from "vue";
 import api from "@/services/api";
-import { AxiosError } from 'axios';
+import { AxiosError } from "axios";
 
 const code = ref("");
 const name = ref("");
 const loading = ref(false);
 const error = ref<string>("");
 
-const newDep = ref<NewDepartment | null>(null);
-
-newDep.value = {
-  code: code.value,
-  name: name.value,
-};
-
 // create a department
 const createDep = async () => {
   loading.value = true;
   try {
-    const createdDep = await api.post("/departments", newDep.value);
+    const createdDep = await api.post("/departments", {
+      code: code.value,
+      name: name.value,
+    });
     console.log(createdDep);
   } catch (err) {
     console.log(err);
-    error.value = err instanceof AxiosError ? err.response?.data.msg : String(err)
+    error.value = err instanceof AxiosError ? err.response?.data.msg : String(err);
   } finally {
     loading.value = false;
   }
@@ -47,7 +43,7 @@ const createDep = async () => {
       <div v-if="error">
         <p class="text-sm text-red-500">{{ error }}</p>
       </div>
-      <MainButton title="Create Department" type="submit" :loading="loading"/>
+      <MainButton title="Create Department" type="submit" :loading="loading" />
     </form>
   </div>
 </template>
