@@ -29,7 +29,7 @@ if (userStore.user)  {
 
 const fetchAllDeps = async () => {
   const response = await api.get('/departments');
-  console.log(response);
+  console.log(response.data);
 }
 
 // fetch the real departments first
