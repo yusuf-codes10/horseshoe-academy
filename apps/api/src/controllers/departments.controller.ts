@@ -22,7 +22,7 @@ export const getAllDeps = factory.createHandlers(async (c) => {
 
   let counts;
 
-  const page = Number(pageQuery) || 2;
+  const page = Number(pageQuery) || 3;
   const limit = Number(limitQuery) || 2;
   const skip = (page - 1) * limit;
 
@@ -33,15 +33,18 @@ export const getAllDeps = factory.createHandlers(async (c) => {
     .leftJoin(subjects, eq(subjects.departmentId, departments.id))
     .groupBy(departments.id)
     .limit(limit)
-    .offset(page)
+    .offset(skip)
   }
 
 
   try {
-    const deps = await db.select().from(departments);
-    const filteredDeps = deps.slice(skip, skip + limit);
+    const deps = await db.select()
+    .from(departments)
+    .limit(limit)
+    .offset(skip);
+    // const filteredDeps = deps.slice(skip, skip + limit);
 
-    return c.json({ msg: "departemetns", filteredDeps, counts});
+    return c.json({ msg: "departemetns", deps, counts});
   } catch (error) {
     console.log(error);
   }
