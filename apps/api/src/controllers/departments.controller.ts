@@ -3,8 +3,8 @@ import type { NewDepartment } from "@classroom/shared";
 import { insertDepartmentSchema } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
 import { db } from "@/db/index";
-import { departments } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { departments, subjects } from "@/db/schema";
+import { count, eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 
 const factory = createFactory<{ Variables: { department: NewDepartment } }>();
@@ -17,6 +17,16 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   const includes = c.req.query("includes")?.split(',') ?? [];
 
   console.log(includes);
+  // destructuring that
+  const [subjects_count ] = includes;
+
+  if (!subjects_count) {
+    await db.select({depId: departments.id,
+      count: count()})
+    .from(subjects)
+    .innerJoin(departments, eq(departments.id, subjects.departmentId))
+    .groupBy(departments.id)
+  }
 
   const page = Number(pageQuery) || 1;
   const limit = Number(limitQuery) || 5;
