@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { PropType } from 'vue';
+import { ref } from 'vue';
 
 type SelectOption = {
   value: string | number;
@@ -11,13 +12,15 @@ const props = defineProps({
     type: Array as PropType<SelectOption[]>
   }
 });
+
+const selectedRow = ref(10)
 </script>
 
 <template>
-  <div class="flex justify-end items-center">
+  <div class="flex justify-end items-center my-4">
     <!-- rows per page -->
     <label for="rows">Rows per page:</label>
-    <select id="rows" name="rows">
+    <select id="rows" name="rows"  v-model="selectedRow">
       <option v-for="e in props.elements" :key="e.value" :value="e.value">{{e.title}}</option>
     </select>
   </div>
