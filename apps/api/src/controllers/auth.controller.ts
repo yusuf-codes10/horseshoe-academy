@@ -69,14 +69,10 @@ export const registerUser = factory.createHandlers(
         // insert to db based on role
         // leaving teachers for later
         if (newUser?.role === "student") {
-          try {
             await db.insert(students).values({
               id: newUser.id,
             });
             console.log("student inserted successfully");
-          } catch (error) {
-            console.log("error inserting student", error);
-          }
         }
 
         console.log(newUser);
