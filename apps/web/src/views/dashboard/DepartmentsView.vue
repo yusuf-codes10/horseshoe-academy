@@ -9,6 +9,7 @@ import { hasPermession } from "@/libs/permessions";
 import { useUserStore } from "@/stores/userStore";
 import { ref, onMounted } from "vue";
 import api from "@/services/api";
+import PaginationBar from "@/components/shared/PaginationBar.vue";
 // import type { NewDepartment } from '@classroom/shared';
 
 const departments = ref([]);
@@ -17,6 +18,19 @@ const departments = ref([]);
 const router = useRouter();
 const route = useRoute();
 const userStore = useUserStore();
+
+const elements = [
+  {value: '1', title: '1'},
+  {value: '2', title: '2'},
+  {value: '3', title: '3'},
+  {value: '4', title: '4'},
+  {value: '5', title: '5'},
+  {value: '6', title: '6'},
+  {value: '7', title: '7'},
+  {value: '8', title: '8'},
+  {value: '9', title: '9'},
+  {value: '10', title: '10'}
+]
 
 const createDep = () => {
   router.push({ name: "CreateDepartment" });
@@ -82,5 +96,6 @@ onMounted(async () => {
       :data="departments"
       :loading="true"
     />
+    <PaginationBar :elements="elements"/>
   </div>
 </template>
