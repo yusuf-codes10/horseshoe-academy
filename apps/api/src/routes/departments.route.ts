@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { createNewDepartment, getAllDeps, getDepById } from '@/controllers/departments.controller';
 import { isAdmin } from '@/middlewares/admin';
+import { verifyToken } from '@/middlewares/verifyToken';
 
 const router = new Hono();
 
@@ -11,6 +12,6 @@ router.get('/', ...getAllDeps);
 router.get('/:id', ...getDepById);
 
 // create a departement
-router.post('/', isAdmin, ...createNewDepartment);
+router.post('/', verifyToken, isAdmin, ...createNewDepartment);
 
 export default router;

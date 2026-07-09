@@ -164,6 +164,7 @@ type JWTPayloadShape = {
   id: number;
   username: string;
   email: string;
+  role: string,
   exp: number;
 };
 
