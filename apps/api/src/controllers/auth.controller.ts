@@ -84,6 +84,8 @@ export const registerUser = factory.createHandlers(
           id: newUser.id,
           username: newUser.username,
           email: newUser.email,
+          // add the role here
+          role: newUser.role
         });
         return c.json({ user: newUser });
       } catch (dbError) {
@@ -138,6 +140,7 @@ export const logUserIn = factory.createHandlers(
           id: foundUser.id,
           username: foundUser.username,
           email: foundUser.email,
+          role: foundUser.role
         });
         console.log("actual user", foundUser);
         return c.json({ user: foundUser });
