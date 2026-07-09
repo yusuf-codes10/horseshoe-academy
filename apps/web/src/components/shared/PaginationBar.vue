@@ -1,6 +1,15 @@
 <script setup lang="ts">
+import type { PropType } from 'vue';
+
+type SelectOption = {
+  value: string | number;
+  title: string;
+}
+
 const props = defineProps({
-  elements: Array
+  elements: {
+    type: Array as PropType<SelectOption[]>
+  }
 });
 </script>
 
