@@ -2,7 +2,7 @@
 import { sign } from 'hono/jwt'
 import type { User } from '@classroom/shared';
 
-export const createToken = async (user:  Pick<User, 'id' | 'username' | 'email'>) => {
+export const createToken = async (user:  Pick<User, 'id' | 'username' | 'email'| 'role'>) => {
   const secret = process.env.JWT_SECRET
   if (!secret) throw new Error('JWT_SECRET is not defined')
 
@@ -11,6 +11,7 @@ export const createToken = async (user:  Pick<User, 'id' | 'username' | 'email'>
       id: user.id,
       username: user.username,
       email: user.email,
+      role: user.role,
       exp: Math.floor(Date.now() / 1000) + 60 * 60 * 24 * 7, // 7 days, matches your cookie maxAge
     },
     secret
