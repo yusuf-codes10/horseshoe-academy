@@ -5,7 +5,7 @@ import { signToken } from './signToken'
 
 export const issueSession = async (
   c: Context,
-  user: Pick<User, 'id' | 'username' | 'email'>
+  user: Pick<User, 'id' | 'username' | 'email' | 'role'>
 ) => {
   const token = await createToken(user)
   signToken(c, token)
