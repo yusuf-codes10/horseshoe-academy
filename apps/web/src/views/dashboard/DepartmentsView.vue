@@ -20,7 +20,7 @@ const route = useRoute();
 const userStore = useUserStore();
 
 const rows = ref(5);
-const count = ref(0)
+const count = ref(0);
 
 const createDep = () => {
   router.push({ name: "CreateDepartment" });
@@ -45,17 +45,21 @@ const fetchAllDeps = async () => {
 };
 
 // emit handler
-const setRows = (page) => {
-  rows.value = page
-}
+const setRows = async (page) => {
+  rows.value = page;
+  const data = await fetchAllDeps();
+  // console.log('data is', data.counts.map(c => c.count));
+  departments.value = data.deps;
+  count.value = data.depsCount;
+};
 
 // fetch the real departments first
 // :TODO fix the type here later
 onMounted(async () => {
   const data = await fetchAllDeps();
   // console.log('data is', data.counts.map(c => c.count));
-  departments.value = data.deps
-  count.value = data.depsCount
+  departments.value = data.deps;
+  count.value = data.depsCount;
   // .map((dep) => {
   //   const match = data.counts.find((c) => c.depId === dep.id);
   //   return {
@@ -64,7 +68,7 @@ onMounted(async () => {
   //   };
   // });
   console.log(departments.value);
-  console.log('count from dep', count.value);
+  console.log("count from dep", count.value);
 });
 </script>
 
@@ -94,6 +98,6 @@ onMounted(async () => {
       :data="departments"
       :loading="true"
     />
-    <PaginationBar v-if="count" :count="count" @sendPage="setRows"/>
+    <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
   </div>
 </template>
