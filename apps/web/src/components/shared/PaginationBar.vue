@@ -14,6 +14,7 @@ const props = defineProps({
 });
 
 const selectedRow = ref(10)
+// TODO: complete the pagination functionality
 </script>
 
 <template>
