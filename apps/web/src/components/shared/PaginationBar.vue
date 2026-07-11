@@ -13,6 +13,7 @@ const definePages = () => {
   if (props.count) {
     const percentage = props.count * 0.33;
     console.log('the percentage is: ', percentage);
+    return Math.round(percentage);
   }
 }
 
@@ -24,17 +25,11 @@ definePages();
 
 <template>
   <div class="flex justify-end items-center my-4">
-    <div class="w-10 h-10 border-2 p-2">
-      1
+    <div v-for="p in definePages()" :key="p" class="w-10 h-10 border-2 p-2 cursor-pointer hover:bg-primary">
+      {{ p }}
     </div>
-        <div class="w-10 h-10 border-2 p-2">
-      2
-    </div>    <div class="w-10 h-10 border-2 p-2">
-      3
-    </div>    <div class="w-10 h-10 border-2 p-2">
-      4
-    </div>
-        <div class="w-10 h-10 border-2 p-2">
+    ...
+        <div class="w-10 h-10 border-2 p-2 cursor-pointer hover:bg-primary">
       {{ props.count }}
     </div>
     <!-- rows per page -->
