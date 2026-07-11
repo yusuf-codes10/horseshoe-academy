@@ -14,33 +14,41 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   const limitQuery = c.req.query("limit");
 
   // implementing the ?includes param
-  const includes = c.req.query("includes")?.split(",") ?? [];
+  // const includes = c.req.query("includes")?.split(",") ?? [];
 
-  console.log(includes);
+  // console.log(includes);
   // destructuring that
-  const [subjects_count] = includes;
+  // const [subjects_count] = includes;
 
-  let counts;
+  // let counts;
 
   const page = Number(pageQuery) || 1;
   const limit = Number(limitQuery) || 10;
   const skip = (page - 1) * limit;
 
   try {
-    if (subjects_count) {
-      counts = await db
-        .select({ depId: departments.id, count: count(subjects.id) })
-        .from(departments)
-        .leftJoin(subjects, eq(subjects.departmentId, departments.id))
-        .groupBy(departments.id)
-        .limit(limit)
-        .offset(skip)
-        .orderBy(departments.id);
-    }
-
+    // if (subjects_count) {
+    // }
+    
+    // counts = await db
+    //   .select({ depId: departments.id, count: count(subjects.id) })
+    //   .from(departments)
+    //   .leftJoin(subjects, eq(subjects.departmentId, departments.id))
+    //   .groupBy(departments.id)
+    //   .limit(limit)
+    //   .offset(skip)
+    //   .orderBy(departments.id);
     const deps = await db
-      .select()
+      .select({
+        id: departments.id,
+        code: departments.code,
+        name: departments.name,
+        departments: departments.description,
+        subjectsCount: count(subjects.id)
+      })
       .from(departments)
+      .leftJoin(subjects, eq(subjects.departmentId, departments.id))
+      .groupBy(departments.id)
       .limit(limit)
       .offset(skip)
       .orderBy(departments.id);
@@ -48,7 +56,7 @@ export const getAllDeps = factory.createHandlers(async (c) => {
       const dopsCount = await db.$count(departments);
     // const filteredDeps = deps.slice(skip, skip + limit);
 
-    return c.json({ msg: "departemetns", deps, counts, dopsCount });
+    return c.json({ msg: "departemetns", deps, dopsCount });
   } catch (error) {
     console.log(error);
   }
