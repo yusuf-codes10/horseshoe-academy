@@ -45,14 +45,14 @@ if (userStore.user) {
 const fetchAllDeps = async () => {
   const response = await api.get(`/departments?page=1&limit=${rows}`);
   console.log(response.data.deps);
-  console.log(response.data.counts);
+  // console.log(response.data.counts);
   // const departments: NewDepartment = response.data.deps;
   // const counts = response.data.counts
   // console.log(departments);
   // console.log(counts);
   return {
     deps: response.data.deps,
-    counts: response.data.counts,
+    depsCount: response.data.depsCount,
   };
 };
 
@@ -61,14 +61,15 @@ const fetchAllDeps = async () => {
 onMounted(async () => {
   const data = await fetchAllDeps();
   // console.log('data is', data.counts.map(c => c.count));
-  departments.value = data.deps.map((dep) => {
-    const match = data.counts.find((c) => c.depId === dep.id);
-    return {
-      ...dep,
-      subjects_count: match?.count ?? 0,
-    };
-  });
-  console.log(departments.value);
+  departments.value = data.deps
+  // .map((dep) => {
+  //   const match = data.counts.find((c) => c.depId === dep.id);
+  //   return {
+  //     ...dep,
+  //     subjects_count: match?.count ?? 0,
+  //   };
+  // });
+  // console.log(departments.value);
 });
 </script>
 
