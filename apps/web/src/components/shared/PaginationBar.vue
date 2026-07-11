@@ -17,6 +17,22 @@ const definePages = () => {
   }
 }
 
+const next = () => {
+
+}
+
+const previous = () => {
+
+}
+
+const first = () => {
+
+}
+
+const last = () => {
+
+}
+
 definePages();
 
 // const selectedRow = ref(10)
