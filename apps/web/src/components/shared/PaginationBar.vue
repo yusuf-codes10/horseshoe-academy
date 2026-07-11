@@ -15,6 +15,19 @@ console.log('the count is', props.count);
 
 <template>
   <div class="flex justify-end items-center my-4">
+    <div class="w-10 h-10 border-2 p-2">
+      1
+    </div>
+        <div class="w-10 h-10 border-2 p-2">
+      2
+    </div>    <div class="w-10 h-10 border-2 p-2">
+      3
+    </div>    <div class="w-10 h-10 border-2 p-2">
+      4
+    </div>
+        <div class="w-10 h-10 border-2 p-2">
+      {{ props.count }}
+    </div>
     <!-- rows per page -->
     <!-- <label for="rows">Rows per page:</label>
     <select id="rows" name="rows"  v-model="props.rows">
