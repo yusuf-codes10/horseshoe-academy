@@ -27,13 +27,17 @@ const currentPage = ref(1);
 const definePages = computed(() => Math.ceil(props.count / 5));
 
 const next = () => {
-  currentPage.value++;
-  emit('sendPage', currentPage.value);
+  if (currentPage.value < definePages.value) {
+    currentPage.value++;
+    emit('sendPage', currentPage.value);
+  }
 };
 
 const previous = () => {
-  currentPage.value--;
-  emit('sendPage', currentPage.value);
+  if (currentPage.value > 1) {
+    currentPage.value--;
+    emit('sendPage', currentPage.value);
+  }
 };
 
 // const first = () => {
