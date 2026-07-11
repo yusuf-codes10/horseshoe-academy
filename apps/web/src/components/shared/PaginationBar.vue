@@ -1,6 +1,6 @@
 <script setup lang="ts">
 // import type { PropType } from 'vue';
-import { ref } from "vue";
+import { ref, computed } from "vue";
 
 const props = defineProps({
   count: {
@@ -24,14 +24,7 @@ const currentPage = ref(1);
 //   }
 // }
 
-const definePages = () => {
-  // we shoud use this as pages not limits
-  if (props.count) {
-    const pages = Math.round(props.count / 5);
-    console.log("the pages is: ", pages);
-    return pages;
-  }
-};
+const definePages = computed(() => Math.round(props.count / 5));
 
 const next = () => {
   currentPage.value++;
@@ -51,7 +44,6 @@ const previous = () => {
 
 // }
 
-definePages();
 
 // const selectedRow = ref(10)
 // TODO: complete the pagination functionality
@@ -61,7 +53,7 @@ definePages();
   <div class="flex justify-end items-center my-4 gap-1.5">
     <div
       @click="((currentPage = p), emit('sendPage', p))"
-      v-for="p in definePages()"
+      v-for="p in definePages"
       :key="p"
       class="w-10 h-10 border-2 p-2 cursor-pointer hover:bg-primary"
       :class="p === currentPage ? 'bg-primary' : ''"
