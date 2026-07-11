@@ -20,6 +20,7 @@ const route = useRoute();
 const userStore = useUserStore();
 
 const rows = ref(5);
+const page = ref(1);
 const count = ref(0);
 
 const createDep = () => {
@@ -31,7 +32,7 @@ if (userStore.user) {
 }
 
 const fetchAllDeps = async () => {
-  const response = await api.get(`/departments?page=1&limit=${rows.value}`);
+  const response = await api.get(`/departments?page=${page.value}&limit=${rows.value}`);
   console.log(response.data.deps);
   // console.log(response.data.counts);
   // const departments: NewDepartment = response.data.deps;
@@ -46,7 +47,7 @@ const fetchAllDeps = async () => {
 
 // emit handler
 const setRows = async (page) => {
-  rows.value = page;
+  page.value = page;
   const data = await fetchAllDeps();
   // console.log('data is', data.counts.map(c => c.count));
   departments.value = data.deps;
