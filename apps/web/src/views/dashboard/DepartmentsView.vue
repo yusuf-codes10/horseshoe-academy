@@ -32,6 +32,8 @@ const elements = [
   {value: '10', title: '10'}
 ]
 
+const rows = 5;
+
 const createDep = () => {
   router.push({ name: "CreateDepartment" });
 };
@@ -41,7 +43,7 @@ if (userStore.user) {
 }
 
 const fetchAllDeps = async () => {
-  const response = await api.get("/departments?includes=subjects_count%2Cmessi");
+  const response = await api.get(`/departments?page=1&limit=${rows}&includes=subjects_count%2Cmessi`);
   console.log(response.data.deps);
   console.log(response.data.counts);
   // const departments: NewDepartment = response.data.deps;
@@ -96,6 +98,6 @@ onMounted(async () => {
       :data="departments"
       :loading="true"
     />
-    <PaginationBar :elements="elements"/>
+    <PaginationBar :elements="elements" :rows="rows"/>
   </div>
 </template>
