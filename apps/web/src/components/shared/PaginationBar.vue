@@ -7,7 +7,7 @@ const props = defineProps({
   }
 });
 
-console.log('the count is', props.count);
+console.log('count from child', props.count);
 
 const definePages = () => {
   if (!props.count) {

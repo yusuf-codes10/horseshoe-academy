@@ -89,6 +89,6 @@ onMounted(async () => {
       :data="departments"
       :loading="true"
     />
-    <PaginationBar :count="count"/>
+    <PaginationBar v-if="count" :count="count"/>
   </div>
 </template>
