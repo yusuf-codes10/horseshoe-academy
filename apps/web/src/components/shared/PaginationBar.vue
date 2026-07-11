@@ -10,7 +10,7 @@ const props = defineProps({
 console.log('count from child', props.count);
 
 const definePages = () => {
-  if (!props.count) {
+  if (props.count) {
     const percentage = props.count * 0.33;
     console.log('the percentage is: ', percentage);
   }
