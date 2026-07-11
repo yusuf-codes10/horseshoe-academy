@@ -2,10 +2,12 @@
 // import type { PropType } from 'vue';
 
 const props = defineProps({
-  counst: {
+  count: {
     type: Number
   }
 });
+
+console.log('the count is', props.count);
 
 // const selectedRow = ref(10)
 // TODO: complete the pagination functionality

@@ -59,6 +59,7 @@ onMounted(async () => {
   //   };
   // });
   console.log(departments.value);
+  console.log('count from dep', count.value);
 });
 </script>
 
