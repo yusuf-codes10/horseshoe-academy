@@ -24,14 +24,17 @@ definePages();
 </script>
 
 <template>
-  <div class="flex justify-end items-center my-4">
+  <div class="flex justify-end items-center my-4 gap-1.5">
     <div v-for="p in definePages()" :key="p" class="w-10 h-10 border-2 p-2 cursor-pointer hover:bg-primary">
       {{ p }}
     </div>
     ...
-        <div class="w-10 h-10 border-2 p-2 cursor-pointer hover:bg-primary">
+    <div class="w-10 h-10 border-2 p-2 cursor-pointer hover:bg-primary">
       {{ props.count }}
     </div>
+
+    <button class="border-2 p-2 cursor-pointer hover:bg-primary">Next ></button>
+    <button class="border-2 p-2 cursor-pointer hover:bg-primary">Previous >></button>
     <!-- rows per page -->
     <!-- <label for="rows">Rows per page:</label>
     <select id="rows" name="rows"  v-model="props.rows">
