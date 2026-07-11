@@ -35,10 +35,12 @@ const definePages = () => {
 
 const next = () => {
   currentPage.value++;
+  emit('sendPage', currentPage.value);
 };
 
 const previous = () => {
   currentPage.value--;
+  emit('sendPage', currentPage.value);
 };
 
 // const first = () => {
