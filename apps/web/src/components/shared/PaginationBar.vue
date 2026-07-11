@@ -24,7 +24,7 @@ const currentPage = ref(1);
 //   }
 // }
 
-const definePages = computed(() => Math.round(props.count / 5));
+const definePages = computed(() => Math.ceil(props.count / 5));
 
 const next = () => {
   currentPage.value++;
