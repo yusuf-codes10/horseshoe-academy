@@ -44,6 +44,11 @@ const fetchAllDeps = async () => {
   };
 };
 
+// emit handler
+const setRows = (page) => {
+  rows.value = page
+}
+
 // fetch the real departments first
 // :TODO fix the type here later
 onMounted(async () => {
@@ -89,6 +94,6 @@ onMounted(async () => {
       :data="departments"
       :loading="true"
     />
-    <PaginationBar v-if="count" :count="count"/>
+    <PaginationBar v-if="count" :count="count" @sendPage="setRows"/>
   </div>
 </template>
