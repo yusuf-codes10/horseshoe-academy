@@ -46,8 +46,8 @@ const fetchAllDeps = async () => {
 };
 
 // emit handler
-const setRows = async (page) => {
-  page.value = page;
+const setRows = async (payload) => {
+  page.value = payload;
   const data = await fetchAllDeps();
   // console.log('data is', data.counts.map(c => c.count));
   departments.value = data.deps;
