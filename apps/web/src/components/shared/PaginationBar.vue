@@ -1,13 +1,22 @@
 <script setup lang="ts">
 // import type { PropType } from 'vue';
-
 const props = defineProps({
   count: {
-    type: Number
+    type: Number,
+    default: 1
   }
 });
 
 console.log('the count is', props.count);
+
+const definePages = () => {
+  if (!props.count) {
+    const percentage = props.count * 0.33;
+    console.log('the percentage is: ', percentage);
+  }
+}
+
+definePages();
 
 // const selectedRow = ref(10)
 // TODO: complete the pagination functionality
