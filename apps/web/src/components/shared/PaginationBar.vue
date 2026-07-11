@@ -1,5 +1,7 @@
 <script setup lang="ts">
 // import type { PropType } from 'vue';
+import { ref } from 'vue';
+
 const props = defineProps({
   count: {
     type: Number,
@@ -8,6 +10,8 @@ const props = defineProps({
 });
 
 console.log('count from child', props.count);
+
+const currentPage = ref(1)
 
 const definePages = () => {
   if (props.count) {
@@ -18,11 +22,11 @@ const definePages = () => {
 }
 
 const next = () => {
-
+  currentPage.value ++;
 }
 
 const previous = () => {
-
+  currentPage.value --;
 }
 
 const first = () => {
@@ -49,8 +53,8 @@ definePages();
       {{ props.count }}
     </div>
 
-    <button class="border-2 p-2 cursor-pointer hover:bg-primary">Next ></button>
-    <button class="border-2 p-2 cursor-pointer hover:bg-primary">Previous >></button>
+    <button @click="next" class="border-2 p-2 cursor-pointer hover:bg-primary">Next ></button>
+    <button @click="previous" class="border-2 p-2 cursor-pointer hover:bg-primary">Previous >></button>
     <!-- rows per page -->
     <!-- <label for="rows">Rows per page:</label>
     <select id="rows" name="rows"  v-model="props.rows">
