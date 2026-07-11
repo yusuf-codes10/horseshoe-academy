@@ -69,7 +69,7 @@ onMounted(async () => {
   //     subjects_count: match?.count ?? 0,
   //   };
   // });
-  // console.log(departments.value);
+  console.log(departments.value);
 });
 </script>
 
@@ -92,7 +92,7 @@ onMounted(async () => {
       :columns="[
         { key: 'code', label: 'Code' },
         { key: 'name', label: 'Name' },
-        { key: 'subjects_count', label: 'Subjects' },
+        { key: 'subjectsCount', label: 'Subjects' },
         { key: 'description', label: 'Description' },
         { key: 'details', label: 'Details' },
       ]"
