@@ -53,10 +53,10 @@ export const getAllDeps = factory.createHandlers(async (c) => {
       .offset(skip)
       .orderBy(departments.id);
 
-      const dopsCount = await db.$count(departments);
+      const depsCount = await db.$count(departments);
     // const filteredDeps = deps.slice(skip, skip + limit);
 
-    return c.json({ msg: "departemetns", deps, dopsCount });
+    return c.json({ msg: "departemetns", deps, depsCount });
   } catch (error) {
     console.log(error);
   }

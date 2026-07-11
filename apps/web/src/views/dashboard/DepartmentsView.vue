@@ -43,7 +43,7 @@ if (userStore.user) {
 }
 
 const fetchAllDeps = async () => {
-  const response = await api.get(`/departments?page=1&limit=${rows}&includes=subjects_count%2Cmessi`);
+  const response = await api.get(`/departments?page=1&limit=${rows}`);
   console.log(response.data.deps);
   console.log(response.data.counts);
   // const departments: NewDepartment = response.data.deps;
