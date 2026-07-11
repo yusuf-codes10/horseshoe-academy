@@ -19,20 +19,8 @@ const router = useRouter();
 const route = useRoute();
 const userStore = useUserStore();
 
-const elements = [
-  {value: '1', title: '1'},
-  {value: '2', title: '2'},
-  {value: '3', title: '3'},
-  {value: '4', title: '4'},
-  {value: '5', title: '5'},
-  {value: '6', title: '6'},
-  {value: '7', title: '7'},
-  {value: '8', title: '8'},
-  {value: '9', title: '9'},
-  {value: '10', title: '10'}
-]
-
 const rows = 5;
+const count = ref(0)
 
 const createDep = () => {
   router.push({ name: "CreateDepartment" });
@@ -62,6 +50,7 @@ onMounted(async () => {
   const data = await fetchAllDeps();
   // console.log('data is', data.counts.map(c => c.count));
   departments.value = data.deps
+  count.value = data.depsCount
   // .map((dep) => {
   //   const match = data.counts.find((c) => c.depId === dep.id);
   //   return {
@@ -99,6 +88,6 @@ onMounted(async () => {
       :data="departments"
       :loading="true"
     />
-    <PaginationBar :elements="elements" :rows="rows"/>
+    <PaginationBar :count="count"/>
   </div>
 </template>
