@@ -9,6 +9,8 @@ const props = defineProps({
   }
 });
 
+const emit = defineEmits(['sendPage'])
+
 console.log('count from child', props.count);
 
 const currentPage = ref(1)
@@ -45,7 +47,7 @@ definePages();
 
 <template>
   <div class="flex justify-end items-center my-4 gap-1.5">
-    <div @click="currentPage = p" v-for="p in definePages()" :key="p" class="w-10 h-10 border-2 p-2 cursor-pointer hover:bg-primary"
+    <div @click="currentPage = p, emit('sendPage', p)" v-for="p in definePages()" :key="p" class="w-10 h-10 border-2 p-2 cursor-pointer hover:bg-primary"
     :class="p === currentPage ? 'bg-primary' : ''"
     >
       {{ p }}
