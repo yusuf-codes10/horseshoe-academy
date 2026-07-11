@@ -87,18 +87,19 @@ onMounted(async () => {
       </div>
     </ActionsBar>
     <RouterView v-if="route.name === 'CreateDepartment'" />
-    <MainTable
-      v-else
-      :columns="[
-        { key: 'code', label: 'Code' },
-        { key: 'name', label: 'Name' },
-        { key: 'subjectsCount', label: 'Subjects' },
-        { key: 'description', label: 'Description' },
-        { key: 'details', label: 'Details' },
-      ]"
-      :data="departments"
-      :loading="true"
-    />
-    <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
+    <div v-else>
+      <MainTable
+        :columns="[
+          { key: 'code', label: 'Code' },
+          { key: 'name', label: 'Name' },
+          { key: 'subjectsCount', label: 'Subjects' },
+          { key: 'description', label: 'Description' },
+          { key: 'details', label: 'Details' },
+        ]"
+        :data="departments"
+        :loading="true"
+      />
+      <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
+    </div>
   </div>
 </template>
