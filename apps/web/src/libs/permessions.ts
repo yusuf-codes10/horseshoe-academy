@@ -14,7 +14,7 @@ export const ROLES = {
     "create:departments"
   ],
   student: [
-    "view:departments"
+    "view:classes"
   ],
   teacher: [
     "view:departments"
