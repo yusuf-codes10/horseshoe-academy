@@ -11,6 +11,16 @@ import CreateDepView from '@/views/dashboard/CreateDepView.vue'
 import CreateSubjectView from '@/views/dashboard/CreateSubjectView.vue'
 import { hasPermession } from '@/libs/permessions';
 
+import type { Permession } from '@/libs/permessions';
+
+declare module 'vue-router' {
+  interface RouteMeta {
+    requiresAuth?: boolean,
+    guestOnly?: boolean,
+    permission?: Permession
+  }
+}
+
 const routes = [
   {
     path: '/',
