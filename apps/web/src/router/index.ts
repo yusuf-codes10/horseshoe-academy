@@ -55,7 +55,7 @@ const routes = [
         path: 'departments',
         name: 'Departments',
         component: DepartmentsView,
-        meta: { requiresAuth: true, permission: 'view:department'},
+        meta: { requiresAuth: true, permission: 'view:departments'},
         children: [
           {
             path: 'create',
