@@ -15,10 +15,11 @@ const subjects = ref([]);
 const getAllSubjects = async () => {
   const response = await api.get('/subject?page=1&limit=2');
   console.log(response.data.subs);
+  return response.data.subs;
 }
 
 onMounted(async () => {
-  await getAllSubjects();
+  subjects.value = await getAllSubjects();
 })
 </script>
 
@@ -39,7 +40,7 @@ onMounted(async () => {
         {key: 'id', label: 'ID'},
         {key: 'name', label: 'Name'},
         {key: 'description', label: 'Description'},
-        {key: 'depID', label: 'Department ID'}
+        {key: 'departmentId', label: 'Department ID'}
       ]"
       :data="subjects"
       :loading="true"
