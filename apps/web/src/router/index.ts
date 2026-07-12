@@ -103,7 +103,7 @@ router.beforeEach(async (to) => {
 
   // guard routes for the roles
   if (to.meta.permission && authStore.user && !hasPermession(authStore.user, to.meta.permission)) {
-  return { name: 'Unauthorized' } // or redirect wherever makes sense
+  return { name: 'DashboardHome' } // or redirect wherever makes sense
 }
 })
 
