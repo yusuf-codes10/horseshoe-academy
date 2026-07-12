@@ -3,6 +3,7 @@ import ActionsBar from "@/components/shared/ActionsBar.vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import { useUserStore } from "@/stores/userStore";
+import { useRouter } from "vue-router";
 import { hasPermession } from "@/libs/permessions";
 import MainTable from "@/components/shared/MainTable.vue";
 import api from '@/services/api';
@@ -10,20 +11,33 @@ import { ref, onMounted } from 'vue';
 import PaginationBar from "@/components/shared/PaginationBar.vue";
 
 const userStore = useUserStore();
+const router = useRouter();
 
 const subjects = ref([]);
 
 const rows = ref(5);
 const page = ref(1);
+const count = ref(0)
+
+const createSubject = () => {
+  router.push({name: 'CreateSubject'})
+}
 
 const getAllSubjects = async () => {
   const response = await api.get(`/subjects?page=${page.value}&limit=${rows.value}`);
   console.log(response.data.subs);
-  return response.data.subs;
+  return {
+    subs: response.data.subs,
+    subsCount: response.data.subjectsCount
+  };
 }
 
 onMounted(async () => {
-  subjects.value = await getAllSubjects();
+  const {subs, subsCount} = await getAllSubjects();
+  subjects.value = subs;
+  count.value = subsCount;
+  console.log('subjects: ', subjects.value);
+  console.log('subjects count: ', count.value);
 })
 </script>
 
@@ -35,6 +49,7 @@ onMounted(async () => {
         <MainButton
           v-if="userStore.user && hasPermession(userStore.user, 'create:departments')"
           title="Create"
+          @click="createSubject"
         />
       </div>
     </ActionsBar>
@@ -49,8 +64,6 @@ onMounted(async () => {
       :data="subjects"
       :loading="true"
     />
-    <PaginationBar />
-      <PaginationBar v-if="count" :count="count" />
-
+    <PaginationBar v-if="count" :count="count" />
   </div>
 </template>
