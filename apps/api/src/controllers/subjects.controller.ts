@@ -126,8 +126,10 @@ export const getAllSubjects = factory.createHandlers(
     try {
       const subs = await db.select()
       .from(subjects)
+      .groupBy(subjects.id)
       .limit(limit)
       .offset(skip)
+      .orderBy(subjects.id)
       return c.json({msg: 'subjects', subs});
     } catch (error) {
       console.log(error);
