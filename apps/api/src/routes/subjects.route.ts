@@ -7,7 +7,7 @@ const router = new Hono();
 router.post('/', ...createSubjectForDepartment);
 
 // get subject by dep id
-router.get('/', ...getSubjectByDepId);
+router.get('/:depId', ...getSubjectByDepId);
 
 // get all subjects
 router.get('/', )
