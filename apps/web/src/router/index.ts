@@ -8,6 +8,7 @@ import DashHomeView from '@/views/dashboard/HomeView.vue'
 import DepartmentsView from '@/views/dashboard/DepartmentsView.vue'
 import SubjectsView from '@/views/dashboard/SubjectsView.vue'
 import CreateDepView from '@/views/dashboard/CreateDepView.vue'
+import CreateSubjectView from '@/views/dashboard/CreateSubjectView.vue'
 
 const routes = [
   {
@@ -54,7 +55,14 @@ const routes = [
       {
         path: 'subjects',
         name: 'Subjects',
-        component: SubjectsView
+        component: SubjectsView,
+        children: [
+          {
+            path: 'create',
+            name: 'CreateSubject',
+            component: CreateSubjectView
+          }
+        ]
       }
     ]
   }
