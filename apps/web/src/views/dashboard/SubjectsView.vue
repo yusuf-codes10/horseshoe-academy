@@ -7,13 +7,17 @@ import { hasPermession } from "@/libs/permessions";
 import MainTable from "@/components/shared/MainTable.vue";
 import api from '@/services/api';
 import { ref, onMounted } from 'vue';
+import PaginationBar from "@/components/shared/PaginationBar.vue";
 
 const userStore = useUserStore();
 
 const subjects = ref([]);
 
+const rows = ref(5);
+const page = ref(1);
+
 const getAllSubjects = async () => {
-  const response = await api.get('/subject?page=1&limit=2');
+  const response = await api.get(`/subjects?page=${page.value}&limit=${rows.value}`);
   console.log(response.data.subs);
   return response.data.subs;
 }
@@ -45,5 +49,8 @@ onMounted(async () => {
       :data="subjects"
       :loading="true"
     />
+    <PaginationBar />
+      <PaginationBar v-if="count" :count="count" />
+
   </div>
 </template>
