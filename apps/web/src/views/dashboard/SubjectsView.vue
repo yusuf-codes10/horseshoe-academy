@@ -34,6 +34,15 @@ const getAllSubjects = async () => {
   };
 }
 
+// emit handler
+const setRows = async (payload: number) => {
+  page.value = payload;
+  const data = await getAllSubjects();
+
+  subjects.value = data.subs;
+  count.value = data.subsCount;
+}
+
 onMounted(async () => {
   const {subs, subsCount} = await getAllSubjects();
   subjects.value = subs;
@@ -68,7 +77,7 @@ onMounted(async () => {
         :data="subjects"
         :loading="true"
       />
-      <PaginationBar v-if="count" :count="count" />
+      <PaginationBar v-if="count" :count="count" @sendPage="setRows"/>
     </div>
   </div>
 </template>
