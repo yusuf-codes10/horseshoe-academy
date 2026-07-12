@@ -118,7 +118,7 @@ export const getSubjectById = factory.createHandlers(
 export const getAllSubjects = factory.createHandlers(
   async (c) => {
     try {
-      const subs = db.select()
+      const subs = await db.select()
       .from(subjects)
       return c.json({msg: 'subjects', subs});
     } catch (error) {
