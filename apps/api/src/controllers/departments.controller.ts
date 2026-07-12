@@ -29,7 +29,6 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   try {
     // if (subjects_count) {
     // }
-    
     // counts = await db
     //   .select({ depId: departments.id, count: count(subjects.id) })
     //   .from(departments)

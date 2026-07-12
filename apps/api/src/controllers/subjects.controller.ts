@@ -113,3 +113,16 @@ export const getSubjectById = factory.createHandlers(
     }
   }
 );
+
+// get all subjects
+export const getAllSubjects = factory.createHandlers(
+  async (c) => {
+    try {
+      const subs = db.select()
+      .from(subjects)
+      return c.json({msg: 'subjects', subs});
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
