@@ -13,7 +13,7 @@ export const createSubjectForDepartment = factory.createHandlers(
   zValidator("json", insertSubjectSchemaWithDepCode),
   async (c) => {
     // grab the dep is
-    const depId = Number(c.req.param("id"));
+    // const depId = Number(c.req.param("id"));
 
     // grab credentials from the body
     const body = c.req.valid("json");
@@ -23,7 +23,7 @@ export const createSubjectForDepartment = factory.createHandlers(
       const [dep] = await db
         .select()
         .from(departments)
-        .where(eq(departments.id, depId));
+        .where(eq(departments.code, body.departmentCode));
 
       if (!dep)
         throw new HTTPException(404, { message: "departmnet does not exist!" })
@@ -33,7 +33,7 @@ export const createSubjectForDepartment = factory.createHandlers(
         .values({
           name: body.name,
           description: body.description,
-          departmentId: depId,
+          departmentId: dep.id,
         })
         .returning();
       return c.json(subject);
