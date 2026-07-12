@@ -5,8 +5,21 @@ import MainButton from "@/components/shared/MainButton.vue";
 import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
 import MainTable from "@/components/shared/MainTable.vue";
+import api from '@/services/api';
+import { ref, onMounted } from 'vue';
 
 const userStore = useUserStore();
+
+const subjects = ref([]);
+
+const getAllSubjects = async () => {
+  const response = await api.get('/subject?page=1&limit=2');
+  console.log(response.data.subs);
+}
+
+onMounted(async () => {
+  await getAllSubjects();
+})
 </script>
 
 <template>
@@ -28,7 +41,7 @@ const userStore = useUserStore();
         {key: 'description', label: 'Description'},
         {key: 'depID', label: 'Department ID'}
       ]"
-      :data="[]"
+      :data="subjects"
       :loading="true"
     />
   </div>
