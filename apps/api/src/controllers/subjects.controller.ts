@@ -129,8 +129,10 @@ export const getAllSubjects = factory.createHandlers(
       .groupBy(subjects.id)
       .limit(limit)
       .offset(skip)
-      .orderBy(subjects.id)
-      return c.json({msg: 'subjects', subs});
+      .orderBy(subjects.id);
+
+      const subjectsCount = await db.$count(subjects)
+      return c.json({msg: 'subjects', subs, subjectsCount});
     } catch (error) {
       console.log(error);
     }
