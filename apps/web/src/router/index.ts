@@ -9,6 +9,7 @@ import DepartmentsView from '@/views/dashboard/DepartmentsView.vue'
 import SubjectsView from '@/views/dashboard/SubjectsView.vue'
 import CreateDepView from '@/views/dashboard/CreateDepView.vue'
 import CreateSubjectView from '@/views/dashboard/CreateSubjectView.vue'
+import { hasPermession } from '@/libs/permessions';
 
 const routes = [
   {
@@ -44,6 +45,7 @@ const routes = [
         path: 'departments',
         name: 'Departments',
         component: DepartmentsView,
+        meta: { requiresAuth: true, permission: 'view:department'},
         children: [
           {
             path: 'create',
@@ -88,6 +90,11 @@ router.beforeEach(async (to) => {
   if (to.meta.guestOnly && authStore.user) {
     return { name: 'Dashboard' }
   }
+
+  // guard routes for the roles
+  if (to.meta.permission && !hasPermession(authStore.user, to.meta.permission)) {
+  return { name: 'Unauthorized' } // or redirect wherever makes sense
+}
 })
 
 // TODO: we need to protect the routes from non admin users too
