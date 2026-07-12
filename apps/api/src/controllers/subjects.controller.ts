@@ -1,7 +1,7 @@
 import { createFactory } from "hono/factory";
 import type { NewSubject } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
-import { insertSubjectSchema } from "@classroom/shared";
+import { insertSubjectSchemaWithDepCode } from "@classroom/shared";
 import { db } from "@/db/index";
 import { departments, subjects } from "@/db/schema";
 import { eq } from "drizzle-orm";
@@ -10,7 +10,7 @@ import { HTTPException } from "hono/http-exception";
 const factory = createFactory<{ Variables: { subject: NewSubject } }>();
 
 export const createSubjectForDepartment = factory.createHandlers(
-  zValidator("json", insertSubjectSchema),
+  zValidator("json", insertSubjectSchemaWithDepCode),
   async (c) => {
     // grab the dep is
     const depId = Number(c.req.param("id"));
@@ -18,6 +18,7 @@ export const createSubjectForDepartment = factory.createHandlers(
     // grab credentials from the body
     const body = c.req.valid("json");
     try {
+      // we should find department by the code
       // make sure the dep exists
       const [dep] = await db
         .select()
@@ -25,7 +26,7 @@ export const createSubjectForDepartment = factory.createHandlers(
         .where(eq(departments.id, depId));
 
       if (!dep)
-        throw new HTTPException(404, { message: "departmnet does not exist!" });
+        throw new HTTPException(404, { message: "departmnet does not exist!" })
 
       const [subject] = await db
         .insert(subjects)

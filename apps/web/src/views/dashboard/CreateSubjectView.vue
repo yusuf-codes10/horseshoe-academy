@@ -17,7 +17,7 @@ const createSubject = async () => {
   try {
     const response = await api.post('/subjects', {
       name: name.value,
-      code: code.value,
+      departmentCode: code.value,
       description: description.value
     });
     console.log(response);

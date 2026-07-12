@@ -25,6 +25,7 @@ export const insertDepartmentSchema = createInsertSchema(departments).omit({ id:
 // Subjects
 export const selectSubjectSchema = createSelectSchema(subjects);
 export const insertSubjectSchema = createInsertSchema(subjects).omit({ id: true })
+export const insertSubjectSchemaWithDepCode = insertSubjectSchema.extend({departmentCode: z.string()});
 
 // Classes
 export const selectClassSchema = createSelectSchema(classes);
