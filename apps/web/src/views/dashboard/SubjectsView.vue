@@ -25,7 +25,8 @@ const userStore = useUserStore();
       :columns="[
         {key: 'id', label: 'ID'},
         {key: 'name', label: 'Name'},
-        {key: 'description', label: 'Description'}
+        {key: 'description', label: 'Description'},
+        {key: 'depID', label: 'Department ID'}
       ]"
       :data="[]"
       :loading="true"

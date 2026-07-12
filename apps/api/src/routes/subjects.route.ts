@@ -9,6 +9,9 @@ router.post('/', ...createSubjectForDepartment);
 // get subject by dep id
 router.get('/', ...getSubjectByDepId);
 
+// get all subjects
+router.get('/', )
+
 // delete subject
 router.delete('/:subjectId', ...deleteSujectById);
 
