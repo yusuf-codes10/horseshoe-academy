@@ -4,6 +4,7 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
+import { useRoute } from 'vue-router';
 import { hasPermession } from "@/libs/permessions";
 import MainTable from "@/components/shared/MainTable.vue";
 import api from '@/services/api';
@@ -12,6 +13,7 @@ import PaginationBar from "@/components/shared/PaginationBar.vue";
 
 const userStore = useUserStore();
 const router = useRouter();
+const route = useRoute();
 
 const subjects = ref([]);
 
@@ -54,16 +56,19 @@ onMounted(async () => {
       </div>
     </ActionsBar>
 
-    <MainTable
-      :columns="[
-        {key: 'id', label: 'ID'},
-        {key: 'name', label: 'Name'},
-        {key: 'description', label: 'Description'},
-        {key: 'departmentId', label: 'Department ID'}
-      ]"
-      :data="subjects"
-      :loading="true"
-    />
-    <PaginationBar v-if="count" :count="count" />
+    <RouterView v-if="route.name === 'CreateSubject'"/>
+    <div v-else>
+      <MainTable
+        :columns="[
+          {key: 'id', label: 'ID'},
+          {key: 'name', label: 'Name'},
+          {key: 'description', label: 'Description'},
+          {key: 'departmentId', label: 'Department ID'}
+        ]"
+        :data="subjects"
+        :loading="true"
+      />
+      <PaginationBar v-if="count" :count="count" />
+    </div>
   </div>
 </template>
