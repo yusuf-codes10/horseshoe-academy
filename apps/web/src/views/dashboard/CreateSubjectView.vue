@@ -12,7 +12,7 @@ const createSubject = () => {
 </script>
 
 <template>
-    <h1 class="title">Create Department</h1>
+    <h1 class="title">Create Subject</h1>
   <div class="flex justify-center items-center mx-4">
     <form
       @submit.prevent="createSubject"
@@ -20,6 +20,8 @@ const createSubject = () => {
     >
       <label for="code">Subject name *</label>
       <BaseInput type="text" id="code" name="code" placeholder="Calculus I" />
+      <label for="">Department Code *</label>
+      <BaseInput type="text" placeholder="MATH"/>
       <label for="name">Subject Description</label>
       <BaseInput type="text" id="name" placeholder="Description..." />
       <div v-if="error">
