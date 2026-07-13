@@ -132,7 +132,7 @@ export const getAllSubjects = factory.createHandlers(
       .offset(skip)
       .orderBy(subjects.id);
 
-      const subjectsCount = await db.$count(subjects)
+      const subjectsCount = await db.$count(subjects);
       return c.json({msg: 'subjects', subs, subjectsCount});
     } catch (error) {
       console.log(error);

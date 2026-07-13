@@ -172,7 +172,9 @@ export const getAllClasses = factory.createHandlers(
       // .from(subjects)
       // .where(eq(subjects.id, ))
 
-      return c.json({msg: 'classes: ', fetchedClasses});
+      const classesCount = await db.$count(classes);
+
+      return c.json({msg: 'classes: ', fetchedClasses, classesCount});
     } catch (error) {
       console.log(error);
     }
