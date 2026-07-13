@@ -5,10 +5,10 @@ import RegisterView from '@/views/RegisterView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/userStore'
 import DashHomeView from '@/views/dashboard/HomeView.vue'
-import DepartmentsView from '@/views/dashboard/DepartmentsView.vue'
-import SubjectsView from '@/views/dashboard/SubjectsView.vue'
-import CreateDepView from '@/views/dashboard/CreateDepView.vue'
-import CreateSubjectView from '@/views/dashboard/CreateSubjectView.vue'
+import DepartmentsView from '@/views/dashboard/department/DepartmentsView.vue'
+import SubjectsView from '@/views/dashboard/subject/SubjectsView.vue'
+import CreateDepView from '@/views/dashboard/department/CreateDepView.vue'
+import CreateSubjectView from '@/views/dashboard/subject/CreateSubjectView.vue'
 import { hasPermession } from '@/libs/permessions';
 
 import type { Permession } from '@/libs/permessions';
