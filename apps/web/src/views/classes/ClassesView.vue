@@ -49,7 +49,7 @@ onMounted(async () => {
         {key: 'subjectName', label: 'Subject Name'},
         {key: 'teacherId', label: 'Teacher Id'},
       ]"
-      :data="[]"
+      :data="classes"
       :loading="false"
     />
   </div>
