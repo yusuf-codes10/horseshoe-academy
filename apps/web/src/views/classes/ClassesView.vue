@@ -11,13 +11,15 @@ import { ref, onMounted} from 'vue';
 const userStore = useUserStore();
 
 const classes = ref([])
+const count = ref(0)
 
 const fetchAllClasses = async () => {
   try {
     const response = await api.get('/classes');
     console.log(response.data.fetchedClasses);
     return {
-      allClasses: response.data.fetchedClasses
+      allClasses: response.data.fetchedClasses,
+      classesCount: response.data.classesCount
     }
   } catch (error) {
     console.log(error);
@@ -25,8 +27,9 @@ const fetchAllClasses = async () => {
 }
 
 onMounted(async () => {
-  const { allClasses} = await fetchAllClasses() ?? {allClasses: []};
-  classes.value = allClasses
+  const { allClasses, classesCount} = await fetchAllClasses() ?? {allClasses: []};
+  classes.value = allClasses;
+  count.value = classesCount;
 })
 </script>
 
@@ -42,15 +45,17 @@ onMounted(async () => {
       </div>
     </ActionsBar>
 
-    <MainTable
-      :columns="[
-        {key: 'id', label: 'ID'},
-        {key: 'capacity', label: 'Capacity'},
-        {key: 'subjectName', label: 'Subject Name'},
-        {key: 'teacherId', label: 'Teacher Id'},
-      ]"
-      :data="classes"
-      :loading="false"
-    />
+    <div>
+      <MainTable
+        :columns="[
+          {key: 'id', label: 'ID'},
+          {key: 'capacity', label: 'Capacity'},
+          {key: 'subjectName', label: 'Subject Name'},
+          {key: 'teacherId', label: 'Teacher Id'},
+        ]"
+        :data="classes"
+        :loading="false"
+      />
+    </div>
   </div>
 </template>
