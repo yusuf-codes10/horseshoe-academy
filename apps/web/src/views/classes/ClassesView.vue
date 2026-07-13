@@ -5,8 +5,29 @@ import { hasPermession } from "@/libs/permessions";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import MainTable from "@/components/shared/MainTable.vue";
+import api from '@/services/api';
+import { ref, onMounted} from 'vue';
 
 const userStore = useUserStore();
+
+const classes = ref([])
+
+const fetchAllClasses = async () => {
+  try {
+    const response = await api.get('/classes');
+    console.log(response.data.fetchedClasses);
+    return {
+      allClasses: response.data.fetchedClasses
+    }
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+onMounted(async () => {
+  const { allClasses} = await fetchAllClasses() ?? {allClasses: []};
+  classes.value = allClasses
+})
 </script>
 
 <template>
