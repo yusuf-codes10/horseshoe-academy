@@ -138,3 +138,17 @@ export const getClassById = factory.createHandlers(async (c) => {
     throw new HTTPException(500, { message: "something went wrong" });
   }
 });
+
+export const getAllClasses = factory.createHandlers(
+
+  async (c) => {
+    try {
+      const fetchedClasses = await db.select()
+      .from(classes);
+
+      return c.json({msg: 'classes: ', fetchedClasses});
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);

@@ -16,6 +16,6 @@ router.get('/:subjectId', ...getClassesBySubjectId);
 router.get('/:classId', ...getClassById);
 
 // get all classes
-// router.get('/')
+router.get('/');
 
 export default router;
