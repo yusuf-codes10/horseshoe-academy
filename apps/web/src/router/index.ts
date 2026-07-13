@@ -12,6 +12,8 @@ import CreateSubjectView from '@/views/subject/CreateSubjectView.vue'
 import { hasPermession } from '@/libs/permessions';
 
 import type { Permession } from '@/libs/permessions';
+import ClassesView from '@/views/classes/ClassesView.vue'
+import CreateClassView from '@/views/classes/CreateClassView.vue'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -73,6 +75,18 @@ const routes = [
             path: 'create',
             name: 'CreateSubject',
             component: CreateSubjectView
+          }
+        ]
+      },
+      {
+        path: 'classes',
+        name: 'Classes',
+        component: ClassesView,
+        children: [
+          {
+            path: 'create',
+            name: 'CreateClass',
+            component: CreateClassView
           }
         ]
       }
