@@ -151,12 +151,26 @@ export const getAllClasses = factory.createHandlers(
     const limit = Number(limitQuery) || 5;
     const skip = (page - 1) * limit;
     try {
-      const fetchedClasses = await db.select()
+      const fetchedClasses = await db.select(
+        {
+          id: classes.id,
+          capacity: classes.capacity,
+          subjectId: classes.subjectId,
+          teacherId: classes.teacherId,
+          subjectName: subjects.name
+        }
+      )
       .from(classes)
+      .innerJoin(subjects, eq(subjects.id, classes.subjectId))
       .groupBy(classes.id)
       .limit(limit)
       .offset(skip)
       .orderBy(classes.id);
+
+      // 1- return the subject name it belongs to
+      // const [subject] = await db.select()
+      // .from(subjects)
+      // .where(eq(subjects.id, ))
 
       return c.json({msg: 'classes: ', fetchedClasses});
     } catch (error) {
