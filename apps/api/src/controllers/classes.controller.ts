@@ -162,7 +162,7 @@ export const getAllClasses = factory.createHandlers(
       )
       .from(classes)
       .innerJoin(subjects, eq(subjects.id, classes.subjectId))
-      .groupBy(classes.id)
+      .groupBy(classes.id, subjects.name)
       .limit(limit)
       .offset(skip)
       .orderBy(classes.id);
