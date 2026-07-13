@@ -8,11 +8,13 @@ import MainTable from "@/components/shared/MainTable.vue";
 import api from "@/services/api";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { useRouter } from "vue-router";
 import PaginationBar from "@/components/shared/PaginationBar.vue";
 
 const userStore = useUserStore();
 
 const route = useRoute();
+const router = useRouter();
 
 const classes = ref([]);
 const count = ref(0);
@@ -40,6 +42,10 @@ const setRows = async (payload: number) => {
   count.value = classesCount;
 };
 
+const createClass = () => {
+  router.push({name: 'CreateClass'});
+}
+
 onMounted(async () => {
   const { allClasses, classesCount } = (await fetchAllClasses()) ?? { allClasses: [] };
   classes.value = allClasses;
@@ -55,6 +61,7 @@ onMounted(async () => {
         <MainButton
           v-if="userStore.user && hasPermession(userStore.user, 'create:departments')"
           title="Create"
+          @click="createClass"
         />
       </div>
     </ActionsBar>
