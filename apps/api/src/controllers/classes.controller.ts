@@ -149,10 +149,13 @@ export const getAllClasses = factory.createHandlers(
     // casting them
     const page = Number(pageQuery) || 1;
     const limit = Number(limitQuery) || 5;
+    const skip = (page - 1) * limit;
     try {
       const fetchedClasses = await db.select()
       .from(classes)
       .groupBy(classes.id)
+      .limit(limit)
+      .offset(skip)
       .orderBy(classes.id);
 
       return c.json({msg: 'classes: ', fetchedClasses});
