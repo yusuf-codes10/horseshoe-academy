@@ -2,6 +2,8 @@
 import ActionsBar from "@/components/shared/ActionsBar.vue";
 import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
+import BaseInput from "@/components/shared/BaseInput.vue";
+import MainButton from "@/components/shared/MainButton.vue";
 
 const userStore = useUserStore();
 </script>
