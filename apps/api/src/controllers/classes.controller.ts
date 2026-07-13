@@ -143,9 +143,17 @@ export const getAllClasses = factory.createHandlers(
   // TODO: 1- implement pagination
   // TODO: 2- joins to return the subject and department names
   async (c) => {
+    const pageQuery = c.req.query('page');
+    const limitQuery = c.req.query('limit');
+
+    // casting them
+    const page = Number(pageQuery) || 1;
+    const limit = Number(limitQuery) || 5;
     try {
       const fetchedClasses = await db.select()
-      .from(classes);
+      .from(classes)
+      .groupBy(classes.id)
+      .orderBy(classes.id);
 
       return c.json({msg: 'classes: ', fetchedClasses});
     } catch (error) {
