@@ -4,6 +4,6 @@
 
 <template>
   <div>
-
+    <h1 class="title">Classes:</h1>
   </div>
 </template>

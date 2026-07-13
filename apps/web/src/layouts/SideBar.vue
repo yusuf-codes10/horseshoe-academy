@@ -39,7 +39,7 @@ const sideBarItem: Item[] = [
   {
     name: 'Classes',
     icon: School,
-    path: ''
+    path: '/classes'
   }
  ] as Item[];
 
