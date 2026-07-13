@@ -93,7 +93,7 @@ export const assignTacherToClass = factory.createHandlers(
 );
 
 // get classes per subject
-export const getClassesById = factory.createHandlers(async (c) => {
+export const getClassesBySubjectId = factory.createHandlers(async (c) => {
   const subjectId = Number(c.req.param("subjectId"));
 
   try {

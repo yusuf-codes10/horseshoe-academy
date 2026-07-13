@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { createClass, assignTacherToClass, getClassesById, getClassById } from '@/controllers/classes.controller';
+import { createClass, assignTacherToClass, getClassesBySubjectId, getClassById } from '@/controllers/classes.controller';
 
 const router = new Hono();
 
@@ -10,12 +10,12 @@ router.post('/', ...createClass);
 router.patch('/:classId', ...assignTacherToClass);
 
 // get classes per subject
-router.get('/', ...getClassesById);
+router.get('/', ...getClassesBySubjectId);
 
 // get a single class by its id
 router.get('/:classId', ...getClassById);
 
 // get all classes
-router.get('/')
+// router.get('/')
 
 export default router;
