@@ -15,4 +15,7 @@ router.get('/', ...getClassesById);
 // get a single class by its id
 router.get('/:classId', ...getClassById);
 
+// get all classes
+router.get('/')
+
 export default router;

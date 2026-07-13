@@ -10,7 +10,6 @@ const userStore = useUserStore();
 
 <template>
   <div>
-    <h1 class="title">Classes:</h1>
     <ActionsBar title="Classes" description="lorem lorem lorem">
       <div class="flex gap-2">
         <BaseInput type="search" placeholder="Search Class" class="h-10" />
@@ -20,5 +19,7 @@ const userStore = useUserStore();
         />
       </div>
     </ActionsBar>
+
+    <MainTable />
   </div>
 </template>
