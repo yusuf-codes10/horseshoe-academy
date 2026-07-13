@@ -7,9 +7,12 @@ import MainButton from "@/components/shared/MainButton.vue";
 import MainTable from "@/components/shared/MainTable.vue";
 import api from "@/services/api";
 import { ref, onMounted } from "vue";
+import { useRoute } from "vue-router";
 import PaginationBar from "@/components/shared/PaginationBar.vue";
 
 const userStore = useUserStore();
+
+const route = useRoute();
 
 const classes = ref([]);
 const count = ref(0);
@@ -56,7 +59,9 @@ onMounted(async () => {
       </div>
     </ActionsBar>
 
-    <div>
+    <RouterView v-if="route.name === 'CreateClass'"/>
+
+    <div v-else>
       <MainTable
         :columns="[
           { key: 'id', label: 'ID' },
