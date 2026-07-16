@@ -78,11 +78,13 @@ onMounted(async () => {
 
     <div v-else>
       <MainTable :columns="columns" :data="classes" :loading="false">
-        <td v-for="col in columns" :key="col.key" class="py-3 px-4">
-          <RouterLink :to="`/classes/${row.id}`" class="block">
-            {{ row[col.key] }}
-          </RouterLink>
-        </td>
+        <template #row="{ row }">
+          <td v-for="col in columns" :key="col.key" class="py-3 px-4">
+            <RouterLink :to="`/classes/${row.id}`" class="block">
+              {{ row[col.key] }}
+            </RouterLink>
+          </td>
+        </template>
       </MainTable>
       <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
     </div>
