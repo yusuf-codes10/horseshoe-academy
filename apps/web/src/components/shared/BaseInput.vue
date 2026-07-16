@@ -17,7 +17,7 @@
 //   },
 // })
 const props = withDefaults(defineProps<{
-  modelValue: string | number,
+  modelValue?: string | number,
   type?: string,
   placeholder: string,
   name?: string,
