@@ -127,10 +127,17 @@ export const getAllSubjects = factory.createHandlers(
     try {
       const subs = await db.select()
       .from(subjects)
+      .innerJoin(departments, eq(departments.id, subjects.departmentId))
       .groupBy(subjects.id)
       .limit(limit)
       .offset(skip)
       .orderBy(subjects.id);
+
+      // await db.select({
+      //   code: departments.code
+      // })
+      // .from(departments)
+      // .where(eq(departments.id, subjects.departmentId));
 
       const subjectsCount = await db.$count(subjects);
       return c.json({msg: 'subjects', subs, subjectsCount});
