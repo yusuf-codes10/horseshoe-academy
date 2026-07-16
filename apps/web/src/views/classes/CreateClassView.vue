@@ -20,15 +20,19 @@ const createClass = async () => {
   try {
     const createdClass = await api.post("/classes", {
       code: code.value,
-      capacity: capacity.value,
+      capacity: Number(capacity.value),
       description: description.value,
-      subjectId: subjectId.value,
+      subjectId: Number(subjectId.value),
     });
     console.log(createdClass);
-    router.push({name: 'Classes'});
+    router.push({ name: "Classes" });
   } catch (err) {
     console.log(err);
-    error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
+    if (err instanceof AxiosError) {
+      error.value = err.response?.data?.message ?? err.response?.data ?? "Something went wrong";
+    } else {
+      error.value = String(err);
+    }
   } finally {
     loading.value = false;
   }
