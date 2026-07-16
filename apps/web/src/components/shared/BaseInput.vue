@@ -18,14 +18,15 @@
 // })
 const props = withDefaults(defineProps<{
   modelValue: string | number,
-  type: string,
+  type?: string,
   placeholder: string,
-  name: string,
-  id: string,
-  autocomplete: string,
-  required: boolean
+  name?: string,
+  id?: string,
+  autocomplete?: string,
+  required?: boolean
 }>(), {
-
+  type: 'text',
+  required: true
 });
 
 const emit = defineEmits(['update:modelValue'])
