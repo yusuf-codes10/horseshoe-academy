@@ -42,9 +42,17 @@ const setRows = async (payload: number) => {
   count.value = classesCount;
 };
 
+const columns = [
+  { key: "id", label: "ID" },
+  { key: "capacity", label: "Capacity" },
+  { key: "subjectName", label: "Subject Name" },
+  { key: "subjectId", label: "Subject Id" },
+  { key: "teacherId", label: "Teacher Id" },
+];
+
 const createClass = () => {
-  router.push({name: 'CreateClass'});
-}
+  router.push({ name: "CreateClass" });
+};
 
 onMounted(async () => {
   const { allClasses, classesCount } = (await fetchAllClasses()) ?? { allClasses: [] };
@@ -66,21 +74,17 @@ onMounted(async () => {
       </div>
     </ActionsBar>
 
-    <RouterView v-if="route.name === 'CreateClass'"/>
+    <RouterView v-if="route.name === 'CreateClass'" />
 
     <div v-else>
-      <MainTable
-        :columns="[
-          { key: 'id', label: 'ID' },
-          { key: 'capacity', label: 'Capacity' },
-          { key: 'subjectName', label: 'Subject Name' },
-          { key: 'subjectId', label: 'Subject Id'},
-          { key: 'teacherId', label: 'Teacher Id' },
-        ]"
-        :data="classes"
-        :loading="false"
-      />
-      <PaginationBar v-if="count" :count="count" @sendPage="setRows"/>
+      <MainTable :columns="columns" :data="classes" :loading="false">
+        <td v-for="col in columns" :key="col.key" class="py-3 px-4">
+          <RouterLink :to="`/classes/${row.id}`" class="block">
+            {{ row[col.key] }}
+          </RouterLink>
+        </td>
+      </MainTable>
+      <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
     </div>
   </div>
 </template>
