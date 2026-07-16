@@ -27,14 +27,18 @@ const props = withDefaults(defineProps<{
         </tr>
       </thead>
       <tbody>
+        <!-- <RouterLink :to="{path: `/classes/${}`}"></RouterLink> -->
         <tr
           v-for="(row, index) in props.data"
           :key="index"
           class="text-text-primary border-b border-white/5 hover:bg-white/5 transition-colors"
         >
+        <slot name="row" :row="row" :index="index">
+          <!-- using a slot -->
           <td v-for="col in props.columns" :key="col.key" class="py-3 px-4">
             {{ row[col.key] }}
           </td>
+        </slot>
         </tr>
       </tbody>
     </table>
