@@ -13,10 +13,15 @@ const factory = createFactory<{ Variables: { class: NewClass } }>();
 export const createClass = factory.createHandlers(
   zValidator("json", insertClassSchema),
   async (c) => {
-    const subjectId = Number(c.req.param("subjectId"));
+    // const subjectId = Number(c.req.param("subjectId"));
     const body = c.req.valid("json");
 
+    const { subjectId, capacity, code, description } = body;
+
     try {
+      // type narrowing for the subjectId
+      if (!subjectId) throw new HTTPException(400, { message: "Subject ID is required" });
+
       // check if that subject exist
       const [foundSubject] = await db
         .select()
@@ -30,12 +35,12 @@ export const createClass = factory.createHandlers(
       const insertedClass = await db
         .insert(classes)
         .values({
-          capacity: body.capacity,
-          code: body.code,
-          description: body.description,
+          capacity: capacity,
+          code: code,
+          description: description,
           // TODO: we might assign a teacher to a class right here
           // or a patch request instead (admin assigns)
-          subjectId: body.subjectId,
+          subjectId: subjectId,
         })
         .returning();
 
