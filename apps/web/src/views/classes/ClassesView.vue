@@ -63,7 +63,9 @@ onMounted(async () => {
 
 <template>
   <div>
-    <ActionsBar title="Classes" description="lorem lorem lorem">
+    <ActionsBar
+    v-if="route.name !== 'CreateClass'"
+    title="Classes" description="lorem lorem lorem">
       <div class="flex gap-2">
         <BaseInput type="search" placeholder="Search Class" class="h-10" />
         <MainButton
