@@ -14,6 +14,7 @@ import { hasPermession } from '@/libs/permessions';
 import type { Permession } from '@/libs/permessions';
 import ClassesView from '@/views/classes/ClassesView.vue'
 import CreateClassView from '@/views/classes/CreateClassView.vue'
+import ClassDetailsView from '@/views/classes/ClassDetailsView.vue'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -89,6 +90,11 @@ const routes = [
             component: CreateClassView
           }
         ]
+      },
+      {
+        path: 'classes/:classId',
+        name: 'ClasseDetails',
+        component: ClassDetailsView
       }
     ]
   }
