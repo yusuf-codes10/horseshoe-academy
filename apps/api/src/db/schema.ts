@@ -68,7 +68,8 @@ export const subjects = pgTable("subjects", {
 export const classes = pgTable('classes', {
     id: bigserial('id', {mode: 'number'}).primaryKey(),
     capacity: bigint('capacity', {mode: 'number'}).notNull(),
-    code: text('code').unique(),
+    code: text('code').unique().notNull(),
+    description: text('description'),
     subjectId: bigint('subject_id', {mode: 'number'}).references(() => subjects.id),
     teacherId: bigint('teacher_id', { mode: 'number'}).references(() => teachers.id)
 })
