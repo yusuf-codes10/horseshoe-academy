@@ -4,15 +4,13 @@ type Column = {
   label: string;
 };
 
-const props = withDefaults(defineProps<{
+const props = defineProps<{
   columns: Column[];
   data: Record<string, unknown>[];
   loading?: boolean;
   limit?: number;
   clickable?: boolean;
-}>(), {
-  clickable: false
-});
+}>();
 </script>
 
 <template>
