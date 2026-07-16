@@ -60,6 +60,7 @@ onMounted(async () => {
   count.value = classesCount;
 });
 
+// TODO: fix the usage of this watch
 watch(() => route.name, (name) => {
   if (name === 'Classes') fetchAllClasses();
 });
