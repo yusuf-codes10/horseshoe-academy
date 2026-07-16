@@ -125,7 +125,12 @@ export const getAllSubjects = factory.createHandlers(
     const limit = Number(limitQuery) || 2;
     const skip = (page - 1) * limit;
     try {
-      const subs = await db.select()
+      const subs = await db.select({
+        id: subjects.id,
+        name: subjects.name,
+        description: subjects.description,
+        departmentCode: departments.code
+      })
       .from(subjects)
       .innerJoin(departments, eq(departments.id, subjects.departmentId))
       .groupBy(subjects.id, departments.id)
