@@ -62,9 +62,8 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
+  <div v-if="route.name !== 'CreateClass'">
     <ActionsBar
-    v-if="route.name !== 'CreateClass'"
     title="Classes" description="lorem lorem lorem">
       <div class="flex gap-2">
         <BaseInput type="search" placeholder="Search Class" class="h-10" />
@@ -76,9 +75,7 @@ onMounted(async () => {
       </div>
     </ActionsBar>
 
-    <RouterView v-if="route.name === 'CreateClass'" />
-
-    <div v-else>
+    <div>
       <MainTable :columns="columns" :data="classes" :loading="false">
         <template #row="{ row }">
           <td v-for="col in columns" :key="col.key" class="py-3 px-4">
@@ -91,4 +88,5 @@ onMounted(async () => {
       <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
     </div>
   </div>
+<RouterView v-else/>
 </template>
