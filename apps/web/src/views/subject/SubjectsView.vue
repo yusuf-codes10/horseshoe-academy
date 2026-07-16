@@ -72,7 +72,7 @@ onMounted(async () => {
           {key: 'id', label: 'ID'},
           {key: 'name', label: 'Name'},
           {key: 'description', label: 'Description'},
-          {key: 'departmentId', label: 'Department ID'}
+          {key: 'departmentCode', label: 'Department'}
         ]"
         :data="subjects"
         :loading="true"
