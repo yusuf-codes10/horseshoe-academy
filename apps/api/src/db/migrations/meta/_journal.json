@@ -57,6 +57,13 @@
       "when": 1783419127633,
       "tag": "0007_previous_quicksilver",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1784199995409,
+      "tag": "0008_zippy_emma_frost",
+      "breakpoints": true
     }
   ]
 }
