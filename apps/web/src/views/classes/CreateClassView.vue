@@ -21,13 +21,13 @@ const error = ref('')
     class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-full my-4 md:w-90 shadow-sm"
   >
     <label for="code">Class Code *</label>
-    <BaseInput type="text" id="code" name="code" placeholder="algebra-2026-a" v-model="code"/>
+    <BaseInput type="text"  placeholder="algebra-2026-a" v-model="code"/>
     <label for="">Class Capacity *</label>
     <BaseInput type="number" placeholder="23" v-model="capacity"/>
-    <label for="name">Class Description</label>
-    <BaseInput type="text" id="name" placeholder="Description..." :required="false" v-model="description"/>
+    <label for="">Class Description</label>
+    <BaseInput type="text" placeholder="Description..." :required="false" v-model="description"/>
         <label for="name">Subject ID</label>
-    <BaseInput type="text" id="name" placeholder="2" v-model="subjectId"/>
+    <BaseInput type="text" placeholder="2" v-model="subjectId"/>
     <div v-if="error">
       <p class="text-sm text-red-500">{{ error }}</p>
     </div>
