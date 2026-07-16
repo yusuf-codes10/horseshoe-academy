@@ -1,21 +1,32 @@
 <script setup lang="ts">
-const props = defineProps({
-  modelValue: String,
-  type: {
-    type: String,
-    default: 'text',
-  },
-  placeholder: {
-    type: String,
-  },
-  name: String,
-  id: String,
-  autocomplete: String,
-  required: {
-    type: Boolean,
-    default: true,
-  },
-})
+// const props = defineProps({
+//   modelValue: String,
+//   type: {
+//     type: String,
+//     default: 'text',
+//   },
+//   placeholder: {
+//     type: String,
+//   },
+//   name: String,
+//   id: String,
+//   autocomplete: String,
+//   required: {
+//     type: Boolean,
+//     default: true,
+//   },
+// })
+const props = withDefaults(defineProps<{
+  modelValue: string | number,
+  type: string,
+  placeholder: string,
+  name: string,
+  id: string,
+  autocomplete: string,
+  required: boolean
+}>(), {
+
+});
 
 const emit = defineEmits(['update:modelValue'])
 </script>
