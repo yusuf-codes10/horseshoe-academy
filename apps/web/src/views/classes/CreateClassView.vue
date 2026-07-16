@@ -4,6 +4,7 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import api from "@/services/api";
 import { useRouter } from "vue-router";
+import { AxiosError } from "axios";
 
 const code = ref("");
 const capacity = ref(0);
@@ -25,8 +26,9 @@ const createClass = async () => {
     });
     console.log(createdClass);
     router.push({name: 'Classes'});
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
+    error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
   } finally {
     loading.value = false;
   }
