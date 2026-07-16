@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<{
   data: Record<string, unknown>[];
   loading?: boolean;
   limit?: number;
-  clickable: boolean;
+  clickable?: boolean;
 }>(), {
   clickable: false
 });
