@@ -6,7 +6,7 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import MainTable from "@/components/shared/MainTable.vue";
 import api from "@/services/api";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import PaginationBar from "@/components/shared/PaginationBar.vue";
@@ -59,12 +59,15 @@ onMounted(async () => {
   classes.value = allClasses;
   count.value = classesCount;
 });
+
+watch(() => route.name, (name) => {
+  if (name === 'Classes') fetchAllClasses();
+});
 </script>
 
 <template>
   <div v-if="route.name !== 'CreateClass'">
-    <ActionsBar
-    title="Classes" description="lorem lorem lorem">
+    <ActionsBar title="Classes" description="lorem lorem lorem">
       <div class="flex gap-2">
         <BaseInput type="search" placeholder="Search Class" class="h-10" />
         <MainButton
@@ -88,5 +91,5 @@ onMounted(async () => {
       <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
     </div>
   </div>
-<RouterView v-else/>
+  <RouterView v-else />
 </template>
