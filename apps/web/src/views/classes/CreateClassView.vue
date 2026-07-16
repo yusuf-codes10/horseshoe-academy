@@ -6,6 +6,7 @@ import MainButton from '@/components/shared/MainButton.vue';
 const code = ref('')
 const capacity = ref(0)
 const description = ref('')
+const subjectId = ref('')
 const error = ref('')
 
 
@@ -25,6 +26,8 @@ const error = ref('')
     <BaseInput type="number" placeholder="23" v-model="capacity"/>
     <label for="name">Class Description</label>
     <BaseInput type="text" id="name" placeholder="Description..." :required="false" v-model="description"/>
+        <label for="name">Subject ID</label>
+    <BaseInput type="text" id="name" placeholder="2" v-model="subjectId"/>
     <div v-if="error">
       <p class="text-sm text-red-500">{{ error }}</p>
     </div>
