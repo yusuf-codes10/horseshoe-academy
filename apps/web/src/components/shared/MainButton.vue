@@ -1,22 +1,34 @@
 <script setup lang="ts">
-const props = defineProps({
-  title: {
-    type: String,
-    default: "Click",
-  },
-  type: String,
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
-  loading: {
-    type: Boolean,
-    default: false,
-  },
-  isGhost: {
-    type: Boolean,
-    default: false,
-  },
+// const props = defineProps({
+//   title: {
+//     type: String,
+//     default: "Click",
+//   },
+//   type: String,
+//   disabled: {
+//     type: Boolean,
+//     default: false,
+//   },
+//   loading: {
+//     type: Boolean,
+//     default: false,
+//   },
+//   isGhost: {
+//     type: Boolean,
+//     default: false,
+//   },
+// });
+const props = withDefaults(defineProps<{
+  title?: string;
+  type: string;
+  disabled?: boolean;
+  loading?: boolean;
+  isGhost?: boolean;
+}>(), {
+  title: 'Click',
+  disabled: false,
+  loading: false,
+  isGhost: false
 });
 const emit = defineEmits(["click"]);
 </script>
