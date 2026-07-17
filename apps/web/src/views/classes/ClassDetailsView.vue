@@ -14,7 +14,7 @@ const getClassById = async () => {
     console.log(err);
   }
 }
-console.log('this is the id', route.params.id);
+console.log('this is the id', route.params.classId);
 
 </script>
 
@@ -23,7 +23,7 @@ console.log('this is the id', route.params.id);
 
     <!-- Header -->
     <div class="bg-popover border border-border rounded-xl p-6">
-      <h1 class="text-xl font-semibold">Class Code {{ route.params.id }}</h1>
+      <h1 class="text-xl font-semibold">Class Code {{ route.params.classId }}</h1>
       <p class="text-text-muted text-sm mt-1">Class description goes here</p>
       <div class="flex gap-4 mt-4 text-sm text-text-muted">
         <span>Subject: <span class="text-text-primary">Calculus I</span></span>
