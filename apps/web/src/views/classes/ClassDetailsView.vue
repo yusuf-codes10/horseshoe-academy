@@ -3,6 +3,7 @@ import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
+
 const route = useRoute();
 
 // TODO: should probably use whatever is on packages/shared
@@ -32,6 +33,18 @@ const getClassById = async () => {
     loading.value = false;
   }
 };
+
+// patch request right here
+const assignTeacher = async () => {
+  try {
+    await api.patch(`/classes/${route.params.classId}`, {
+      teacherId: 1
+    });
+  } catch (error) {
+    console.log(error);
+
+  }
+}
 console.log("this is the id", route.params.classId);
 
 onMounted(async () => {
@@ -61,7 +74,7 @@ onMounted(async () => {
     <div class="bg-popover border border-border rounded-xl p-6">
       <div class="flex justify-between">
         <h2 class="font-medium mb-4">Assigned Teacher</h2>
-        <MainButton variant="action" title="Assign a Teacher" />
+        <MainButton @click="assignTeacher" variant="action" title="Assign a Teacher" />
       </div>
       <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">No teacher assigned yet.</p>
       <p v-else class="text-text-muted text-sm">No teacher assigned yet.</p>
