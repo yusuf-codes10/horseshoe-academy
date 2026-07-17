@@ -2,6 +2,7 @@
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import api from "@/services/api";
+import MainButton from "@/components/shared/MainButton.vue";
 const route = useRoute();
 
 // TODO: should probably use whatever is on packages/shared
@@ -54,7 +55,10 @@ onMounted(async () => {
     <div class="bg-popover border border-border rounded-xl p-6">
       <h2 class="font-medium mb-4">Assigned Teacher</h2>
       <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">No teacher assigned yet.</p>
-      <p v-else class="text-text-muted text-sm">No teacher assigned yet.</p>
+      <div v-else class="flex justify-between">
+        <p class="text-text-muted text-sm">No teacher assigned yet.</p>
+        <MainButton variant="action" title="Assign a Teacher"/>
+      </div>
       <!-- or teacher name/info here -->
     </div>
 

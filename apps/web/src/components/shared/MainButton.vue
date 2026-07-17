@@ -1,23 +1,4 @@
 <script setup lang="ts">
-// const props = defineProps({
-//   title: {
-//     type: String,
-//     default: "Click",
-//   },
-//   type: String,
-//   disabled: {
-//     type: Boolean,
-//     default: false,
-//   },
-//   loading: {
-//     type: Boolean,
-//     default: false,
-//   },
-//   isGhost: {
-//     type: Boolean,
-//     default: false,
-//   },
-// });
 const props = withDefaults(defineProps<{
   variant?: 'main' | 'action';
   title?: string;
