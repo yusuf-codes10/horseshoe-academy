@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import api from '@/services/api';
 const route = useRoute();
 
@@ -9,12 +9,18 @@ const error = ref('')
 
 const getClassById = async () => {
   try {
-    await api.get(`classes/${route.params.id}`)
+    const fetchedClass = await api.get(`classes/${route.params.id}`)
+    console.log(fetchedClass);
+
   } catch (err) {
     console.log(err);
   }
 }
 console.log('this is the id', route.params.classId);
+
+onMounted(async() => {
+  await getClassById();
+})
 
 </script>
 
