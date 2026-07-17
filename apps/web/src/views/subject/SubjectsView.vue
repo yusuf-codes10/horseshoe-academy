@@ -47,13 +47,15 @@ onMounted(async () => {
   const {subs, subsCount} = await getAllSubjects();
   subjects.value = subs;
   count.value = subsCount;
+  console.log('fetchiiiiiiiiiiiiiiiiiiiiing AGAIN!!!!!!!!!!!!!!!!!');
+
   console.log('subjects: ', subjects.value);
   console.log('subjects count: ', count.value);
 })
 </script>
 
 <template>
-  <div>
+  <div v-if="route.name !== 'CreateSubject'">
     <ActionsBar title="Subjects" description="lorem lorem lorem">
       <div class="flex gap-2">
         <BaseInput type="search" placeholder="Search Subject" class="h-10" />
@@ -64,9 +66,7 @@ onMounted(async () => {
         />
       </div>
     </ActionsBar>
-
-    <RouterView v-if="route.name === 'CreateSubject'"/>
-    <div v-else>
+    <div >
       <MainTable
         :columns="[
           {key: 'id', label: 'ID'},
@@ -79,5 +79,8 @@ onMounted(async () => {
       />
       <PaginationBar v-if="count" :count="count" @sendPage="setRows"/>
     </div>
+  </div>
+  <div v-else>
+    <RouterView />
   </div>
 </template>
