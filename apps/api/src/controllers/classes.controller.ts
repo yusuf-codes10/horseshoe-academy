@@ -130,6 +130,7 @@ export const getClassById = factory.createHandlers(async (c) => {
   const classId = Number(c.req.param("classId"));
   // adding the subject name here as an inner join
   try {
+    // TODO: we should migrate and add current student in this class
     const [foundClass] = await db
       .select({
         id: classes.id,
