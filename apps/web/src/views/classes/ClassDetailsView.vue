@@ -63,7 +63,7 @@ onMounted(async () => {
     <div class="bg-popover border border-border rounded-xl p-6">
       <div class="flex justify-between items-center mb-4">
         <h2 class="font-medium">Enrolled Students</h2>
-        <button class="text-sm text-primary">+ Enroll Student</button>
+        <button class="text-sm text-primary cursor-pointer">+ Enroll Student</button>
       </div>
       <p class="text-text-muted text-sm">No students enrolled yet.</p>
       <!-- table goes here -->
