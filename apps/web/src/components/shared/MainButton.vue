@@ -40,7 +40,7 @@ const emit = defineEmits(["click"]);
     :disabled="props.disabled || props.loading"
     @click="emit('click')"
     class="h-10 border-none px-4 py-2 cursor-pointer rounded-md hover:opacity-90 transition-opacity"
-    :class="props.variant === 'main' ? 'text-primary-foreground' : 'bg-primary text-primary-foreground'"
+    :class="props.variant === 'action' ? 'text-sm text-primary cursor-pointer' : 'bg-primary text-primary-foreground'"
   >
     <div
       v-if="loading"
