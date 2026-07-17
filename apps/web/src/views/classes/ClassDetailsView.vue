@@ -1,39 +1,43 @@
 <script setup lang="ts">
-import { useRoute } from 'vue-router';
-import { ref, onMounted } from 'vue';
-import api from '@/services/api';
+import { useRoute } from "vue-router";
+import { ref, onMounted } from "vue";
+import api from "@/services/api";
 const route = useRoute();
 
-const foundClass = ref({})
-const loading = ref(false)
+type FoundClass = {
+  id: number;
+  code: string;
+  description?: string;
+};
+
+const foundClass = ref<FoundClass | null>(null);
+const loading = ref(false);
 // const error = ref('')
 
 const getClassById = async () => {
-  loading.value = true
+  loading.value = true;
   try {
-    const fetchedClass = await api.get(`classes/${route.params.classId}`)
+    const fetchedClass = await api.get(`classes/${route.params.classId}`);
     console.log(fetchedClass.data.foundClass);
     foundClass.value = fetchedClass.data.foundClass;
   } catch (err) {
     console.log(err);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
-console.log('this is the id', route.params.classId);
+};
+console.log("this is the id", route.params.classId);
 
-onMounted(async() => {
+onMounted(async () => {
   await getClassById();
-})
-
+});
 </script>
 
 <template>
   <div class="mx-4 my-6 flex flex-col gap-6">
-
     <!-- Header -->
-    <div class="bg-popover border border-border rounded-xl p-6">
-      <h1 class="text-xl font-semibold">Class Code {{ route.params.classId }}</h1>
+    <div v-if="foundClass" class="bg-popover border border-border rounded-xl p-6">
+      <h1 class="text-xl font-semibold">{{ foundClass.code }}</h1>
       <p class="text-text-muted text-sm mt-1">Class description goes here</p>
       <div class="flex gap-4 mt-4 text-sm text-text-muted">
         <span>Subject: <span class="text-text-primary">Calculus I</span></span>
@@ -57,6 +61,5 @@ onMounted(async() => {
       <p class="text-text-muted text-sm">No students enrolled yet.</p>
       <!-- table goes here -->
     </div>
-
   </div>
 </template>
