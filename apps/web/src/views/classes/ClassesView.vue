@@ -54,12 +54,11 @@ const createClass = () => {
   router.push({ name: "CreateClass" });
 };
 
-
 onMounted(async () => {
-        const { allClasses, classesCount } = (await fetchAllClasses()) ?? { allClasses: [] };
-      classes.value = allClasses;
-      count.value = classesCount;
-})
+  const { allClasses, classesCount } = (await fetchAllClasses()) ?? { allClasses: [] };
+  classes.value = allClasses;
+  count.value = classesCount;
+});
 </script>
 
 <template>

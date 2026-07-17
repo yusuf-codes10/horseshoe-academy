@@ -4,16 +4,20 @@ import { ref, onMounted } from 'vue';
 import api from '@/services/api';
 const route = useRoute();
 
+const foundClass = ref({})
 const loading = ref(false)
-const error = ref('')
+// const error = ref('')
 
 const getClassById = async () => {
+  loading.value = true
   try {
     const fetchedClass = await api.get(`classes/${route.params.classId}`)
-    console.log(fetchedClass);
-
+    console.log(fetchedClass.data.foundClass);
+    foundClass.value = fetchedClass.data.foundClass;
   } catch (err) {
     console.log(err);
+  } finally {
+    loading.value = false
   }
 }
 console.log('this is the id', route.params.classId);
