@@ -128,11 +128,19 @@ export const getClassesBySubjectId = factory.createHandlers(async (c) => {
 // get a single class by id
 export const getClassById = factory.createHandlers(async (c) => {
   const classId = Number(c.req.param("classId"));
-
+  // adding the subject name here as an inner join
   try {
     const [foundClass] = await db
-      .select()
+      .select({
+        id: classes.id,
+        code: classes.code,
+        description: classes.description,
+        subjectId: classes.subjectId,
+        teacherId: classes.teacherId,
+        subjectName: subjects.name
+      })
       .from(classes)
+      .innerJoin(subjects, eq(subjects.id, classes.subjectId))
       .where(eq(classes.id, classId));
 
     if (!foundClass)
