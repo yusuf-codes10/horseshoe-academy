@@ -53,11 +53,13 @@ onMounted(async () => {
     <!-- Teacher -->
     <div class="bg-popover border border-border rounded-xl p-6">
       <h2 class="font-medium mb-4">Assigned Teacher</h2>
-      <p class="text-text-muted text-sm">No teacher assigned yet.</p>
+      <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">No teacher assigned yet.</p>
+      <p v-else class="text-text-muted text-sm">No teacher assigned yet.</p>
       <!-- or teacher name/info here -->
     </div>
 
     <!-- Students -->
+     <!-- This here should be a table -->
     <div class="bg-popover border border-border rounded-xl p-6">
       <div class="flex justify-between items-center mb-4">
         <h2 class="font-medium">Enrolled Students</h2>
