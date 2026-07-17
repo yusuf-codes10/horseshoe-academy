@@ -11,7 +11,8 @@ type FoundClass = {
   description?: string;
   capacity: number;
   subjectId: number;
-  teacherId?: number
+  teacherId?: number;
+  subjectName: string;
 };
 
 const foundClass = ref<FoundClass | null>(null);
@@ -44,7 +45,7 @@ onMounted(async () => {
       <h1 class="text-xl font-semibold">{{ foundClass.code }}</h1>
       <p v-if="foundClass.description" class="text-text-muted text-sm mt-1">{{ foundClass.description }}</p>
       <div class="flex gap-4 mt-4 text-sm text-text-muted">
-        <span>Subject: <span class="text-text-primary">Calculus I</span></span>
+        <span>Subject: <span class="text-text-primary">{{ foundClass.subjectName }}</span></span>
         <span>Capacity: <span class="text-text-primary">{{ foundClass.capacity }}</span></span>
       </div>
     </div>
