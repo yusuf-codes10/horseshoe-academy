@@ -4,10 +4,14 @@ import { ref, onMounted } from "vue";
 import api from "@/services/api";
 const route = useRoute();
 
+// TODO: should probably use whatever is on packages/shared
 type FoundClass = {
   id: number;
   code: string;
   description?: string;
+  capacity: number;
+  subjectId: number;
+  teacherId?: number
 };
 
 const foundClass = ref<FoundClass | null>(null);
