@@ -9,7 +9,7 @@ const error = ref('')
 
 const getClassById = async () => {
   try {
-    const fetchedClass = await api.get(`classes/${route.params.id}`)
+    const fetchedClass = await api.get(`classes/${route.params.classId}`)
     console.log(fetchedClass);
 
   } catch (err) {
