@@ -44,26 +44,32 @@ onMounted(async () => {
     <!-- Header -->
     <div v-if="foundClass" class="bg-popover border border-border rounded-xl p-6">
       <h1 class="text-xl font-semibold">{{ foundClass.code }}</h1>
-      <p v-if="foundClass.description" class="text-text-muted text-sm mt-1">{{ foundClass.description }}</p>
+      <p v-if="foundClass.description" class="text-text-muted text-sm mt-1">
+        {{ foundClass.description }}
+      </p>
       <div class="flex gap-4 mt-4 text-sm text-text-muted">
-        <span>Subject: <span class="text-text-primary">{{ foundClass.subjectName }}</span></span>
-        <span>Capacity: <span class="text-text-primary">{{ foundClass.capacity }}</span></span>
+        <span
+          >Subject: <span class="text-text-primary">{{ foundClass.subjectName }}</span></span
+        >
+        <span
+          >Capacity: <span class="text-text-primary">{{ foundClass.capacity }}</span></span
+        >
       </div>
     </div>
 
     <!-- Teacher -->
     <div class="bg-popover border border-border rounded-xl p-6">
-      <h2 class="font-medium mb-4">Assigned Teacher</h2>
-      <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">No teacher assigned yet.</p>
-      <div v-else class="flex justify-between">
-        <p class="text-text-muted text-sm">No teacher assigned yet.</p>
-        <MainButton variant="action" title="Assign a Teacher"/>
+      <div class="flex justify-between">
+        <h2 class="font-medium mb-4">Assigned Teacher</h2>
+        <MainButton variant="action" title="Assign a Teacher" />
       </div>
+      <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">No teacher assigned yet.</p>
+      <p v-else class="text-text-muted text-sm">No teacher assigned yet.</p>
       <!-- or teacher name/info here -->
     </div>
 
     <!-- Students -->
-     <!-- This here should be a table -->
+    <!-- This here should be a table -->
     <div class="bg-popover border border-border rounded-xl p-6">
       <div class="flex justify-between items-center mb-4">
         <h2 class="font-medium">Enrolled Students</h2>
