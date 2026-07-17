@@ -35,6 +35,7 @@ const getClassById = async () => {
 };
 
 // patch request right here
+// TODO: conditional render assign teacher + all teachers in a dropdown vs assigned teacher + delete
 const assignTeacher = async () => {
   try {
     await api.patch(`/classes/${route.params.classId}`, {
@@ -44,6 +45,10 @@ const assignTeacher = async () => {
     console.log(error);
 
   }
+}
+
+const showAvailableTeachers = () => {
+
 }
 console.log("this is the id", route.params.classId);
 
