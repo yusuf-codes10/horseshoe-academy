@@ -6,7 +6,7 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import MainTable from "@/components/shared/MainTable.vue";
 import api from "@/services/api";
-import { ref, onMounted, watch } from "vue";
+import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import PaginationBar from "@/components/shared/PaginationBar.vue";
@@ -54,16 +54,17 @@ const createClass = () => {
   router.push({ name: "CreateClass" });
 };
 
-onMounted(async () => {
-  const { allClasses, classesCount } = (await fetchAllClasses()) ?? { allClasses: [] };
-  classes.value = allClasses;
-  count.value = classesCount;
-});
-
 // TODO: fix the usage of this watch
-watch(() => route.name, (name) => {
-  if (name === 'Classes') fetchAllClasses();
-});
+watch(
+  () => route.name,
+  async (name) => {
+    if (name === "Classes") {
+      const { allClasses, classesCount } = (await fetchAllClasses()) ?? { allClasses: [] };
+      classes.value = allClasses;
+      count.value = classesCount;
+    }
+  },
+);
 </script>
 
 <template>
