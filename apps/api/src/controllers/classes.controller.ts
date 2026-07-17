@@ -134,6 +134,7 @@ export const getClassById = factory.createHandlers(async (c) => {
       .select({
         id: classes.id,
         code: classes.code,
+        capacity: classes.capacity,
         description: classes.description,
         subjectId: classes.subjectId,
         teacherId: classes.teacherId,
