@@ -64,6 +64,7 @@ watch(
       count.value = classesCount;
     }
   },
+  {immediate: true}
 );
 </script>
 
