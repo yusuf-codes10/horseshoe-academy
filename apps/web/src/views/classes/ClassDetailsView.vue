@@ -39,11 +39,12 @@ const getClassById = async () => {
 
 // patch request right here
 // TODO: conditional render assign teacher + all teachers in a dropdown vs assigned teacher + delete
-const assignTeacher = async () => {
+const assignTeacher = async (teacherId: number) => {
   try {
     await api.patch(`/classes/${route.params.classId}`, {
-      teacherId: 1,
+      teacherId: teacherId,
     });
+    console.log('teacher has been assigned');
   } catch (error) {
     console.log(error);
   }
@@ -97,7 +98,7 @@ onMounted(async () => {
           <li
             v-for="teacher in teachers"
             :key="teacher.id"
-            @click="assignTeacher"
+            @click="assignTeacher(teacher.id)"
             class="px-4 py-2 text-sm hover:bg-white/5 cursor-pointer transition-colors"
           >
             {{ teacher?.fullName }}
