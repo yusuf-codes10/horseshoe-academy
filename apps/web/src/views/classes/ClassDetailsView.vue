@@ -3,11 +3,11 @@ import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
-import type { NewUser, Teacher } from '@classroom/shared';
+import type { NewUser, Teacher } from "@classroom/shared";
 
 const route = useRoute();
-const teachers = ref<(NewUser & Teacher)[]>([])
-const showDropdown = ref(false)
+const teachers = ref<(NewUser & Teacher)[]>([]);
+const showDropdown = ref(false);
 
 // TODO: should probably use whatever is on packages/shared
 type FoundClass = {
@@ -44,7 +44,7 @@ const assignTeacher = async (teacherId: number) => {
     await api.patch(`/classes/${route.params.classId}`, {
       teacherId: teacherId,
     });
-    console.log('teacher has been assigned');
+    console.log("teacher has been assigned");
   } catch (error) {
     console.log(error);
   }
@@ -86,25 +86,33 @@ onMounted(async () => {
     </div>
 
     <!-- Teacher -->
-    <div class="flex justify-between relative bg-popover border border-border rounded-xl p-6">
-      <h2 class="font-medium mb-4">Assigned Teacher</h2>
-      <MainButton @click="showDropdown = !showDropdown" variant="action" title="Assign a Teacher" />
-
-      <div
-        v-if="showDropdown"
-        class="absolute right-0 top-16 bg-card border border-border rounded-lg shadow-lg z-10 w-48"
-      >
-        <ul>
-          <li
-            v-for="teacher in teachers"
-            :key="teacher.id"
-            @click="assignTeacher(teacher.id)"
-            class="px-4 py-2 text-sm hover:bg-white/5 cursor-pointer transition-colors"
-          >
-            {{ teacher?.fullName }}
-          </li>
-        </ul>
+    <div class="bg-popover border border-border rounded-xl p-6">
+      <div class="flex justify-between relative">
+        <h2 class="font-medium mb-4">Assigned Teacher</h2>
+        <MainButton
+          @click="showDropdown = !showDropdown"
+          variant="action"
+          title="Assign a Teacher"
+        />
+        <div
+          v-if="showDropdown"
+          class="absolute right-0 top-8 bg-card border border-border rounded-lg shadow-lg z-10 w-48"
+        >
+          <ul>
+            <li
+              v-for="teacher in teachers"
+              :key="teacher.id"
+              @click="assignTeacher(teacher.id)"
+              class="px-4 py-2 text-sm hover:bg-white/5 cursor-pointer transition-colors"
+            >
+              {{ teacher?.fullName }}
+            </li>
+          </ul>
+        </div>
       </div>
+      <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">No teacher assigned yet.</p>
+      <p v-else class="text-text-muted text-sm">No teacher assigned yet.</p>
+      <!-- or teacher name/info here -->
     </div>
 
     <!-- Students -->
