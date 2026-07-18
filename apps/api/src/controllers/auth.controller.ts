@@ -8,7 +8,7 @@ import {
 import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
 import { db } from "@/db/index";
-import { users, students } from "@/db/schema";
+import { users, students, teachers } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { clearToken } from "@/utils/destroyToken";
 import { issueSession } from '@/utils/issueSession';
@@ -73,6 +73,13 @@ export const registerUser = factory.createHandlers(
               id: newUser.id,
             });
             console.log("student inserted successfully");
+        }
+
+        // if a teacher insert here
+        if (newUser?.role === 'teacher') {
+          await db.insert(teachers).values({
+            id: newUser.id,
+          })
         }
 
         console.log(newUser);
