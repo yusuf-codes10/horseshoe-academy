@@ -5,7 +5,12 @@ import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
 
 const route = useRoute();
-const teachers = ref([])
+const teachers = [
+  {id: 1, name: 'Jake The Dog'},
+  {id: 2, name: 'Bonnie Mcfarlane'},
+  {id: 3, name: 'John Marston'},
+
+]
 const showDropdown = ref(true)
 
 // TODO: should probably use whatever is on packages/shared
@@ -95,7 +100,7 @@ onMounted(async () => {
           <li
             v-for="teacher in teachers"
             :key="teacher.id"
-            @click="assignTeacher(teacher.id)"
+            @click="assignTeacher"
             class="px-4 py-2 text-sm hover:bg-white/5 cursor-pointer transition-colors"
           >
             {{ teacher.name }}
