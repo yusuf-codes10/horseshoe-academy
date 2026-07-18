@@ -8,6 +8,7 @@ import SubjectRouter from '@/routes/subjects.route';
 import classesRouter from '@/routes/classes.route';
 import sessionRouter from '@/routes/sessions.route';
 import applicationRouter from '@/routes/applications.route';
+import teachersRouter from '@/routes/teachers.route';
 import type { JwtVariables } from 'hono/jwt'
 import {cors } from 'hono/cors';
 
@@ -35,6 +36,7 @@ server.route('classes/:classId/sessions', sessionRouter);
 server.route('/sessions', sessionRouter);
 server.route('/applications', applicationRouter);
 server.route('/classes/:classId/applications', applicationRouter);
+server.route('/teachers', teachersRouter);
 
 server.notFound(catchAll);
 server.onError(errorHandler);

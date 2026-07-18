@@ -47,9 +47,14 @@ const assignTeacher = async () => {
   }
 }
 
-const showAvailableTeachers = () => {
+// const showAvailableTeachers = async () => {
+//   try {
+//     await api.get();
+//   } catch (error) {
+//     console.log(error);
 
-}
+//   }
+// }
 console.log("this is the id", route.params.classId);
 
 onMounted(async () => {
