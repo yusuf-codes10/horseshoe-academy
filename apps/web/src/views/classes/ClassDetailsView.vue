@@ -5,6 +5,8 @@ import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
 
 const route = useRoute();
+const teachers = ref([])
+const showDropdown = ref(true)
 
 // TODO: should probably use whatever is on packages/shared
 type FoundClass = {
@@ -39,24 +41,21 @@ const getClassById = async () => {
 const assignTeacher = async () => {
   try {
     await api.patch(`/classes/${route.params.classId}`, {
-      teacherId: 1
+      teacherId: 1,
     });
   } catch (error) {
     console.log(error);
-
   }
-}
+};
 
 const showAvailableTeachers = async () => {
   try {
-    const response = await api.get('/teachers');
+    const response = await api.get("/teachers");
     console.log(response.data.allTeachers);
-
   } catch (error) {
     console.log(error);
-
   }
-}
+};
 console.log("this is the id", route.params.classId);
 
 onMounted(async () => {
@@ -84,14 +83,25 @@ onMounted(async () => {
     </div>
 
     <!-- Teacher -->
-    <div class="bg-popover border border-border rounded-xl p-6">
-      <div class="flex justify-between">
-        <h2 class="font-medium mb-4">Assigned Teacher</h2>
-        <MainButton @click="assignTeacher" variant="action" title="Assign a Teacher" />
+    <div class="flex justify-between relative">
+      <h2 class="font-medium mb-4">Assigned Teacher</h2>
+      <MainButton @click="showDropdown = !showDropdown" variant="action" title="Assign a Teacher" />
+
+      <div
+        v-if="showDropdown"
+        class="absolute right-0 top-8 bg-card border border-border rounded-lg shadow-lg z-10 w-48"
+      >
+        <ul>
+          <li
+            v-for="teacher in teachers"
+            :key="teacher.id"
+            @click="assignTeacher(teacher.id)"
+            class="px-4 py-2 text-sm hover:bg-white/5 cursor-pointer transition-colors"
+          >
+            {{ teacher.name }}
+          </li>
+        </ul>
       </div>
-      <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">No teacher assigned yet.</p>
-      <p v-else class="text-text-muted text-sm">No teacher assigned yet.</p>
-      <!-- or teacher name/info here -->
     </div>
 
     <!-- Students -->
