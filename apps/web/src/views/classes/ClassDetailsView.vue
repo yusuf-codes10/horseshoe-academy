@@ -28,7 +28,7 @@ const getClassById = async () => {
   loading.value = true;
   try {
     const fetchedClass = await api.get(`classes/${route.params.classId}`);
-    console.log(fetchedClass.data.foundClass);
+    console.log('found class is: ', fetchedClass.data.foundClass);
     foundClass.value = fetchedClass.data.foundClass;
   } catch (err) {
     console.log(err);
@@ -110,7 +110,7 @@ onMounted(async () => {
           </ul>
         </div>
       </div>
-      <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">No teacher assigned yet.</p>
+      <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">{{ foundClass.teacherId }}</p>
       <p v-else class="text-text-muted text-sm">No teacher assigned yet.</p>
       <!-- or teacher name/info here -->
     </div>
