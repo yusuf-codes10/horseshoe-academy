@@ -3,6 +3,7 @@ import type { NewTeacher } from "@classroom/shared";
 import { teachers, users } from '@/db/schema';
 import { db } from '@/db/index';
 import { eq } from 'drizzle-orm';
+import { HTTPException } from "hono/http-exception";
 
 const factory = createFactory<{ Variables: { teacher: NewTeacher } }>();
 
@@ -25,5 +26,7 @@ export const getAllTeacher = factory.createHandlers(async (c) => {
         return c.json({msg: 'teachers: ', allTeachers});
     } catch (error) {
         console.log(error);
+            if (error instanceof HTTPException) throw error;
+            throw new HTTPException(500, { message: "something went wrong" });
     }
 });
