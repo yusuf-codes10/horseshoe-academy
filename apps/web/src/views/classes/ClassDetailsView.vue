@@ -11,7 +11,7 @@ const teachers = [
   {id: 3, name: 'John Marston'},
 
 ]
-const showDropdown = ref(true)
+const showDropdown = ref(false)
 
 // TODO: should probably use whatever is on packages/shared
 type FoundClass = {
@@ -88,7 +88,7 @@ onMounted(async () => {
     </div>
 
     <!-- Teacher -->
-    <div class="flex justify-between relative">
+    <div class="flex justify-between relative bg-popover border border-border rounded-xl p-6">
       <h2 class="font-medium mb-4">Assigned Teacher</h2>
       <MainButton @click="showDropdown = !showDropdown" variant="action" title="Assign a Teacher" />
 
