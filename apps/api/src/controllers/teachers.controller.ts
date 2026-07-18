@@ -8,7 +8,18 @@ const factory = createFactory<{ Variables: { teacher: NewTeacher } }>();
 
 export const getAllTeacher = factory.createHandlers(async (c) => {
     try {
-        const allTeachers = await db.select()
+        const allTeachers = await db.select({
+            id: teachers.id,
+            username: users.username,
+            email: users.email,
+            gender: users.gender,
+            fullName: users.fullName,
+            role: users.role,
+            createdAt: users.createdAt,
+            degree: teachers.degree,
+            major: teachers.major,
+            salary: teachers.salary
+        })
         .from(teachers)
         .innerJoin(users, eq(users.id, teachers.id));
         return c.json({msg: 'teachers: ', allTeachers});

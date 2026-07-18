@@ -5,12 +5,7 @@ import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
 
 const route = useRoute();
-const teachers = [
-  {id: 1, name: 'Jake The Dog'},
-  {id: 2, name: 'Bonnie Mcfarlane'},
-  {id: 3, name: 'John Marston'},
-
-]
+const teachers = ref([])
 const showDropdown = ref(false)
 
 // TODO: should probably use whatever is on packages/shared
@@ -57,6 +52,7 @@ const showAvailableTeachers = async () => {
   try {
     const response = await api.get("/teachers");
     console.log(response.data.allTeachers);
+    teachers.value = response.data.allTeachers;
   } catch (error) {
     console.log(error);
   }
@@ -103,7 +99,7 @@ onMounted(async () => {
             @click="assignTeacher"
             class="px-4 py-2 text-sm hover:bg-white/5 cursor-pointer transition-colors"
           >
-            {{ teacher.name }}
+            {{ teacher?.fullName }}
           </li>
         </ul>
       </div>
