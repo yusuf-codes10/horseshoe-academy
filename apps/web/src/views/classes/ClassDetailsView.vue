@@ -62,7 +62,8 @@ const showAvailableTeachers = async () => {
 
 const fetchTeacher = async () => {
   try {
-    await api.get(`/teachers/${foundClass.value.teacherId}`);
+    // I am 100% that this is not null
+    await api.get(`/teachers/${foundClass.value!.teacherId}`);
   } catch (error) {
     console.log(error);
   }
