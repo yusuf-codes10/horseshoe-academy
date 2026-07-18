@@ -26,6 +26,7 @@ server.use(customLogger);
 server.get('/', (c) => c.text('Hono!'));
 server.route('/auth', authRouter);
 //? might need some flat routes too
+server.route('/teachers', teachersRouter);
 server.route('/departments', DepRouter);
 server.route('/subject', SubjectRouter);
 server.route('/departments/:id/subjects', SubjectRouter);
@@ -36,7 +37,6 @@ server.route('classes/:classId/sessions', sessionRouter);
 server.route('/sessions', sessionRouter);
 server.route('/applications', applicationRouter);
 server.route('/classes/:classId/applications', applicationRouter);
-server.route('/teachers', teachersRouter);
 
 server.notFound(catchAll);
 server.onError(errorHandler);
