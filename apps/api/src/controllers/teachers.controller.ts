@@ -37,11 +37,24 @@ export const getTeacherById = factory.createHandlers(async (c) => {
   const teacherId = Number(c.req.param("teacherId"));
   try {
     const [foundTeacher] = await db
-      .select()
+      .select({
+        id: teachers.id,
+        username: users.username,
+        email: users.email,
+        gender: users.gender,
+        fullName: users.fullName,
+        role: users.role,
+        createdAt: users.createdAt,
+        degree: teachers.degree,
+        major: teachers.major,
+        salary: teachers.salary,
+      })
       .from(teachers)
+      .innerJoin(users, eq(users.id, teachers.id))
       .where(eq(teachers.id, teacherId));
 
-      if (!foundTeacher) throw new HTTPException(404, { message: "Teacher not found!" });
+    if (!foundTeacher)
+      throw new HTTPException(404, { message: "Teacher not found!" });
     return c.json({ msg: "Found Teacher: ", foundTeacher });
   } catch (error) {
     console.log(error);

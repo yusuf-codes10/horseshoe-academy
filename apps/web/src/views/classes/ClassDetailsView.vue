@@ -59,6 +59,14 @@ const showAvailableTeachers = async () => {
     console.log(error);
   }
 };
+
+const fetchTeacher = async () => {
+  try {
+    await api.get(`/teachers`);
+  } catch (error) {
+    console.log(error);
+  }
+}
 console.log("this is the id", route.params.classId);
 
 onMounted(async () => {
