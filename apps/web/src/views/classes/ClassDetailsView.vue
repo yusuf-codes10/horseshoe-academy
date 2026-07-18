@@ -62,7 +62,7 @@ const showAvailableTeachers = async () => {
 
 const fetchTeacher = async () => {
   try {
-    await api.get(`/teachers`);
+    await api.get(`/teachers/${foundClass.value.teacherId}`);
   } catch (error) {
     console.log(error);
   }
