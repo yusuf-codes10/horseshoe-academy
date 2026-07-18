@@ -6,7 +6,6 @@ import { teachers } from '@/db/schema';
 const factory = createFactory<{ Variables: { teacher: NewTeacher } }>();
 
 export const getAllTeacher = factory.createHandlers(async (c) => {
-
     try {
         const allTeachers = await db.select()
         .from(teachers);
