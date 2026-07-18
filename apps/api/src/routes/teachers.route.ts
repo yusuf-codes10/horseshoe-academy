@@ -7,6 +7,6 @@ const router = new Hono();
 router.get('/', ...getAllTeacher);
 
 // get teacher by id
-router.get('/:classId', ...getTeacherById);
+router.get('/:teacherId', ...getTeacherById);
 
 export default router;
