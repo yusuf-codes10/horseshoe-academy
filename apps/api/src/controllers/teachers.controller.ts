@@ -40,6 +40,8 @@ export const getTeacherById = factory.createHandlers(async (c) => {
       .select()
       .from(teachers)
       .where(eq(teachers.id, teacherId));
+
+      if (!foundTeacher) throw new HTTPException(404, { message: "Teacher not found!" });
     return c.json({ msg: "Found Teacher: ", foundTeacher });
   } catch (error) {
     console.log(error);
