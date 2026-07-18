@@ -3,24 +3,24 @@ import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
-import type { NewUser, Teacher } from "@classroom/shared";
+import type { NewUser, Teacher, Class } from "@classroom/shared";
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
 const showDropdown = ref(false);
 
 // TODO: should probably use whatever is on packages/shared
-type FoundClass = {
-  id: number;
-  code: string;
-  description?: string;
-  capacity: number;
-  subjectId: number;
-  teacherId?: number;
-  subjectName: string;
-};
+// type FoundClass = {
+//   id: number;
+//   code: string;
+//   description?: string;
+//   capacity: number;
+//   subjectId: number;
+//   teacherId?: number;
+//   subjectName: string;
+// };
 
-const foundClass = ref<FoundClass | null>(null);
+const foundClass = ref<Class &{ subjectName: string} | null>(null);
 const assignedTeacher = ref<(NewUser & Teacher) | null>(null);
 const loading = ref(false);
 // const error = ref('')
