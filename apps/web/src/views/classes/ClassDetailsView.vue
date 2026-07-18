@@ -68,6 +68,7 @@ const fetchTeacher = async () => {
     if (!foundClass.value!.teacherId) return
     const response = await api.get(`/teachers/${foundClass.value!.teacherId}`);
     console.log('current Assigned Teacher:', response.data.foundTeacher);
+    assignedTeacher.value = response.data.foundTeacher;
   } catch (error) {
     console.log(error);
   }
@@ -108,6 +109,7 @@ onMounted(async () => {
           variant="action"
           title="Assign a Teacher"
         />
+        <!-- dropdown -->
         <div
           v-if="showDropdown"
           class="absolute right-0 top-8 bg-card border border-border rounded-lg shadow-lg z-10 w-48"
@@ -124,7 +126,7 @@ onMounted(async () => {
           </ul>
         </div>
       </div>
-      <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">{{ foundClass.teacherId }}</p>
+      <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">{{ assignedTeacher?.fullName }}</p>
       <p v-else class="text-text-muted text-sm">No teacher assigned yet.</p>
       <!-- or teacher name/info here -->
     </div>
