@@ -3,9 +3,10 @@ import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
+import type { NewUser, Teacher } from '@classroom/shared';
 
 const route = useRoute();
-const teachers = ref([])
+const teachers = ref<(NewUser & Teacher)[]>([])
 const showDropdown = ref(false)
 
 // TODO: should probably use whatever is on packages/shared
