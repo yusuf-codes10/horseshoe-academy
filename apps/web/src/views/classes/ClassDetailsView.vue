@@ -21,7 +21,7 @@ type FoundClass = {
 };
 
 const foundClass = ref<FoundClass | null>(null);
-const assignedTeacher = ref<NewUser & Teacher | null>(null)
+const assignedTeacher = ref<(NewUser & Teacher) | null>(null);
 const loading = ref(false);
 // const error = ref('')
 
@@ -29,7 +29,7 @@ const getClassById = async () => {
   loading.value = true;
   try {
     const fetchedClass = await api.get(`classes/${route.params.classId}`);
-    console.log('found class is: ', fetchedClass.data.foundClass);
+    console.log("found class is: ", fetchedClass.data.foundClass);
     foundClass.value = fetchedClass.data.foundClass;
   } catch (err) {
     console.log(err);
@@ -54,7 +54,7 @@ const assignTeacher = async (teacherId: number) => {
 const showAvailableTeachers = async () => {
   try {
     const response = await api.get("/teachers");
-    console.log('all teachers: ', response.data.allTeachers);
+    console.log("all teachers: ", response.data.allTeachers);
     teachers.value = response.data.allTeachers;
   } catch (error) {
     console.log(error);
@@ -65,14 +65,14 @@ const showAvailableTeachers = async () => {
 const fetchTeacher = async () => {
   try {
     // I am 100% that this is not null
-    if (!foundClass.value!.teacherId) return
+    if (!foundClass.value!.teacherId) return;
     const response = await api.get(`/teachers/${foundClass.value!.teacherId}`);
-    console.log('current Assigned Teacher:', response.data.foundTeacher);
+    console.log("current Assigned Teacher:", response.data.foundTeacher);
     assignedTeacher.value = response.data.foundTeacher;
   } catch (error) {
     console.log(error);
   }
-}
+};
 console.log("this is the id", route.params.classId);
 
 onMounted(async () => {
@@ -105,6 +105,7 @@ onMounted(async () => {
       <div class="flex justify-between relative">
         <h2 class="font-medium mb-4">Assigned Teacher</h2>
         <MainButton
+          v-if="!assignedTeacher"
           @click="showDropdown = !showDropdown"
           variant="action"
           title="Assign a Teacher"
@@ -126,7 +127,9 @@ onMounted(async () => {
           </ul>
         </div>
       </div>
-      <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">{{ assignedTeacher?.fullName }}</p>
+      <p v-if="foundClass?.teacherId" class="text-text-muted text-sm">
+        {{ assignedTeacher?.fullName }}
+      </p>
       <p v-else class="text-text-muted text-sm">No teacher assigned yet.</p>
       <!-- or teacher name/info here -->
     </div>
