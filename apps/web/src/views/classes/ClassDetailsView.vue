@@ -21,6 +21,7 @@ type FoundClass = {
 };
 
 const foundClass = ref<FoundClass | null>(null);
+const assignedTeacher = ref<NewUser & Teacher | null>(null)
 const loading = ref(false);
 // const error = ref('')
 
@@ -63,7 +64,8 @@ const showAvailableTeachers = async () => {
 const fetchTeacher = async () => {
   try {
     // I am 100% that this is not null
-    await api.get(`/teachers/${foundClass.value!.teacherId}`);
+    const response = await api.get(`/teachers/${foundClass.value!.teacherId}`);
+    console.log('current Assigned Teacher:', response.data);
   } catch (error) {
     console.log(error);
   }
@@ -73,6 +75,7 @@ console.log("this is the id", route.params.classId);
 onMounted(async () => {
   await getClassById();
   await showAvailableTeachers();
+  await fetchTeacher();
 });
 </script>
 
