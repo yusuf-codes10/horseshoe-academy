@@ -94,7 +94,7 @@ onMounted(async () => {
 
       <div
         v-if="showDropdown"
-        class="absolute right-0 top-8 bg-card border border-border rounded-lg shadow-lg z-10 w-48"
+        class="absolute right-0 top-16 bg-card border border-border rounded-lg shadow-lg z-10 w-48"
       >
         <ul>
           <li
