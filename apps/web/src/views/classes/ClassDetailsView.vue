@@ -53,7 +53,7 @@ const assignTeacher = async (teacherId: number) => {
 const showAvailableTeachers = async () => {
   try {
     const response = await api.get("/teachers");
-    console.log(response.data.allTeachers);
+    console.log('all teachers: ', response.data.allTeachers);
     teachers.value = response.data.allTeachers;
   } catch (error) {
     console.log(error);
