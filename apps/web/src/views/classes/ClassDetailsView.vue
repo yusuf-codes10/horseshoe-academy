@@ -61,11 +61,13 @@ const showAvailableTeachers = async () => {
   }
 };
 
+// ! perfect use case of the null assestion (100% sure not null) and fiaing silently
 const fetchTeacher = async () => {
   try {
     // I am 100% that this is not null
+    if (!foundClass.value!.teacherId) return
     const response = await api.get(`/teachers/${foundClass.value!.teacherId}`);
-    console.log('current Assigned Teacher:', response.data);
+    console.log('current Assigned Teacher:', response.data.foundTeacher);
   } catch (error) {
     console.log(error);
   }
