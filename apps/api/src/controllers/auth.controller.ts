@@ -76,9 +76,12 @@ export const registerUser = factory.createHandlers(
         }
 
         // if a teacher insert here
+        // TODO: should grab the data from the bodies when the role is a teacher!
         if (newUser?.role === 'teacher') {
           await db.insert(teachers).values({
             id: newUser.id,
+            salary: '20000',
+            major: 'Computer Science'
           })
         }
 
