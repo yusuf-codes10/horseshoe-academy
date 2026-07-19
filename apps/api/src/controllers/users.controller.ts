@@ -30,12 +30,14 @@ export const getUserProfile = factory.createHandlers(
     async (c) => {
         const username = c.req.param('username');
 
-        if (!username) throw new HTTPException(404, {message: 'username is required!'});
+        if (!username) throw new HTTPException(400, {message: 'username is required!'});
         try {
-            await db.select()
+            const [foundUser] = await db.select()
             .from(users)
             .where(eq(users.username, username));
-            return c.json('another user');
+
+            if (!foundUser) throw new HTTPException(404, {message: 'User does not exist!'});
+            return c.json({msg: 'user: ', foundUser});
         } catch (error) {
             console.log(error);
         }
