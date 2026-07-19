@@ -19,6 +19,7 @@ const fetchMyProfile = async () => {
   try {
     const response = await api.get("/users/me");
     console.log(response.data);
+    currentUser.value = response.data.foundUser;
   } catch (error) {
     console.log(error);
   }
@@ -28,6 +29,7 @@ const fetchUserProfile = async () => {
   try {
     const response = await api.get(`/users/${route.params.username }`);
     console.log('found user is: ', response.data);
+    currentUser.value = response.data.foundUser;
   } catch (error) {
     console.log(error);
   }
