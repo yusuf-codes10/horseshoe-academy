@@ -9,8 +9,8 @@ import { AxiosError } from "axios";
 const userStore = useUserStore();
 const route = useRoute();
 
-const currentUser = ref<NewUser | NewUser & NewStudent | NewUser & NewTeacher | null>(null);
-const error = ref('')
+const currentUser = ref<NewUser | (NewUser & NewStudent) | (NewUser & NewTeacher) | null>(null);
+const error = ref("");
 
 // this computed property should be the one to know if we are fetching our own or viwing another ser profile
 const isMyProfile = computed(() => route.params.username === userStore.user!.username);
@@ -18,28 +18,28 @@ const isMyProfile = computed(() => route.params.username === userStore.user!.use
 console.log(isMyProfile);
 
 const fetchMyProfile = async () => {
-  error.value = ''
+  error.value = "";
   try {
     const response = await api.get("/users/me");
     console.log(response.data);
     currentUser.value = response.data.foundUser;
   } catch (err) {
     console.log(err);
-    error.value = err instanceof AxiosError ? err.response?.data.msg : String(err)
+    error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
   }
 };
 
 const fetchUserProfile = async () => {
-  error.value = ''
+  error.value = "";
   try {
-    const response = await api.get(`/users/${route.params.username }`);
-    console.log('found user is: ', response.data);
+    const response = await api.get(`/users/${route.params.username}`);
+    console.log("found user is: ", response.data);
     currentUser.value = response.data.foundUser;
   } catch (err) {
     console.log(err);
-    error.value = err instanceof AxiosError ? err.response?.data.msg : String(err)
+    error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
   }
-}
+};
 
 onMounted(async () => {
   if (isMyProfile.value) await fetchMyProfile();
@@ -54,5 +54,8 @@ onMounted(async () => {
   <div>
     <h1 class="title">My Profile Page</h1>
     <p>{{ currentUser?.username }}</p>
+    <div v-if="error">
+      <p class="text-red-400 text.sm">{{ error }}</p>
+    </div>
   </div>
 </template>
