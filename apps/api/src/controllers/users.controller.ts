@@ -49,3 +49,5 @@ export const getUserProfile = factory.createHandlers(async (c) => {
     throw new HTTPException(500, { message: "something went wrong" });
   }
 });
+
+// TODO: inner joins to return full users based on role <Teacher | Student | Admin>
