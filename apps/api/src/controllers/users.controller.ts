@@ -3,6 +3,7 @@ import type { NewUser, NewStudent, NewTeacher } from '@classroom/shared';
 import { db } from '@/db/index';
 import { users, teachers, students } from '@/db/schema';
 import { eq } from 'drizzle-orm';
+import type { JWTPayloadShape } from '@classroom/shared';
 
 const factory = createFactory<{Variables: {user: NewUser & NewStudent | NewUser & NewTeacher}}>();
 
@@ -16,7 +17,7 @@ export const getMyProfile = factory.createHandlers(
             const [foundUser] = await db.select()
             .from(users)
             .where(eq(users.id, payload.id));
-            return c.json('my profile');
+            return c.json({msg: 'user profile: ', foundUser});
         } catch (error) {
             console.log(error);
         }
