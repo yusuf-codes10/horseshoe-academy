@@ -3,4 +3,9 @@ import type { NewUser, NewStudent, NewTeacher } from '@classroom/shared';
 
 const factory = createFactory<{Variables: {user: NewUser & NewStudent | NewUser & NewTeacher}}>();
 
-export default factory;
+// get my profile controller
+export const getMyProfile = factory.createHandlers(
+    async (c) => {
+        return c.json('my profile');
+    }
+);
