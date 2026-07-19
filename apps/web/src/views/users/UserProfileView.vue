@@ -54,6 +54,10 @@ onMounted(async () => {
   <div>
     <h1 class="title">My Profile Page</h1>
     <p>{{ currentUser?.username }}</p>
+    <p>{{ currentUser?.fullName }}</p>
+    <p>{{ currentUser?.gender }}</p>
+    <p>{{ currentUser?.email }}</p>
+    <p>{{ currentUser?.role }}</p>
     <div v-if="error">
       <p class="text-red-400 text.sm">{{ error }}</p>
     </div>
