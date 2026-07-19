@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/userStore";
 import { useRoute } from "vue-router";
-import { computed, onMounted } from "vue";
+import { ref, computed, onMounted } from "vue";
 import api from "@/services/api";
+import type { NewUser, NewStudent, NewTeacher } from "@classroom/shared";
 
 const userStore = useUserStore();
 const route = useRoute();
+
+const currentUser = ref<NewUser | NewUser & NewStudent | NewUser & NewTeacher | null>(null);
 
 // this computed property should be the one to know if we are fetching our own or viwing another ser profile
 const isMyProfile = computed(() => route.params.username === userStore.user!.username);
@@ -42,5 +45,6 @@ onMounted(async () => {
 <template>
   <div>
     <h1 class="title">My Profile Page</h1>
+    <p>{{ currentUser?.username }}</p>
   </div>
 </template>
