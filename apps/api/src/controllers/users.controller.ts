@@ -4,6 +4,7 @@ import { db } from '@/db/index';
 import { users, teachers, students } from '@/db/schema';
 import { eq } from 'drizzle-orm';
 import type { JWTPayloadShape } from '@classroom/shared';
+import { HTTPException } from "hono/http-exception";
 
 const factory = createFactory<{Variables: {user: NewUser & NewStudent | NewUser & NewTeacher}}>();
 
@@ -27,6 +28,16 @@ export const getMyProfile = factory.createHandlers(
 // get another user
 export const getUserProfile = factory.createHandlers(
     async (c) => {
-        return c.json('another user');
+        const username = c.req.param('username');
+
+        if (!username) throw new HTTPException(404, {message: 'username is required!'});
+        try {
+            await db.select()
+            .from(users)
+            .where(eq(users.username, username));
+            return c.json('another user');
+        } catch (error) {
+            console.log(error);
+        }
     }
 );
