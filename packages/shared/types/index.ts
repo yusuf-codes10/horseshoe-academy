@@ -109,3 +109,12 @@ export const sekishoRegisterResponseSchema = z.object({
 export type SekishoUser = z.infer<typeof sekishoUserSchema>;
 export type RegisterDTO = z.infer<typeof registerSchema>;
 export type LoginDTO = z.infer<typeof loginSchema>;
+
+// more types
+export type JWTPayloadShape = {
+  id: number;
+  username: string;
+  email: string;
+  role: string,
+  exp: number;
+};

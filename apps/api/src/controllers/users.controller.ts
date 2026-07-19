@@ -10,7 +10,7 @@ const factory = createFactory<{Variables: {user: NewUser & NewStudent | NewUser 
 export const getMyProfile = factory.createHandlers(
     async (c) => {
         // grab the user id only from the auth middleware
-        const payload = c.get('jwtPayload');
+        const payload = c.get('jwtPayload') as JWTPayloadShape;
 
         try {
             const [foundUser] = await db.select()
