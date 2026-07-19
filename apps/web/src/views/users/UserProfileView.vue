@@ -23,7 +23,7 @@ const fetchMyProfile = async () => {
 
 const fetchUserProfile = async () => {
   try {
-    const response = await api.get(`/${route.params.username }`);
+    const response = await api.get(`/users/${route.params.username }`);
     console.log('found user is: ', response.data);
   } catch (error) {
     console.log(error);
