@@ -98,7 +98,7 @@ const routes = [
         component: ClassDetailsView
       },
       {
-        path: '/:username',
+        path: ':username',
         name: 'UserProfule',
         component: UserProfileView
       }
