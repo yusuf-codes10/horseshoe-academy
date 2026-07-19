@@ -4,11 +4,13 @@ import { useRoute } from "vue-router";
 import { ref, computed, onMounted } from "vue";
 import api from "@/services/api";
 import type { NewUser, NewStudent, NewTeacher } from "@classroom/shared";
+import { AxiosError } from "axios";
 
 const userStore = useUserStore();
 const route = useRoute();
 
 const currentUser = ref<NewUser | NewUser & NewStudent | NewUser & NewTeacher | null>(null);
+const error = ref('')
 
 // this computed property should be the one to know if we are fetching our own or viwing another ser profile
 const isMyProfile = computed(() => route.params.username === userStore.user!.username);
@@ -16,22 +18,26 @@ const isMyProfile = computed(() => route.params.username === userStore.user!.use
 console.log(isMyProfile);
 
 const fetchMyProfile = async () => {
+  error.value = ''
   try {
     const response = await api.get("/users/me");
     console.log(response.data);
     currentUser.value = response.data.foundUser;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
+    error.value = err instanceof AxiosError ? err.response?.data.msg : String(err)
   }
 };
 
 const fetchUserProfile = async () => {
+  error.value = ''
   try {
     const response = await api.get(`/users/${route.params.username }`);
     console.log('found user is: ', response.data);
     currentUser.value = response.data.foundUser;
-  } catch (error) {
-    console.log(error);
+  } catch (err) {
+    console.log(err);
+    error.value = err instanceof AxiosError ? err.response?.data.msg : String(err)
   }
 }
 
