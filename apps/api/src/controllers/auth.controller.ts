@@ -12,6 +12,7 @@ import { users, students, teachers } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { clearToken } from "@/utils/destroyToken";
 import { issueSession } from '@/utils/issueSession';
+import type { JWTPayloadShape } from "@classroom/shared";
 
 const factory = createFactory<{ Variables: { user: SekishoUser } }>();
 
@@ -169,14 +170,6 @@ export const logUserIn = factory.createHandlers(
     }
   },
 );
-
-type JWTPayloadShape = {
-  id: number;
-  username: string;
-  email: string;
-  role: string,
-  exp: number;
-};
 
 // /me controller
 export const verifyUser = factory.createHandlers(async (c) => {
