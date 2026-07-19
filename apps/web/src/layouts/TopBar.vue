@@ -1,20 +1,29 @@
 <script setup lang="ts">
-import SecondaryButton from '@/components/shared/SecondaryButton.vue';
-import { useUserStore } from '@/stores/userStore';
-import { useRouter } from 'vue-router';
+import SecondaryButton from "@/components/shared/SecondaryButton.vue";
+import { useUserStore } from "@/stores/userStore";
+import { useRouter } from "vue-router";
 
 const userStore = useUserStore();
 const router = useRouter();
 
 const logout = async () => {
   await userStore.logout();
-  router.push('/');
-}
+  router.push("/");
+};
+
+const navigateToMyProfile = () => {
+  router.push(`/${userStore.user?.username}`);
+};
 </script>
 
 <template>
   <div class="flex justify-end items-center w-full border-b border-bg-border">
-    <SecondaryButton title="logout" class="mb-3" @click="logout"/>
-    <p>Welcome {{ userStore.user?.username }}</p>
+    <SecondaryButton title="logout" class="mb-3" @click="logout" />
+    <div>
+      Welcome
+      <p class="cursor-pointer" @click="navigateToMyProfile">
+        {{ userStore.user?.username }}
+      </p>
+    </div>
   </div>
 </template>
