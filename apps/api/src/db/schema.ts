@@ -70,7 +70,7 @@ export const classes = pgTable('classes', {
     capacity: bigint('capacity', {mode: 'number'}).notNull(),
     code: text('code').unique().notNull(),
     description: text('description'),
-    enrolledCount: bigint('enrolled_count', {mode: 'number'}),
+    enrolledCount: bigint('enrolled_count', {mode: 'number'}).notNull().default(0),
     subjectId: bigint('subject_id', {mode: 'number'}).references(() => subjects.id),
     teacherId: bigint('teacher_id', { mode: 'number'}).references(() => teachers.id)
 })

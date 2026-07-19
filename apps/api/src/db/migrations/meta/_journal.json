@@ -71,6 +71,20 @@
       "when": 1784200180883,
       "tag": "0009_nappy_marvex",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1784460087470,
+      "tag": "0010_hard_william_stryker",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1784460347206,
+      "tag": "0011_icy_nocturne",
+      "breakpoints": true
     }
   ]
 }
