@@ -136,6 +136,7 @@ export const getClassById = factory.createHandlers(async (c) => {
         id: classes.id,
         code: classes.code,
         capacity: classes.capacity,
+        enrolledCount: classes.enrolledCount,
         description: classes.description,
         subjectId: classes.subjectId,
         teacherId: classes.teacherId,
@@ -172,6 +173,7 @@ export const getAllClasses = factory.createHandlers(
         {
           id: classes.id,
           capacity: classes.capacity,
+          enrolledCount: classes.enrolledCount,
           subjectId: classes.subjectId,
           teacherId: classes.teacherId,
           subjectName: subjects.name
