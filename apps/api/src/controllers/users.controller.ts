@@ -23,3 +23,10 @@ export const getMyProfile = factory.createHandlers(
         }
     }
 );
+
+// get another user
+export const getUserProfile = factory.createHandlers(
+    async (c) => {
+        return c.json('another user');
+    }
+);

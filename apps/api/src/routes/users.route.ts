@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { getMyProfile } from '@/controllers/users.controller';
+import { getMyProfile, getUserProfile } from '@/controllers/users.controller';
 import { verifyToken } from '@/middlewares/verifyToken';
 
 const router = new Hono();
@@ -9,6 +9,9 @@ router.use('*', verifyToken);
 
 // get my profile /me
 router.get('/me', ...getMyProfile);
+
+// get another user (view his profile)
+router.get('/:username', ...getUserProfile);
 
 // delete my profile
 router.delete('/me');
