@@ -20,7 +20,6 @@ const navigateToMyProfile = () => {
   <div class="flex justify-end items-center w-full border-b border-bg-border">
     <SecondaryButton title="logout" class="mb-3" @click="logout" />
     <div>
-      Welcome
       <p class="cursor-pointer" @click="navigateToMyProfile">
         {{ userStore.user?.username }}
       </p>
