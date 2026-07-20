@@ -11,7 +11,7 @@ import { db } from "@/db/index";
 import { users, students, teachers } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { clearToken } from "@/utils/destroyToken";
-import { issueSession } from '@/utils/issueSession';
+import { issueSession } from "@/utils/issueSession";
 import type { JWTPayloadShape, generalUser } from "@classroom/shared";
 
 const factory = createFactory<{ Variables: { user: SekishoUser } }>();
@@ -70,21 +70,27 @@ export const registerUser = factory.createHandlers(
         // insert to db based on role
         // leaving teachers for later
         if (newUser?.role === "student") {
-            await db.insert(students).values({
-              id: newUser.id,
-              gpa: body.gpa
-            });
-            console.log("student inserted successfully");
+          await db.insert(students).values({
+            id: newUser.id,
+            gpa: body.gpa,
+          });
+          console.log("student inserted successfully");
         }
 
         // if a teacher insert here
         // TODO: should grab the data from the bodies when the role is a teacher!
-        if (newUser?.role === 'teacher') {
+
+        if (newUser?.role === "teacher") {
+          if (!body.degree || !body.major)
+            throw new HTTPException(400, {
+              message: "Degree and major are required for teachers",
+            });
           await db.insert(teachers).values({
             id: newUser.id,
-            salary: '20000',
-            major: 'Computer Science'
-          })
+            degree: body.degree,
+            major: body.major,
+            salary: 0
+          });
         }
 
         console.log(newUser);
@@ -97,7 +103,7 @@ export const registerUser = factory.createHandlers(
           username: newUser.username,
           email: newUser.email,
           // add the role here
-          role: newUser.role
+          role: newUser.role,
         });
         return c.json({ user: newUser });
       } catch (dbError) {
@@ -147,12 +153,12 @@ export const logUserIn = factory.createHandlers(
           throw new HTTPException(404, {
             message: "username does not exist! Please, Reister first",
           });
-          // create & sign the JWT token
+        // create & sign the JWT token
         await issueSession(c, {
           id: foundUser.id,
           username: foundUser.username,
           email: foundUser.email,
-          role: foundUser.role
+          role: foundUser.role,
         });
         console.log("actual user", foundUser);
         return c.json({ user: foundUser });
@@ -176,11 +182,9 @@ export const logUserIn = factory.createHandlers(
 export const verifyUser = factory.createHandlers(async (c) => {
   const payload = c.get("jwtPayload") as JWTPayloadShape;
   // we have to return a user not what the jwt decoded!
-  const [user] = await db.select()
-  .from(users)
-  .where(eq(users.id, payload.id))
-  console.log('user is: ', user);
-  console.log('payload is ', payload);
+  const [user] = await db.select().from(users).where(eq(users.id, payload.id));
+  console.log("user is: ", user);
+  console.log("payload is ", payload);
   return c.json({ user });
 });
 
