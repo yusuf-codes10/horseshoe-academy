@@ -72,7 +72,7 @@ export const registerUser = factory.createHandlers(
         if (newUser?.role === "student") {
             await db.insert(students).values({
               id: newUser.id,
-              // gpa: newUser.gpa
+              gpa: newUser.gpa
             });
             console.log("student inserted successfully");
         }

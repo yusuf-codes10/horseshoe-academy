@@ -118,3 +118,11 @@ export type JWTPayloadShape = {
   role: string,
   exp: number;
 };
+
+// more types
+// ! using discriminated union
+export type generalUser = RegisterDTO & (
+  | { role: 'admin'; gpa?: never; degree?: never; major?: never }
+  | { role: 'student'; gpa: number; degree?: never; major?: never }
+  | { role: 'teacher'; gpa?: never; degree: string; major: string }
+);
