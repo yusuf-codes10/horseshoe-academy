@@ -38,6 +38,12 @@ const registerUser = async () => {
     error.value = "role is required";
     return;
   }
+
+  // guard the gender
+  if (!gender.value)  {
+    error.value = 'Gender is Required!';
+    return
+  }
   // we have to vaidate with zod before hitting the api
   const userToRegister: RegisterDTO = {
     username: username.value,
