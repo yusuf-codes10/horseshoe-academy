@@ -89,7 +89,7 @@ export const registerUser = factory.createHandlers(
             id: newUser.id,
             degree: body.degree,
             major: body.major,
-            salary: 0
+            salary: '0'
           });
         }
 
