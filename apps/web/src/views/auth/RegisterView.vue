@@ -24,6 +24,8 @@ const degree = ref<"associate" | "bachelors" | "masters" | "phd">();
 
 const gender = ref<'female' | 'male'>();
 
+const gpa = ref(0)
+
 const isDragging = ref(false);
 const previewUrl = ref(false);
 const error = ref("");
@@ -53,6 +55,13 @@ const registerUser = async () => {
     gender: gender.value,
     role: role.value,
     //? zod silently ignore these
+
+    // teacher fields
+    degree: degree.value,
+    major: major.value,
+
+    // student fields
+    gpa: gpa.value
   };
   const result = registerUserSchema.safeParse(userToRegister);
 
@@ -182,7 +191,7 @@ const registerUser = async () => {
       <!-- if student -->
       <div v-if="role === 'student'" class="flex flex-col gap-2">
         <label>GPA</label>
-        <BaseInput type="number" placeholder="3.5" />
+        <BaseInput type="number" placeholder="3.5" v-model="gpa"/>
       </div>
 
       <!-- if teacher -->
