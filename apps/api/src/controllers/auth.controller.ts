@@ -12,7 +12,7 @@ import { users, students, teachers } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { clearToken } from "@/utils/destroyToken";
 import { issueSession } from '@/utils/issueSession';
-import type { JWTPayloadShape } from "@classroom/shared";
+import type { JWTPayloadShape, generalUser } from "@classroom/shared";
 
 const factory = createFactory<{ Variables: { user: SekishoUser } }>();
 
@@ -72,7 +72,7 @@ export const registerUser = factory.createHandlers(
         if (newUser?.role === "student") {
             await db.insert(students).values({
               id: newUser.id,
-              gpa: newUser.gpa
+              gpa: body.gpa
             });
             console.log("student inserted successfully");
         }

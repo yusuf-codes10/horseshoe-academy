@@ -79,6 +79,9 @@ export const registerSchema = insertUserSchema
   })
   .extend({
     password: z.string().min(8),
+    gpa: z.number().optional(),
+    degree: z.string().optional(),
+    major: z.string().optional(),
   });
 
 export const loginSchema = insertUserSchema
@@ -115,14 +118,15 @@ export type JWTPayloadShape = {
   id: number;
   username: string;
   email: string;
-  role: string,
+  role: string;
   exp: number;
 };
 
 // more types
 // ! using discriminated union
-export type generalUser = RegisterDTO & (
-  | { role: 'admin'; gpa?: never; degree?: never; major?: never }
-  | { role: 'student'; gpa: number; degree?: never; major?: never }
-  | { role: 'teacher'; gpa?: never; degree: string; major: string }
-);
+export type generalUser = RegisterDTO &
+  (
+    | { role: "admin"; gpa?: never; degree?: never; major?: never }
+    | { role: "student"; gpa: number; degree?: never; major?: never }
+    | { role: "teacher"; gpa?: never; degree: string; major: string }
+  );
