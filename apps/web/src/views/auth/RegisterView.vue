@@ -19,6 +19,8 @@ const password = ref("");
 
 const role = ref<"admin" | "teacher" | "student">();
 
+const degree = ref<'associate' | 'bachelors' | 'masters' | 'phd'>();
+
 const isDragging = ref(false);
 const previewUrl = ref(false);
 const error = ref("");
@@ -159,13 +161,18 @@ const registerUser = async () => {
 
       <!-- if student -->
       <div v-if="role === 'student'">
-        Student fileds...
+        <BaseInput type="number" placeholder="GPA" />
       </div>
 
       <!-- if teacher -->
       <div v-if="role === 'teacher'">
-        Teacher fields...
-
+        <select v-model="degree">
+          <option value="associate">Associate</option>
+          <option value="bachelors">Bachelor's</option>
+          <option value="masters">Master's</option>
+          <option value="phd">PhD</option>
+        </select>
+        <BaseInput type="text" placeholder="Major" />
       </div>
 
       <div v-if="error">
