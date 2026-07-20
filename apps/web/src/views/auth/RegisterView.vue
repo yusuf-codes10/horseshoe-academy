@@ -61,7 +61,7 @@ const registerUser = async () => {
     major: major.value,
 
     // student fields
-    gpa: gpa.value
+    gpa: String(gpa.value)
   };
   const result = registerUserSchema.safeParse(userToRegister);
 
