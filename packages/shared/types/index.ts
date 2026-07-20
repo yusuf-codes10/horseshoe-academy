@@ -79,7 +79,7 @@ export const registerSchema = insertUserSchema
   })
   .extend({
     password: z.string().min(8),
-    gpa: z.number().optional(),
+    gpa: z.string().optional(),
     degree: z.string().optional(),
     major: z.string().optional(),
   });
