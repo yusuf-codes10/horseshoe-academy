@@ -20,11 +20,11 @@ const password = ref("");
 const role = ref<"admin" | "teacher" | "student">();
 const major = ref("");
 
-const degree = ref<"associate" | "bachelors" | "masters" | "phd">();
+const degree = ref<"Associate" | "Bachelor's" | "Master's" | "PhD">();
 
-const gender = ref<'female' | 'male'>();
+const gender = ref<"female" | "male">();
 
-const gpa = ref(0)
+const gpa = ref(0);
 
 const isDragging = ref(false);
 const previewUrl = ref(false);
@@ -42,12 +42,15 @@ const registerUser = async () => {
   }
 
   // guard the gender
-  if (!gender.value)  {
-    error.value = 'Gender is Required!';
-    return
+  if (!gender.value) {
+    error.value = "Gender is Required!";
+    return;
   }
   // we have to vaidate with zod before hitting the api
-  const userToRegister: RegisterDTO | RegisterDTO & ({gpa: number}) | RegisterDTO & ({major: string, degree: string})= {
+  const userToRegister:
+    | RegisterDTO
+    | (RegisterDTO & { gpa: number })
+    | (RegisterDTO & { major: string; degree: string }) = {
     username: username.value,
     email: email.value,
     password: password.value,
@@ -61,7 +64,7 @@ const registerUser = async () => {
     major: major.value,
 
     // student fields
-    gpa: String(gpa.value)
+    gpa: String(gpa.value),
   };
   const result = registerUserSchema.safeParse(userToRegister);
 
@@ -191,7 +194,7 @@ const registerUser = async () => {
       <!-- if student -->
       <div v-if="role === 'student'" class="flex flex-col gap-2">
         <label>GPA</label>
-        <BaseInput type="number" placeholder="3.5" v-model="gpa"/>
+        <BaseInput type="number" placeholder="3.5" v-model="gpa" />
       </div>
 
       <!-- if teacher -->
@@ -202,13 +205,13 @@ const registerUser = async () => {
           class="h-10 block w-full rounded-md border border-border bg-card text-foreground px-3 py-2 focus:outline-none focus:ring-2 focus:ring-ring"
         >
           <option value="Associate">Associate</option>
-          <option value="Bachelor">Bachelor's</option>
-          <option value="Master">Master's</option>
+          <option value="Bachelor's">Bachelor's</option>
+          <option value="Master's">Master's</option>
           <option value="PhD">PhD</option>
         </select>
 
         <label>Major</label>
-        <BaseInput type="text" placeholder="e.g. Computer Science" v-model="major"/>
+        <BaseInput type="text" placeholder="e.g. Computer Science" v-model="major" />
       </div>
 
       <div v-if="error">
