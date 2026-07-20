@@ -18,8 +18,9 @@ const fullName = ref("");
 const password = ref("");
 
 const role = ref<"admin" | "teacher" | "student">();
+const major = ref("");
 
-const degree = ref<'associate' | 'bachelors' | 'masters' | 'phd'>();
+const degree = ref<"associate" | "bachelors" | "masters" | "phd">();
 
 const isDragging = ref(false);
 const previewUrl = ref(false);
@@ -160,19 +161,26 @@ const registerUser = async () => {
       </p>
 
       <!-- if student -->
-      <div v-if="role === 'student'">
-        <BaseInput type="number" placeholder="GPA" />
+      <div v-if="role === 'student'" class="flex flex-col gap-2">
+        <label>GPA</label>
+        <BaseInput type="number" placeholder="3.5" />
       </div>
 
       <!-- if teacher -->
-      <div v-if="role === 'teacher'">
-        <select v-model="degree">
-          <option value="associate">Associate</option>
-          <option value="bachelors">Bachelor's</option>
-          <option value="masters">Master's</option>
-          <option value="phd">PhD</option>
+      <div v-if="role === 'teacher'" class="flex flex-col gap-2">
+        <label>Degree</label>
+        <select
+          v-model="degree"
+          class="h-10 block w-full rounded-md border border-border bg-card text-foreground px-3 py-2 focus:outline-none focus:ring-2 focus:ring-ring"
+        >
+          <option value="Associate">Associate</option>
+          <option value="Bachelor">Bachelor's</option>
+          <option value="Master">Master's</option>
+          <option value="PhD">PhD</option>
         </select>
-        <BaseInput type="text" placeholder="Major" />
+
+        <label>Major</label>
+        <BaseInput type="text" placeholder="e.g. Computer Science" />
       </div>
 
       <div v-if="error">
