@@ -12,7 +12,7 @@ import { users, students, teachers } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { clearToken } from "@/utils/destroyToken";
 import { issueSession } from "@/utils/issueSession";
-import type { JWTPayloadShape, generalUser } from "@classroom/shared";
+import type { JWTPayloadShape } from "@classroom/shared";
 
 const factory = createFactory<{ Variables: { user: SekishoUser } }>();
 
