@@ -80,7 +80,7 @@ export const registerSchema = insertUserSchema
   .extend({
     password: z.string().min(8),
     gpa: z.string().optional(),
-    degree: z.string().optional(),
+    degree: z.enum(['Associate', "Bachelor's", "Master's", 'PhD']).optional(),
     major: z.string().optional(),
   });
 
