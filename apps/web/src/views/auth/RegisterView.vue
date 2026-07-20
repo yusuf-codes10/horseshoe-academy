@@ -45,7 +45,7 @@ const registerUser = async () => {
     return
   }
   // we have to vaidate with zod before hitting the api
-  const userToRegister: RegisterDTO = {
+  const userToRegister: RegisterDTO | RegisterDTO & ({gpa: number}) | RegisterDTO & ({major: string, degree: string})= {
     username: username.value,
     email: email.value,
     password: password.value,
