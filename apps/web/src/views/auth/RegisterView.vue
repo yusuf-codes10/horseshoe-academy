@@ -157,6 +157,17 @@ const registerUser = async () => {
         <RouterLink :to="{ name: 'Login' }">Already have an account?</RouterLink>
       </p>
 
+      <!-- if student -->
+      <div v-if="role === 'student'">
+        Student fileds...
+      </div>
+
+      <!-- if teacher -->
+      <div v-if="role === 'teacher'">
+        Teacher fields...
+
+      </div>
+
       <div v-if="error">
         <p class="text-red-400 text-sm">{{ error }}</p>
       </div>
