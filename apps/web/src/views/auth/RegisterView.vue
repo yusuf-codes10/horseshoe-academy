@@ -22,6 +22,8 @@ const major = ref("");
 
 const degree = ref<"associate" | "bachelors" | "masters" | "phd">();
 
+const gender = ref<'female' | 'male'>();
+
 const isDragging = ref(false);
 const previewUrl = ref(false);
 const error = ref("");
@@ -156,6 +158,17 @@ const registerUser = async () => {
         <BaseInput placeholder="email" type="email" v-model="email" />
         <BaseInput placeholder="password" type="password" v-model="password" />
       </div>
+
+      <div class="flex gap-4">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="radio" v-model="gender" value="male" />
+          <span class="text-sm">Male</span>
+        </label>
+        <label class="flex items-center gap-2 cursor-pointer">
+          <input type="radio" v-model="gender" value="female" />
+          <span class="text-sm">Female</span>
+        </label>
+      </div>
       <p class="sub-text hover:underline cursor-pointer">
         <RouterLink :to="{ name: 'Login' }">Already have an account?</RouterLink>
       </p>
@@ -180,7 +193,7 @@ const registerUser = async () => {
         </select>
 
         <label>Major</label>
-        <BaseInput type="text" placeholder="e.g. Computer Science" />
+        <BaseInput type="text" placeholder="e.g. Computer Science" v-model="major"/>
       </div>
 
       <div v-if="error">
