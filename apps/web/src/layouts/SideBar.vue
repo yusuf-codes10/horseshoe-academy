@@ -59,6 +59,10 @@ const chooseItem = (item: Item) => {
   selectedItem.value = item;
   console.log("selected", selectedItem.value);
 };
+
+// two ways to fix this
+// 1- either use a computed array
+// 2- a template (not div) to act as a wrapper
 </script>
 
 <template>
