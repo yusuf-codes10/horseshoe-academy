@@ -67,7 +67,7 @@ const switchMode = () => {
 // ! In a union only all shared fields are safe, we have to narrow or use discriminated unions instead
 
 // ! handling ABAC, atribute based permessions
-const canEditProfile = computed(() => isMyProfile);
+const canEditProfile = computed(() => isMyProfile.value);
 </script>
 
 <template>
@@ -96,7 +96,7 @@ const canEditProfile = computed(() => isMyProfile);
 
       <!-- edit profile -->
       <div class="ml-auto">
-        <MainButton @click="switchMode" variant="action" title="Edit Profile" />
+        <MainButton v-if="canEditProfile" @click="switchMode" variant="action" title="Edit Profile" />
       </div>
     </div>
 
