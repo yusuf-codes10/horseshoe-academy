@@ -6,6 +6,7 @@ import { eq } from "drizzle-orm";
 import type { JWTPayloadShape } from "@classroom/shared";
 import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
+import { editUserSchema } from '@classroom/shared';
 
 const factory = createFactory<{
   Variables: { user: (NewUser & NewStudent) | (NewUser & NewTeacher) };
@@ -111,7 +112,7 @@ export const getUserProfile = factory.createHandlers(async (c) => {
 
 // edit user profile
 export const editUserProfile = factory.createHandlers(
-  zValidator('json'),
+  zValidator('json', editUserSchema),
   async (c) => {
     return c.json({msg: 'editing profile...'});
   }
