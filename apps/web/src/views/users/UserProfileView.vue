@@ -61,12 +61,14 @@ const fetchUserProfile = async () => {
 };
 
 // edit my profile
-const editMyProfile = async () => {
-  try {
-    await api.patch("/users/me", {});
-  } catch (error) {
-    console.log(error);
-  }
+const editMyProfile = () => {
+  // try {
+  //   await api.patch("/users/me", {});
+  // } catch (error) {
+  //   console.log(error);
+  // }
+  console.log('username to update: ', form.value.username);
+  console.log('fullName to update: ', form.value.fullName);
 };
 
 onMounted(async () => {
@@ -172,7 +174,7 @@ const canEditProfile = computed(() => isMyProfile.value);
       <label for="">Username</label>
       <BaseInput placeholder="username" v-model="form.username" />
 
-      <MainButton title="Edit Profile" />
+      <MainButton @click="editMyProfile" title="Edit Profile" />
     </div>
   </div>
 </template>
