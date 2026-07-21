@@ -26,13 +26,17 @@ export const getMyProfile = factory.createHandlers(async (c) => {
         gender: users.gender,
         role: users.role,
 
-        // teacher fiekds
+        // teacher fields
         degree: teachers.degree,
         major: teachers.major,
-        salary: teachers.salary
+        salary: teachers.salary,
+
+        // student fields
+        gpa: students.gpa
       })
       .from(users)
       .innerJoin(teachers, eq(teachers.id, users.id))
+      .innerJoin(students, eq(users.id, students.id))
       .where(eq(users.id, payload.id));
     return c.json({ msg: "user profile: ", foundUser });
   } catch (error) {
