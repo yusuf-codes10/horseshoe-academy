@@ -12,7 +12,10 @@ const userStore = useUserStore();
 const route = useRoute();
 
 const viewMode = ref(true);
-const form = ref();
+const form = ref({
+  fullName: '',
+  username: ''
+});
 const loading = ref(false)
 
 //TODO: dicrimate unions to distinguish between each branch
@@ -68,8 +71,8 @@ const editMyProfile = async() => {
   loading.value = true
   try {
     const response = await api.patch("/users/me", {
-      fullName: form.value.trim(),
-      username: form.value.trim().toLowerCase()
+      fullName: form.value.fullName.trim(),
+      username: form.value.username.trim().toLowerCase()
     });
     console.log(response.data);
   } catch (error) {
