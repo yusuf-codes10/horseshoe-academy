@@ -1,5 +1,5 @@
 import { Hono } from 'hono';
-import { getMyProfile, getUserProfile } from '@/controllers/users.controller';
+import { getMyProfile, getUserProfile, editUserProfile } from '@/controllers/users.controller';
 import { verifyToken } from '@/middlewares/verifyToken';
 
 const router = new Hono();
@@ -17,6 +17,6 @@ router.get('/:username', ...getUserProfile);
 router.delete('/me');
 
 // update my profile
-router.patch('/me');
+router.patch('/me', ...editUserProfile);
 
 export default router;

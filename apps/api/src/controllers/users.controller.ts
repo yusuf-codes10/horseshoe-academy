@@ -108,4 +108,10 @@ export const getUserProfile = factory.createHandlers(async (c) => {
   }
 });
 
+// edit user profile
+export const editUserProfile = factory.createHandlers(
+  async (c) => {
+    return c.json({msg: 'editing profile...'});
+  }
+);
 // TODO: inner joins to return full users based on role <Teacher | Student | Admin>
