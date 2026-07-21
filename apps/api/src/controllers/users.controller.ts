@@ -17,8 +17,22 @@ export const getMyProfile = factory.createHandlers(async (c) => {
 
   try {
     const [foundUser] = await db
-      .select()
+      .select({
+        id: users.id,
+        username: users.username,
+        fullName: users.fullName,
+        email: users.email,
+        createdAt: users.createdAt,
+        gender: users.gender,
+        role: users.role,
+
+        // teacher fiekds
+        degree: teachers.degree,
+        major: teachers.major,
+        salary: teachers.salary
+      })
       .from(users)
+      .innerJoin(teachers, eq(teachers.id, users.id))
       .where(eq(users.id, payload.id));
     return c.json({ msg: "user profile: ", foundUser });
   } catch (error) {
