@@ -5,7 +5,7 @@ import { ref, computed, onMounted } from "vue";
 import api from "@/services/api";
 import type { NewUser, NewStudent, NewTeacher } from "@classroom/shared";
 import { AxiosError } from "axios";
-import { hasPermession } from "@/libs/permessions";
+import MainButton from "@/components/shared/MainButton.vue";
 
 const userStore = useUserStore();
 const route = useRoute();
@@ -13,9 +13,9 @@ const route = useRoute();
 //TODO: dicrimate unions to distinguish between each branch
 // const currentUser = ref<NewUser | (NewUser & NewStudent) | (NewUser & NewTeacher) | null>(null);
 const currentUser = ref<
-  | (Omit<NewUser, 'role'> & { role: "admin" })
-  | (Omit<NewUser, 'role'> & NewStudent & { role: "student" })
-  | (Omit<NewUser, 'role'> & NewTeacher & { role: "teacher" })
+  | (Omit<NewUser, "role"> & { role: "admin" })
+  | (Omit<NewUser, "role"> & NewStudent & { role: "student" })
+  | (Omit<NewUser, "role"> & NewTeacher & { role: "teacher" })
   | null
 >(null);
 
@@ -60,56 +60,78 @@ onMounted(async () => {
 
 // ! In a union only all shared fields are safe, we have to narrow or use discriminated unions instead
 
-
 // ! handling ABAC, atribute based permessions
 const canEditProfile = computed(() => isMyProfile);
 </script>
 
 <template>
   <!-- Two approaches -->
-   <!-- 1- make the fields read only! and various edit buttons to switch them -->
-    <!-- 2- render a new edit field with one eidt button -->
+  <!-- 1- make the fields read only! and various edit buttons to switch them -->
+  <!-- 2- render a new edit field with one eidt button -->
   <div class="mx-4 my-6 flex flex-col gap-6">
-
     <!-- Profile Header -->
     <div class="bg-popover border border-border rounded-xl p-6 flex items-center gap-6">
       <!-- Avatar -->
-      <div class="w-20 h-20 rounded-full bg-accent border border-border flex items-center justify-center text-2xl font-bold text-primary shrink-0">
-        {{ currentUser?.fullName?.charAt(0) ?? '?' }}
+      <div
+        class="w-20 h-20 rounded-full bg-accent border border-border flex items-center justify-center text-2xl font-bold text-primary shrink-0"
+      >
+        {{ currentUser?.fullName?.charAt(0) ?? "?" }}
       </div>
       <!-- Name & username -->
       <div>
         <h1 class="text-2xl font-semibold">{{ currentUser?.fullName }}</h1>
         <p class="text-text-muted text-sm">@{{ currentUser?.username }}</p>
-        <span class="text-xs mt-1 inline-block px-2 py-0.5 rounded-full bg-accent text-accent-foreground capitalize">
+        <span
+          class="text-xs mt-1 inline-block px-2 py-0.5 rounded-full bg-accent text-accent-foreground capitalize"
+        >
           {{ currentUser?.role }}
         </span>
+      </div>
+
+      <!-- edit profile -->
+      <div class="ml-auto">
+        <MainButton @click="''" variant="action" title="Edit Profile" />
       </div>
     </div>
 
     <!-- Basic Info -->
     <div class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3">
       <h2 class="font-medium mb-2">Basic Info</h2>
-      <p class="text-sm text-text-muted">Email: <span class="text-text-primary">{{ currentUser?.email }}</span></p>
-      <p class="text-sm text-text-muted">Gender: <span class="text-text-primary capitalize">{{ currentUser?.gender }}</span></p>
+      <p class="text-sm text-text-muted">
+        Email: <span class="text-text-primary">{{ currentUser?.email }}</span>
+      </p>
+      <p class="text-sm text-text-muted">
+        Gender: <span class="text-text-primary capitalize">{{ currentUser?.gender }}</span>
+      </p>
     </div>
 
     <!-- Teacher fields -->
-    <div v-if="currentUser?.role === 'teacher'" class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3">
+    <div
+      v-if="currentUser?.role === 'teacher'"
+      class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3"
+    >
       <h2 class="font-medium mb-2">Academic Info</h2>
-      <p class="text-sm text-text-muted">Degree: <span class="text-text-primary">{{ currentUser?.degree }}</span></p>
-      <p class="text-sm text-text-muted">Major: <span class="text-text-primary">{{ currentUser?.major }}</span></p>
+      <p class="text-sm text-text-muted">
+        Degree: <span class="text-text-primary">{{ currentUser?.degree }}</span>
+      </p>
+      <p class="text-sm text-text-muted">
+        Major: <span class="text-text-primary">{{ currentUser?.major }}</span>
+      </p>
     </div>
 
     <!-- Student fields -->
-    <div v-if="currentUser?.role === 'student'" class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3">
+    <div
+      v-if="currentUser?.role === 'student'"
+      class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3"
+    >
       <h2 class="font-medium mb-2">Academic Info</h2>
-      <p class="text-sm text-text-muted">GPA: <span class="text-text-primary">{{ currentUser?.gpa }}</span></p>
+      <p class="text-sm text-text-muted">
+        GPA: <span class="text-text-primary">{{ currentUser?.gpa }}</span>
+      </p>
     </div>
 
     <div v-if="error">
       <p class="text-red-400 text-sm">{{ error }}</p>
     </div>
-
   </div>
 </template>
