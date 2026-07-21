@@ -122,11 +122,18 @@ export const editUserProfile = factory.createHandlers(
     const payload = c.get("jwtPayload") as JWTPayloadShape;
 
     try {
+      // 1- verify user actually exit
       const [profileToEdit] = await db.select()
       .from(users)
       .where(eq(users.id, payload.id));
 
       if (!profileToEdit) throw new HTTPException(404, {message: 'user does not exist!'});
+
+      // grab the value (actually we do not need to grab any data)
+      await db.update(users)
+      .set(data)
+      .where(eq(users.id, profileToEdit.id));
+
     } catch (error) {
       console.log(error);
       
