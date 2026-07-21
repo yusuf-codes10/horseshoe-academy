@@ -12,7 +12,7 @@ const userStore = useUserStore();
 const route = useRoute();
 
 const viewMode = ref(true);
-const form = ref()
+const form = ref();
 
 //TODO: dicrimate unions to distinguish between each branch
 // const currentUser = ref<NewUser | (NewUser & NewStudent) | (NewUser & NewTeacher) | null>(null);
@@ -22,11 +22,6 @@ const currentUser = ref<
   | (Omit<NewUser, "role"> & NewTeacher & { role: "teacher" })
   | null
 >(null);
-
-form.value = {
-  fullName: currentUser.value?.fullName,
-  username: currentUser.value?.username,
-};
 
 const error = ref("");
 
@@ -41,6 +36,12 @@ const fetchMyProfile = async () => {
     const response = await api.get("/users/me");
     console.log(response.data);
     currentUser.value = response.data.foundUser;
+
+    // setting the form here
+    form.value = {
+      fullName: currentUser.value?.fullName,
+      username: currentUser.value?.username,
+    };
   } catch (err) {
     console.log(err);
     error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
@@ -62,13 +63,11 @@ const fetchUserProfile = async () => {
 // edit my profile
 const editMyProfile = async () => {
   try {
-    await api.patch('/users/me', {
-
-    });
+    await api.patch("/users/me", {});
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 onMounted(async () => {
   if (isMyProfile.value) await fetchMyProfile();
@@ -114,7 +113,12 @@ const canEditProfile = computed(() => isMyProfile.value);
 
       <!-- edit profile -->
       <div class="ml-auto">
-        <MainButton v-if="canEditProfile" @click="switchMode" variant="action" title="Edit Profile" />
+        <MainButton
+          v-if="canEditProfile"
+          @click="switchMode"
+          variant="action"
+          title="Edit Profile"
+        />
       </div>
     </div>
 
@@ -163,12 +167,12 @@ const canEditProfile = computed(() => isMyProfile.value);
     <h1 class="title">Edit mode</h1>
     <div class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3">
       <label for="">Full Name</label>
-      <BaseInput type="text" placeholder="FullName" v-model="currentUser!.fullName"/>
+      <BaseInput type="text" placeholder="FullName" v-model="form.fullName" />
 
       <label for="">Username</label>
-      <BaseInput placeholder="username" v-model="currentUser!.username"/>
+      <BaseInput placeholder="username" v-model="form.username" />
 
-      <MainButton title="Edit Profile"/>
+      <MainButton title="Edit Profile" />
     </div>
   </div>
 </template>
