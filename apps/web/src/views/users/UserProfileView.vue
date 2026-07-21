@@ -62,9 +62,7 @@ onMounted(async () => {
 
 
 // ! handling ABAC, atribute based permessions
-const canEditProfile = computed(() => {
-  return isMyProfile.value || hasPermession(userStore.user!, 'edit:anyprofile');
-});
+const canEditProfile = computed(() => isMyProfile);
 </script>
 
 <template>

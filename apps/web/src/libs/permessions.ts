@@ -11,7 +11,7 @@ export type Permession = (typeof ROLES)[Role][number] //getting the values this 
 export const ROLES = {
   admin: [
     "view:departments",
-    "create:departments"
+    "create:departments",
   ],
   student: [
     "view:classes"
