@@ -61,23 +61,47 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
-    <h1 class="title">My Profile Page</h1>
-    <p>{{ currentUser?.username }}</p>
-    <p>{{ currentUser?.fullName }}</p>
-    <p>{{ currentUser?.gender }}</p>
-    <p>{{ currentUser?.email }}</p>
-    <p>{{ currentUser?.role }}</p>
-    <div v-if="currentUser?.role === 'teacher'">
-      <p>{{ currentUser?.degree }}</p>
-      <p>{{ currentUser?.major }}</p>
+  <div class="mx-4 my-6 flex flex-col gap-6">
+
+    <!-- Profile Header -->
+    <div class="bg-popover border border-border rounded-xl p-6 flex items-center gap-6">
+      <!-- Avatar -->
+      <div class="w-20 h-20 rounded-full bg-accent border border-border flex items-center justify-center text-2xl font-bold text-primary shrink-0">
+        {{ currentUser?.fullName?.charAt(0) ?? '?' }}
+      </div>
+      <!-- Name & username -->
+      <div>
+        <h1 class="text-2xl font-semibold">{{ currentUser?.fullName }}</h1>
+        <p class="text-text-muted text-sm">@{{ currentUser?.username }}</p>
+        <span class="text-xs mt-1 inline-block px-2 py-0.5 rounded-full bg-accent text-accent-foreground capitalize">
+          {{ currentUser?.role }}
+        </span>
+      </div>
     </div>
 
-    <div v-if="currentUser?.role === 'student'">
-      <p>{{ currentUser?.gpa }}</p>
+    <!-- Basic Info -->
+    <div class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3">
+      <h2 class="font-medium mb-2">Basic Info</h2>
+      <p class="text-sm text-text-muted">Email: <span class="text-text-primary">{{ currentUser?.email }}</span></p>
+      <p class="text-sm text-text-muted">Gender: <span class="text-text-primary capitalize">{{ currentUser?.gender }}</span></p>
     </div>
+
+    <!-- Teacher fields -->
+    <div v-if="currentUser?.role === 'teacher'" class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3">
+      <h2 class="font-medium mb-2">Academic Info</h2>
+      <p class="text-sm text-text-muted">Degree: <span class="text-text-primary">{{ currentUser?.degree }}</span></p>
+      <p class="text-sm text-text-muted">Major: <span class="text-text-primary">{{ currentUser?.major }}</span></p>
+    </div>
+
+    <!-- Student fields -->
+    <div v-if="currentUser?.role === 'student'" class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3">
+      <h2 class="font-medium mb-2">Academic Info</h2>
+      <p class="text-sm text-text-muted">GPA: <span class="text-text-primary">{{ currentUser?.gpa }}</span></p>
+    </div>
+
     <div v-if="error">
-      <p class="text-red-400 text.sm">{{ error }}</p>
+      <p class="text-red-400 text-sm">{{ error }}</p>
     </div>
+
   </div>
 </template>
