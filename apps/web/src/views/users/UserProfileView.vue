@@ -6,6 +6,7 @@ import api from "@/services/api";
 import type { NewUser, NewStudent, NewTeacher } from "@classroom/shared";
 import { AxiosError } from "axios";
 import MainButton from "@/components/shared/MainButton.vue";
+import BaseInput from "@/components/shared/BaseInput.vue";
 
 const userStore = useUserStore();
 const route = useRoute();
@@ -51,6 +52,17 @@ const fetchUserProfile = async () => {
     error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
   }
 };
+
+// edit my profile
+const editMyProfile = async () => {
+  try {
+    await api.patch('/users/me', {
+
+    });
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 onMounted(async () => {
   if (isMyProfile.value) await fetchMyProfile();
@@ -145,7 +157,12 @@ const canEditProfile = computed(() => isMyProfile.value);
     <h1 class="title">Edit mode</h1>
     <div class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3">
       <label for="">Full Name</label>
-      <BaseInput placeholder="FullName"/>
+      <BaseInput type="text" placeholder="FullName"/>
+
+      <label for="">Username</label>
+      <BaseInput placeholder="username"/>
+
+      <MainButton title="Edit Profile"/>
     </div>
   </div>
 </template>
