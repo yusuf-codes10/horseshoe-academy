@@ -20,6 +20,8 @@ export const insertUserSchema = createInsertSchema(users).omit({
   id: true,
   createdAt: true,
 });
+// ! partial for a patch request
+export const editUserSchema = insertUserSchema.partial();
 
 // Teachers
 export const selectTeacherSchema = createSelectSchema(teachers);
