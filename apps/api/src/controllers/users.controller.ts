@@ -76,7 +76,8 @@ export const getMyProfile = factory.createHandlers(async (c) => {
     }
     // admin
     else {
-      return c.json({ msg: "user profile: ", baseUser });
+      const foundUser = baseUser;
+      return c.json({ msg: "user profile: ", foundUser });
     }
   } catch (error) {
     if (error instanceof HTTPException) throw error;
