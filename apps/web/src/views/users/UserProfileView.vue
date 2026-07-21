@@ -72,6 +72,10 @@ onMounted(async () => {
       <p>{{ currentUser?.degree }}</p>
       <p>{{ currentUser?.major }}</p>
     </div>
+
+    <div v-if="currentUser?.role === 'student'">
+      <p>{{ currentUser?.gpa }}</p>
+    </div>
     <div v-if="error">
       <p class="text-red-400 text.sm">{{ error }}</p>
     </div>
