@@ -5,6 +5,7 @@ import { ref, computed, onMounted } from "vue";
 import api from "@/services/api";
 import type { NewUser, NewStudent, NewTeacher } from "@classroom/shared";
 import { AxiosError } from "axios";
+import { hasPermession } from "@/libs/permessions";
 
 const userStore = useUserStore();
 const route = useRoute();
@@ -58,6 +59,12 @@ onMounted(async () => {
 });
 
 // ! In a union only all shared fields are safe, we have to narrow or use discriminated unions instead
+
+
+// ! handling ABAC, atribute based permessions
+const canEditProfile = computed(() => {
+  return isMyProfile.value || hasPermession(userStore.user!, 'edit:anyprofile');
+});
 </script>
 
 <template>
