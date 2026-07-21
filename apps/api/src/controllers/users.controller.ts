@@ -16,7 +16,7 @@ export const getMyProfile = factory.createHandlers(async (c) => {
   const payload = c.get("jwtPayload") as JWTPayloadShape;
 
   try {
-    const [foundUser] = await db
+    const [baseUser] = await db
       .select({
         id: users.id,
         username: users.username,
@@ -25,20 +25,59 @@ export const getMyProfile = factory.createHandlers(async (c) => {
         createdAt: users.createdAt,
         gender: users.gender,
         role: users.role,
-
-        // teacher fields
-        degree: teachers.degree,
-        major: teachers.major,
-        salary: teachers.salary,
-
-        // student fields
-        gpa: students.gpa
       })
       .from(users)
-      .innerJoin(teachers, eq(teachers.id, users.id))
-      .innerJoin(students, eq(users.id, students.id))
       .where(eq(users.id, payload.id));
-    return c.json({ msg: "user profile: ", foundUser });
+
+    if (!baseUser)
+      throw new HTTPException(404, { message: "User does not exist!" });
+
+    // teacher
+    if (baseUser.role === "teacher") {
+      const [foundUser] = await db
+        .select({
+          id: users.id,
+          username: users.username,
+          fullName: users.fullName,
+          email: users.email,
+          createdAt: users.createdAt,
+          gender: users.gender,
+          role: users.role,
+
+          // teacher fields
+          degree: teachers.degree,
+          major: teachers.major,
+          salary: teachers.salary,
+        })
+        .from(users)
+        .innerJoin(teachers, eq(teachers.id, users.id))
+        .where(eq(users.id, payload.id));
+      return c.json({ msg: "user profile: ", foundUser });
+    }
+    // student
+    else if (baseUser.role === "student") {
+      const [foundUser] = await db
+        .select({
+          id: users.id,
+          username: users.username,
+          fullName: users.fullName,
+          email: users.email,
+          createdAt: users.createdAt,
+          gender: users.gender,
+          role: users.role,
+
+          // student fields
+          gpa: students.gpa,
+        })
+        .from(users)
+        .innerJoin(students, eq(students.id, users.id))
+        .where(eq(users.id, payload.id));
+      return c.json({ msg: "user profile: ", foundUser });
+    }
+    // admin
+    else {
+      return c.json({ msg: "user profile: ", baseUser });
+    }
   } catch (error) {
     if (error instanceof HTTPException) throw error;
     console.log(error);
