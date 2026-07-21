@@ -12,6 +12,7 @@ const userStore = useUserStore();
 const route = useRoute();
 
 const viewMode = ref(true);
+const form = ref()
 
 //TODO: dicrimate unions to distinguish between each branch
 // const currentUser = ref<NewUser | (NewUser & NewStudent) | (NewUser & NewTeacher) | null>(null);
@@ -21,6 +22,11 @@ const currentUser = ref<
   | (Omit<NewUser, "role"> & NewTeacher & { role: "teacher" })
   | null
 >(null);
+
+form.value = {
+  fullName: currentUser.value?.fullName,
+  username: currentUser.value?.username,
+};
 
 const error = ref("");
 
@@ -157,10 +163,10 @@ const canEditProfile = computed(() => isMyProfile.value);
     <h1 class="title">Edit mode</h1>
     <div class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3">
       <label for="">Full Name</label>
-      <BaseInput type="text" placeholder="FullName"/>
+      <BaseInput type="text" placeholder="FullName" v-model="currentUser!.fullName"/>
 
       <label for="">Username</label>
-      <BaseInput placeholder="username"/>
+      <BaseInput placeholder="username" v-model="currentUser!.username"/>
 
       <MainButton title="Edit Profile"/>
     </div>
