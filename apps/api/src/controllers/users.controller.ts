@@ -7,7 +7,6 @@ import type { JWTPayloadShape } from "@classroom/shared";
 import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
 import { editUserSchema } from "@classroom/shared";
-import { PrismaMySqlPreparedQuery } from "drizzle-orm/prisma/mysql";
 
 const factory = createFactory<{
   Variables: { user: (NewUser & NewStudent) | (NewUser & NewTeacher) };
@@ -118,7 +117,6 @@ export const editUserProfile = factory.createHandlers(
     const data = c.req.valid("json");
 
     // starting with the fullName and the username only
-    const { fullName, username } = data;
     const payload = c.get("jwtPayload") as JWTPayloadShape;
 
     try {
@@ -134,11 +132,10 @@ export const editUserProfile = factory.createHandlers(
       .set(data)
       .where(eq(users.id, profileToEdit.id));
 
+      return c.json({ msg: "profile has been updated!" });
     } catch (error) {
       console.log(error);
-      
     }
-    return c.json({ msg: "editing profile..." });
   },
 );
 // TODO: inner joins to return full users based on role <Teacher | Student | Admin>
