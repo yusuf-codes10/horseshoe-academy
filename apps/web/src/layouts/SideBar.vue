@@ -102,7 +102,7 @@ const chooseItem = (item: Item) => {
           :key="index"
           @click="chooseItem(item)"
           :to="item?.path"
-          v-if="userStore.user && hasPermession(userStore.user, item.permission)"
+          v-if="userStore.user && hasPermession(userStore.user, item.permission!)"
         >
           <!-- <LayoutDashboard :size="18" class="shrink-0" />
             -->
