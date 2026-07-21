@@ -9,7 +9,15 @@ import { AxiosError } from "axios";
 const userStore = useUserStore();
 const route = useRoute();
 
-const currentUser = ref<NewUser | (NewUser & NewStudent) | (NewUser & NewTeacher) | null>(null);
+//TODO: dicrimate unions to distinguish between each branch
+// const currentUser = ref<NewUser | (NewUser & NewStudent) | (NewUser & NewTeacher) | null>(null);
+const currentUser = ref<
+  | (Omit<NewUser, 'role'> & { role: "admin" })
+  | (Omit<NewUser, 'role'> & NewStudent & { role: "student" })
+  | (Omit<NewUser, 'role'> & NewTeacher & { role: "teacher" })
+  | null
+>(null);
+
 const error = ref("");
 
 // this computed property should be the one to know if we are fetching our own or viwing another ser profile
@@ -61,8 +69,8 @@ onMounted(async () => {
     <p>{{ currentUser?.email }}</p>
     <p>{{ currentUser?.role }}</p>
     <div v-if="currentUser?.role === 'teacher'">
-      <p>{{ (currentUser as NewUser & NewTeacher)?.degree }}</p>
-      <p>{{ (currentUser as NewUser & NewTeacher)?.major }}</p>
+      <p>{{ currentUser?.degree }}</p>
+      <p>{{ currentUser?.major }}</p>
     </div>
     <div v-if="error">
       <p class="text-red-400 text.sm">{{ error }}</p>
