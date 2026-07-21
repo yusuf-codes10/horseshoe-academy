@@ -1,61 +1,69 @@
 <script setup lang="ts">
-import { useSideStore } from '@/stores/sideStore';
-import {  Home, Building2, BookOpen, School, PanelLeft, X } from "lucide-vue-next"
-import { ref } from 'vue';
-import type { Component } from 'vue';
-import { hasPermession } from '@/libs/permessions';
+import { useSideStore } from "@/stores/sideStore";
+import { useUserStore } from "@/stores/userStore";
+import { Home, Building2, BookOpen, School, PanelLeft, X } from "lucide-vue-next";
+import { ref } from "vue";
+import type { Component } from "vue";
+import type { Permession } from "@/libs/permessions";
+import { hasPermession } from "@/libs/permessions";
 
 defineProps({
   isOpen: {
     type: Boolean,
-    default: false
-  }
-})
+    default: false,
+  },
+});
 
-const emit = defineEmits(['toggle'])
+const emit = defineEmits(["toggle"]);
+
+const userStore = useUserStore()
 
 type Item = {
-  name: string,
-  icon: Component,
-  path: string
-}
+  name: string;
+  icon: Component;
+  path: string;
+  permission?: Permession;
+};
 
-const selectedItem = ref<Item | null>(null)
+const selectedItem = ref<Item | null>(null);
 const sideBarItem: Item[] = [
   {
-    name: 'Home',
+    name: "Home",
     icon: Home,
-    path: '/'
+    path: "/",
   },
   {
-    name: 'Departments',
+    name: "Departments",
     icon: Building2,
-    path: '/departments'
+    path: "/departments",
+    permission: "view:departments",
   },
   {
-    name: 'Subjects',
+    name: "Subjects",
     icon: BookOpen,
-    path: '/subjects'
+    path: "/subjects",
+    permission: "view:subjects",
   },
   {
-    name: 'Classes',
+    name: "Classes",
     icon: School,
-    path: '/classes'
-  }
- ] as Item[];
+    path: "/classes",
+    permission: "view:subjects",
+  },
+] as Item[];
 
 const sideStore = useSideStore();
 
 const chooseItem = (item: Item) => {
-  console.log('clicked', item)
-  selectedItem.value = item
-  console.log('selected', selectedItem.value)
-}
+  console.log("clicked", item);
+  selectedItem.value = item;
+  console.log("selected", selectedItem.value);
+};
 </script>
 
 <template>
   <aside
-        :class="[
+    :class="[
       // base styles
       'h-screen flex flex-col bg-bg-surface text-text-primary border-r border-bg-border',
       // width phase (desktop only)
@@ -66,29 +74,36 @@ const chooseItem = (item: Item) => {
       'fixed md:relative z-40',
     ]"
   >
-  <!-- Toggle -->
+    <!-- Toggle -->
     <div class="border-b border-bg-border px-3 py-4 flex items-center justify-center">
-      <PanelLeft v-if="!sideStore.isOpen" @click="emit('toggle')" class="cursor-pointer shrink-0" :size="22" />
-      <div v-if="sideStore.isOpen" class="flex  gap-4">
-        <span >Classroom</span>
-        <X @click="emit('toggle')" :size="22" class="justify-self-end cursor-pointer"/>
+      <PanelLeft
+        v-if="!sideStore.isOpen"
+        @click="emit('toggle')"
+        class="cursor-pointer shrink-0"
+        :size="22"
+      />
+      <div v-if="sideStore.isOpen" class="flex gap-4">
+        <span>Classroom</span>
+        <X @click="emit('toggle')" :size="22" class="justify-self-end cursor-pointer" />
       </div>
     </div>
 
     <!-- Nav Links -->
     <nav class="flex-1 flex flex-col gap-1 px-2 py-3">
       <RouterLink
-      class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
-      :class="{'bg-primary': selectedItem?.name === item.name}"
-      v-for="(item, index) in sideBarItem" :key="index"
-      @click="chooseItem(item)"
-      :to="item?.path"
+        class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
+        :class="{ 'bg-primary': selectedItem?.name === item.name }"
+        v-for="(item, index) in sideBarItem"
+        :key="index"
+        @click="chooseItem(item)"
+        :to="item?.path"
+        v-if="userStore.user && hasPermession(userStore.user, item.permission)"
       >
         <!-- <LayoutDashboard :size="18" class="shrink-0" />
           -->
-        <component :is="item.icon" :size="18" class="shrink-0"/>
+        <component :is="item.icon" :size="18" class="shrink-0" />
         <span v-if="sideStore.isOpen" class="text-sm whitespace-nowrap">{{ item.name }}</span>
       </RouterLink>
-      </nav>
+    </nav>
   </aside>
 </template>
