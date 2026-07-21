@@ -62,6 +62,8 @@ const fetchUserProfile = async () => {
 
 // edit my profile
 const editMyProfile = () => {
+
+  // TODO: note: we should check if the data really changed or not so we do not waste an API call
   // try {
   //   await api.patch("/users/me", {});
   // } catch (error) {
