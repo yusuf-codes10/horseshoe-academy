@@ -121,20 +121,27 @@ export const editUserProfile = factory.createHandlers(
 
     try {
       // 1- verify user actually exit
-      const [profileToEdit] = await db.select()
-      .from(users)
-      .where(eq(users.id, payload.id));
+      const [profileToEdit] = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, payload.id));
 
-      if (!profileToEdit) throw new HTTPException(404, {message: 'user does not exist!'});
+      if (!profileToEdit)
+        throw new HTTPException(404, { message: "user does not exist!" });
 
       // grab the value (actually we do not need to grab any data)
-      await db.update(users)
-      .set(data)
-      .where(eq(users.id, profileToEdit.id));
+      await db.update(users).set(data).where(eq(users.id, profileToEdit.id));
 
-      return c.json({ msg: "profile has been updated!" });
+      const [updatedUser] = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, payload.id));
+
+      return c.json({ msg: "profile has been updated!", updatedUser });
     } catch (error) {
+      if (error instanceof HTTPException) throw error;
       console.log(error);
+      throw new HTTPException(500, { message: "something went wrong" });
     }
   },
 );
