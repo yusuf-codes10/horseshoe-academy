@@ -3,6 +3,7 @@ import { useSideStore } from '@/stores/sideStore';
 import {  Home, Building2, BookOpen, School, PanelLeft, X } from "lucide-vue-next"
 import { ref } from 'vue';
 import type { Component } from 'vue';
+import { hasPermession } from '@/libs/permessions';
 
 defineProps({
   isOpen: {

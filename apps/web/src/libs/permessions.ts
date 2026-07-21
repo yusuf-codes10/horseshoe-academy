@@ -12,12 +12,17 @@ export const ROLES = {
   admin: [
     "view:departments",
     "create:departments",
+    "create:subjects",
+    "view:subjects",
+    "view:classes",
+    "create:classes"
   ],
   student: [
     "view:classes"
   ],
   teacher: [
-    "view:departments"
+    "view:departments",
+    "view:classes"
   ]
 } as const;
 
