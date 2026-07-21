@@ -48,6 +48,8 @@ onMounted(async () => {
     await fetchUserProfile();
   }
 });
+
+// ! In a union only all shared fields are safe, we have to narrow or use discriminated unions instead
 </script>
 
 <template>
@@ -59,8 +61,8 @@ onMounted(async () => {
     <p>{{ currentUser?.email }}</p>
     <p>{{ currentUser?.role }}</p>
     <div v-if="currentUser?.role === 'teacher'">
-      <p>{{ currentUser?.degree }}</p>
-      <p>{{ currentUser?.major }}</p>
+      <p>{{ (currentUser as NewUser & NewTeacher)?.degree }}</p>
+      <p>{{ (currentUser as NewUser & NewTeacher)?.major }}</p>
     </div>
     <div v-if="error">
       <p class="text-red-400 text.sm">{{ error }}</p>
