@@ -10,6 +10,8 @@ import MainButton from "@/components/shared/MainButton.vue";
 const userStore = useUserStore();
 const route = useRoute();
 
+const viewMode = ref(true)
+
 //TODO: dicrimate unions to distinguish between each branch
 // const currentUser = ref<NewUser | (NewUser & NewStudent) | (NewUser & NewTeacher) | null>(null);
 const currentUser = ref<
@@ -58,6 +60,10 @@ onMounted(async () => {
   }
 });
 
+const switchMode = () => {
+  viewMode.value = !viewMode.value
+}
+
 // ! In a union only all shared fields are safe, we have to narrow or use discriminated unions instead
 
 // ! handling ABAC, atribute based permessions
@@ -68,7 +74,7 @@ const canEditProfile = computed(() => isMyProfile);
   <!-- Two approaches -->
   <!-- 1- make the fields read only! and various edit buttons to switch them -->
   <!-- 2- render a new edit field with one eidt button -->
-  <div class="mx-4 my-6 flex flex-col gap-6">
+  <div v-if="viewMode" class="mx-4 my-6 flex flex-col gap-6">
     <!-- Profile Header -->
     <div class="bg-popover border border-border rounded-xl p-6 flex items-center gap-6">
       <!-- Avatar -->
@@ -90,7 +96,7 @@ const canEditProfile = computed(() => isMyProfile);
 
       <!-- edit profile -->
       <div class="ml-auto">
-        <MainButton @click="''" variant="action" title="Edit Profile" />
+        <MainButton @click="switchMode" variant="action" title="Edit Profile" />
       </div>
     </div>
 
@@ -134,4 +140,8 @@ const canEditProfile = computed(() => isMyProfile);
       <p class="text-red-400 text-sm">{{ error }}</p>
     </div>
   </div>
+  <!-- edit mode -->
+   <div v-else>
+    <h1 class="title">Edit mode</h1>
+   </div>
 </template>
