@@ -6,7 +6,8 @@ import { eq } from "drizzle-orm";
 import type { JWTPayloadShape } from "@classroom/shared";
 import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
-import { editUserSchema } from '@classroom/shared';
+import { editUserSchema } from "@classroom/shared";
+import { PrismaMySqlPreparedQuery } from "drizzle-orm/prisma/mysql";
 
 const factory = createFactory<{
   Variables: { user: (NewUser & NewStudent) | (NewUser & NewTeacher) };
@@ -112,9 +113,25 @@ export const getUserProfile = factory.createHandlers(async (c) => {
 
 // edit user profile
 export const editUserProfile = factory.createHandlers(
-  zValidator('json', editUserSchema),
+  zValidator("json", editUserSchema),
   async (c) => {
-    return c.json({msg: 'editing profile...'});
-  }
+    const data = c.req.valid("json");
+
+    // starting with the fullName and the username only
+    const { fullName, username } = data;
+    const payload = c.get("jwtPayload") as JWTPayloadShape;
+
+    try {
+      const [profileToEdit] = await db.select()
+      .from(users)
+      .where(eq(users.id, payload.id));
+
+      if (!profileToEdit) throw new HTTPException(404, {message: 'user does not exist!'});
+    } catch (error) {
+      console.log(error);
+      
+    }
+    return c.json({ msg: "editing profile..." });
+  },
 );
 // TODO: inner joins to return full users based on role <Teacher | Student | Admin>
