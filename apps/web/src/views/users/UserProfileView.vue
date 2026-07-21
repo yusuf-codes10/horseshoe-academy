@@ -66,6 +66,9 @@ const canEditProfile = computed(() => isMyProfile);
 </script>
 
 <template>
+  <!-- Two approaches -->
+   <!-- 1- make the fields read only! and various edit buttons to switch them -->
+    <!-- 2- render a new edit field with one eidt button -->
   <div class="mx-4 my-6 flex flex-col gap-6">
 
     <!-- Profile Header -->
