@@ -10,7 +10,7 @@ import MainButton from "@/components/shared/MainButton.vue";
 const userStore = useUserStore();
 const route = useRoute();
 
-const viewMode = ref(true)
+const viewMode = ref(true);
 
 //TODO: dicrimate unions to distinguish between each branch
 // const currentUser = ref<NewUser | (NewUser & NewStudent) | (NewUser & NewTeacher) | null>(null);
@@ -61,8 +61,8 @@ onMounted(async () => {
 });
 
 const switchMode = () => {
-  viewMode.value = !viewMode.value
-}
+  viewMode.value = !viewMode.value;
+};
 
 // ! In a union only all shared fields are safe, we have to narrow or use discriminated unions instead
 
@@ -141,7 +141,11 @@ const canEditProfile = computed(() => isMyProfile);
     </div>
   </div>
   <!-- edit mode -->
-   <div v-else>
+  <div v-else>
     <h1 class="title">Edit mode</h1>
-   </div>
+    <div class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3">
+      <label for="">Full Name</label>
+      <BaseInput placeholder="FullName"/>
+    </div>
+  </div>
 </template>
