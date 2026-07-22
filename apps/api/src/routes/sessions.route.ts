@@ -1,7 +1,7 @@
 import { Hono } from "hono";
 import {
   createSession,
-//   getSessionPerClass,
+  getSessionPerClass,
   getSessionById,
   deleteSession,
   getAllSessions,
@@ -17,7 +17,7 @@ const router = new Hono();
 router.post("/", verifyToken, isTeacher, ...createSession);
 
 // get all sessions per class
-// router.get("/", ...getSessionPerClass)
+router.get("/", ...getSessionPerClass);
 
 // get all sessions
 router.get("/", isAdmin, ...getAllSessions);
