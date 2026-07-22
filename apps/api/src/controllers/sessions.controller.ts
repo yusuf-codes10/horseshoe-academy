@@ -114,8 +114,19 @@ export const deleteSession = factory.createHandlers(async (c) => {
 
 // get all sessions (admin only)
 export const getAllSessions = factory.createHandlers(async (c) => {
+  const pageQuery = c.req.param("page");
+  const limitQuery = c.req.param("limit");
+
+  const page = Number(pageQuery) || 1;
+  const limit = Number(limitQuery) || 5;
+  const skip = (page - 1) * limit;
   try {
-    const allSessions = await db.select().from(sessions);
+    const allSessions = await db.select()
+    .from(sessions)
+    .groupBy(sessions.id)
+    .offset(skip)
+    .limit(limit)
+    .orderBy(sessions.id);
     return c.json({ msg: "All Sessions:", allSessions });
   } catch (error) {
     console.log(error);
