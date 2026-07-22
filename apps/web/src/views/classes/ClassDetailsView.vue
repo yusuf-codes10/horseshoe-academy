@@ -136,8 +136,14 @@ onMounted(async () => {
 
     <!-- session -->
     <div class="bg-popover border border-border rounded-xl p-6">
-      <h2 class="font-medium mb-4">Sessions</h2>
-      <p class="text-text-muted text-sm">No sessions scheduled yet.</p>
+      <div class="flex justify-between">
+        <div>
+          <h2 class="font-medium mb-4">Sessions</h2>
+          <p class="text-text-muted text-sm">No sessions scheduled yet.</p>
+        </div>
+
+        <MainButton variant="action" title="+ Schedula a Session" />
+      </div>
     </div>
 
     <!-- Students -->
