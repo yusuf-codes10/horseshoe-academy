@@ -145,7 +145,7 @@ export const getMySessions = factory.createHandlers(async (c) => {
     const [foundTeacher] = await db
       .select()
       .from(teachers)
-      .where(eq(teachers.id, payload.id));
+      .where(eq(teachers.id, Number(payload.id)));
 
     if (!foundTeacher)
       throw new HTTPException(404, { message: "Teacher not found!" });
