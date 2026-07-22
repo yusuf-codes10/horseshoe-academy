@@ -7,6 +7,7 @@ import { hasPermession } from "@/libs/permessions";
 import MainTable from "@/components/shared/MainTable.vue";
 import { ref, onMounted } from 'vue';
 import type { NewUser, NewTeacher } from "@classroom/shared";
+import api from '@/services/api';
 
 const sessions = ref([])
 
@@ -17,10 +18,23 @@ const currentUser = ref<
   | null
 >(null);
 
+const getMySessions = async () => {
+  try {
+    const response = await api.get('/sessions/me');
+    console.log('my sessions: ', response.data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 const userStore = useUserStore();
 
-onMounted(() => {
-
+onMounted(async () => {
+  if (currentUser.value && currentUser.value.role === 'teacher') {
+    await getMySessions();
+  } else {
+    console.log('Sorry! You are not a teacher!');
+  }
 })
 </script>
 
@@ -44,7 +58,7 @@ onMounted(() => {
         {key: 'location', label: 'Location'},
         {key: 'classId', label: 'Class ID'},
       ]"
-      :data="[]"
+      :data="sessions"
       :loading="false"
     />
   </div>
