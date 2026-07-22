@@ -115,7 +115,9 @@ onMounted(async () => {
         <BaseInput type="text" placeholder="eg: London"/>
         <label for="">Name</label>
         <BaseInput type="text" placeholder="eg: Web Development Bootcamp"/>
-        <MainButton title="Schedule"/>
+        <label for="">Date</label>
+        <BaseInput type="datetime-local" placeholder="date" class="..." />
+        <MainButton title="Schedule" :loading="loading"/>
       </div>
     </ModalCard>
 
