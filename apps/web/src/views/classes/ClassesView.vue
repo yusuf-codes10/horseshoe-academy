@@ -36,12 +36,16 @@ const fetchAllClasses = async () => {
 
 const fetchMyClasses = async () => {
   try {
-
+    const response = await api.get("/classes/me");
+    console.log("my classes: ", response.data);
+    return {
+      allClasses: response.data.myClasses,
+      classesCount: response.data.classesCount,
+    };
   } catch (error) {
     console.log(error);
-
   }
-}
+};
 
 // emit handler
 const setRows = async (payload: number) => {
@@ -64,9 +68,14 @@ const createClass = () => {
 };
 
 onMounted(async () => {
-  const { allClasses, classesCount } = (await fetchAllClasses()) ?? { allClasses: [] };
-  classes.value = allClasses;
-  count.value = classesCount;
+  if (userStore.user?.role === "teacher") {
+    const myClasses = (await fetchMyClasses()) ?? { myClasses: [] };;
+    classes.value = myClasses;
+  } else {
+    const { allClasses, classesCount } = (await fetchAllClasses()) ?? { allClasses: [] };
+    classes.value = allClasses;
+    count.value = classesCount;
+  }
 });
 </script>
 
