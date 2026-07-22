@@ -14,7 +14,7 @@ const userStore = useUserStore();
       <div class="flex gap-2">
         <BaseInput type="search" placeholder="Search Class" class="h-10" />
         <MainButton
-          v-if="userStore.user && hasPermession(userStore.user, 'create:departments')"
+          v-if="userStore.user && hasPermession(userStore.user, 'create:sessions')"
           title="Create"
           @click="'createClass'"
         />
