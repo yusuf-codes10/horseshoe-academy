@@ -92,12 +92,13 @@ console.log("this is the id", route.params.classId);
 const scheduleSession = async () => {
   loading.value = true
   try {
-    await api.post('/sessions', {
+    const response = await api.post(`/classes/${route.params.classId}/sessions`, {
       name: name.value,
       date: date.value,
       location: location.value,
       classId: Number(route.params.classId)
     });
+    console.log(response.data);
   } catch (error) {
     console.log(error);
 
@@ -141,7 +142,7 @@ onMounted(async () => {
         <BaseInput type="text" placeholder="eg: Web Development Bootcamp" v-model="name"/>
         <label for="">Date</label>
         <BaseInput type="datetime-local" placeholder="date" class="..." v-model="date"/>
-        <MainButton title="Schedule" :loading="loading"/>
+        <MainButton @click="scheduleSession" title="Schedule" :loading="loading"/>
       </div>
     </ModalCard>
 

@@ -32,6 +32,7 @@ export const createSession = factory.createHandlers(
         .values({
           date: body.date,
           location: body.location,
+          name: body.name,
           classId: classId,
         })
         .returning();
