@@ -39,11 +39,12 @@ const fetchMyClasses = async () => {
     const response = await api.get("/classes/me");
     console.log("my classes: ", response.data);
     return {
-      allClasses: response.data.myClasses,
-      classesCount: response.data.classesCount,
+      myClasses: response.data.myClasses,
+      // classesCount: response.data.classesCount,
     };
   } catch (error) {
     console.log(error);
+    return { myClasses: [] }; // 👈 must have return here too
   }
 };
 
@@ -69,7 +70,7 @@ const createClass = () => {
 
 onMounted(async () => {
   if (userStore.user?.role === "teacher") {
-    const myClasses = (await fetchMyClasses()) ?? { myClasses: [] };;
+    const { myClasses } = (await fetchMyClasses()) ?? { myClasses: [] }; // 👈 destructure
     classes.value = myClasses;
   } else {
     const { allClasses, classesCount } = (await fetchAllClasses()) ?? { allClasses: [] };
