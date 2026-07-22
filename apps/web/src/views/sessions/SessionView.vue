@@ -30,10 +30,12 @@ const getMySessions = async () => {
 const userStore = useUserStore();
 
 onMounted(async () => {
-  if (currentUser.value && currentUser.value.role === 'teacher') {
+  if (userStore.user && userStore.user.role === 'teacher') {
     await getMySessions();
   } else {
     console.log('Sorry! You are not a teacher!');
+    console.log('You are: ', userStore.user?.role);
+
   }
 })
 </script>
