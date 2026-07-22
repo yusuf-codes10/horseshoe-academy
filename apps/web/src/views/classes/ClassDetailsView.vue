@@ -111,7 +111,11 @@ onMounted(async () => {
     <!-- the schedule session modal -->
     <ModalCard :isOpen="isModalOpen" :title="'Schedule a Session'" @close="toggleModal">
       <div class="flex flex-col gap-1.5">
-        <BaseInput type="text" placeholder="something"/>
+        <label for="">Location</label>
+        <BaseInput type="text" placeholder="eg: London"/>
+        <label for="">Name</label>
+        <BaseInput type="text" placeholder="eg: Web Development Bootcamp"/>
+        <MainButton title="Schedule"/>
       </div>
     </ModalCard>
 
