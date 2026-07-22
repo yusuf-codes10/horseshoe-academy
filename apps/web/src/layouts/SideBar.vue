@@ -48,7 +48,7 @@ const sideBarItem: Item[] = [
     name: "Classes",
     icon: School,
     path: "/classes",
-    permission: "view:subjects",
+    permission: "view:classes",
   },
 ] as Item[];
 
