@@ -11,6 +11,11 @@ const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
 const showDropdown = ref(false);
 
+// shcedule sessions fileds
+const name = ref('')
+const date = ref('')
+const location = ref('')
+
 // TODO: should probably use whatever is on packages/shared
 // type FoundClass = {
 //   id: number;
@@ -83,6 +88,25 @@ const fetchTeacher = async () => {
 };
 console.log("this is the id", route.params.classId);
 
+
+const scheduleSession = async () => {
+  loading.value = true
+  try {
+    await api.post('/sessions', {
+      name: name.value,
+      date: date.value,
+      location: location.value,
+      classId: Number(route.params.classId)
+    });
+  } catch (error) {
+    console.log(error);
+
+  } finally {
+    loading.value = false
+  }
+
+}
+
 onMounted(async () => {
   await getClassById();
   await showAvailableTeachers();
@@ -112,11 +136,11 @@ onMounted(async () => {
     <ModalCard :isOpen="isModalOpen" :title="'Schedule a Session'" @close="toggleModal">
       <div class="flex flex-col gap-1.5">
         <label for="">Location</label>
-        <BaseInput type="text" placeholder="eg: London"/>
+        <BaseInput type="text" placeholder="eg: London" v-model="location"/>
         <label for="">Name</label>
-        <BaseInput type="text" placeholder="eg: Web Development Bootcamp"/>
+        <BaseInput type="text" placeholder="eg: Web Development Bootcamp" v-model="name"/>
         <label for="">Date</label>
-        <BaseInput type="datetime-local" placeholder="date" class="..." />
+        <BaseInput type="datetime-local" placeholder="date" class="..." v-modal="date"/>
         <MainButton title="Schedule" :loading="loading"/>
       </div>
     </ModalCard>
