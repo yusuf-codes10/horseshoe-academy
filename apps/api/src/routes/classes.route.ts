@@ -5,11 +5,19 @@ import {
   getClassById,
   getAllClasses,
 } from "@/controllers/classes.controller";
+import { verifyToken } from "@/middlewares/verifyToken";
+import { isTeacher } from "@/middlewares/teacher";
 
 const router = new Hono();
 
 // create a class
 router.post("/", ...createClass);
+
+// get all classes
+router.get("/", ...getAllClasses);
+
+// get My Classes (teacher)
+router.get('/me', verifyToken, isTeacher);
 
 // assign a teacher to a class
 router.patch("/:classId", ...assignTacherToClass);
@@ -20,8 +28,5 @@ router.patch("/:classId", ...assignTacherToClass);
 
 // get a single class by its id
 router.get("/:classId", ...getClassById);
-
-// get all classes
-router.get("/", ...getAllClasses);
 
 export default router;

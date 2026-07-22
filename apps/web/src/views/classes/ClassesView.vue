@@ -34,6 +34,15 @@ const fetchAllClasses = async () => {
   }
 };
 
+const fetchMyClasses = async () => {
+  try {
+
+  } catch (error) {
+    console.log(error);
+
+  }
+}
+
 // emit handler
 const setRows = async (payload: number) => {
   page.value = payload;
