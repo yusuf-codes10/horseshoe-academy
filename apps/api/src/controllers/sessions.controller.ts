@@ -150,7 +150,12 @@ export const getMySessions = factory.createHandlers(async (c) => {
     if (!foundTeacher)
       throw new HTTPException(404, { message: "Teacher not found!" });
 
-    return c.json("all sessions!");
+    // find the teacher's classes by joining both sessions and classes
+    const mySessions = await db.select()
+    .from(sessions)
+    .innerJoin(classes, eq(classes.id, sessions.classId))
+    .where(eq(classes.teacherId, foundTeacher.id));
+    return c.json({msg: 'My sessions: ', mySessions});
   } catch (error) {
     console.log(error);
     if (error instanceof HTTPException) throw error;

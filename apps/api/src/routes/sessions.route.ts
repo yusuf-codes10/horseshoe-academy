@@ -5,8 +5,10 @@ import {
   getSessionById,
   deleteSession,
   getAllSessions,
+  getMySessions
 } from "@/controllers/sessions.controller";
 import { isAdmin } from "@/middlewares/admin";
+import { isTeacher } from "@/middlewares/teacher";
 
 const router = new Hono();
 
@@ -23,7 +25,7 @@ router.get("/:sessionId", ...getSessionById);
 router.get("/", isAdmin, ...getAllSessions);
 
 // get my seesions
-router.get("/me");
+router.get("/me", isTeacher, ...getMySessions);
 
 // delete a session
 router.delete("/:sessionId", ...deleteSession);
