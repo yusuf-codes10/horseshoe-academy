@@ -152,7 +152,14 @@ export const getMySessions = factory.createHandlers(async (c) => {
       throw new HTTPException(404, { message: "Teacher not found!" });
 
     // find the teacher's classes by joining both sessions and classes
-    const mySessions = await db.select()
+    const mySessions = await db.select(
+      {
+        id: sessions.id,
+        name: sessions.name,
+        location: sessions.location,
+        classId: sessions.classId,
+      }
+    )
     .from(sessions)
     .innerJoin(classes, eq(classes.id, sessions.classId))
     .where(eq(classes.teacherId, foundTeacher.id));

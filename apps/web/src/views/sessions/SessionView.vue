@@ -20,7 +20,8 @@ const currentUser = ref<
 const getMySessions = async () => {
   try {
     const response = await api.get('/sessions/me');
-    console.log('my sessions: ', response.data);
+    console.log('my sessions from sessions view: ', response.data);
+    sessions.value = response.data.mySessions;
   } catch (error) {
     console.log(error);
   }
