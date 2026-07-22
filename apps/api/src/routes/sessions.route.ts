@@ -15,6 +15,9 @@ router.get('/:sessionId', ...getSessionById);
 // get all sessions
 router.get('/');
 
+// get my seesions
+router.get('/me');
+
 // delete a session
 router.delete('/:sessionId', ...deleteSession);
 

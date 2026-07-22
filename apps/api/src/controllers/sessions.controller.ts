@@ -93,19 +93,18 @@ export const getSessionById = factory.createHandlers(async (c) => {
 });
 
 // delete session
-export const deleteSession = factory.createHandlers(async(c) => {
+export const deleteSession = factory.createHandlers(async (c) => {
   // grab the session id
   const sessionId = Number(c.req.param("sessionId"));
 
   try {
-
     // make sure the session exist
-    const result = await db.delete(sessions)
-    .where(eq(sessions.id, sessionId));
+    const result = await db.delete(sessions).where(eq(sessions.id, sessionId));
 
-    if (result.length === 0) throw new HTTPException(404, {message: 'session does not exist'});
+    if (result.length === 0)
+      throw new HTTPException(404, { message: "session does not exist" });
 
-    return c.json({msg: 'record has been deleted!'});
+    return c.json({ msg: "record has been deleted!" });
   } catch (error) {
     console.log(error);
     if (error instanceof HTTPException) throw error;
@@ -114,9 +113,19 @@ export const deleteSession = factory.createHandlers(async(c) => {
 });
 
 // get all sessions (admin only)
-export const getAllSessions = factory.createHandlers(
-  async (c) => {
-    return c.json('all sessions!');
+export const getAllSessions = factory.createHandlers(async (c) => {
+  try {
+    const allSessions = await db.select().from(sessions);
+    return c.json({ msg: "All Sessions:", allSessions });
+  } catch (error) {
+    console.log(error);
+    if (error instanceof HTTPException) throw error;
+    throw new HTTPException(500, { message: "something went wrong" });
   }
-);
+});
+
+// get my seesions
+export const getMySessions = factory.createHandlers(async (c) => {
+  return c.json("all sessions!");
+});
 // TODO: next clean the usage of the ! operator when needed
