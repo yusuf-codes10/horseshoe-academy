@@ -12,7 +12,7 @@ defineEmits(['close'])
   <teleport to="#modal" v-if="isOpen">
     <div class="modal-bg bg-popover border border-border rounded-xl p-6" @click="$emit('close')">
       <div class="modal" @click.stop>
-        <h2 class="font-display text-xs uppercase tracking-widest text-text-muted font-semibold">
+        <h2 class="text-xs uppercase text-text-muted font-semibold">
           {{ props?.title }}
         </h2>
         <slot />
