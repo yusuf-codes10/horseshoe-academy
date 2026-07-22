@@ -4,6 +4,7 @@ import { ref, onMounted } from "vue";
 import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
 import type { NewUser, Teacher, Class } from "@classroom/shared";
+import ModalCard from "@/components/ui/ModalCard.vue";
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -24,6 +25,12 @@ const foundClass = ref<(Class & { subjectName: string }) | null>(null);
 const assignedTeacher = ref<(NewUser & Teacher) | null>(null);
 const loading = ref(false);
 // const error = ref('')
+
+const isModalOpen = ref(false);
+
+const toggleModal = () => {
+  isModalOpen.value = !isModalOpen.value;
+};
 
 const getClassById = async () => {
   loading.value = true;
@@ -100,6 +107,11 @@ onMounted(async () => {
       </div>
     </div>
 
+    <!-- the schedule session modal -->
+    <ModalCard :isOpen="isModalOpen" :title="'Schedule a Session'" @close="toggleModal">
+      <div class="flex flex-col gap-1.5"></div>
+    </ModalCard>
+
     <!-- Teacher -->
     <div class="bg-popover border border-border rounded-xl p-6">
       <div class="flex justify-between relative">
@@ -142,7 +154,7 @@ onMounted(async () => {
           <p class="text-text-muted text-sm">No sessions scheduled yet.</p>
         </div>
 
-        <MainButton variant="action" title="+ Schedula a Session" />
+        <MainButton @click="toggleModal" variant="action" title="+ Schedula a Session" />
       </div>
     </div>
 
