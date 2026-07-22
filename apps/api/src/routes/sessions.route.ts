@@ -14,7 +14,7 @@ import { verifyToken } from "@/middlewares/verifyToken";
 const router = new Hono();
 
 // create a session
-router.post("/", ...createSession);
+router.post("/", verifyToken, isTeacher, ...createSession);
 
 // get all sessions per class
 // router.get("/", ...getSessionPerClass)
