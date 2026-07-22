@@ -50,6 +50,12 @@ const sideBarItem: Item[] = [
     path: "/classes",
     permission: "view:classes",
   },
+  {
+    name: 'Sessions',
+    icon: School,
+    path: '/sessions',
+    permission: 'view:sessions'
+  }
 ] as Item[];
 
 const sideStore = useSideStore();

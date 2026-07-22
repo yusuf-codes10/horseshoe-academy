@@ -15,14 +15,17 @@ export const ROLES = {
     "create:subjects",
     "view:subjects",
     "view:classes",
-    "create:classes"
+    "create:classes",
+    "view:sessions",
   ],
   student: [
     "view:classes"
   ],
   teacher: [
     "view:departments",
-    "view:classes"
+    "view:classes",
+    "view:sessions",
+    "create:sessions"
   ]
 } as const;
 
