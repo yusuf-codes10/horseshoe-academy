@@ -6,6 +6,7 @@ import { db } from "@/db/index";
 import { classes, subjects, teachers } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
+import type { JWTPayloadShape } from "@classroom/shared";
 
 const factory = createFactory<{ Variables: { class: NewClass } }>();
 
@@ -196,6 +197,31 @@ export const getAllClasses = factory.createHandlers(
       return c.json({msg: 'classes: ', fetchedClasses, classesCount});
     } catch (error) {
       console.log(error);
+    }
+  }
+);
+
+// get my classes (teacher)
+export const getMyClasses = factory.createHandlers(
+  async (c) => {
+    const payload = c.get('jwtPayload') as JWTPayloadShape;
+    try {
+
+      // check if teacher exists
+      const [foundTeacher] = await db.select()
+      .from(teachers)
+      .where(eq(teachers.id, payload.id));
+
+      if (!foundTeacher) throw new HTTPException(404, {message: 'teacher does not exist!'});
+
+      const myClasses = await db.select()
+      .from(classes)
+      .where(eq(classes.teacherId, foundTeacher.id));
+      return c.json({msg: 'My Classes:', myClasses});
+    } catch (error) {
+      if (error instanceof HTTPException) throw error;
+      console.log(error);
+      throw new HTTPException(500, { message: "something went wrong" });
     }
   }
 );

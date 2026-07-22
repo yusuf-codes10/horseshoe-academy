@@ -4,6 +4,7 @@ import {
   assignTacherToClass,
   getClassById,
   getAllClasses,
+  getMyClasses
 } from "@/controllers/classes.controller";
 import { verifyToken } from "@/middlewares/verifyToken";
 import { isTeacher } from "@/middlewares/teacher";
@@ -17,7 +18,7 @@ router.post("/", ...createClass);
 router.get("/", ...getAllClasses);
 
 // get My Classes (teacher)
-router.get('/me', verifyToken, isTeacher);
+router.get('/me', verifyToken, isTeacher, ...getMyClasses);
 
 // assign a teacher to a class
 router.patch("/:classId", ...assignTacherToClass);
