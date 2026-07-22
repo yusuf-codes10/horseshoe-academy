@@ -77,6 +77,7 @@ export const classes = pgTable('classes', {
 
 export const sessions = pgTable('sessions', {
     id: bigserial('id', {mode: 'number'}).primaryKey(),
+    name: varchar('name', {length: 30}),
     date: date('date').notNull(),
     location: text('location').notNull(),
     classId: bigint('class_id', {mode: 'number'}).references(() => classes.id)

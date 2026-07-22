@@ -85,6 +85,13 @@
       "when": 1784460347206,
       "tag": "0011_icy_nocturne",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1784741490531,
+      "tag": "0012_silent_energizer",
+      "breakpoints": true
     }
   ]
 }
