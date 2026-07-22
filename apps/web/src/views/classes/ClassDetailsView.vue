@@ -96,7 +96,6 @@ const scheduleSession = async () => {
       name: name.value,
       date: date.value,
       location: location.value,
-      classId: Number(route.params.classId)
     });
     console.log(response.data);
   } catch (error) {
@@ -108,10 +107,21 @@ const scheduleSession = async () => {
 
 }
 
+const fetchSessionsPerClass = async () => {
+  try {
+    const response = await api.get(`/classes/${route.params.classId}/sessions`);
+    console.log('all sessions per this class', response.data);
+  } catch (error) {
+    console.log(error);
+
+  }
+}
+
 onMounted(async () => {
   await getClassById();
   await showAvailableTeachers();
   await fetchTeacher();
+  await fetchSessionsPerClass();
 });
 </script>
 
