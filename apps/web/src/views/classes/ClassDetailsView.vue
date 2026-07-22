@@ -20,7 +20,7 @@ const showDropdown = ref(false);
 //   subjectName: string;
 // };
 
-const foundClass = ref<Class &{ subjectName: string} | null>(null);
+const foundClass = ref<(Class & { subjectName: string }) | null>(null);
 const assignedTeacher = ref<(NewUser & Teacher) | null>(null);
 const loading = ref(false);
 // const error = ref('')
@@ -132,6 +132,12 @@ onMounted(async () => {
       </p>
       <p v-else class="text-text-muted text-sm">No teacher assigned yet.</p>
       <!-- or teacher name/info here -->
+    </div>
+
+    <!-- session -->
+    <div class="bg-popover border border-border rounded-xl p-6">
+      <h2 class="font-medium mb-4">Sessions</h2>
+      <p class="text-text-muted text-sm">No sessions scheduled yet.</p>
     </div>
 
     <!-- Students -->
