@@ -140,7 +140,7 @@ onMounted(async () => {
         <label for="">Name</label>
         <BaseInput type="text" placeholder="eg: Web Development Bootcamp" v-model="name"/>
         <label for="">Date</label>
-        <BaseInput type="datetime-local" placeholder="date" class="..." v-modal="date"/>
+        <BaseInput type="datetime-local" placeholder="date" class="..." v-model="date"/>
         <MainButton title="Schedule" :loading="loading"/>
       </div>
     </ModalCard>
