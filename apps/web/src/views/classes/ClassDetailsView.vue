@@ -5,6 +5,7 @@ import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
 import type { NewUser, Teacher, Class } from "@classroom/shared";
 import ModalCard from "@/components/ui/ModalCard.vue";
+import BaseInput from "@/components/shared/BaseInput.vue";
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -109,7 +110,9 @@ onMounted(async () => {
 
     <!-- the schedule session modal -->
     <ModalCard :isOpen="isModalOpen" :title="'Schedule a Session'" @close="toggleModal">
-      <div class="flex flex-col gap-1.5"></div>
+      <div class="flex flex-col gap-1.5">
+        <BaseInput type="text" placeholder="something"/>
+      </div>
     </ModalCard>
 
     <!-- Teacher -->
