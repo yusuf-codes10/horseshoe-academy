@@ -49,9 +49,12 @@ const getAllSessions = async () => {
   }
 }
 
-const setRows = (payload: number) => {
+const setRows = async (payload: number) => {
   page.value = payload;
-  sessions.value =
+    const {allSessions, sessionsCount} = await getAllSessions();
+
+  sessions.value = allSessions;
+  count.value = sessionsCount;
 }
 
 onMounted(async () => {
@@ -60,7 +63,9 @@ onMounted(async () => {
   } else {
     console.log('Sorry! You are not a teacher!');
     console.log('You are: ', userStore.user?.role);
-    await getAllSessions();
+    const {allSessions, sessionsCount} = await getAllSessions();
+        sessions.value = allSessions;
+    count.value = sessionsCount;
   }
 })
 </script>
@@ -75,16 +80,15 @@ onMounted(async () => {
 
     <MainTable
       :columns="[
-        {key: 'id', label: 'ID'},
-        {key: 'date', label: 'Date'},
-        {key: 'location', label: 'Location'},
-        {key: 'status', label: 'Status'},
-        {key: 'classId', label: 'Class ID'},
+        { key: 'id', label: 'ID' },
+        { key: 'date', label: 'Date' },
+        { key: 'location', label: 'Location' },
+        { key: 'status', label: 'Status' },
+        { key: 'classId', label: 'Class ID' },
       ]"
       :data="sessions"
       :loading="false"
     />
-      <PaginationBar v-if="count" :count="count" @sendPage="'setRows'" />
-
+    <PaginationBar v-if="count" :count="count" @sendPage="'setRows'" />
   </div>
 </template>
