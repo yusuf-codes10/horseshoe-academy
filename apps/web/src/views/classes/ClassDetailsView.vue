@@ -34,6 +34,8 @@ const loading = ref(false);
 
 const isModalOpen = ref(false);
 
+const sessions = ref([])
+
 const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value;
 };
@@ -111,9 +113,9 @@ const fetchSessionsPerClass = async () => {
   try {
     const response = await api.get(`/classes/${route.params.classId}/sessions`);
     console.log('all sessions per this class', response.data);
+    sessions.value = response.data.foundSessions;
   } catch (error) {
     console.log(error);
-
   }
 }
 
@@ -192,6 +194,13 @@ onMounted(async () => {
 
     <!-- session -->
     <div class="bg-popover border border-border rounded-xl p-6">
+
+      <!-- has sessions -->
+       <div class="flex justify-between">
+
+       </div>
+
+      <!-- no sessions -->
       <div class="flex justify-between">
         <div>
           <h2 class="font-medium mb-4">Sessions</h2>
