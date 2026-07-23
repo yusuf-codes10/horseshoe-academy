@@ -10,7 +10,9 @@ import { ref, onMounted } from 'vue';
 import api from '@/services/api';
 
 const sessions = ref([]);
-const count = ref(0)
+const count = ref(0);
+const page = ref(1);
+const limit = ref(5);
 
 const userStore = useUserStore();
 
@@ -34,13 +36,22 @@ const getMySessions = async () => {
 
 const getAllSessions = async () => {
   try {
-    const response = await api.get('/sessions/admin');
+    const response = await api.get(`/sessions/admin/?page=${page.value}&limit=${limit.value}`);
     console.log('All sessions (for the admin): ', response.data);
-    sessions.value = response.data.allSessions;
-    count.value = response.data.sessionsCount;
+    // sessions.value = response.data.allSessions;
+    // count.value = response.data.sessionsCount;
+    return {
+      allSessions: response.data.allSessions,
+      sessionsCount: response.data.sessionsCount
+    }
   } catch (error) {
     console.log(error);
   }
+}
+
+const setRows = (payload: number) => {
+  page.value = payload;
+  sessions.value =
 }
 
 onMounted(async () => {
