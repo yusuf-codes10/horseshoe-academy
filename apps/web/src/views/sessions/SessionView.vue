@@ -8,7 +8,10 @@ import { ref, onMounted } from 'vue';
 // import type { NewUser, NewTeacher } from "@classroom/shared";
 import api from '@/services/api';
 
-const sessions = ref([])
+const sessions = ref([]);
+
+const userStore = useUserStore();
+
 
 // const currentUser = ref<
 //   | (Omit<NewUser, "role"> & { role: "admin" })
@@ -27,7 +30,14 @@ const getMySessions = async () => {
   }
 }
 
-const userStore = useUserStore();
+const getAllSessions = async () => {
+  try {
+    const response = await api.get('/sessions');
+    console.log('All sessions: ', response.data);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 onMounted(async () => {
   if (userStore.user && userStore.user.role === 'teacher') {
@@ -35,7 +45,7 @@ onMounted(async () => {
   } else {
     console.log('Sorry! You are not a teacher!');
     console.log('You are: ', userStore.user?.role);
-
+    await getAllSessions();
   }
 })
 </script>
