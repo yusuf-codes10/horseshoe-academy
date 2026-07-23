@@ -214,8 +214,15 @@ export const getMyClasses = factory.createHandlers(
 
       if (!foundTeacher) throw new HTTPException(404, {message: 'teacher does not exist!'});
 
-      const myClasses = await db.select()
+      const myClasses = await db.select({
+        id: classes.id,
+        capacity: classes.capacity,
+        subjectName: subjects.name,
+        subjectId: subjects.id,
+        teacherId: classes.teacherId
+      })
       .from(classes)
+      .innerJoin(subjects, eq(subjects.id, classes.subjectId))
       .where(eq(classes.teacherId, foundTeacher.id));
       return c.json({msg: 'My Classes:', myClasses});
     } catch (error) {
