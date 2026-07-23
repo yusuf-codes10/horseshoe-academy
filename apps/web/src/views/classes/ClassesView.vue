@@ -62,6 +62,7 @@ const columns = [
   { key: "subjectName", label: "Subject Name" },
   { key: "subjectId", label: "Subject Id" },
   { key: "teacherId", label: "Teacher Id" },
+  { key: "teacherName", label: "Teacher Name"}
 ];
 
 const createClass = () => {
