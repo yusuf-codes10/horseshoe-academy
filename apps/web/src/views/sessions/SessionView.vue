@@ -5,17 +5,17 @@ import { useUserStore } from "@/stores/userStore";
 // import { hasPermession } from "@/libs/permessions";
 import MainTable from "@/components/shared/MainTable.vue";
 import { ref, onMounted } from 'vue';
-import type { NewUser, NewTeacher } from "@classroom/shared";
+// import type { NewUser, NewTeacher } from "@classroom/shared";
 import api from '@/services/api';
 
 const sessions = ref([])
 
-const currentUser = ref<
-  | (Omit<NewUser, "role"> & { role: "admin" })
-  | (Omit<NewUser, "role"> & NewTeacher & { role: "student" })
-  | (Omit<NewUser, "role"> & NewTeacher & { role: "teacher" })
-  | null
->(null);
+// const currentUser = ref<
+//   | (Omit<NewUser, "role"> & { role: "admin" })
+//   | (Omit<NewUser, "role"> & NewTeacher & { role: "student" })
+//   | (Omit<NewUser, "role"> & NewTeacher & { role: "teacher" })
+//   | null
+// >(null);
 
 const getMySessions = async () => {
   try {

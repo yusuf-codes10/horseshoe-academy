@@ -4,6 +4,8 @@ type Column = {
   label: string;
 };
 
+// probably need a prop for empty state
+
 const props = defineProps<{
   columns: Column[];
   data: Record<string, unknown>[];
@@ -25,18 +27,26 @@ const props = defineProps<{
         </tr>
       </thead>
       <tbody>
-        <!-- <RouterLink :to="{path: `/classes/${}`}"></RouterLink> -->
-        <tr
-          v-for="(row, index) in props.data"
-          :key="index"
-          class="text-text-primary border-b border-white/5 hover:bg-white/5 transition-colors"
-        >
-        <slot name="row" :row="row" :index="index">
-          <!-- using a slot -->
-          <td v-for="col in props.columns" :key="col.key" class="py-3 px-4">
-            {{ row[col.key] }}
+        <template v-if="props.data.length > 0">
+          <!-- <RouterLink :to="{path: `/classes/${}`}"></RouterLink> -->
+          <tr
+            v-for="(row, index) in props.data"
+            :key="index"
+            class="text-text-primary border-b border-white/5 hover:bg-white/5 transition-colors"
+          >
+            <slot name="row" :row="row" :index="index">
+              <!-- using a slot -->
+              <td v-for="col in props.columns" :key="col.key" class="py-3 px-4">
+                {{ row[col.key] }}
+              </td>
+            </slot>
+          </tr>
+        </template>
+        <!-- Empty state row -->
+        <tr v-else>
+          <td :colspan="props.columns.length" class="py-10 text-center text-text-muted">
+            {{ "No data yet" }}
           </td>
-        </slot>
         </tr>
       </tbody>
     </table>
