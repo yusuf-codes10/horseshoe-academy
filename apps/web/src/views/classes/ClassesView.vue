@@ -24,9 +24,9 @@ const rows = ref(5);
 const fetchAllClasses = async () => {
   try {
     const response = await api.get(`/classes?page=${page.value}&limit=${rows.value}`);
-    console.log(response.data.fetchedClasses);
+    console.log('all classes for the admin: ', response.data.fetchedClasses);
     return {
-      allClasses: response.data.fetchedClasses,
+      fetchedClasses: response.data.fetchedClasses,
       classesCount: response.data.classesCount,
     };
   } catch (error) {
@@ -51,8 +51,8 @@ const fetchMyClasses = async () => {
 // emit handler
 const setRows = async (payload: number) => {
   page.value = payload;
-  const { allClasses, classesCount } = (await fetchAllClasses()) ?? { allClasses: [] };
-  classes.value = allClasses;
+  const { fetchedClasses, classesCount } = (await fetchAllClasses()) ?? { fetchedClasses: [] };
+  classes.value = fetchedClasses;
   count.value = classesCount;
 };
 
@@ -74,8 +74,8 @@ onMounted(async () => {
     const { myClasses } = (await fetchMyClasses()) ?? { myClasses: [] }; // 👈 destructure
     classes.value = myClasses;
   } else {
-    const { allClasses, classesCount } = (await fetchAllClasses()) ?? { allClasses: [] };
-    classes.value = allClasses;
+    const { fetchedClasses, classesCount } = (await fetchAllClasses()) ?? { fetchedClasses: [] };
+    classes.value = fetchedClasses;
     count.value = classesCount;
   }
 });

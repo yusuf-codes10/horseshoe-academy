@@ -45,6 +45,7 @@ export const createClass = factory.createHandlers(
         })
         .returning();
 
+        console.log('the new class', insertedClass);
       return c.json({ msg: "class has been created", insertedClass });
     } catch (error) {
       console.log(error);
@@ -182,9 +183,9 @@ export const getAllClasses = factory.createHandlers(
         }
       )
       .from(classes)
-      .innerJoin(subjects, eq(subjects.id, classes.subjectId))
-      .innerJoin(teachers, eq(teachers.id, classes.teacherId))
-      .innerJoin(users, eq(users.id, teachers.id))
+      .leftJoin(subjects, eq(subjects.id, classes.subjectId))
+      .leftJoin(teachers, eq(teachers.id, classes.teacherId))
+      .leftJoin(users, eq(users.id, teachers.id))
       // .groupBy(classes.id, subjects.name)
       .limit(limit)
       .offset(skip)
