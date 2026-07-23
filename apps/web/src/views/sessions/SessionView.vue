@@ -33,7 +33,8 @@ const getMySessions = async () => {
 const getAllSessions = async () => {
   try {
     const response = await api.get('/sessions/admin');
-    console.log('All sessions: ', response.data);
+    console.log('All sessions (for the admin): ', response.data);
+    sessions.value = response.data.allSessions;
   } catch (error) {
     console.log(error);
   }

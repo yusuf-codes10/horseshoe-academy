@@ -130,7 +130,10 @@ export const getAllSessions = factory.createHandlers(async (c) => {
       .offset(skip)
       .limit(limit)
       .orderBy(sessions.id);
-    return c.json({ msg: "All Sessions:", allSessions });
+
+      // return the count too
+      const sessionsCount = await db.$count(sessions);
+    return c.json({ msg: "All Sessions:", allSessions, sessionsCount });
   } catch (error) {
     console.log(error);
     if (error instanceof HTTPException) throw error;
