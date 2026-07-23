@@ -185,10 +185,10 @@ export const getAllClasses = factory.createHandlers(
       .innerJoin(subjects, eq(subjects.id, classes.subjectId))
       .innerJoin(teachers, eq(teachers.id, classes.teacherId))
       .innerJoin(users, eq(users.id, teachers.id))
-      .groupBy(classes.id, subjects.name)
+      // .groupBy(classes.id, subjects.name)
       .limit(limit)
-      .offset(skip)
-      .orderBy(classes.id);
+      .offset(skip);
+      // .orderBy(classes.id);
 
       // 1- return the subject name it belongs to
       // const [subject] = await db.select()
