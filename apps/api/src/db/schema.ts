@@ -22,6 +22,7 @@ export const degreeEnum = pgEnum("degree", [
   "PhD",
 ]);
 export const genderEnum = pgEnum('gender', ['female', 'male']);
+export const sessionEnum = pgEnum('status',['active', 'upcoming', 'completed']);
 
 export const users = pgTable("users", {
   id: bigint("id", { mode: "number" }).primaryKey(),
@@ -80,6 +81,7 @@ export const sessions = pgTable('sessions', {
     name: varchar('name', {length: 30}),
     date: date('date').notNull(),
     location: text('location').notNull(),
+    status: sessionEnum(),
     classId: bigint('class_id', {mode: 'number'}).references(() => classes.id)
 })
 
