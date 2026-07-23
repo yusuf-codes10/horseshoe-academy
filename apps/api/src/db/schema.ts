@@ -81,7 +81,7 @@ export const sessions = pgTable('sessions', {
     name: varchar('name', {length: 30}),
     date: date('date').notNull(),
     location: text('location').notNull(),
-    status: sessionEnum(),
+    status: sessionEnum().notNull().default('upcoming'),
     classId: bigint('class_id', {mode: 'number'}).references(() => classes.id)
 })
 
