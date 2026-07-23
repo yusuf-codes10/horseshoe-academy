@@ -20,7 +20,7 @@ router.post("/", verifyToken, isTeacher, ...createSession);
 router.get("/", ...getSessionPerClass);
 
 // get all sessions
-router.get("/", isAdmin, ...getAllSessions);
+router.get("/admin", isAdmin, ...getAllSessions);
 
 // get my seesions
 router.get("/me", verifyToken, isTeacher, ...getMySessions);

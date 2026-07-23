@@ -32,7 +32,7 @@ const getMySessions = async () => {
 
 const getAllSessions = async () => {
   try {
-    const response = await api.get('/sessions');
+    const response = await api.get('/sessions/admin');
     console.log('All sessions: ', response.data);
   } catch (error) {
     console.log(error);
