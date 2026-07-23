@@ -1,0 +1,2 @@
+CREATE TYPE "public"."session_status" AS ENUM('active', 'upcoming', 'completed');--> statement-breakpoint
+ALTER TABLE "sessions" ALTER COLUMN "status" SET DATA TYPE "public"."session_status" USING "status"::text::"public"."session_status";
