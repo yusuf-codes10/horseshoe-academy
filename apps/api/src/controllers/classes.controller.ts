@@ -3,7 +3,7 @@ import type { NewClass } from "@classroom/shared";
 import { insertClassSchema } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
 import { db } from "@/db/index";
-import { classes, subjects, teachers } from "@/db/schema";
+import { classes, subjects, teachers, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import type { JWTPayloadShape } from "@classroom/shared";
@@ -177,11 +177,14 @@ export const getAllClasses = factory.createHandlers(
           enrolledCount: classes.enrolledCount,
           subjectId: classes.subjectId,
           teacherId: classes.teacherId,
+          teacherName: users.fullName,
           subjectName: subjects.name
         }
       )
       .from(classes)
       .innerJoin(subjects, eq(subjects.id, classes.subjectId))
+      .innerJoin(teachers, eq(teachers.id, classes.teacherId))
+      .innerJoin(users, eq(users.id, teachers.id))
       .groupBy(classes.id, subjects.name)
       .limit(limit)
       .offset(skip)
