@@ -53,6 +53,7 @@ onMounted(async () => {
         {key: 'id', label: 'ID'},
         {key: 'date', label: 'Date'},
         {key: 'location', label: 'Location'},
+        {key: 'status', label: 'Status'},
         {key: 'classId', label: 'Class ID'},
       ]"
       :data="sessions"

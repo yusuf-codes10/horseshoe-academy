@@ -157,6 +157,7 @@ export const getMySessions = factory.createHandlers(async (c) => {
         id: sessions.id,
         name: sessions.name,
         location: sessions.location,
+        status: sessions.status,
         classId: sessions.classId,
       }
     )
