@@ -4,11 +4,13 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import { useUserStore } from "@/stores/userStore";
 // import { hasPermession } from "@/libs/permessions";
 import MainTable from "@/components/shared/MainTable.vue";
+import PaginationBar from "@/components/shared/PaginationBar.vue";
 import { ref, onMounted } from 'vue';
 // import type { NewUser, NewTeacher } from "@classroom/shared";
 import api from '@/services/api';
 
 const sessions = ref([]);
+const count = ref(0)
 
 const userStore = useUserStore();
 
@@ -35,6 +37,7 @@ const getAllSessions = async () => {
     const response = await api.get('/sessions/admin');
     console.log('All sessions (for the admin): ', response.data);
     sessions.value = response.data.allSessions;
+    count.value = response.data.sessionsCount;
   } catch (error) {
     console.log(error);
   }
@@ -70,5 +73,7 @@ onMounted(async () => {
       :data="sessions"
       :loading="false"
     />
+      <PaginationBar v-if="count" :count="count" @sendPage="'setRows'" />
+
   </div>
 </template>
