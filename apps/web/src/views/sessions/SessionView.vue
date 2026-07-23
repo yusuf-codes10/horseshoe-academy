@@ -5,9 +5,9 @@ import { useUserStore } from "@/stores/userStore";
 // import { hasPermession } from "@/libs/permessions";
 import MainTable from "@/components/shared/MainTable.vue";
 import PaginationBar from "@/components/shared/PaginationBar.vue";
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 // import type { NewUser, NewTeacher } from "@classroom/shared";
-import api from '@/services/api';
+import api from "@/services/api";
 
 const sessions = ref([]);
 const count = ref(0);
@@ -15,7 +15,6 @@ const page = ref(1);
 const limit = ref(5);
 
 const userStore = useUserStore();
-
 
 // const currentUser = ref<
 //   | (Omit<NewUser, "role"> & { role: "admin" })
@@ -26,48 +25,48 @@ const userStore = useUserStore();
 
 const getMySessions = async () => {
   try {
-    const response = await api.get('/sessions/me');
-    console.log('my sessions from sessions view: ', response.data);
+    const response = await api.get("/sessions/me");
+    console.log("my sessions from sessions view: ", response.data);
     sessions.value = response.data.mySessions;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 const getAllSessions = async () => {
   try {
     const response = await api.get(`/sessions/admin/?page=${page.value}&limit=${limit.value}`);
-    console.log('All sessions (for the admin): ', response.data);
+    console.log("All sessions (for the admin): ", response.data);
     // sessions.value = response.data.allSessions;
     // count.value = response.data.sessionsCount;
     return {
       allSessions: response.data.allSessions,
-      sessionsCount: response.data.sessionsCount
-    }
+      sessionsCount: response.data.sessionsCount,
+    };
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 const setRows = async (payload: number) => {
   page.value = payload;
-    const {allSessions, sessionsCount} = await getAllSessions();
+  const { allSessions, sessionsCount } = (await getAllSessions()) ?? { allSessions: [] };
 
   sessions.value = allSessions;
   count.value = sessionsCount;
-}
+};
 
 onMounted(async () => {
-  if (userStore.user && userStore.user.role === 'teacher') {
+  if (userStore.user && userStore.user.role === "teacher") {
     await getMySessions();
   } else {
-    console.log('Sorry! You are not a teacher!');
-    console.log('You are: ', userStore.user?.role);
-    const {allSessions, sessionsCount} = await getAllSessions();
-        sessions.value = allSessions;
+    console.log("Sorry! You are not a teacher!");
+    console.log("You are: ", userStore.user?.role);
+    const { allSessions, sessionsCount } = (await getAllSessions()) ?? { allSessions: [] };
+    sessions.value = allSessions;
     count.value = sessionsCount;
   }
-})
+});
 </script>
 
 <template>
@@ -89,6 +88,6 @@ onMounted(async () => {
       :data="sessions"
       :loading="false"
     />
-    <PaginationBar v-if="count" :count="count" @sendPage="'setRows'" />
+    <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
   </div>
 </template>
