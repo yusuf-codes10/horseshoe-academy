@@ -194,13 +194,17 @@ onMounted(async () => {
     <div class="bg-popover border border-border rounded-xl p-6">
       <!-- has sessions -->
       <!-- only display the most recent sessions! with an option for details maybe! -->
-      <div class="flex justify-between">
+      <div v-if="sessions" class="flex flex-col">
+        <div>
+          <h2 class="font-medium mb-4">Sessions</h2>
+        </div>
+
         <MainTable
           :columns="[
-            { key: 'id', label: 'ID' },
-            { key: 'date', label: 'Date' },
-            { key: 'location', label: 'Location' },
-            { key: 'classId', label: 'Class ID' },
+            { key: 'id', label: '' },
+            { key: 'date', label: '' },
+            { key: 'location', label: '' },
+            { key: 'classId', label: '' },
           ]"
           :data="sessions"
           :loading="true"
@@ -208,7 +212,7 @@ onMounted(async () => {
       </div>
 
       <!-- no sessions -->
-      <div class="flex justify-between">
+      <div v-else class="flex justify-between">
         <div>
           <h2 class="font-medium mb-4">Sessions</h2>
           <p class="text-text-muted text-sm">No sessions scheduled yet.</p>
