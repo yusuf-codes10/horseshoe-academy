@@ -6,15 +6,16 @@ import MainButton from "@/components/shared/MainButton.vue";
 import type { NewUser, Teacher, Class } from "@classroom/shared";
 import ModalCard from "@/components/ui/ModalCard.vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
+import MainTable from "@/components/shared/MainTable.vue";
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
 const showDropdown = ref(false);
 
 // shcedule sessions fileds
-const name = ref('')
-const date = ref('')
-const location = ref('')
+const name = ref("");
+const date = ref("");
+const location = ref("");
 
 // TODO: should probably use whatever is on packages/shared
 // type FoundClass = {
@@ -34,7 +35,7 @@ const loading = ref(false);
 
 const isModalOpen = ref(false);
 
-const sessions = ref([])
+const sessions = ref([]);
 
 const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value;
@@ -90,9 +91,8 @@ const fetchTeacher = async () => {
 };
 console.log("this is the id", route.params.classId);
 
-
 const scheduleSession = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     const response = await api.post(`/classes/${route.params.classId}/sessions`, {
       name: name.value,
@@ -102,22 +102,20 @@ const scheduleSession = async () => {
     console.log(response.data);
   } catch (error) {
     console.log(error);
-
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-
-}
+};
 
 const fetchSessionsPerClass = async () => {
   try {
     const response = await api.get(`/classes/${route.params.classId}/sessions`);
-    console.log('all sessions per this class', response.data);
+    console.log("all sessions per this class", response.data);
     sessions.value = response.data.foundSessions;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 onMounted(async () => {
   await getClassById();
@@ -149,12 +147,12 @@ onMounted(async () => {
     <ModalCard :isOpen="isModalOpen" :title="'Schedule a Session'" @close="toggleModal">
       <div class="flex flex-col gap-1.5">
         <label for="">Location</label>
-        <BaseInput type="text" placeholder="eg: London" v-model="location"/>
+        <BaseInput type="text" placeholder="eg: London" v-model="location" />
         <label for="">Name</label>
-        <BaseInput type="text" placeholder="eg: Web Development Bootcamp" v-model="name"/>
+        <BaseInput type="text" placeholder="eg: Web Development Bootcamp" v-model="name" />
         <label for="">Date</label>
-        <BaseInput type="datetime-local" placeholder="date" class="..." v-model="date"/>
-        <MainButton @click="scheduleSession" title="Schedule" :loading="loading"/>
+        <BaseInput type="datetime-local" placeholder="date" class="..." v-model="date" />
+        <MainButton @click="scheduleSession" title="Schedule" :loading="loading" />
       </div>
     </ModalCard>
 
@@ -194,11 +192,20 @@ onMounted(async () => {
 
     <!-- session -->
     <div class="bg-popover border border-border rounded-xl p-6">
-
       <!-- has sessions -->
-       <div class="flex justify-between">
-
-       </div>
+      <!-- only display the most recent sessions! with an option for details maybe! -->
+      <div class="flex justify-between">
+        <MainTable
+          :columns="[
+            { key: 'id', label: 'ID' },
+            { key: 'date', label: 'Date' },
+            { key: 'location', label: 'Location' },
+            { key: 'classId', label: 'Class ID' },
+          ]"
+          :data="sessions"
+          :loading="true"
+        />
+      </div>
 
       <!-- no sessions -->
       <div class="flex justify-between">
