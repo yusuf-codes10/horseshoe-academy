@@ -171,6 +171,32 @@
   body {
     @apply bg-background text-foreground;
   }
+
+  /* ─── Global scrollbar ─── */
+  * {
+    scrollbar-color: var(--primary) transparent;
+    scrollbar-width: thin;
+  }
+
+  *::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+    /* also covers horizontal scrollbars */
+  }
+
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 999px;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: var(--ring);
+    /* slightly different on hover — both are the orange */
+  }
 }
 
 /* some reusable components */
