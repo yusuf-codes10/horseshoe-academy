@@ -195,8 +195,9 @@ onMounted(async () => {
       <!-- has sessions -->
       <!-- only display the most recent sessions! with an option for details maybe! -->
       <div v-if="sessions" class="flex flex-col">
-        <div>
+        <div class="flex justify-between">
           <h2 class="font-medium mb-4">Sessions</h2>
+          <MainButton @click="toggleModal" variant="action" title="+ Schedula a Session" />
         </div>
 
         <MainTable
@@ -209,16 +210,6 @@ onMounted(async () => {
           :data="sessions"
           :loading="true"
         />
-      </div>
-
-      <!-- no sessions -->
-      <div v-else class="flex justify-between">
-        <div>
-          <h2 class="font-medium mb-4">Sessions</h2>
-          <p class="text-text-muted text-sm">No sessions scheduled yet.</p>
-        </div>
-
-        <MainButton @click="toggleModal" variant="action" title="+ Schedula a Session" />
       </div>
     </div>
 
