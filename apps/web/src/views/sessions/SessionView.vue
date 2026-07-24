@@ -35,7 +35,7 @@ const getMySessions = async () => {
 
 const getAllSessions = async () => {
   try {
-    const response = await api.get(`/sessions/admin/?page=${page.value}&limit=${limit.value}`);
+    const response = await api.get(`/sessions/admin?page=${page.value}&limit=${limit.value}`);
     console.log("All sessions (for the admin): ", response.data);
     // sessions.value = response.data.allSessions;
     // count.value = response.data.sessionsCount;
