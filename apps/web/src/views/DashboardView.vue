@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import NavigatorBar from '@/components/shared/NavigatorBar.vue';
-import SideBar from '@/layouts/SideBar.vue';
-import TopBar from '@/layouts/TopBar.vue';
-import { useSideStore } from '@/stores/sideStore';
+import NavigatorBar from "@/components/shared/NavigatorBar.vue";
+import SideBar from "@/layouts/SideBar.vue";
+import TopBar from "@/layouts/TopBar.vue";
+import { useSideStore } from "@/stores/sideStore";
 
 const sideStore = useSideStore();
 
@@ -12,10 +12,12 @@ const sideStore = useSideStore();
 <template>
   <div class="flex h-[calc(100vh-72px)]">
     <SideBar @toggle="sideStore.toggle"/>
-    <div class="w-full">
+    <div class="flex flex-col w-full min-h-0">
       <TopBar />
       <NavigatorBar />
-      <RouterView />
+      <div class="flex-1 overflow-y-auto min-h-0">
+        <RouterView />
+      </div>
     </div>
   </div>
 </template>
