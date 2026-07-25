@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useSideStore } from "@/stores/sideStore";
 import { useUserStore } from "@/stores/userStore";
-import { Home, Building2, BookOpen, School, PanelLeft, X } from "lucide-vue-next";
+import { Home, Building2, BookOpen, School, PanelLeft, X, CalendarDays, ClipboardList } from "lucide-vue-next";
 import { ref } from "vue";
 import type { Component } from "vue";
 import type { Permession } from "@/libs/permessions";
@@ -52,13 +52,13 @@ const sideBarItem: Item[] = [
   },
   {
     name: 'Sessions',
-    icon: School,
+    icon: CalendarDays,
     path: '/sessions',
     permission: 'view:sessions'
   },
   {
     name: 'Applications',
-    icon: School,
+    icon: ClipboardList,
     path: '/applications',
     permission: 'view:applications'
   }
