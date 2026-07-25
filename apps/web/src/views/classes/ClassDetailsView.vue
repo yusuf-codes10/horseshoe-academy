@@ -9,6 +9,7 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainTable from "@/components/shared/MainTable.vue";
 import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
+import ActionsBar from "@/components/shared/ActionsBar.vue";
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -132,6 +133,8 @@ onMounted(async () => {
 
 <template>
   <div class="mx-4 my-6 flex flex-col gap-6">
+    <!-- actions bar -->
+     <ActionsBar :title="foundClass?.code" description="lorem lorem lorem"/>
     <!-- Header -->
     <div v-if="foundClass" class="bg-popover border border-border rounded-xl p-6">
       <h1 class="text-xl font-semibold">{{ foundClass.code }}</h1>
