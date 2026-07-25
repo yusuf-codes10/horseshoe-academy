@@ -13,6 +13,9 @@ router.post('/', verifyToken, isStudent, ...createApplication);
 // see all applications per class | teacher
 router.get('/', ...getApplicationsPerClass);
 
+// get all applications for the admin
+router.get('/admin');
+
 // delete my application | student
 
 export default router;

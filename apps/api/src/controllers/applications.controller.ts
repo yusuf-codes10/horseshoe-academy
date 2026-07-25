@@ -6,7 +6,7 @@ import { db } from "@/db/index";
 import { applications, classes } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
-import type { JWTPayloadShape } from '@classroom/shared';
+import type { JWTPayloadShape } from "@classroom/shared";
 
 const factory = createFactory<{ Variables: { application: NewApplication } }>();
 
@@ -18,7 +18,7 @@ export const createApplication = factory.createHandlers(
     const classId = Number(c.req.param("classId"));
 
     // TODO: replace with c.get('jwtPayload').id once auth middleware is in place
-    const payload = c.get('jwtPayload') as JWTPayloadShape;
+    const payload = c.get("jwtPayload") as JWTPayloadShape;
 
     try {
       // verify that class exists
@@ -30,10 +30,15 @@ export const createApplication = factory.createHandlers(
       if (!foundClass)
         throw new HTTPException(404, { message: "class dpes mpt exost!" });
 
-      const [insertedApplication] = await db.insert(applications).values({
-        studentId: payload.id,
-        classId: classId,
-      }).returning();
+      const [insertedApplication] = await db
+        .insert(applications)
+        .values({
+          studentId: payload.id,
+          classId: classId,
+        })
+        .returning();
+
+      // incremet the classes enrolledStudents? (When approved!)
 
       return c.json({ msg: "application: ", insertedApplication });
     } catch (error) {
@@ -58,11 +63,35 @@ export const getApplicationsPerClass = factory.createHandlers(async (c) => {
     if (!foundClass)
       throw new HTTPException(404, { message: "class does not exist" });
 
-    const foundApplications = await db.select()
-    .from(applications)
-    .where(eq(applications.classId, classId));
+    const foundApplications = await db
+      .select()
+      .from(applications)
+      .where(eq(applications.classId, classId));
 
-    return c.json({msg: 'applications: ', foundApplications});
+    return c.json({ msg: "applications: ", foundApplications });
+  } catch (error) {
+    console.log(error);
+    if (error instanceof HTTPException) throw error;
+    throw new HTTPException(500, { message: "something went wrong" });
+  }
+});
+
+// get all applications (admin)
+export const getAllApplications = factory.createHandlers(async (c) => {
+  const pageQuery = c.req.query("page");
+  const limitQuery = c.req.query("limit");
+
+  const page = Number(pageQuery) || 1;
+  const limit = Number(limitQuery) || 10;
+  const skip = (page - 1) * limit;
+  try {
+    const allApplications = await db
+      .select()
+      .from(applications)
+      .offset(skip)
+      .limit(limit)
+      .orderBy(applications.id);
+    return c.json({ msg: "All applications: ", allApplications });
   } catch (error) {
     console.log(error);
     if (error instanceof HTTPException) throw error;
