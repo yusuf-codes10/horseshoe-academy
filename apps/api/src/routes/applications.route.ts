@@ -2,7 +2,7 @@ import { Hono } from 'hono';
 import { createApplication, getApplicationsPerClass, getAllApplications } from '@/controllers/applications.controller';
 import { verifyToken } from '@/middlewares/verifyToken';
 import { isStudent } from '@/middlewares/student';
-import { isAdmin } from '@/middlewares/admin';
+// import { isAdmin } from '@/middlewares/admin';
 
 const router = new Hono();
 
@@ -12,10 +12,10 @@ router.post('/', verifyToken, isStudent, ...createApplication);
 // my applications | student
 
 // see all applications per class | teacher
-router.get('/', ...getApplicationsPerClass);
+// router.get('/', ...getApplicationsPerClass);
 
 // get all applications for the admin
-router.get('/admin', verifyToken, isAdmin, ...getAllApplications);
+router.get('/', verifyToken, ...getAllApplications);
 
 // delete my application | student
 
