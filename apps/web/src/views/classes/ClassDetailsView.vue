@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
 import type { NewUser, Teacher, Class } from "@classroom/shared";
@@ -39,6 +39,8 @@ const loading = ref(false);
 const isModalOpen = ref(false);
 
 const sessions = ref([]);
+
+const open = computed(() => foundClass.value?.enrolledCount <= foundClass.value?.capacity);
 
 const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value;
