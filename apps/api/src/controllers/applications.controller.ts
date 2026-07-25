@@ -6,6 +6,7 @@ import { db } from "@/db/index";
 import { applications, classes } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
+import type { JWTPayloadShape } from '@classroom/shared';
 
 const factory = createFactory<{ Variables: { application: NewApplication } }>();
 
@@ -17,7 +18,7 @@ export const createApplication = factory.createHandlers(
     const classId = Number(c.req.param("classId"));
 
     // TODO: replace with c.get('jwtPayload').id once auth middleware is in place
-    const studentId = c.get('jwtPayload');
+    const studentId = c.get('jwtPayload') as JWTPayloadShape;
 
     try {
       // verify that class exists
