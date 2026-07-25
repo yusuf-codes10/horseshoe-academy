@@ -89,7 +89,12 @@ export const getAllApplications = factory.createHandlers(async (c) => {
   try {
     if (payload.role === "admin") {
       const allApplications = await db
-        .select()
+        .select({
+          id: applications.id,
+          status: applications.status,
+          username: users.username,
+          studentName: users.fullName,
+        })
         .from(applications)
         .offset(skip)
         .limit(limit)
@@ -101,7 +106,7 @@ export const getAllApplications = factory.createHandlers(async (c) => {
           id: applications.id,
           status: applications.status,
           username: users.username,
-          fullName: users.fullName
+          studentName: users.fullName,
         })
         .from(applications)
         .innerJoin(students, eq(students.id, applications.studentId))
@@ -112,7 +117,7 @@ export const getAllApplications = factory.createHandlers(async (c) => {
         .orderBy(applications.id);
       return c.json({ msg: "All applications: ", allApplications });
     } else {
-      throw new HTTPException(403, { message: "forbidden" })
+      throw new HTTPException(403, { message: "forbidden" });
     }
   } catch (error) {
     console.log(error);
