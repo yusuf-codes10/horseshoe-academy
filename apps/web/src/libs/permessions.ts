@@ -20,7 +20,8 @@ export const ROLES = {
     "view:applications"
   ],
   student: [
-    "view:classes"
+    "view:classes",
+    "apply:classes"
   ],
   teacher: [
     "view:classes",

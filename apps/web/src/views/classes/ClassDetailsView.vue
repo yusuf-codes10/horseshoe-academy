@@ -134,7 +134,13 @@ onMounted(async () => {
 <template>
   <div class="mx-4 my-6 flex flex-col gap-6">
     <!-- actions bar -->
-     <ActionsBar :title="foundClass?.code" description="lorem lorem lorem"/>
+    <ActionsBar :title="foundClass?.code" description="lorem lorem lorem">
+      <MainButton
+        v-if="userStore.user && hasPermession(userStore.user, 'apply:classes')"
+        title="Enroll"
+        @click="''"
+      />
+    </ActionsBar>
     <!-- Header -->
     <div v-if="foundClass" class="bg-popover border border-border rounded-xl p-6">
       <h1 class="text-xl font-semibold">{{ foundClass.code }}</h1>
