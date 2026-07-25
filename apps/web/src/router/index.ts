@@ -17,6 +17,7 @@ import CreateClassView from '@/views/classes/CreateClassView.vue'
 import ClassDetailsView from '@/views/classes/ClassDetailsView.vue'
 import UserProfileView from '@/views/users/UserProfileView.vue'
 import SessionView from '@/views/sessions/SessionView.vue'
+import ApplicationsView from '@/views/applications/ApplicationsView.vue'
 
 declare module 'vue-router' {
   interface RouteMeta {
@@ -102,6 +103,11 @@ const routes = [
         path: 'sessions',
         name: 'Sessions',
         component: SessionView
+      },
+      {
+        path: 'applications',
+        name: 'Applications',
+        component: ApplicationsView
       },
       {
         path: ':username',
