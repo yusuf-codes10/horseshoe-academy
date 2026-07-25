@@ -111,6 +111,8 @@ export const getAllApplications = factory.createHandlers(async (c) => {
         .limit(limit)
         .orderBy(applications.id);
       return c.json({ msg: "All applications: ", allApplications });
+    } else {
+      throw new HTTPException(403, { message: "forbidden" })
     }
   } catch (error) {
     console.log(error);

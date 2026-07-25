@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MainTable from '@/components/shared/MainTable.vue';
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import api from '@/services/api';
 
 
@@ -22,9 +22,18 @@ const getApplicationsPerTeacher = () => {
 
 
 // student (my applications)
-const getMyApplications = () => {
-
+const getMyApplications = async () => {
+  try {
+    const response = await api.get('/applications');
+    console.log('You are a student: ', response.data);
+  } catch (error) {
+    console.log(error);
+  }
 }
+
+onMounted(async () => {
+
+})
 </script>
 
 <template>
