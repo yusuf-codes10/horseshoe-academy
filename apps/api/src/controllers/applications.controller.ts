@@ -101,7 +101,10 @@ export const getAllApplications = factory.createHandlers(async (c) => {
         .offset(skip)
         .limit(limit)
         .orderBy(applications.id);
-      return c.json({ msg: "All applications: ", allApplications });
+
+      const appsCount = await db.$count(applications);
+
+      return c.json({ msg: "All applications: ", allApplications, appsCount });
     } else if (payload.role === "student") {
       const allApplications = await db
         .select({
