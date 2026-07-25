@@ -7,10 +7,13 @@ import type { NewUser, Teacher, Class } from "@classroom/shared";
 import ModalCard from "@/components/ui/ModalCard.vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainTable from "@/components/shared/MainTable.vue";
+import { useUserStore } from "@/stores/userStore";
+import { hasPermession } from "@/libs/permessions";
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
 const showDropdown = ref(false);
+const userStore = useUserStore();
 
 // shcedule sessions fileds
 const name = ref("");
@@ -138,7 +141,10 @@ onMounted(async () => {
           >Subject: <span class="text-text-primary">{{ foundClass.subjectName }}</span></span
         >
         <span
-          >Capacity: <span class="text-text-primary">{{ foundClass.enrolledCount }}/{{ foundClass.capacity }}</span></span
+          >Capacity:
+          <span class="text-text-primary"
+            >{{ foundClass.enrolledCount }}/{{ foundClass.capacity }}</span
+          ></span
         >
       </div>
     </div>
@@ -215,7 +221,10 @@ onMounted(async () => {
 
     <!-- Students -->
     <!-- This here should be a table -->
-    <div class="bg-popover border border-border rounded-xl p-6">
+    <div
+      v-if="userStore.user && hasPermession(userStore.user, 'create:departments')"
+      class="bg-popover border border-border rounded-xl p-6"
+    >
       <div class="flex justify-between items-center mb-4">
         <h2 class="font-medium">Enrolled Students</h2>
         <!-- <button class="text-sm text-primary cursor-pointer">+ Enroll Student</button> -->
