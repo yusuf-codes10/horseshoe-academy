@@ -41,6 +41,13 @@ const getMyApplications = async () => {
   }
 };
 
+const setRows = async (payload: number) => {
+  page.value = payload;
+  const { allApplications } = (await getAllAplications()) ?? {allApplications: []};
+  // applications.value = classesCount;
+};
+
+
 onMounted(async () => {
   if (userStore.user && userStore.user!.role === "admin") {
     const { allApplications } = (await getAllAplications()) ?? {allApplications: []};
@@ -64,6 +71,6 @@ onMounted(async () => {
       :data="applications"
       :loading="true"
     />
-    <PaginationBar v-if="count" :count="count" />
+    <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
   </div>
 </template>
