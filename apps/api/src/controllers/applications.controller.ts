@@ -18,7 +18,7 @@ export const createApplication = factory.createHandlers(
     const classId = Number(c.req.param("classId"));
 
     // TODO: replace with c.get('jwtPayload').id once auth middleware is in place
-    const studentId = c.get('jwtPayload') as JWTPayloadShape;
+    const payload = c.get('jwtPayload') as JWTPayloadShape;
 
     try {
       // verify that class exists
@@ -31,7 +31,7 @@ export const createApplication = factory.createHandlers(
         throw new HTTPException(404, { message: "class dpes mpt exost!" });
 
       const [insertedApplication] = await db.insert(applications).values({
-        studentId: studentId,
+        studentId: payload.id,
         classId: classId,
       }).returning();
 
