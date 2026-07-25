@@ -223,10 +223,13 @@ export const getMyClasses = factory.createHandlers(
         capacity: classes.capacity,
         subjectName: subjects.name,
         subjectId: subjects.id,
-        teacherId: classes.teacherId
+        teacherId: classes.teacherId,
+        teacherName: users.fullName,
       })
       .from(classes)
       .innerJoin(subjects, eq(subjects.id, classes.subjectId))
+      .innerJoin(teachers, eq(teachers.id, classes.teacherId))
+      .innerJoin(users, eq(users.id, teachers.id))
       .where(eq(classes.teacherId, foundTeacher.id));
       return c.json({msg: 'My Classes:', myClasses});
     } catch (error) {
