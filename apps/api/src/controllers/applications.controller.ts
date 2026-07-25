@@ -97,7 +97,12 @@ export const getAllApplications = factory.createHandlers(async (c) => {
       return c.json({ msg: "All applications: ", allApplications });
     } else if (payload.role === "student") {
       const allApplications = await db
-        .select()
+        .select({
+          id: applications.id,
+          status: applications.status,
+          username: users.username,
+          fullName: users.fullName
+        })
         .from(applications)
         .innerJoin(students, eq(students.id, applications.studentId))
         .innerJoin(users, eq(users.id, students.id))
