@@ -55,6 +55,12 @@ const sideBarItem: Item[] = [
     icon: School,
     path: '/sessions',
     permission: 'view:sessions'
+  },
+  {
+    name: 'Applications',
+    icon: School,
+    path: '/applications',
+    permission: 'view:applications'
   }
 ] as Item[];
 
