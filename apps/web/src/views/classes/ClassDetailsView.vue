@@ -222,7 +222,7 @@ onMounted(async () => {
     <!-- Students -->
     <!-- This here should be a table -->
     <div
-      v-if="userStore.user && hasPermession(userStore.user, 'create:departments')"
+      v-if="userStore.user && hasPermession(userStore.user, 'view:applications')"
       class="bg-popover border border-border rounded-xl p-6"
     >
       <div class="flex justify-between items-center mb-4">
