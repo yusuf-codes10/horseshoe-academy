@@ -84,14 +84,26 @@ export const getAllApplications = factory.createHandlers(async (c) => {
   const page = Number(pageQuery) || 1;
   const limit = Number(limitQuery) || 10;
   const skip = (page - 1) * limit;
+
+  const payload = c.get("jwtPayload") as JWTPayloadShape;
   try {
-    const allApplications = await db
-      .select()
-      .from(applications)
-      .offset(skip)
-      .limit(limit)
-      .orderBy(applications.id);
-    return c.json({ msg: "All applications: ", allApplications });
+    if (payload.role === "admin") {
+      const allApplications = await db
+        .select()
+        .from(applications)
+        .offset(skip)
+        .limit(limit)
+        .orderBy(applications.id);
+      return c.json({ msg: "All applications: ", allApplications });
+    } else if (payload.role === "student") {
+      const allApplications = await db
+        .select()
+        .from(applications)
+        .offset(skip)
+        .limit(limit)
+        .orderBy(applications.id);
+      return c.json({ msg: "All applications: ", allApplications });
+    }
   } catch (error) {
     console.log(error);
     if (error instanceof HTTPException) throw error;
