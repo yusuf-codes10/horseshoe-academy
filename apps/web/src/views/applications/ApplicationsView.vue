@@ -3,14 +3,18 @@ import MainTable from "@/components/shared/MainTable.vue";
 import { ref, onMounted } from "vue";
 import api from "@/services/api";
 import { useUserStore } from "@/stores/userStore";
+import PaginationBar from "@/components/shared/PaginationBar.vue";
 
 const applications = ref([]);
 const userStore = useUserStore();
+const count = ref(0);
+const page = ref(1);
+const limit = ref(5);
 
 // admin (all applications)
 const getAllAplications = async () => {
   try {
-    const response = await api.get("/applications");
+    const response = await api.get(`/applications?page=${page.value}&limit=${limit.value}`);
     console.log("You are an admin: ", response.data);
     return {
       allApplications: response.data.allApplications,
@@ -60,5 +64,6 @@ onMounted(async () => {
       :data="applications"
       :loading="true"
     />
+    <PaginationBar v-if="count" :count="count" />
   </div>
 </template>
