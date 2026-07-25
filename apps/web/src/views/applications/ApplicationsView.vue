@@ -74,3 +74,4 @@ onMounted(async () => {
     <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
   </div>
 </template>
+<!-- TODO: Need to handle the setRows function -->
