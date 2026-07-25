@@ -3,7 +3,7 @@ import type { NewApplication } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
 import { insertApplicationSchema } from "@classroom/shared";
 import { db } from "@/db/index";
-import { applications, classes } from "@/db/schema";
+import { applications, classes, students, users } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import type { JWTPayloadShape } from "@classroom/shared";
@@ -99,6 +99,8 @@ export const getAllApplications = factory.createHandlers(async (c) => {
       const allApplications = await db
         .select()
         .from(applications)
+        .innerJoin(students, eq(students.id, applications.studentId))
+        .innerJoin(users, eq(users.id, students.id))
         .offset(skip)
         .limit(limit)
         .orderBy(applications.id);
