@@ -1,10 +1,12 @@
 import { Hono } from 'hono';
 import { createApplication, getApplicationsPerClass } from '@/controllers/applications.controller';
+import { verifyToken } from '@/middlewares/verifyToken';
+import { isStudent } from '@/middlewares/student';
 
 const router = new Hono();
 
 // apply
-router.post('/', ...createApplication);
+router.post('/', verifyToken, isStudent, ...createApplication);
 
 // my applications | student
 
