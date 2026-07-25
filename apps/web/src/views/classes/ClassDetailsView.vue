@@ -138,7 +138,7 @@ onMounted(async () => {
           >Subject: <span class="text-text-primary">{{ foundClass.subjectName }}</span></span
         >
         <span
-          >Capacity: <span class="text-text-primary">{{ foundClass.capacity }}</span></span
+          >Capacity: <span class="text-text-primary">{{ foundClass.enrolledCount }}/{{ foundClass.capacity }}</span></span
         >
       </div>
     </div>
