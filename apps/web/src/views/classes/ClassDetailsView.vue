@@ -123,6 +123,18 @@ const fetchSessionsPerClass = async () => {
   }
 };
 
+const enrollToClass = async () => {
+  loading.value = true
+  try {
+    const response = await api.post('applications');
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false
+  }
+}
+
 onMounted(async () => {
   await getClassById();
   await showAvailableTeachers();
@@ -138,7 +150,7 @@ onMounted(async () => {
       <MainButton
         v-if="userStore.user && hasPermession(userStore.user, 'apply:classes')"
         title="Enroll"
-        @click="''"
+        @click="enrollToClass"
       />
     </ActionsBar>
     <!-- Header -->
