@@ -126,7 +126,7 @@ const fetchSessionsPerClass = async () => {
 const enrollToClass = async () => {
   loading.value = true
   try {
-    const response = await api.post('applications');
+    const response = await api.post(`/classes/${route.params.classId}/applications`);
     console.log(response.data);
   } catch (error) {
     console.log(error);

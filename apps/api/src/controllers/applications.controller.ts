@@ -17,7 +17,7 @@ export const createApplication = factory.createHandlers(
     const classId = Number(c.req.param("classId"));
 
     // TODO: replace with c.get('jwtPayload').id once auth middleware is in place
-    const studentId = 18;
+    const studentId = c.get('jwtPayload');
 
     try {
       // verify that class exists
