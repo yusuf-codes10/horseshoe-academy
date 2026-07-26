@@ -23,12 +23,12 @@ const emit = defineEmits(["click"]);
   <button
     :disabled="props.disabled || props.loading"
     @click="emit('click')"
-    class="h-10 border-none px-4 py-2 cursor-pointer rounded-md hover:opacity-90 transition-opacity"
+    class="h-10 border-none px-4 py-2 rounded-md transition-opacity"
     :class="[
-      props.variant === 'action'
-        ? 'text-sm text-primary cursor-pointer'
-        : 'bg-primary text-primary-foreground',
-      props.disabled || props.loading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer',
+      props.variant === 'action' ? 'text-sm text-primary' : 'bg-primary text-primary-foreground',
+      props.disabled || props.loading
+        ? 'opacity-50 cursor-not-allowed'
+        : 'cursor-pointer hover:opacity-90',
     ]"
   >
     <div
