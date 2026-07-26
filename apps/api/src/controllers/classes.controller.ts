@@ -3,8 +3,8 @@ import type { NewClass } from "@classroom/shared";
 import { insertClassSchema } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
 import { db } from "@/db/index";
-import { classes, subjects, teachers, users } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { classes, subjects, teachers, users, applications } from "@/db/schema";
+import { eq, and } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import type { JWTPayloadShape } from "@classroom/shared";
 
@@ -130,6 +130,8 @@ export const getClassesBySubjectId = factory.createHandlers(async (c) => {
 // get a single class by id
 export const getClassById = factory.createHandlers(async (c) => {
   const classId = Number(c.req.param("classId"));
+
+  const payload = c.get('jwtPayload') as JWTPayloadShape;
   // adding the subject name here as an inner join
   try {
     // TODO: we should migrate and add current student in this class
@@ -150,6 +152,16 @@ export const getClassById = factory.createHandlers(async (c) => {
 
     if (!foundClass)
       throw new HTTPException(404, { message: "class does not exist!" });
+
+    // find the application
+    await db.select()
+    .from(applications)
+    .where(
+      and(
+        eq(applications.classId, classId),
+        eq(applications.studentId, payload.id)
+      )
+    )
 
     return c.json({ msg: "class: ", foundClass });
   } catch (error) {

@@ -21,7 +21,7 @@ router.get("/", ...getAllClasses);
 router.get('/me', verifyToken, isTeacher, ...getMyClasses);
 
 // assign a teacher to a class
-router.patch("/:classId", ...assignTacherToClass);
+router.patch("/:classId", verifyToken, ...assignTacherToClass);
 
 // get classes per subject
 // ! ditching this one, as it intrupts the GET classes/:classId
