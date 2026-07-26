@@ -121,16 +121,29 @@ export const getAllApplications = factory.createHandlers(async (c) => {
         .limit(limit)
         .orderBy(applications.id);
 
-        // we need to count this manually
-        const appsCount = await db.$count(applications, eq(applications.studentId, payload.id));
+      // we need to count this manually
+      const appsCount = await db.$count(
+        applications,
+        eq(applications.studentId, payload.id),
+      );
       return c.json({ msg: "All applications: ", allApplications, appsCount });
     } else if (payload.role === "teacher") {
-      await db.select()
-      .from(applications)
-      .innerJoin(classes, eq(classes.id, applications.classId))
-      .innerJoin(teachers, eq(teachers.id, classes.teacherId))
-      .innerJoin(users, eq(users.id, teachers.id))
-    }else {
+      const allApplications = await db
+        .select()
+        .from(applications)
+        .innerJoin(classes, eq(classes.id, applications.classId))
+        .innerJoin(teachers, eq(teachers.id, classes.teacherId))
+        .innerJoin(users, eq(users.id, teachers.id))
+        .where(eq(teachers.id, payload.id))
+        .offset(skip)
+        .limit(limit)
+        .orderBy(applications.id);
+      // const appsCount = await db.$count(
+      //   applications,
+      //   eq(applications.studentId, payload.id),
+      // );
+      return c.json({ msg: "All applications: ", allApplications });
+    } else {
       throw new HTTPException(403, { message: "forbidden" });
     }
   } catch (error) {
