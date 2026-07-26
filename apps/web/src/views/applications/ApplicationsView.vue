@@ -43,18 +43,26 @@ const getMyApplications = async () => {
 
 const setRows = async (payload: number) => {
   page.value = payload;
-  const { allApplications } = (await getAllAplications()) ?? {allApplications: []};
-  // applications.value = classesCount;
+  if (userStore.user && userStore.user!.role === "admin") {
+    const { allApplications, appsCount } = (await getAllAplications()) ?? { allApplications: [] };
+    applications.value = allApplications;
+    count.value = appsCount;
+  } else if (userStore.user && userStore.user!.role === "student") {
+    const { allApplications, appsCount } = (await getMyApplications()) ?? { allApplications: [] };
+    applications.value = allApplications;
+    count.value = appsCount;
+  }
 };
-
 
 onMounted(async () => {
   if (userStore.user && userStore.user!.role === "admin") {
-    const { allApplications } = (await getAllAplications()) ?? {allApplications: []};
-    applications.value = allApplications
+    const { allApplications, appsCount } = (await getAllAplications()) ?? { allApplications: [] };
+    applications.value = allApplications;
+    count.value = appsCount;
   } else if (userStore.user && userStore.user.role === "student") {
-    const { allApplications } = (await getMyApplications()) ?? {allApplications: []};
-    applications.value = allApplications
+    const { allApplications, appsCount } = (await getMyApplications()) ?? { allApplications: [] };
+    applications.value = allApplications;
+    count.value = appsCount;
   }
 });
 </script>
