@@ -21,7 +21,8 @@ export const createClass = factory.createHandlers(
 
     try {
       // type narrowing for the subjectId
-      if (!subjectId) throw new HTTPException(400, { message: "Subject ID is required" });
+      if (!subjectId)
+        throw new HTTPException(400, { message: "Subject ID is required" });
 
       // check if that subject exist
       const [foundSubject] = await db
@@ -45,7 +46,7 @@ export const createClass = factory.createHandlers(
         })
         .returning();
 
-        console.log('the new class', insertedClass);
+      console.log("the new class", insertedClass);
       return c.json({ msg: "class has been created", insertedClass });
     } catch (error) {
       console.log(error);
@@ -131,7 +132,7 @@ export const getClassesBySubjectId = factory.createHandlers(async (c) => {
 export const getClassById = factory.createHandlers(async (c) => {
   const classId = Number(c.req.param("classId"));
 
-  const payload = c.get('jwtPayload') as JWTPayloadShape;
+  const payload = c.get("jwtPayload") as JWTPayloadShape;
   // adding the subject name here as an inner join
   try {
     // TODO: we should migrate and add current student in this class
@@ -144,7 +145,7 @@ export const getClassById = factory.createHandlers(async (c) => {
         description: classes.description,
         subjectId: classes.subjectId,
         teacherId: classes.teacherId,
-        subjectName: subjects.name
+        subjectName: subjects.name,
       })
       .from(classes)
       .innerJoin(subjects, eq(subjects.id, classes.subjectId))
@@ -153,16 +154,19 @@ export const getClassById = factory.createHandlers(async (c) => {
     if (!foundClass)
       throw new HTTPException(404, { message: "class does not exist!" });
 
-    // find the application
-    await db.select()
-    .from(applications)
-    .where(
-      and(
-        eq(applications.classId, classId),
-        eq(applications.studentId, payload.id)
-      )
-    )
-
+    if (payload.role === "student") {
+      // find the application
+      const [isApplied] = await db
+        .select()
+        .from(applications)
+        .where(
+          and(
+            eq(applications.classId, classId),
+            eq(applications.studentId, payload.id),
+          ),
+        );
+      return c.json({ msg: "class: ", foundClass, isApplied });
+    }
     return c.json({ msg: "class: ", foundClass });
   } catch (error) {
     console.log(error);
@@ -175,33 +179,32 @@ export const getAllClasses = factory.createHandlers(
   // TODO: 1- implement pagination
   // TODO: 2- joins to return the subject and department names
   async (c) => {
-    const pageQuery = c.req.query('page');
-    const limitQuery = c.req.query('limit');
+    const pageQuery = c.req.query("page");
+    const limitQuery = c.req.query("limit");
 
     // casting them
     const page = Number(pageQuery) || 1;
     const limit = Number(limitQuery) || 5;
     const skip = (page - 1) * limit;
     try {
-      const fetchedClasses = await db.select(
-        {
+      const fetchedClasses = await db
+        .select({
           id: classes.id,
           capacity: classes.capacity,
           enrolledCount: classes.enrolledCount,
           subjectId: classes.subjectId,
           teacherId: classes.teacherId,
           teacherName: users.fullName,
-          subjectName: subjects.name
-        }
-      )
-      .from(classes)
-      .leftJoin(subjects, eq(subjects.id, classes.subjectId))
-      .leftJoin(teachers, eq(teachers.id, classes.teacherId))
-      .leftJoin(users, eq(users.id, teachers.id))
-      // .groupBy(classes.id, subjects.name)
-      .limit(limit)
-      .offset(skip)
-      .orderBy(classes.id);
+          subjectName: subjects.name,
+        })
+        .from(classes)
+        .leftJoin(subjects, eq(subjects.id, classes.subjectId))
+        .leftJoin(teachers, eq(teachers.id, classes.teacherId))
+        .leftJoin(users, eq(users.id, teachers.id))
+        // .groupBy(classes.id, subjects.name)
+        .limit(limit)
+        .offset(skip)
+        .orderBy(classes.id);
 
       // 1- return the subject name it belongs to
       // const [subject] = await db.select()
@@ -210,27 +213,28 @@ export const getAllClasses = factory.createHandlers(
 
       const classesCount = await db.$count(classes);
 
-      return c.json({msg: 'classes: ', fetchedClasses, classesCount});
+      return c.json({ msg: "classes: ", fetchedClasses, classesCount });
     } catch (error) {
       console.log(error);
     }
-  }
+  },
 );
 
 // get my classes (teacher)
-export const getMyClasses = factory.createHandlers(
-  async (c) => {
-    const payload = c.get('jwtPayload') as JWTPayloadShape;
-    try {
-
-      // check if teacher exists
-      const [foundTeacher] = await db.select()
+export const getMyClasses = factory.createHandlers(async (c) => {
+  const payload = c.get("jwtPayload") as JWTPayloadShape;
+  try {
+    // check if teacher exists
+    const [foundTeacher] = await db
+      .select()
       .from(teachers)
       .where(eq(teachers.id, payload.id));
 
-      if (!foundTeacher) throw new HTTPException(404, {message: 'teacher does not exist!'});
+    if (!foundTeacher)
+      throw new HTTPException(404, { message: "teacher does not exist!" });
 
-      const myClasses = await db.select({
+    const myClasses = await db
+      .select({
         id: classes.id,
         capacity: classes.capacity,
         subjectName: subjects.name,
@@ -243,11 +247,10 @@ export const getMyClasses = factory.createHandlers(
       .innerJoin(teachers, eq(teachers.id, classes.teacherId))
       .innerJoin(users, eq(users.id, teachers.id))
       .where(eq(classes.teacherId, foundTeacher.id));
-      return c.json({msg: 'My Classes:', myClasses});
-    } catch (error) {
-      if (error instanceof HTTPException) throw error;
-      console.log(error);
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
+    return c.json({ msg: "My Classes:", myClasses });
+  } catch (error) {
+    if (error instanceof HTTPException) throw error;
+    console.log(error);
+    throw new HTTPException(500, { message: "something went wrong" });
   }
-);
+});
