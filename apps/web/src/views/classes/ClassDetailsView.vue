@@ -40,7 +40,7 @@ const loading = ref(false);
 const isModalOpen = ref(false);
 
 const sessions = ref([]);
-const isApplied = ref(false)
+const isApplied = ref(false);
 
 const open = computed(() => foundClass.value?.enrolledCount <= foundClass.value?.capacity);
 
@@ -126,16 +126,16 @@ const fetchSessionsPerClass = async () => {
 };
 
 const enrollToClass = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     const response = await api.post(`/classes/${route.params.classId}/applications`);
     console.log(response.data);
   } catch (error) {
     console.log(error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
 onMounted(async () => {
   await getClassById();
@@ -150,8 +150,9 @@ onMounted(async () => {
     <!-- actions bar -->
     <ActionsBar :title="foundClass?.code" description="lorem lorem lorem">
       <MainButton
-        v-if="userStore.user && hasPermession(userStore.user, 'apply:classes') && isApplied"
-        title="Enroll"
+        v-if="userStore.user && hasPermession(userStore.user, 'apply:classes')"
+        :disabled="isApplied"
+        :title="isApplied ? 'Already Applied' : 'Enroll'"
         @click="enrollToClass"
       />
     </ActionsBar>
