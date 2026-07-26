@@ -28,6 +28,6 @@ router.patch("/:classId", verifyToken, ...assignTacherToClass);
 // router.get("/:subjectId", ...getClassesBySubjectId);
 
 // get a single class by its id
-router.get("/:classId", ...getClassById);
+router.get("/:classId", verifyToken, ...getClassById);
 
 export default router;
