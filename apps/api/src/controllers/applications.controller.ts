@@ -120,6 +120,8 @@ export const getAllApplications = factory.createHandlers(async (c) => {
         .offset(skip)
         .limit(limit)
         .orderBy(applications.id);
+
+        // we need to count this manually
       return c.json({ msg: "All applications: ", allApplications });
     } else {
       throw new HTTPException(403, { message: "forbidden" });
