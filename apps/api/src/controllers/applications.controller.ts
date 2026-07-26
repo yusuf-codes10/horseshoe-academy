@@ -124,7 +124,8 @@ export const getAllApplications = factory.createHandlers(async (c) => {
         // we need to count this manually
         const appsCount = await db.$count(applications, eq(applications.studentId, payload.id));
       return c.json({ msg: "All applications: ", allApplications, appsCount });
-    } else {
+    }
+     else {
       throw new HTTPException(403, { message: "forbidden" });
     }
   } catch (error) {

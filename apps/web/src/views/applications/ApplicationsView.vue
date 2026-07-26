@@ -27,7 +27,14 @@ const getAllAplications = async () => {
 };
 
 // teacher (applications per class that belongs to this teacher)
-const getApplicationsPerTeacher = () => {};
+const getApplicationsPerTeacher = async () => {
+  try {
+    const response = await api.get(`/applications?page=${page.value}&limit=${limit.value}`);
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 // student (my applications)
 const getMyApplications = async () => {
@@ -65,6 +72,8 @@ onMounted(async () => {
     const { allApplications, appsCount } = (await getMyApplications()) ?? { allApplications: [], appsCount: 0 };
     applications.value = allApplications;
     count.value = appsCount;
+  } else if (userStore.user && userStore.user!.role === "teacher") {
+    await getApplicationsPerTeacher();
   }
 });
 </script>
