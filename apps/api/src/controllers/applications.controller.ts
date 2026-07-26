@@ -96,8 +96,8 @@ export const getAllApplications = factory.createHandlers(async (c) => {
           studentName: users.fullName,
         })
         .from(applications)
-        .innerJoin(users, eq(users.id, students.id))
         .innerJoin(students, eq(students.id, applications.studentId))
+        .innerJoin(users, eq(users.id, students.id))
         .offset(skip)
         .limit(limit)
         .orderBy(applications.id);
