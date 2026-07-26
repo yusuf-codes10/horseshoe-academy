@@ -54,7 +54,7 @@ const getClassById = async () => {
     const fetchedClass = await api.get(`classes/${route.params.classId}`);
     console.log("found class is: ", fetchedClass.data.foundClass);
     foundClass.value = fetchedClass.data.foundClass;
-    isApplied.value = fetchedClass.data.isApplied;
+    isApplied.value = !!fetchedClass.data.isApplied;
   } catch (err) {
     console.log(err);
   } finally {
