@@ -1,13 +1,17 @@
 import { createFactory } from "hono/factory";
 import type { NewEnrollement } from "@classroom/shared";
+import { insertEnrollementSchema } from '@classroom/shared';
 import { db } from "@/db/index";
 import { eq } from 'drizzle-orm'
 import { applications, enrollements } from "@/db/schema";
+import { zValidator } from "@hono/zod-validator";
 
 const factory = createFactory<{ Variables: { enrollement: NewEnrollement } }>();
 
 // a transcation POST query
-export const acceptApplications = factory.createHandlers((c) => {
+export const acceptApplications = factory.createHandlers(
+    zValidator('json', insertEnrollementSchema),
+    (c) => {
 
     const applicationsId = Number(c.req.param('applicationId'));
   db.transaction(async (tx) => {
@@ -17,7 +21,7 @@ export const acceptApplications = factory.createHandlers((c) => {
     .where(eq(applications.id, applicationsId));
     // 2. create enrollment record
     await tx.insert(enrollements)
-    .values({
+    .values({ 
         studentId: '',
         classId: ''
     })
