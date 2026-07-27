@@ -176,3 +176,10 @@ export const getAllApplications = factory.createHandlers(async (c) => {
     throw new HTTPException(500, { message: "something went wrong" });
   }
 });
+
+// get Application By id
+export const getApplicationById = factory.createHandlers(
+  (c) => {
+    return c.json({msg: 'application by id'});
+  }
+);

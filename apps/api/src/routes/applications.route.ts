@@ -1,13 +1,18 @@
-import { Hono } from 'hono';
-import { createApplication, getApplicationsPerClass, getAllApplications } from '@/controllers/applications.controller';
-import { verifyToken } from '@/middlewares/verifyToken';
-import { isStudent } from '@/middlewares/student';
+import { Hono } from "hono";
+import {
+  createApplication,
+  getApplicationsPerClass,
+  getAllApplications,
+  getApplicationById,
+} from "@/controllers/applications.controller";
+import { verifyToken } from "@/middlewares/verifyToken";
+import { isStudent } from "@/middlewares/student";
 // import { isAdmin } from '@/middlewares/admin';
 
 const router = new Hono();
 
 // apply
-router.post('/', verifyToken, isStudent, ...createApplication);
+router.post("/", verifyToken, isStudent, ...createApplication);
 
 // my applications | student
 
@@ -15,7 +20,10 @@ router.post('/', verifyToken, isStudent, ...createApplication);
 // router.get('/', ...getApplicationsPerClass);
 
 // get all applications for the admin
-router.get('/', verifyToken, ...getAllApplications);
+router.get("/", verifyToken, ...getAllApplications);
+
+// get application by id
+router.get('/:applicationId', ...getApplicationById);
 
 // delete my application | student
 
