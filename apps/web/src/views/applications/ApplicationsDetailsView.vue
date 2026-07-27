@@ -26,8 +26,7 @@ const getApplicationById = async () => {
 }
 
 onMounted(async() => {
-  const { foundApplication} = await getApplicationById();
-  application.value = foundApplication
+  application.value = await getApplicationById();
 })
 </script>
 
@@ -46,8 +45,8 @@ onMounted(async() => {
       />
     </ActionsBar>
     <div>
-      <!-- <p>{{ application.status }}</p>
-      <p>{{ application.studentName }}</p> -->
+      <p>{{ application?.status }}</p>
+      <p>{{ application?.studentName }}</p>
     </div>
   </div>
 </template>
