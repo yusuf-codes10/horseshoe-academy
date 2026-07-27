@@ -4,7 +4,7 @@ import { zValidator } from "@hono/zod-validator";
 import { insertApplicationSchema } from "@classroom/shared";
 import { db } from "@/db/index";
 import { applications, classes, students, users, teachers } from "@/db/schema";
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import type { JWTPayloadShape } from "@classroom/shared";
 
@@ -142,11 +142,14 @@ export const getAllApplications = factory.createHandlers(async (c) => {
         .offset(skip)
         .limit(limit)
         .orderBy(applications.id);
-      // const appsCount = await db.$count(
-      //   applications,
-      //   eq(applications.studentId, payload.id),
-      // );
-      return c.json({ msg: "All applications: ", allApplications });
+      const appsCount = await db
+        .select({ count: sql<number>`count(*)` })
+        .from(applications)
+        .innerJoin(classes, eq(classes.id, applications.classId))
+        .innerJoin(teachers, eq(teachers.id, classes.teacherId))
+        .innerJoin(users, eq(users.id, payload.id))
+        .where(eq(applications.studentId, payload.id));
+      return c.json({ msg: "All applications: ", allApplications, appsCount});
     } else {
       throw new HTTPException(403, { message: "forbidden" });
     }
