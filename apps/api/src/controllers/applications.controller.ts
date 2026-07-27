@@ -147,13 +147,13 @@ export const getAllApplications = factory.createHandlers(async (c) => {
         .offset(skip)
         .limit(limit)
         .orderBy(applications.id);
-      const appsCount = await db
+      const [result] = await db
         .select({ count: sql<number>`count(*)` })
         .from(applications)
         .innerJoin(classes, eq(classes.id, applications.classId))
         .innerJoin(teachers, eq(teachers.id, classes.teacherId))
         .where(eq(teachers.id, payload.id));
-      return c.json({ msg: "All applications: ", allApplications, appsCount });
+      return c.json({ msg: "All applications: ", allApplications, appsCount: Number(result?.count ?? 0) });
     } else {
       throw new HTTPException(403, { message: "forbidden" });
     }
