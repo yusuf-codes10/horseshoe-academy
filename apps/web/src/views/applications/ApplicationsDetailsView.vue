@@ -12,26 +12,27 @@ const userStore = useUserStore();
 
 const applicationId = route.params.applicationId;
 
-const foundApplication = ref();
+const application = ref();
 const loading = ref(false);
 
 const getApplicationById = async () => {
   try {
     const response = await api.get(`/applications/${applicationId}`);
     console.log(response.data);
+    return response.data.foundApplication;
   } catch (error) {
     console.log(error);
   }
 }
 
 onMounted(async() => {
-  await getApplicationById();
+  const { foundApplication} = await getApplicationById();
+  application.value = foundApplication
 })
 </script>
 
 <template>
   <div class="mx-4 my-6 flex flex-col gap-6">
-    <h1 class="title">This is the {{ route.params.applicationId }} application</h1>
     <ActionsBar :title="'Application'" description="lorem lorem lorem">
       <MainButton
         v-if="userStore.user && hasPermession(userStore.user, 'manage:applications')"
@@ -44,5 +45,9 @@ onMounted(async() => {
         title="Reject"
       />
     </ActionsBar>
+    <div>
+      <!-- <p>{{ application.status }}</p>
+      <p>{{ application.studentName }}</p> -->
+    </div>
   </div>
 </template>
