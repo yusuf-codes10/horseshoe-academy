@@ -12,7 +12,7 @@ const factory = createFactory<{ Variables: { enrollement: NewEnrollement } }>();
 export const acceptApplications = factory.createHandlers(
   zValidator("json", insertEnrollementSchema),
   (c) => {
-    const applicationsId = Number(c.req.param("applicationId"));
+    const applicationsId = c.req.param("applicationId");
     const body = c.req.valid("json");
 
     db.transaction(async (tx) => {
@@ -20,7 +20,7 @@ export const acceptApplications = factory.createHandlers(
       await tx
         .update(applications)
         .set({ status: "accepted" })
-        .where(eq(applications.id, applicationsId));
+        .where(eq(applications.id, Number(applicationsId)));
       // 2. create enrollment record
       await tx.insert(enrollements).values({
         studentId: body.studentId,
