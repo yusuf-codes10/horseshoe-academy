@@ -11,6 +11,13 @@ const count = ref(0);
 const page = ref(1);
 const limit = ref(5);
 
+const columns = [
+  { key: "status", label: "Status" },
+  { key: "studentId", label: "Student ID" },
+  { key: "studentName", label: "Student Name" },
+  { key: "classId", label: "Class ID" },
+];
+
 // admin (all applications)
 const getAllAplications = async () => {
   try {
@@ -101,16 +108,15 @@ onMounted(async () => {
 
 <template>
   <div>
-    <MainTable
-      :columns="[
-        { key: 'status', label: 'Status' },
-        { key: 'studentId', label: 'Student ID' },
-        { key: 'studentName', label: 'Student Name' },
-        { key: 'classId', label: 'Class ID' },
-      ]"
-      :data="applications"
-      :loading="true"
-    />
+    <MainTable :columns="columns" :data="applications" :loading="true">
+      <template #row="{ row }">
+        <td v-for="col in columns" :key="col.key" class="py-3 px-4">
+          <RouterLink :to="`/applications/${row.id}`" class="block">
+            {{ row[col.key] }}
+          </RouterLink>
+        </td>
+      </template>
+    </MainTable>
     <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
   </div>
 </template>
