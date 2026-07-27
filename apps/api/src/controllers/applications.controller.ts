@@ -4,7 +4,7 @@ import { zValidator } from "@hono/zod-validator";
 import { insertApplicationSchema } from "@classroom/shared";
 import { db } from "@/db/index";
 import { applications, classes, students, users, teachers } from "@/db/schema";
-import { eq, sql } from "drizzle-orm";
+import { eq, sql, alias } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import type { JWTPayloadShape } from "@classroom/shared";
 
@@ -132,6 +132,10 @@ export const getAllApplications = factory.createHandlers(async (c) => {
       );
       return c.json({ msg: "All applications: ", allApplications, appsCount });
     } else if (payload.role === "teacher") {
+      // some aliases
+      const studentUsers = alias(users, 'student_users');
+      const teacherUser = alias(users, 'teacher_users');
+
       const allApplications = await db
         .select({
           id: applications.id,
@@ -143,6 +147,8 @@ export const getAllApplications = factory.createHandlers(async (c) => {
         .innerJoin(classes, eq(classes.id, applications.classId))
         .innerJoin(teachers, eq(teachers.id, classes.teacherId))
         .innerJoin(users, eq(users.id, teachers.id))
+        .innerJoin(students, eq(students.id, applications.studentId))
+        .
         .where(eq(teachers.id, payload.id))
         .offset(skip)
         .limit(limit)
