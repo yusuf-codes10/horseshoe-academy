@@ -9,3 +9,5 @@ const router = new Hono();
 router.patch('/:applicationId/accept', verifyToken, isTeacher, ...acceptApplications);
 
 export default router;
+
+// TODO: fix the ux to know applied or not | and fix the increment!
