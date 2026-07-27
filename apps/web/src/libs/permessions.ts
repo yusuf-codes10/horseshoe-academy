@@ -28,7 +28,8 @@ export const ROLES = {
     "view:classes",
     "view:sessions",
     "create:sessions",
-    "view:applications"
+    "view:applications",
+    "manage:applications"
   ]
 } as const;
 
