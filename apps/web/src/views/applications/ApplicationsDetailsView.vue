@@ -16,7 +16,6 @@ const foundApplication = ref();
 const loading = ref(false);
 
 const getApplicationById = async () => {
-  loading.value = true
   try {
     const response = await api.get(`/applications/${applicationId}`);
     console.log(response.data);
