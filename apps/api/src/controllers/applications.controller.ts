@@ -152,8 +152,7 @@ export const getAllApplications = factory.createHandlers(async (c) => {
         .from(applications)
         .innerJoin(classes, eq(classes.id, applications.classId))
         .innerJoin(teachers, eq(teachers.id, classes.teacherId))
-        .innerJoin(users, eq(users.id, payload.id))
-        .where(eq(applications.studentId, payload.id));
+        .where(eq(teachers.id, payload.id));
       return c.json({ msg: "All applications: ", allApplications, appsCount });
     } else {
       throw new HTTPException(403, { message: "forbidden" });

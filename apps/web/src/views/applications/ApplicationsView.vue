@@ -65,7 +65,9 @@ const setRows = async (payload: number) => {
     applications.value = allApplications;
     count.value = appsCount;
   } else if (userStore.user && userStore.user!.role === "teacher") {
-        const { allApplications, appsCount } = (await getApplicationsPerTeacher()) ?? { allApplications: [] };
+    const { allApplications, appsCount } = (await getApplicationsPerTeacher()) ?? {
+      allApplications: [],
+    };
     applications.value = allApplications;
     count.value = appsCount;
   }
