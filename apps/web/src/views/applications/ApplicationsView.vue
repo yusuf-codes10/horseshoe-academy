@@ -18,7 +18,7 @@ const getAllAplications = async () => {
     console.log("You are an admin: ", response.data);
     return {
       allApplications: response.data.allApplications,
-      appsCount: response.data.appsCount
+      appsCount: response.data.appsCount,
     };
   } catch (error) {
     console.log(error);
@@ -31,6 +31,10 @@ const getApplicationsPerTeacher = async () => {
   try {
     const response = await api.get(`/applications?page=${page.value}&limit=${limit.value}`);
     console.log(response.data);
+    return {
+      allApplications: response.data.allApplications,
+      appsCount: response.data.appsCount,
+    };
   } catch (error) {
     console.log(error);
   }
@@ -43,7 +47,7 @@ const getMyApplications = async () => {
     console.log("You are a student: ", response.data);
     return {
       allApplications: response.data.allApplications,
-      appsCount: response.data.appsCount
+      appsCount: response.data.appsCount,
     };
   } catch (error) {
     console.log(error);
@@ -60,20 +64,35 @@ const setRows = async (payload: number) => {
     const { allApplications, appsCount } = (await getMyApplications()) ?? { allApplications: [] };
     applications.value = allApplications;
     count.value = appsCount;
+  } else if (userStore.user && userStore.user!.role === "teacher") {
+        const { allApplications, appsCount } = (await getApplicationsPerTeacher()) ?? { allApplications: [] };
+    applications.value = allApplications;
+    count.value = appsCount;
   }
 };
 
 onMounted(async () => {
   if (userStore.user && userStore.user!.role === "admin") {
-    const { allApplications, appsCount } = (await getAllAplications()) ?? { allApplications: [], appsCount: 0 };
+    const { allApplications, appsCount } = (await getAllAplications()) ?? {
+      allApplications: [],
+      appsCount: 0,
+    };
     applications.value = allApplications;
     count.value = appsCount;
   } else if (userStore.user && userStore.user.role === "student") {
-    const { allApplications, appsCount } = (await getMyApplications()) ?? { allApplications: [], appsCount: 0 };
+    const { allApplications, appsCount } = (await getMyApplications()) ?? {
+      allApplications: [],
+      appsCount: 0,
+    };
     applications.value = allApplications;
     count.value = appsCount;
   } else if (userStore.user && userStore.user!.role === "teacher") {
-    await getApplicationsPerTeacher();
+    const { allApplications, appsCount } = (await getApplicationsPerTeacher()) ?? {
+      allApplications: [],
+      appsCount: 0,
+    };
+    applications.value = allApplications;
+    count.value = appsCount;
   }
 });
 </script>
