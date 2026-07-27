@@ -182,8 +182,19 @@ export const getApplicationById = factory.createHandlers(
   async (c) => {
     const applicationId = Number(c.req.param('applicationId'));
     try {
-      const [foundApplication] = await db.select()
+      const [foundApplication] = await db.select({
+        id: applications.id,
+        status: applications.status,
+        studentName: users.fullName,
+        studentId: users.id,
+        classCode: classes.code,
+        capacity: classes.capacity,
+        enrolledCount: classes.enrolledCount
+      })
       .from(applications)
+      .innerJoin(students, eq(students.id, applications.studentId))
+      .innerJoin(users, eq(users.id, students.id))
+      .innerJoin(classes, eq(classes.id, applications.classId))
       .where(eq(applications.id, applicationId));
 
       if (!foundApplication) throw new HTTPException(404, {message: 'application does not exist!'});
