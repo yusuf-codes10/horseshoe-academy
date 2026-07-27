@@ -25,6 +25,19 @@ const getApplicationById = async () => {
   }
 }
 
+// accept application
+const acceptApplication = async () => {
+  loading.value = true
+  try {
+    // RPC-style
+    await api.patch(`/enrollements/${applicationId}/accept`);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false
+  }
+}
+
 onMounted(async() => {
   application.value = await getApplicationById();
 })
