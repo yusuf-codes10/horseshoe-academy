@@ -3,7 +3,7 @@ import type { NewEnrollement } from "@classroom/shared";
 import { insertEnrollementSchema } from "@classroom/shared";
 import { db } from "@/db/index";
 import { eq } from "drizzle-orm";
-import { applications, enrollements } from "@/db/schema";
+import { applications, enrollements, classes } from "@/db/schema";
 import { zValidator } from "@hono/zod-validator";
 
 const factory = createFactory<{ Variables: { enrollement: NewEnrollement } }>();
@@ -26,7 +26,11 @@ export const acceptApplications = factory.createHandlers(
         studentId: body.studentId,
         classId: body.classId,
       });
+
       // 3. increment enrolledCount on the class
+      await tx.update(classes)
+      .set({enrolledCount: classes.enrolledCount++})
+      .where(eq(classes.id, body.classId));
     });
     return c.json({ msg: "accept applications" });
   },
