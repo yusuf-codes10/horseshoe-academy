@@ -4,7 +4,8 @@ import { zValidator } from "@hono/zod-validator";
 import { insertApplicationSchema } from "@classroom/shared";
 import { db } from "@/db/index";
 import { applications, classes, students, users, teachers } from "@/db/schema";
-import { eq, sql, alias } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
+import { alias } from "drizzle-orm/pg-core";
 import { HTTPException } from "hono/http-exception";
 import type { JWTPayloadShape } from "@classroom/shared";
 
@@ -133,8 +134,8 @@ export const getAllApplications = factory.createHandlers(async (c) => {
       return c.json({ msg: "All applications: ", allApplications, appsCount });
     } else if (payload.role === "teacher") {
       // some aliases
-      const studentUsers = alias(users, 'student_users');
-      const teacherUser = alias(users, 'teacher_users');
+      const studentUsers = alias(users, "student_users");
+      const teacherUsers = alias(users, "teacher_users");
 
       const allApplications = await db
         .select({
@@ -142,13 +143,15 @@ export const getAllApplications = factory.createHandlers(async (c) => {
           status: applications.status,
           username: users.username,
           classId: applications.classId,
+          studentId: studentUsers.id,
+          studentName: studentUsers.fullName
         })
         .from(applications)
         .innerJoin(classes, eq(classes.id, applications.classId))
         .innerJoin(teachers, eq(teachers.id, classes.teacherId))
-        .innerJoin(users, eq(users.id, teachers.id))
+        .innerJoin(teacherUsers, eq(teacherUsers.id, teachers.id))
         .innerJoin(students, eq(students.id, applications.studentId))
-        .
+        .innerJoin(studentUsers, eq(studentUsers.id, students.id))
         .where(eq(teachers.id, payload.id))
         .offset(skip)
         .limit(limit)
@@ -159,7 +162,11 @@ export const getAllApplications = factory.createHandlers(async (c) => {
         .innerJoin(classes, eq(classes.id, applications.classId))
         .innerJoin(teachers, eq(teachers.id, classes.teacherId))
         .where(eq(teachers.id, payload.id));
-      return c.json({ msg: "All applications: ", allApplications, appsCount: Number(result?.count ?? 0) });
+      return c.json({
+        msg: "All applications: ",
+        allApplications,
+        appsCount: Number(result?.count ?? 0),
+      });
     } else {
       throw new HTTPException(403, { message: "forbidden" });
     }
