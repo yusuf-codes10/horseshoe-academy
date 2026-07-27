@@ -179,7 +179,20 @@ export const getAllApplications = factory.createHandlers(async (c) => {
 
 // get Application By id
 export const getApplicationById = factory.createHandlers(
-  (c) => {
-    return c.json({msg: 'application by id'});
+  async (c) => {
+    const applicationId = Number(c.req.param('applicationId'));
+    try {
+      const [foundApplication] = await db.select()
+      .from(applications)
+      .where(eq(applications.id, applicationId));
+
+      if (!foundApplication) throw new HTTPException(404, {message: 'application does not exist!'});
+      return c.json({msg: 'foundApplication: ', foundApplication});
+
+    } catch (error) {
+       console.log(error);
+    if (error instanceof HTTPException) throw error;
+    throw new HTTPException(500, { message: "something went wrong" });
+    }
   }
 );
