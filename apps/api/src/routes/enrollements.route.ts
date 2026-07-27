@@ -5,6 +5,6 @@ import { isTeacher } from '@/middlewares/teacher';
 const router = new Hono();
 
 // post enrollemetns
-router.patch('/', isTeacher, ...acceptApplications);
+router.patch('/:applicationId/accept', isTeacher, ...acceptApplications);
 
 export default router;
