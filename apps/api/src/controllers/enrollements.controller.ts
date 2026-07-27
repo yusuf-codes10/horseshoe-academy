@@ -2,7 +2,7 @@ import { createFactory } from "hono/factory";
 import type { NewEnrollement } from "@classroom/shared";
 import { db } from "@/db/index";
 import { eq } from 'drizzle-orm'
-import { applications } from "@/db/schema";
+import { applications, enrollements } from "@/db/schema";
 
 const factory = createFactory<{ Variables: { enrollement: NewEnrollement } }>();
 
@@ -16,6 +16,11 @@ export const acceptApplications = factory.createHandlers((c) => {
     .set({status: 'accepted'})
     .where(eq(applications.id, applicationsId));
     // 2. create enrollment record
+    await tx.insert(enrollements)
+    .values({
+        studentId: '',
+        classId: ''
+    })
     // 3. increment enrolledCount on the class
   });
   return c.json({ msg: "accept applications" });
