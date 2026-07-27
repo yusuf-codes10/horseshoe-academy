@@ -30,7 +30,7 @@ export const acceptApplications = factory.createHandlers(
       // 3. increment enrolledCount on the class
       await tx.update(classes)
       .set({enrolledCount: sql`${classes.enrolledCount} + 1` })
-      .where(eq(classes.id, body.classId));
+      .where(eq(classes.id, Number(body.classId)));
     });
     return c.json({ msg: "accept applications" });
   },
