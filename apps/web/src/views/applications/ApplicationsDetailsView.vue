@@ -30,7 +30,8 @@ const acceptApplication = async () => {
   loading.value = true
   try {
     // RPC-style
-    await api.patch(`/enrollements/${applicationId}/accept`);
+    const response = await api.patch(`/enrollements/${applicationId}/accept`);
+    console.log(response.data);
   } catch (error) {
     console.log(error);
   } finally {
@@ -50,6 +51,7 @@ onMounted(async() => {
         v-if="userStore.user && hasPermession(userStore.user, 'manage:applications')"
         :title="'Accept'"
         :loading="loading"
+        @click="acceptApplication"
       />
       <MainButton
         v-if="userStore.user && hasPermession(userStore.user, 'manage:applications')"
