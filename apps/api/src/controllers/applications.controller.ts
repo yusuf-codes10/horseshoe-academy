@@ -137,9 +137,7 @@ export const getAllApplications = factory.createHandlers(async (c) => {
           id: applications.id,
           status: applications.status,
           username: users.username,
-          studentName: users.fullName,
           classId: applications.classId,
-          studentId: students.id,
         })
         .from(applications)
         .innerJoin(classes, eq(classes.id, applications.classId))
