@@ -4,11 +4,13 @@ import ActionsBar from "@/components/shared/ActionsBar.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import api from '@/services/api';
 
 const route = useRoute();
 const userStore = useUserStore();
+
+const applicationId = route.params.applicationId;
 
 const foundApplication = ref();
 const loading = ref(false);
@@ -16,12 +18,16 @@ const loading = ref(false);
 const getApplicationById = async () => {
   loading.value = true
   try {
-
+    const response = await api.get(`/applications/${applicationId}`);
+    console.log(response.data);
   } catch (error) {
     console.log(error);
-
   }
 }
+
+onMounted(async() => {
+  await getApplicationById();
+})
 </script>
 
 <template>
