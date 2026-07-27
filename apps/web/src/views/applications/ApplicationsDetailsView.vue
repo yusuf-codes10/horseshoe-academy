@@ -32,7 +32,7 @@ onMounted(async() => {
 
 <template>
   <div class="mx-4 my-6 flex flex-col gap-6">
-    <ActionsBar :title="'Application'" description="lorem lorem lorem">
+    <ActionsBar :title="'Application #' + application?.id" description="Review and manage this application">
       <MainButton
         v-if="userStore.user && hasPermession(userStore.user, 'manage:applications')"
         :title="'Accept'"
@@ -44,9 +44,42 @@ onMounted(async() => {
         title="Reject"
       />
     </ActionsBar>
-    <div>
-      <p>{{ application?.status }}</p>
-      <p>{{ application?.studentName }}</p>
+
+    <div v-if="application" class="flex flex-col gap-6">
+      <!-- Status -->
+      <div class="bg-popover border border-border rounded-xl p-6">
+        <h2 class="font-medium mb-4">Application Status</h2>
+        <span
+          class="text-sm px-3 py-1 rounded-full"
+          :class="{
+            'bg-yellow-500/10 text-yellow-500': application.status === 'pending',
+            'bg-green-500/10 text-green-500': application.status === 'accepted',
+            'bg-red-500/10 text-red-500': application.status === 'rejected',
+          }"
+        >
+          {{ application.status }}
+        </span>
+      </div>
+
+      <!-- Student -->
+      <div class="bg-popover border border-border rounded-xl p-6">
+        <h2 class="font-medium mb-4">Student</h2>
+        <div class="flex gap-4 text-sm text-text-muted">
+          <span>Name: <span class="text-text-primary">{{ application.studentName }}</span></span>
+          <span>ID: <span class="text-text-primary">{{ application.studentId }}</span></span>
+        </div>
+      </div>
+
+      <!-- Class -->
+      <div class="bg-popover border border-border rounded-xl p-6">
+        <h2 class="font-medium mb-4">Class</h2>
+        <div class="flex gap-4 text-sm text-text-muted">
+          <span>Code: <span class="text-text-primary">{{ application.classCode }}</span></span>
+          <span>Capacity: <span class="text-text-primary">{{ application.enrolledCount }}/{{ application.capacity }}</span></span>
+        </div>
+      </div>
     </div>
+
+    <div v-else class="text-text-muted text-sm">Loading...</div>
   </div>
 </template>
