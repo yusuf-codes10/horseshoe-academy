@@ -12,7 +12,7 @@ const factory = createFactory<{ Variables: { enrollement: NewEnrollement } }>();
 // a transcation POST query
 export const acceptApplications = factory.createHandlers(
   zValidator("json", insertEnrollementSchema),
-  (c) => {
+  async (c) => {
     const applicationsId = c.req.param("applicationId");
     const body = c.req.valid("json");
 
@@ -36,7 +36,7 @@ export const acceptApplications = factory.createHandlers(
           .set({ enrolledCount: sql`${classes.enrolledCount} + 1` })
           .where(eq(classes.id, Number(body.classId)));
       });
-      return c.json({ msg: "accept applications" });
+      return c.json({ msg: "application accepted!" });
     } catch (error) {
       console.log(error);
       if (error instanceof HTTPException) throw error;
