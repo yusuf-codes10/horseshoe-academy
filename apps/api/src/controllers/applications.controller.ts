@@ -141,7 +141,7 @@ export const getAllApplications = factory.createHandlers(async (c) => {
         .select({
           id: applications.id,
           status: applications.status,
-          username: users.username,
+          username: teacherUsers.username,
           classId: applications.classId,
           studentId: studentUsers.id,
           studentName: studentUsers.fullName
