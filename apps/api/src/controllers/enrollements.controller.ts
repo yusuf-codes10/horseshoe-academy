@@ -17,7 +17,7 @@ export const acceptApplications = factory.createHandlers(
     const body = c.req.valid("json");
 
     try {
-      db.transaction(async (tx) => {
+      await db.transaction(async (tx) => {
         // 1. update application status to accepted
         await tx
           .update(applications)
