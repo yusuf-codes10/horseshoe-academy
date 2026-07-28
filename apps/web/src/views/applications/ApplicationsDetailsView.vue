@@ -15,6 +15,8 @@ const applicationId = route.params.applicationId;
 const application = ref();
 const loading = ref(false);
 
+const isAccepted = ref(false)
+
 const getApplicationById = async () => {
   try {
     const response = await api.get(`/applications/${applicationId}`);
@@ -65,7 +67,7 @@ onMounted(async() => {
     <ActionsBar :title="'Application #' + application?.id" description="Review and manage this application">
       <MainButton
         v-if="userStore.user && hasPermession(userStore.user, 'manage:applications')"
-        :title="'Accept'"
+        :title="isAccepted ? 'Already Accepted' : 'Accept'"
         :loading="loading"
         @click="acceptApplication"
       />
