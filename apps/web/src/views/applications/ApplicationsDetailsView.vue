@@ -21,6 +21,7 @@ const getApplicationById = async () => {
   try {
     const response = await api.get(`/applications/${applicationId}`);
     console.log(response.data);
+    // udate the isApplied here?
     return response.data.foundApplication;
   } catch (error) {
     console.log(error);

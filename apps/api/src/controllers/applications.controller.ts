@@ -198,6 +198,9 @@ export const getApplicationById = factory.createHandlers(
       .innerJoin(classes, eq(classes.id, applications.classId))
       .where(eq(applications.id, applicationId));
 
+      // check if a student and fetch is applied here
+      if ()
+
       if (!foundApplication) throw new HTTPException(404, {message: 'application does not exist!'});
       return c.json({msg: 'foundApplication: ', foundApplication});
 

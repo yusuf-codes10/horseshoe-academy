@@ -23,7 +23,7 @@ router.post("/", verifyToken, isStudent, ...createApplication);
 router.get("/", verifyToken, ...getAllApplications);
 
 // get application by id
-router.get('/:applicationId', ...getApplicationById);
+router.get('/:applicationId', verifyToken, ...getApplicationById);
 
 // delete my application | student
 
