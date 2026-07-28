@@ -270,11 +270,11 @@ onMounted(async () => {
         <!-- <button class="text-sm text-primary cursor-pointer">+ Enroll Student</button> -->
                  <MainTable
           :columns="[
-            { key: 'id', label: '' },
-            { key: 'fullName', label: '' },
-            { key: 'username', label: '' },
-            { key: 'classId', label: '' },
-            { key: 'classCode', label: '' },
+            { key: 'id', label: 'ID' },
+            { key: 'fullName', label: 'Name' },
+            { key: 'username', label: 'Username' },
+            // { key: 'classId', label: '' },
+            // { key: 'classCode', label: 'Class' },
           ]"
           :data="enrolledStudents"
           :loading="true"
