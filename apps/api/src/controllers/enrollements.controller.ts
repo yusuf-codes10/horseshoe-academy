@@ -74,3 +74,11 @@ export const rejectApplication = factory.createHandlers(
     }
   }
 );
+
+// get enrolled student per class
+export const getEnrolledStudentsPerClass = factory.createHandlers(
+  async (c) => {
+    return c.json({msg: ''});
+  }
+
+);

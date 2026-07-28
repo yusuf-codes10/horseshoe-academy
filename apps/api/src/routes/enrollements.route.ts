@@ -1,15 +1,32 @@
-import { Hono } from 'hono';
-import { acceptApplications, rejectApplication } from '@/controllers/enrollements.controller';
-import { isTeacher } from '@/middlewares/teacher';
-import { verifyToken } from '@/middlewares/verifyToken';
+import { Hono } from "hono";
+import {
+  acceptApplications,
+  rejectApplication,
+  getEnrolledStudentsPerClass,
+} from "@/controllers/enrollements.controller";
+import { isTeacher } from "@/middlewares/teacher";
+import { verifyToken } from "@/middlewares/verifyToken";
 
 const router = new Hono();
 
 // aceept application
-router.patch('/:applicationId/accept', verifyToken, isTeacher, ...acceptApplications);
+router.patch(
+  "/:applicationId/accept",
+  verifyToken,
+  isTeacher,
+  ...acceptApplications,
+);
 
 // reject application
-router.patch('/:applicationId/reject', verifyToken, isTeacher, ...rejectApplication);
+router.patch(
+  "/:applicationId/reject",
+  verifyToken,
+  isTeacher,
+  ...rejectApplication,
+);
+
+// get enrolled Students | enrollements join | students enrolled for this class
+router.get("/:classId", ...getEnrolledStudentsPerClass);
 
 export default router;
 
