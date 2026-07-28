@@ -97,7 +97,6 @@ export const getEnrolledStudentsPerClass = factory.createHandlers(async (c) => {
     const enrolledStudents = await db.select({
       id: enrollements.id,
       studentId: enrollements.studentId,
-      classId: enrollements.classId,
 
       // student
       gpa: students.gpa,
@@ -106,10 +105,15 @@ export const getEnrolledStudentsPerClass = factory.createHandlers(async (c) => {
       fullName: users.fullName,
       username: users.username,
       gender: users.gender,
+
+      // class
+      classId: classes.id,
+      classCode: classes.code
     })
     .from(enrollements)
     .innerJoin(students, eq(students.id, enrollements.studentId))
     .innerJoin(users, eq(users.id, students.id))
+    .innerJoin(classes, eq(classes.id, enrollements.classId))
     .where(eq(enrollements.classId, Number(classId)))
     .offset(skip)
     .limit(limit)

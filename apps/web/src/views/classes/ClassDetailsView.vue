@@ -39,6 +39,8 @@ const loading = ref(false);
 
 const isModalOpen = ref(false);
 
+const enrolledStudents = ref([])
+
 const sessions = ref([]);
 const isApplied = ref(false);
 
@@ -262,9 +264,19 @@ onMounted(async () => {
       v-if="userStore.user && hasPermession(userStore.user, 'view:applications')"
       class="bg-popover border border-border rounded-xl p-6"
     >
-      <div class="flex justify-between items-center mb-4">
+      <div v-if="enrolledStudents" class="flex justify-between items-center mb-4">
         <h2 class="font-medium">Enrolled Students</h2>
         <!-- <button class="text-sm text-primary cursor-pointer">+ Enroll Student</button> -->
+                 <MainTable
+          :columns="[
+            { key: 'id', label: '' },
+            { key: 'date', label: '' },
+            { key: 'location', label: '' },
+            { key: 'classId', label: '' },
+          ]"
+          :data="enrolledStudents"
+          :loading="true"
+        />
       </div>
       <p class="text-text-muted text-sm">No students enrolled yet.</p>
       <!-- table goes here -->
