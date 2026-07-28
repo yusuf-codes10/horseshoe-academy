@@ -189,7 +189,8 @@ export const getApplicationById = factory.createHandlers(
         studentId: users.id,
         classCode: classes.code,
         capacity: classes.capacity,
-        enrolledCount: classes.enrolledCount
+        enrolledCount: classes.enrolledCount,
+        classId: classes.id
       })
       .from(applications)
       .innerJoin(students, eq(students.id, applications.studentId))
