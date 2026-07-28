@@ -47,7 +47,21 @@ export const acceptApplications = factory.createHandlers(
 
 // a transaction PATCH request for rejection
 export const rejectApplication = factory.createHandlers(
+  zValidator("json", insertEnrollementSchema),
   async (c) => {
-    return c.json({msg: ''});
+        const applicationsId = c.req.param("applicationId");
+    const body = c.req.valid("json");
+
+    try {
+        // we need a transaction:
+        await db.transaction(async (tx) => {
+          
+        })
+      return c.json({msg: ''});
+    } catch (error) {
+      console.log(error);
+      if (error instanceof HTTPException) throw error;
+      throw new HTTPException(500, { message: "something went wrong" });
+    }
   }
 );
