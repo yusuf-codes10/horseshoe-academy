@@ -94,7 +94,19 @@ export const getEnrolledStudentsPerClass = factory.createHandlers(async (c) => {
 
   try {
 
-    await db.select()
+    const enrolledStudents = await db.select({
+      id: enrollements.id,
+      studentId: enrollements.studentId,
+      classId: enrollements.classId,
+
+      // student
+      gpa: students.gpa,
+
+      // users
+      fullName: users.fullName,
+      username: users.username,
+      gender: users.gender,
+    })
     .from(enrollements)
     .innerJoin(students, eq(students.id, enrollements.studentId))
     .innerJoin(users, eq(users.id, students.id))
@@ -102,10 +114,10 @@ export const getEnrolledStudentsPerClass = factory.createHandlers(async (c) => {
     .offset(skip)
     .limit(limit)
     .orderBy(enrollements.id);
+    return c.json({ msg: "enrolled students: ", enrolledStudents });
   } catch (error) {
     console.log(error);
     if (error instanceof HTTPException) throw error;
     throw new HTTPException(500, { message: "something went wrong" });
   }
-  return c.json({ msg: "" });
 });
