@@ -47,20 +47,26 @@ export const acceptApplications = factory.createHandlers(
 
 // a transaction PATCH request for rejection
 export const rejectApplication = factory.createHandlers(
-  zValidator("json", insertEnrollementSchema),
+  // zValidator("json", insertEnrollementSchema),
   async (c) => {
         const applicationsId = c.req.param("applicationId");
-    const body = c.req.valid("json");
+    // const body = c.req.valid("json");
 
     try {
         // we need a transaction: only when we do notifications
         // await db.transaction(async (tx) => {
 
         // })
+        // check if applications exists!
+        const [foundApplication] = await db.select()
+        .from(applications)
+        .where(eq(applications.id, Number(applicationsId)));
+
+        if (!foundApplication) throw new HTTPException(404, {message: 'Application does not exist!'});
         await db.update(applications)
         .set({status: 'rejected'})
         .where(eq(applications.id, Number(applicationsId)));
-      return c.json({msg: ''});
+      return c.json({msg: 'application rejected'});
     } catch (error) {
       console.log(error);
       if (error instanceof HTTPException) throw error;
