@@ -30,7 +30,10 @@ const acceptApplication = async () => {
   loading.value = true
   try {
     // RPC-style
-    const response = await api.patch(`/enrollements/${applicationId}/accept`);
+    const response = await api.patch(`/enrollements/${applicationId}/accept`, {
+      studentId: application.value.studentId,
+      classId: application.value.classId
+    });
     console.log(response.data);
   } catch (error) {
     console.log(error);
