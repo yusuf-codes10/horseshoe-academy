@@ -42,6 +42,19 @@ const acceptApplication = async () => {
   }
 }
 
+// reject application
+const rejectApplication = async () => {
+  loading.value = true
+  try {
+    const response = await api.patch(`/enrollements/${applicationId}/reject`);
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  } finally {
+    loading.value = false
+  }
+}
+
 onMounted(async() => {
   application.value = await getApplicationById();
 })
@@ -60,6 +73,7 @@ onMounted(async() => {
         v-if="userStore.user && hasPermession(userStore.user, 'manage:applications')"
         variant="action"
         title="Reject"
+        @click="rejectApplication"
       />
     </ActionsBar>
 
