@@ -181,7 +181,6 @@ export const getAllApplications = factory.createHandlers(async (c) => {
 export const getApplicationById = factory.createHandlers(
   async (c) => {
     const applicationId = Number(c.req.param('applicationId'));
-    const paylaod = c.get('jwtPayload') as JWTPayloadShape;
     try {
       const [foundApplication] = await db.select({
         id: applications.id,
@@ -198,12 +197,6 @@ export const getApplicationById = factory.createHandlers(
       .innerJoin(users, eq(users.id, students.id))
       .innerJoin(classes, eq(classes.id, applications.classId))
       .where(eq(applications.id, applicationId));
-
-      // check if a student and fetch is applied here
-      if (paylaod.role === 'student') {
-        await db.select() 
-        .from(applications)
-      }
 
       if (!foundApplication) throw new HTTPException(404, {message: 'application does not exist!'});
       return c.json({msg: 'foundApplication: ', foundApplication});
