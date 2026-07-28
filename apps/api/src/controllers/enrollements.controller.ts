@@ -9,7 +9,7 @@ import { HTTPException } from "hono/http-exception";
 
 const factory = createFactory<{ Variables: { enrollement: NewEnrollement } }>();
 
-// a transcation POST query
+// a transcation PATCH query
 export const acceptApplications = factory.createHandlers(
   zValidator("json", insertEnrollementSchema),
   async (c) => {
@@ -43,4 +43,11 @@ export const acceptApplications = factory.createHandlers(
       throw new HTTPException(500, { message: "something went wrong" });
     }
   },
+);
+
+// a transaction PATCH request for rejection
+export const rejectApplication = factory.createHandlers(
+  async (c) => {
+    return c.json({msg: ''});
+  }
 );

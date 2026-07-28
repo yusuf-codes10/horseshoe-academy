@@ -1,12 +1,15 @@
 import { Hono } from 'hono';
-import { acceptApplications } from '@/controllers/enrollements.controller';
+import { acceptApplications, rejectApplication } from '@/controllers/enrollements.controller';
 import { isTeacher } from '@/middlewares/teacher';
 import { verifyToken } from '@/middlewares/verifyToken';
 
 const router = new Hono();
 
-// post enrollemetns
+// aceept application
 router.patch('/:applicationId/accept', verifyToken, isTeacher, ...acceptApplications);
+
+// reject application
+router.patch(':/applicationId/reject', verifyToken, isTeacher, ...rejectApplication);
 
 export default router;
 
