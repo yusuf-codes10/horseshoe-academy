@@ -15,7 +15,7 @@ const applicationId = route.params.applicationId;
 const application = ref();
 const loading = ref(false);
 
-const isAccepted = ref(false)
+const isAccepted = application.value?.status !== 'pending';
 
 const getApplicationById = async () => {
   try {
@@ -68,8 +68,8 @@ onMounted(async() => {
     <ActionsBar :title="'Application #' + application?.id" description="Review and manage this application">
       <MainButton
         v-if="userStore.user && hasPermession(userStore.user, 'manage:applications')"
-        :title="isAccepted ? 'Already Accepted' : 'Accept'"
-        :disabled="application?.status !== 'pending'"
+        :title="isAccepted ? 'Already Managed' : 'Accept'"
+        :disabled="isAccepted"
         :loading="loading"
         @click="acceptApplication"
       />
@@ -77,7 +77,7 @@ onMounted(async() => {
         v-if="userStore.user && hasPermession(userStore.user, 'manage:applications')"
         variant="action"
         title="Reject"
-        :disabled="application?.status !== 'pending'"
+        :disabled="isAccepted"
         @click="rejectApplication"
       />
     </ActionsBar>
