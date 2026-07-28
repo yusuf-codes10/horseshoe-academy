@@ -138,12 +138,21 @@ const enrollToClass = async () => {
 };
 
 // get enrolled Students!
+const getEnrolledStudents = async () => {
+  try {
+    const response  = await api.get(`/enrollements/${route.params.classId}`);
+    console.log('all enrollements: ', response.data);
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 onMounted(async () => {
   await getClassById();
   await showAvailableTeachers();
   await fetchTeacher();
   await fetchSessionsPerClass();
+  await getEnrolledStudents();
 });
 </script>
 
