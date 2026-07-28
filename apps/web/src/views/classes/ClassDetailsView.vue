@@ -39,7 +39,7 @@ const loading = ref(false);
 
 const isModalOpen = ref(false);
 
-const enrolledStudents = ref([])
+const enrolledStudents = ref([]);
 
 const sessions = ref([]);
 const isApplied = ref(false);
@@ -142,13 +142,13 @@ const enrollToClass = async () => {
 // get enrolled Students!
 const getEnrolledStudents = async () => {
   try {
-    const response  = await api.get(`/enrollements/${route.params.classId}`);
-    console.log('all enrollements: ', response.data);
-    enrolledStudents.value =  response.data.enrolledStudents;
+    const response = await api.get(`/enrollements/${route.params.classId}`);
+    console.log("all enrollements: ", response.data);
+    enrolledStudents.value = response.data.enrolledStudents;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 onMounted(async () => {
   await getClassById();
@@ -268,7 +268,7 @@ onMounted(async () => {
       <div v-if="enrolledStudents" class="flex flex-col mb-4">
         <h2 class="font-medium">Enrolled Students</h2>
         <!-- <button class="text-sm text-primary cursor-pointer">+ Enroll Student</button> -->
-                 <MainTable
+        <MainTable
           :columns="[
             { key: 'id', label: 'ID' },
             { key: 'fullName', label: 'Name' },
@@ -280,7 +280,7 @@ onMounted(async () => {
           :loading="true"
         />
       </div>
-      <p class="text-text-muted text-sm">No students enrolled yet.</p>
+      <p v-else class="text-text-muted text-sm">No students enrolled yet.</p>
       <!-- table goes here -->
     </div>
   </div>
