@@ -84,13 +84,24 @@ export const rejectApplication = factory.createHandlers(
 export const getEnrolledStudentsPerClass = factory.createHandlers(async (c) => {
 
   const classId = c.req.param('classId');
+
+    const pageQuery = c.req.query("page");
+  const limitQuery = c.req.query("limit");
+
+  const page = Number(pageQuery) || 1;
+  const limit = Number(limitQuery) || 10;
+  const skip = (page - 1) * limit;
+
   try {
 
     await db.select()
     .from(enrollements)
     .innerJoin(students, eq(students.id, enrollements.studentId))
     .innerJoin(users, eq(users.id, students.id))
-    .where(eq(enrollements.classId, Number(classId)));
+    .where(eq(enrollements.classId, Number(classId)))
+    .offset(skip)
+    .limit(limit)
+    .orderBy(enrollements.id);
   } catch (error) {
     console.log(error);
     if (error instanceof HTTPException) throw error;
