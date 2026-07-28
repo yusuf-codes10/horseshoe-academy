@@ -9,7 +9,7 @@ const router = new Hono();
 router.patch('/:applicationId/accept', verifyToken, isTeacher, ...acceptApplications);
 
 // reject application
-router.patch(':/applicationId/reject', verifyToken, isTeacher, ...rejectApplication);
+router.patch('/:applicationId/reject', verifyToken, isTeacher, ...rejectApplication);
 
 export default router;
 
