@@ -69,6 +69,7 @@ onMounted(async() => {
       <MainButton
         v-if="userStore.user && hasPermession(userStore.user, 'manage:applications')"
         :title="isAccepted ? 'Already Accepted' : 'Accept'"
+        :disabled="application?.status !== 'pending'"
         :loading="loading"
         @click="acceptApplication"
       />
@@ -76,6 +77,7 @@ onMounted(async() => {
         v-if="userStore.user && hasPermession(userStore.user, 'manage:applications')"
         variant="action"
         title="Reject"
+        :disabled="application?.status !== 'pending'"
         @click="rejectApplication"
       />
     </ActionsBar>
