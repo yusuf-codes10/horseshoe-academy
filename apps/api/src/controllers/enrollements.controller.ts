@@ -53,10 +53,13 @@ export const rejectApplication = factory.createHandlers(
     const body = c.req.valid("json");
 
     try {
-        // we need a transaction:
-        await db.transaction(async (tx) => {
-          
-        })
+        // we need a transaction: only when we do notifications
+        // await db.transaction(async (tx) => {
+
+        // })
+        await db.update(applications)
+        .set({status: 'rejected'})
+        .where(eq(applications.id, Number(applicationsId)));
       return c.json({msg: ''});
     } catch (error) {
       console.log(error);
