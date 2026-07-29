@@ -73,7 +73,7 @@ export const rejectApplication = factory.createHandlers(
     const body = c.req.valid("json");
 
     try {
-            // check if applications exists!
+      // check if applications exists!
       const [foundApplication] = await db
         .select()
         .from(applications)
@@ -85,16 +85,15 @@ export const rejectApplication = factory.createHandlers(
         });
       // we need a transaction: only when we do notifications
       await db.transaction(async (tx) => {
-
         // 1. updating the applications
         await tx
           .update(applications)
           .set({ status: "rejected" })
           .where(eq(applications.id, Number(applicationsId)));
 
-          // 2. notify the user
-                  const notification: NewNotification = {
-          title: "Application Accepted",
+        // 2. notify the user
+        const notification: NewNotification = {
+          title: "Application Rejected",
           content: "Your application to...",
           action: `applications/${applicationsId}`,
           userId: body.studentId,
@@ -102,9 +101,8 @@ export const rejectApplication = factory.createHandlers(
         };
         await pushNotification(notification, tx);
 
-        return c.json({ msg: "application rejected" });
-      })
-
+      });
+      return c.json({ msg: "application rejected" });
     } catch (error) {
       console.log(error);
       if (error instanceof HTTPException) throw error;
