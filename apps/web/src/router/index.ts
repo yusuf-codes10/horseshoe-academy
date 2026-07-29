@@ -19,6 +19,7 @@ import UserProfileView from "@/views/users/UserProfileView.vue";
 import SessionView from "@/views/sessions/SessionView.vue";
 import ApplicationsView from "@/views/applications/ApplicationsView.vue";
 import ApplicationsDetailsView from "@/views/applications/ApplicationsDetailsView.vue";
+import NotificationsView from "@/views/notifications/NotificationsView.vue";
 
 declare module "vue-router" {
   interface RouteMeta {
@@ -114,6 +115,11 @@ const routes = [
         path: "applications/:applicationId",
         name: "ApplicationsDetails",
         component: ApplicationsDetailsView,
+      },
+      {
+        path: 'notifications',
+        name: 'Notifications',
+        component: NotificationsView
       },
       {
         path: ":username",
