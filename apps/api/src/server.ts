@@ -11,6 +11,7 @@ import applicationRouter from '@/routes/applications.route';
 import teachersRouter from '@/routes/teachers.route';
 import usersRouter from '@/routes/users.route';
 import enrollmentsRouter from '@/routes/enrollements.route';
+import notificationsRouter from '@/routes/notifications.route';
 import type { JwtVariables } from 'hono/jwt'
 import {cors } from 'hono/cors';
 
@@ -41,6 +42,7 @@ server.route('/sessions', sessionRouter);
 server.route('/applications', applicationRouter);
 server.route('/classes/:classId/applications', applicationRouter);
 server.route('/enrollements', enrollmentsRouter);
+server.route('/notifications', notificationsRouter);
 
 server.notFound(catchAll);
 server.onError(errorHandler);
