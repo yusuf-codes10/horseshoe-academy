@@ -13,7 +13,7 @@ import {
 import { zValidator } from "@hono/zod-validator";
 import { HTTPException } from "hono/http-exception";
 import { pushNotification } from "@/services/pushNotifications";
-import type { JWTPayloadShape } from "@classroom/shared";
+// import type { JWTPayloadShape } from "@classroom/shared";
 
 const factory = createFactory<{ Variables: { enrollement: NewEnrollement } }>();
 
@@ -67,10 +67,10 @@ export const acceptApplications = factory.createHandlers(
 
 // a transaction PATCH request for rejection
 export const rejectApplication = factory.createHandlers(
-  // zValidator("json", insertEnrollementSchema),
+  zValidator("json", insertEnrollementSchema),
   async (c) => {
     const applicationsId = c.req.param("applicationId");
-    // const body = c.req.valid("json");
+    const body = c.req.valid("json");
 
     try {
             // check if applications exists!
@@ -93,14 +93,14 @@ export const rejectApplication = factory.createHandlers(
           .where(eq(applications.id, Number(applicationsId)));
 
           // 2. notify the user
-        //           const notification: NewNotification = {
-        //   title: "Application Accepted",
-        //   content: "Your application to...",
-        //   action: `applications/${applicationsId}`,
-        //   userId: payload.id,
-        //   isRead: false,
-        // };
-        // await pushNotification(notification, tx);
+                  const notification: NewNotification = {
+          title: "Application Accepted",
+          content: "Your application to...",
+          action: `applications/${applicationsId}`,
+          userId: body.studentId,
+          isRead: false,
+        };
+        await pushNotification(notification, tx);
 
         return c.json({ msg: "application rejected" });
       })
