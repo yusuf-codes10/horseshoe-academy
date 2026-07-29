@@ -2,12 +2,12 @@ import { db } from "@/db/index";
 import { notifications } from "@/db/schema";
 
 export const pushNotification = async (
-  title,
-  content,
-  time,
-  isRead,
-  action,
-  userId,
+  title: string,
+  content: string,
+  time: string,
+  isRead: boolean,
+  action: string,
+  userId: number,
 ) => {
   try {
     await db.insert(notifications).values({
