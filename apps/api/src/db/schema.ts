@@ -119,5 +119,6 @@ export const notifications = pgTable('notifications', {
     content: text('content').notNull(),
     time: timestamp('time').defaultNow().notNull(),
     isRead: boolean('is_read').default(false).notNull(),
+    action: varchar('action', {length: 255}).notNull(),
     userId: bigint('user_id', {mode: 'number'}).references(() => users.id)
 })
