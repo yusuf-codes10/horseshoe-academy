@@ -1,15 +1,16 @@
 import { Hono } from 'hono';
 import { getMyNotifications, readMyNotification, deleteMyNotification } from '@/controllers/notifications.controller';
+import { verifyToken } from '@/middlewares/verifyToken';
 
 const router = new Hono();
 
 // create a notification
-router.post('/', ...getMyNotifications);
+router.post('/', verifyToken, ...getMyNotifications);
 
 // read a notification
-router.patch('/', ...readMyNotification);
+router.patch('/', verifyToken, ...readMyNotification);
 
 // delete a notification
-router.delete('/', ...deleteMyNotification);
+router.delete('/', verifyToken, ...deleteMyNotification);
 
 export default router;
