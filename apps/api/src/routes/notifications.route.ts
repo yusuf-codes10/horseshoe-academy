@@ -5,7 +5,7 @@ import { verifyToken } from '@/middlewares/verifyToken';
 const router = new Hono();
 
 // create a notification
-router.post('/', verifyToken, ...getMyNotifications);
+router.get('/', verifyToken, ...getMyNotifications);
 
 // read a notification
 router.patch('/', verifyToken, ...readMyNotification);
