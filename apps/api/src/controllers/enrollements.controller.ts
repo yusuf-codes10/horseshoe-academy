@@ -54,7 +54,7 @@ export const acceptApplications = factory.createHandlers(
           userId: payload.id,
           isRead: false,
         };
-        await pushNotification(notification);
+        await pushNotification(notification, tx);
       });
       return c.json({ msg: "application accepted!" });
     } catch (error) {

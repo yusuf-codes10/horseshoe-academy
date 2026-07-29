@@ -3,13 +3,9 @@ import { db } from "@/db/index";
 import type { NewNotification } from "@classroom/shared";
 import { HTTPException } from "hono/http-exception";
 
-import type { NodePgDatabase } from "drizzle-orm/node-postgres";
-
-type Transaction = Parameters<Parameters<NodePgDatabase["transaction"]>[0]>[0];
-
 export const pushNotification = async (
   notification: NewNotification,
-  tx?: Transaction,
+  tx?: any,
 ) => {
   const client = tx ?? db;
   try {
