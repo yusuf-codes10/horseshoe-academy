@@ -51,7 +51,7 @@ export const acceptApplications = factory.createHandlers(
           title: "Application Accepted",
           content: "Your application to...",
           action: `applications/${applicationsId}`,
-          userId: payload.id,
+          userId: body.studentId,
           isRead: false,
         };
         await pushNotification(notification, tx);
@@ -73,11 +73,7 @@ export const rejectApplication = factory.createHandlers(
     // const body = c.req.valid("json");
 
     try {
-      // we need a transaction: only when we do notifications
-      // await db.transaction(async (tx) => {
-
-      // })
-      // check if applications exists!
+            // check if applications exists!
       const [foundApplication] = await db
         .select()
         .from(applications)
@@ -87,11 +83,28 @@ export const rejectApplication = factory.createHandlers(
         throw new HTTPException(404, {
           message: "Application does not exist!",
         });
-      await db
-        .update(applications)
-        .set({ status: "rejected" })
-        .where(eq(applications.id, Number(applicationsId)));
-      return c.json({ msg: "application rejected" });
+      // we need a transaction: only when we do notifications
+      await db.transaction(async (tx) => {
+
+        // 1. updating the applications
+        await tx
+          .update(applications)
+          .set({ status: "rejected" })
+          .where(eq(applications.id, Number(applicationsId)));
+
+          // 2. notify the user
+        //           const notification: NewNotification = {
+        //   title: "Application Accepted",
+        //   content: "Your application to...",
+        //   action: `applications/${applicationsId}`,
+        //   userId: payload.id,
+        //   isRead: false,
+        // };
+        // await pushNotification(notification, tx);
+
+        return c.json({ msg: "application rejected" });
+      })
+
     } catch (error) {
       console.log(error);
       if (error instanceof HTTPException) throw error;
