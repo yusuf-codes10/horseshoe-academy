@@ -1,11 +1,18 @@
 import { createFactory } from "hono/factory";
-import type { NewEnrollement } from "@classroom/shared";
+import type { NewEnrollement, NewNotification } from "@classroom/shared";
 import { insertEnrollementSchema } from "@classroom/shared";
 import { db } from "@/db/index";
 import { eq, sql } from "drizzle-orm";
-import { applications, enrollements, classes, students, users } from "@/db/schema";
+import {
+  applications,
+  enrollements,
+  classes,
+  students,
+  users,
+} from "@/db/schema";
 import { zValidator } from "@hono/zod-validator";
 import { HTTPException } from "hono/http-exception";
+import { pushNotification } from "@/services/pushNotifications";
 
 const factory = createFactory<{ Variables: { enrollement: NewEnrollement } }>();
 
@@ -35,6 +42,17 @@ export const acceptApplications = factory.createHandlers(
           .update(classes)
           .set({ enrolledCount: sql`${classes.enrolledCount} + 1` })
           .where(eq(classes.id, Number(body.classId)));
+
+        // 4. notify the user
+        // typing a notifciation here
+        const notification: NewNotification = {
+          title: "Application Accepted",
+          content: "Your application to...",
+          action: `applications/${applicationsId}`,
+          userId: 1,
+          isRead: false,
+        };
+        await pushNotification(notification);
       });
       return c.json({ msg: "application accepted!" });
     } catch (error) {
@@ -82,10 +100,9 @@ export const rejectApplication = factory.createHandlers(
 
 // get enrolled student per class
 export const getEnrolledStudentsPerClass = factory.createHandlers(async (c) => {
+  const classId = c.req.param("classId");
 
-  const classId = c.req.param('classId');
-
-    const pageQuery = c.req.query("page");
+  const pageQuery = c.req.query("page");
   const limitQuery = c.req.query("limit");
 
   const page = Number(pageQuery) || 1;
@@ -93,27 +110,27 @@ export const getEnrolledStudentsPerClass = factory.createHandlers(async (c) => {
   const skip = (page - 1) * limit;
 
   try {
+    const enrolledStudents = await db
+      .select({
+        id: enrollements.id,
+        studentId: enrollements.studentId,
+        classId: enrollements.classId,
 
-    const enrolledStudents = await db.select({
-      id: enrollements.id,
-      studentId: enrollements.studentId,
-      classId: enrollements.classId,
+        // student
+        gpa: students.gpa,
 
-      // student
-      gpa: students.gpa,
-
-      // users
-      fullName: users.fullName,
-      username: users.username,
-      gender: users.gender,
-    })
-    .from(enrollements)
-    .innerJoin(students, eq(students.id, enrollements.studentId))
-    .innerJoin(users, eq(users.id, students.id))
-    .where(eq(enrollements.classId, Number(classId)))
-    .offset(skip)
-    .limit(limit)
-    .orderBy(enrollements.id);
+        // users
+        fullName: users.fullName,
+        username: users.username,
+        gender: users.gender,
+      })
+      .from(enrollements)
+      .innerJoin(students, eq(students.id, enrollements.studentId))
+      .innerJoin(users, eq(users.id, students.id))
+      .where(eq(enrollements.classId, Number(classId)))
+      .offset(skip)
+      .limit(limit)
+      .orderBy(enrollements.id);
     return c.json({ msg: "enrolled students: ", enrolledStudents });
   } catch (error) {
     console.log(error);
