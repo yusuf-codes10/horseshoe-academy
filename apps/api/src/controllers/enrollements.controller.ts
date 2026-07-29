@@ -13,6 +13,7 @@ import {
 import { zValidator } from "@hono/zod-validator";
 import { HTTPException } from "hono/http-exception";
 import { pushNotification } from "@/services/pushNotifications";
+import type { JWTPayloadShape } from "@classroom/shared";
 
 const factory = createFactory<{ Variables: { enrollement: NewEnrollement } }>();
 
@@ -20,6 +21,7 @@ const factory = createFactory<{ Variables: { enrollement: NewEnrollement } }>();
 export const acceptApplications = factory.createHandlers(
   zValidator("json", insertEnrollementSchema),
   async (c) => {
+    const payload = c.get('jwtPayload') as JWTPayloadShape;
     const applicationsId = c.req.param("applicationId");
     const body = c.req.valid("json");
 
@@ -49,7 +51,7 @@ export const acceptApplications = factory.createHandlers(
           title: "Application Accepted",
           content: "Your application to...",
           action: `applications/${applicationsId}`,
-          userId: 1,
+          userId: payload.id,
           isRead: false,
         };
         await pushNotification(notification);
