@@ -2,7 +2,7 @@
 import SecondaryButton from "@/components/shared/SecondaryButton.vue";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
-import { Bell } from 'lucide-vue-next'
+import { Bell } from "lucide-vue-next";
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -15,11 +15,15 @@ const logout = async () => {
 const navigateToMyProfile = () => {
   router.push(`/${userStore.user?.username}`);
 };
+
+const navigateToNotifications = () => {
+  router.push({ name: "Notifications" });
+};
 </script>
 
 <template>
   <div class="flex justify-end items-center w-full border-b border-bg-border">
-    <Bell :size="20" class="cursor-pointer"/>
+    <Bell @click="navigateToNotifications" :size="20" class="cursor-pointer" />
     <SecondaryButton title="logout" class="mb-3" @click="logout" />
     <div>
       <p class="cursor-pointer" @click="navigateToMyProfile">
