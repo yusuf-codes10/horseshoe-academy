@@ -21,7 +21,7 @@ const factory = createFactory<{ Variables: { enrollement: NewEnrollement } }>();
 export const acceptApplications = factory.createHandlers(
   zValidator("json", insertEnrollementSchema),
   async (c) => {
-    const payload = c.get('jwtPayload') as JWTPayloadShape;
+    // const payload = c.get('jwtPayload') as JWTPayloadShape;
     const applicationsId = c.req.param("applicationId");
     const body = c.req.valid("json");
 
