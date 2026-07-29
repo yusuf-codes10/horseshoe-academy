@@ -1,22 +1,18 @@
 import { db } from "@/db/index";
 import { notifications } from "@/db/schema";
+import type { NewNotification } from '@classroom/shared';
 
 export const pushNotification = async (
-  title: string,
-  content: string,
-  time: string,
-  isRead: boolean,
-  action: string,
-  userId: number,
+    not: NewNotification
 ) => {
   try {
     await db.insert(notifications).values({
-      title: title,
-      content: content,
-      time: time,
-      isRead: isRead,
-      action: action,
-      userId: userId,
+      title: not.title,
+      content: not.content,
+      time: not.time,
+      isRead: not.isRead,
+      action: not.action,
+      userId: not.userId,
     });
   } catch (error) {
     console.log(error);
