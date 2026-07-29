@@ -9,7 +9,8 @@ import {
   timestamp,
   date,
   pgEnum,
-  unique
+  unique,
+  boolean
 } from "drizzle-orm/pg-core";
 
 // ! have to export the enums
@@ -117,5 +118,6 @@ export const notifications = pgTable('notifications', {
     title: varchar('title', {length: 20}).notNull(),
     content: text('content').notNull(),
     time: timestamp('time').defaultNow().notNull(),
+    isRead: boolean('is_read'),
     userId: bigint('user_id', {mode: 'number'}).references(() => users.id)
 })
