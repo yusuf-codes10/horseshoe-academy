@@ -19,6 +19,8 @@ export const pushNotification = async (notification: NewNotification) => {
 
     if (!insertedNotification)
       throw new HTTPException(500, { message: "Could not insert!" });
+
+    return insertedNotification;
   } catch (error) {
     console.log(error);
     if (error instanceof HTTPException) throw error;
