@@ -49,7 +49,10 @@ const acceptApplication = async () => {
 const rejectApplication = async () => {
   loading.value = true;
   try {
-    const response = await api.patch(`/enrollements/${applicationId}/reject`);
+    const response = await api.patch(`/enrollements/${applicationId}/reject`, {
+      studentId: application.value.studentId,
+      classId: application.value.classId,
+    });
     console.log(response.data);
   } catch (error) {
     console.log(error);
