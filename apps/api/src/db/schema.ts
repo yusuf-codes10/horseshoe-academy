@@ -118,6 +118,6 @@ export const notifications = pgTable('notifications', {
     title: varchar('title', {length: 20}).notNull(),
     content: text('content').notNull(),
     time: timestamp('time').defaultNow().notNull(),
-    isRead: boolean('is_read'),
+    isRead: boolean('is_read').default(false).notNull(),
     userId: bigint('user_id', {mode: 'number'}).references(() => users.id)
 })
