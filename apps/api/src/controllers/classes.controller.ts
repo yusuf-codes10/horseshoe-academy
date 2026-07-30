@@ -96,13 +96,14 @@ export const assignTacherToClass = factory.createHandlers(
         [updatedClass] = await tx
           .update(classes)
           .set({ teacherId: body.teacherId })
-          .where(eq(classes.id, classId));
+          .where(eq(classes.id, classId))
+          .returning();
         // 2. notify the teacher
         // 2. notify the user
         const notification: NewNotification = {
           title: "Assigned to A Class",
           content: "Congratulations! You have been Asigned to...",
-          action: `classes/${classes.id}`,
+          action: `classes/${classId}`,
           userId: body.teacherId,
           isRead: false,
         };
