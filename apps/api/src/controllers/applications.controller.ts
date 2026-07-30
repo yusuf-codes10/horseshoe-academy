@@ -42,19 +42,29 @@ export const createApplication = factory.createHandlers(
           })
           .returning();
 
-          // make sure the insertedApplication is there
-          if (!insertedApplication) throw new HTTPException(500, {message: 'Somthing went wrong'});
-          // 2. notify the teacher of this class
+        // make sure the insertedApplication is there
+        if (!insertedApplication)
+          throw new HTTPException(500, { message: "Somthing went wrong" });
 
-                  // 2. notify the user
-                  const notification: NewNotification = {
-                    title: "Application Rejected",
-                    content: "Your application to...",
-                    action: `applications/${insertedApplication.id}`,
-                    userId: body.studentId,
-                    isRead: false,
-                  };
-                  await pushNotification(notification, tx);
+        // grab the tacher of that class
+        const foundTeacher = db.select({
+          id: teachers.id
+        })
+        .from(teachers)
+        .innerJoin(classes, eq(classes.id, applications.classId))
+        .innerJoin(classes, eq(classes.id, applications.classId));
+
+        if (!foundTeacher) throw new HTTPException(404, {message: 'Not found!'});
+
+        // 2. notify the teacher of this class
+        const notification: NewNotification = {
+          title: "Application Rejected",
+          content: "Your application to...",
+          action: `applications/${insertedApplication.id}`,
+          userId: foundTeacher.id,
+          isRead: false,
+        };
+        await pushNotification(notification, tx);
         return c.json({ msg: "application: ", insertedApplication });
       });
 
