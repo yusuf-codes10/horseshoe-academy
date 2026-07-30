@@ -88,12 +88,15 @@ export const assignTacherToClass = factory.createHandlers(
       if (!foundTeacher)
         throw new HTTPException(404, { message: "Teacher does not exist!" });
 
-
       // TODO: we need another notification here for assigning a teacher
-      const [updatedClass] = await db
-        .update(classes)
-        .set({ teacherId: body.teacherId })
-        .where(eq(classes.id, classId));
+      let updatedClass;
+      await db.transaction(async (tx) => {
+        // 1. assign the teacher
+        [updatedClass] = await tx
+          .update(classes)
+          .set({ teacherId: body.teacherId })
+          .where(eq(classes.id, classId));
+      });
 
       return c.json({ msg: "teacher assigned", updatedClass });
     } catch (error) {
