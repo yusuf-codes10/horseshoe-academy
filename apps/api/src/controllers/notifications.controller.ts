@@ -60,7 +60,8 @@ export const readMyNotification = factory.createHandlers(async (c) => {
           eq(notifications.id, Number(notificationId)),
           eq(notifications.userId, payload.id),
         ),
-      ).returning();
+      )
+      .returning();
     if (!readNotification)
       throw new HTTPException(500, { message: "Oops! Somthing went wrong!" });
     return c.json({ msg: "notification has been read!" });
@@ -71,6 +72,17 @@ export const readMyNotification = factory.createHandlers(async (c) => {
   }
 });
 
-export const deleteMyNotification = factory.createHandlers((c) => {
-  return c.json({ msg: "notification has been deleted!" });
+export const deleteMyNotification = factory.createHandlers(async (c) => {
+  const notificationId = c.req.param("notificationId");
+  try {
+    const [deleted] = await db
+      .delete(notifications)
+      .where(eq(notifications.id, Number(notificationId))).returning();
+
+      if (!deleted) throw new HTTPException(500, {message: 'Something went wrong!'});
+    return c.json({ msg: "notification has been deleted!" });
+  } catch (error) {
+    if (error instanceof HTTPException) throw error;
+    throw new HTTPException(500, { message: "something went wrong" });
+  }
 });
