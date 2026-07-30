@@ -1,4 +1,21 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { onMounted } from 'vue';
+import api from '@/services/api';
+
+
+const getMyNotifications = async () => {
+  try {
+    const response = await api.get('/notifications');
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+onMounted(async() => {
+  await getMyNotifications();
+})
+</script>
 
 <template>
   <div class="flex justify-center items-center">
