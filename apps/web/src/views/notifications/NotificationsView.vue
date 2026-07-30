@@ -2,8 +2,9 @@
 import { ref, onMounted } from "vue";
 import api from "@/services/api";
 import NotificationCard from "@/components/notifications/NotificationCard.vue";
+import type { Notification } from "@classroom/shared";
 
-const notifications = ref([]);
+const notifications = ref<Notification []>([]);
 
 const getMyNotifications = async () => {
   try {
