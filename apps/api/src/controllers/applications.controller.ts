@@ -47,7 +47,7 @@ export const createApplication = factory.createHandlers(
           throw new HTTPException(500, { message: "Somthing went wrong" });
 
         // grab the tacher of that class
-        const foundTeacher = db.select({
+        const [foundTeacher] = await db.select({
           id: teachers.id
         })
         .from(teachers)
