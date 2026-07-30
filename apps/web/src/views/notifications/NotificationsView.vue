@@ -26,8 +26,11 @@ onMounted(async() => {
 
 <template>
   <div class="flex justify-center items-center">
-    <div class="bg-popover border border-border rounded-xl p-6 w-120">
+    <div v-if="notifications" class="bg-popover border border-border rounded-xl p-6 w-120">
       <NotificationCard v-for="(n, index) in notifications" :key="index" :notification="n"/>
+    </div>
+    <div v-else>
+      <h1>No notifications yet</h1>
     </div>
   </div>
 </template>
