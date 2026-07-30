@@ -4,13 +4,16 @@ import { verifyToken } from '@/middlewares/verifyToken';
 
 const router = new Hono();
 
+// all shoud use auth middleware
+router.use('*', verifyToken);
+
 // create a notification
-router.get('/', verifyToken, ...getMyNotifications);
+router.get('/', ...getMyNotifications);
 
 // read a notification
-router.patch('/', verifyToken, ...readMyNotification);
+router.patch('/', ...readMyNotification);
 
 // delete a notification
-router.delete('/', verifyToken, ...deleteMyNotification);
+router.delete('/', ...deleteMyNotification);
 
 export default router;
