@@ -1,6 +1,6 @@
 import { createFactory } from "hono/factory";
 import type { NewNotification } from "@classroom/shared";
-import { notifications } from "@/db/schema";
+import { applications, notifications } from "@/db/schema";
 import { db } from "@/db/index";
 import type { JWTPayloadShape } from "@classroom/shared";
 import { eq } from "drizzle-orm";
@@ -32,14 +32,24 @@ export const getMyNotifications = factory.createHandlers(async (c) => {
     return c.json({ msg: "notifications", allNotifications });
   } catch (error) {
     console.log(error);
-        if (error instanceof HTTPException) throw error;
-        throw new HTTPException(500, { message: "something went wrong" });
+    if (error instanceof HTTPException) throw error;
+    throw new HTTPException(500, { message: "something went wrong" });
   }
 });
 
 // patch, read
-export const readMyNotification = factory.createHandlers((c) => {
-  return c.json({ msg: "notification has been read!" });
+export const readMyNotification = factory.createHandlers(async (c) => {
+  const notificationId = c.req.param('notificationId');
+  try {
+    await db.update(notifications)
+    .set({isRead: true})
+    .where(eq(applications.id, Number(notificationId)));
+    return c.json({ msg: "notification has been read!" });
+  } catch (error) {
+    console.log(error);
+    if (error instanceof HTTPException) throw error;
+    throw new HTTPException(500, { message: "something went wrong" });
+  }
 });
 
 export const deleteMyNotification = factory.createHandlers((c) => {
