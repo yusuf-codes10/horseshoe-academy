@@ -11,7 +11,7 @@ const getMyNotifications = async () => {
     const response = await api.get('/notifications');
     console.log(response.data);
     return {
-      notifications: response.data
+      allNotifications: response.data.allNotifications,
     }
   } catch (error) {
     console.log(error);
@@ -19,14 +19,15 @@ const getMyNotifications = async () => {
 }
 
 onMounted(async() => {
-  await getMyNotifications();
+  const { allNotifications } = (await getMyNotifications() )?? {allNotifications: []};
+  notifications.value = allNotifications;
 })
 </script>
 
 <template>
   <div class="flex justify-center items-center">
     <div class="bg-popover border border-border rounded-xl p-6 w-120">
-      <NotificationCard />
+      <NotificationCard v-for="(n, index) in notifications" :key="index" :notification="n"/>
     </div>
   </div>
 </template>
