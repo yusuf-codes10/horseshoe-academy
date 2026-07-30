@@ -11,7 +11,7 @@ const emit = defineEmits(['readMe']);
 const router = useRouter();
 
 const navigateToAction = () => {
-  router.push(`/${p.notification.action}`)
+  router.push(`/${p.notification.action}`);
 }
 </script>
 
