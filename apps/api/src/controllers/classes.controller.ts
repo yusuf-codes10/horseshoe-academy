@@ -193,8 +193,6 @@ export const getClassById = factory.createHandlers(async (c) => {
 });
 
 export const getAllClasses = factory.createHandlers(
-  // TODO: 1- implement pagination
-  // TODO: 2- joins to return the subject and department names
   async (c) => {
     const pageQuery = c.req.query("page");
     const limitQuery = c.req.query("limit");

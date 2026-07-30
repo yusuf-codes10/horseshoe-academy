@@ -15,7 +15,7 @@ const router = new Hono();
 router.post("/", ...createClass);
 
 // get all classes
-router.get("/", ...getAllClasses);
+router.get("/", verifyToken, ...getAllClasses);
 
 // get My Classes (teacher)
 router.get('/me', verifyToken, isTeacher, ...getMyClasses);
