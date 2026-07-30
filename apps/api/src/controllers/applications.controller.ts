@@ -1,5 +1,5 @@
 import { createFactory } from "hono/factory";
-import type { NewApplication } from "@classroom/shared";
+import type { NewApplication, NewNotification } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
 import { insertApplicationSchema } from "@classroom/shared";
 import { db } from "@/db/index";
@@ -8,6 +8,7 @@ import { eq, sql } from "drizzle-orm";
 import { alias } from "drizzle-orm/pg-core";
 import { HTTPException } from "hono/http-exception";
 import type { JWTPayloadShape } from "@classroom/shared";
+import { pushNotification } from "@/services/pushNotifications";
 
 const factory = createFactory<{ Variables: { application: NewApplication } }>();
 
@@ -32,18 +33,32 @@ export const createApplication = factory.createHandlers(
         throw new HTTPException(404, { message: "class dpes mpt exost!" });
 
       // TODO: we need a transaction here, to notifiy the teacher that someone applied to his class
+      await db.transaction(async (tx) => {
+        const [insertedApplication] = await db
+          .insert(applications)
+          .values({
+            studentId: payload.id,
+            classId: classId,
+          })
+          .returning();
 
-      const [insertedApplication] = await db
-        .insert(applications)
-        .values({
-          studentId: payload.id,
-          classId: classId,
-        })
-        .returning();
+          // make sure the insertedApplication is there
+          if (!insertedApplication) throw new HTTPException(500, {message: 'Somthing went wrong'});
+          // 2. notify the teacher of this class
+
+                  // 2. notify the user
+                  const notification: NewNotification = {
+                    title: "Application Rejected",
+                    content: "Your application to...",
+                    action: `applications/${insertedApplication.id}`,
+                    userId: body.studentId,
+                    isRead: false,
+                  };
+                  await pushNotification(notification, tx);
+        return c.json({ msg: "application: ", insertedApplication });
+      });
 
       // incremet the classes enrolledStudents? (When approved!)
-
-      return c.json({ msg: "application: ", insertedApplication });
     } catch (error) {
       console.log(error);
       if (error instanceof HTTPException) throw error;
@@ -146,7 +161,7 @@ export const getAllApplications = factory.createHandlers(async (c) => {
           username: teacherUsers.username,
           classId: applications.classId,
           studentId: studentUsers.id,
-          studentName: studentUsers.fullName
+          studentName: studentUsers.fullName,
         })
         .from(applications)
         .innerJoin(classes, eq(classes.id, applications.classId))
@@ -180,11 +195,11 @@ export const getAllApplications = factory.createHandlers(async (c) => {
 });
 
 // get Application By id
-export const getApplicationById = factory.createHandlers(
-  async (c) => {
-    const applicationId = Number(c.req.param('applicationId'));
-    try {
-      const [foundApplication] = await db.select({
+export const getApplicationById = factory.createHandlers(async (c) => {
+  const applicationId = Number(c.req.param("applicationId"));
+  try {
+    const [foundApplication] = await db
+      .select({
         id: applications.id,
         status: applications.status,
         studentName: users.fullName,
@@ -192,7 +207,7 @@ export const getApplicationById = factory.createHandlers(
         classCode: classes.code,
         capacity: classes.capacity,
         enrolledCount: classes.enrolledCount,
-        classId: classes.id
+        classId: classes.id,
       })
       .from(applications)
       .innerJoin(students, eq(students.id, applications.studentId))
@@ -200,13 +215,12 @@ export const getApplicationById = factory.createHandlers(
       .innerJoin(classes, eq(classes.id, applications.classId))
       .where(eq(applications.id, applicationId));
 
-      if (!foundApplication) throw new HTTPException(404, {message: 'application does not exist!'});
-      return c.json({msg: 'foundApplication: ', foundApplication});
-
-    } catch (error) {
-       console.log(error);
+    if (!foundApplication)
+      throw new HTTPException(404, { message: "application does not exist!" });
+    return c.json({ msg: "foundApplication: ", foundApplication });
+  } catch (error) {
+    console.log(error);
     if (error instanceof HTTPException) throw error;
     throw new HTTPException(500, { message: "something went wrong" });
-    }
   }
-);
+});
