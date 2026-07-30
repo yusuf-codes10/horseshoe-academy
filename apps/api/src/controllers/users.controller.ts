@@ -131,7 +131,7 @@ export const getUserProfile = factory.createHandlers(async (c) => {
         })
         .from(users)
         .innerJoin(teachers, eq(teachers.id, users.id))
-        .where(eq(users.id, payload.id));
+        .where(eq(users.id, baseUser.id));
       return c.json({ msg: "user profile: ", foundUser });
     }     // student
     else if (baseUser.role === "student") {
@@ -150,7 +150,7 @@ export const getUserProfile = factory.createHandlers(async (c) => {
         })
         .from(users)
         .innerJoin(students, eq(students.id, users.id))
-        .where(eq(users.id, payload.id));
+        .where(eq(users.id, baseUser.id));
       return c.json({ msg: "user profile: ", foundUser });
     }
     // admin
