@@ -32,7 +32,15 @@ export const createApplication = factory.createHandlers(
       if (!foundClass)
         throw new HTTPException(404, { message: "class dpes mpt exost!" });
 
-      // TODO: we need a transaction here, to notifiy the teacher that someone applied to his class
+              // grab the tacher of that class
+        const [foundTeacher] = await db.select({
+          id: teachers.id
+        })
+        .from(teachers)
+        .innerJoin(classes, eq(classes.teacherId, teachers.id))
+        .where(eq(classes.id, classId));
+
+        if (!foundTeacher) throw new HTTPException(404, {message: 'Not found!'});
       await db.transaction(async (tx) => {
         const [insertedApplication] = await db
           .insert(applications)
@@ -45,16 +53,6 @@ export const createApplication = factory.createHandlers(
         // make sure the insertedApplication is there
         if (!insertedApplication)
           throw new HTTPException(500, { message: "Somthing went wrong" });
-
-        // grab the tacher of that class
-        const [foundTeacher] = await db.select({
-          id: teachers.id
-        })
-        .from(teachers)
-        .innerJoin(classes, eq(classes.teacherId, teachers.id))
-        .where(eq(classes.id, classId));
-
-        if (!foundTeacher) throw new HTTPException(404, {message: 'Not found!'});
 
         // 2. notify the teacher of this class
         const notification: NewNotification = {
