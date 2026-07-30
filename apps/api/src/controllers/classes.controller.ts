@@ -1,5 +1,5 @@
 import { createFactory } from "hono/factory";
-import type { NewClass } from "@classroom/shared";
+import type { NewClass, NewNotification } from "@classroom/shared";
 import { insertClassSchema } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
 import { db } from "@/db/index";
@@ -7,6 +7,7 @@ import { classes, subjects, teachers, users, applications } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import type { JWTPayloadShape } from "@classroom/shared";
+import { pushNotification } from "@/services/pushNotifications";
 
 const factory = createFactory<{ Variables: { class: NewClass } }>();
 
@@ -96,6 +97,16 @@ export const assignTacherToClass = factory.createHandlers(
           .update(classes)
           .set({ teacherId: body.teacherId })
           .where(eq(classes.id, classId));
+        // 2. notify the teacher
+        // 2. notify the user
+        const notification: NewNotification = {
+          title: "Assigned to A Class",
+          content: "Congratulations! You have been Asigned to...",
+          action: `classes/${classes.id}`,
+          userId: body.teacherId,
+          isRead: false,
+        };
+        await pushNotification(notification, tx);
       });
 
       return c.json({ msg: "teacher assigned", updatedClass });
