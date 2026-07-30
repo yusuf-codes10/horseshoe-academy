@@ -4,6 +4,7 @@ import { notifications } from "@/db/schema";
 import { db } from "@/db/index";
 import type { JWTPayloadShape } from "@classroom/shared";
 import { eq } from "drizzle-orm";
+import { HTTPException } from "hono/http-exception";
 
 const factory = createFactory<{
   Variables: { notification: NewNotification };
@@ -31,6 +32,8 @@ export const getMyNotifications = factory.createHandlers(async (c) => {
     return c.json({ msg: "notifications", allNotifications });
   } catch (error) {
     console.log(error);
+        if (error instanceof HTTPException) throw error;
+        throw new HTTPException(500, { message: "something went wrong" });
   }
 });
 
