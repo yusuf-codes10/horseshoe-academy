@@ -31,6 +31,8 @@ export const createApplication = factory.createHandlers(
       if (!foundClass)
         throw new HTTPException(404, { message: "class dpes mpt exost!" });
 
+      // TODO: we need a transaction here, to notifiy the teacher that someone applied to his class
+
       const [insertedApplication] = await db
         .insert(applications)
         .values({
