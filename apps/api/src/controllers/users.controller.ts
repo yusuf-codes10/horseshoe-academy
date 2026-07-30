@@ -94,6 +94,8 @@ export const getUserProfile = factory.createHandlers(async (c) => {
 
   if (!username)
     throw new HTTPException(400, { message: "username is required!" });
+
+  const payload = c.get('jwtPayload') as JWTPayloadShape;
   try {
     const [baseUser] = await db
       .select({
@@ -112,7 +114,25 @@ export const getUserProfile = factory.createHandlers(async (c) => {
       throw new HTTPException(404, { message: "User does not exist!" });
 
     if (baseUser.role === 'teacher') {
+      const [foundUser] = await db
+        .select({
+          id: users.id,
+          username: users.username,
+          fullName: users.fullName,
+          email: users.email,
+          createdAt: users.createdAt,
+          gender: users.gender,
+          role: users.role,
 
+          // teacher fields
+          degree: teachers.degree,
+          major: teachers.major,
+          salary: teachers.salary,
+        })
+        .from(users)
+        .innerJoin(teachers, eq(teachers.id, users.id))
+        .where(eq(users.id, payload.id));
+      return c.json({ msg: "user profile: ", foundUser });
     }
     return c.json({ msg: "user: ", baseUser });
   } catch (error) {
