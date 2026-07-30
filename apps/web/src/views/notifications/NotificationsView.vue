@@ -19,7 +19,7 @@ const getMyNotifications = async () => {
 
 const readMyNotification = async () => {
   try {
-    const response = await api.patch("/notifications");
+    const response = await api.patch(`/notifications/`);
     console.log(response.data);
   } catch (error) {
     console.log(error);
@@ -42,7 +42,7 @@ onMounted(async () => {
         v-for="(n, index) in notifications"
         :key="index"
         :notification="n"
-        @readMe="readMyNotification"
+        @readMe="readMyNotification(n.id)"
       />
     </div>
     <div v-else>

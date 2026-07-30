@@ -11,9 +11,9 @@ router.use('*', verifyToken);
 router.get('/', ...getMyNotifications);
 
 // read a notification
-router.patch('/', ...readMyNotification);
+router.patch('/:notificationId', ...readMyNotification);
 
 // delete a notification
-router.delete('/', ...deleteMyNotification);
+router.delete('/:notificationId', ...deleteMyNotification);
 
 export default router;
