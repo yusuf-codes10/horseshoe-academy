@@ -43,8 +43,10 @@ export const createApplication = factory.createHandlers(
 
       if (!foundTeacher)
         throw new HTTPException(404, { message: "Not found!" });
+
+      let insertedApplication;
       await db.transaction(async (tx) => {
-        const [insertedApplication] = await db
+        [insertedApplication] = await db
           .insert(applications)
           .values({
             studentId: payload.id,
@@ -65,8 +67,8 @@ export const createApplication = factory.createHandlers(
           isRead: false,
         };
         await pushNotification(notification, tx);
-        return c.json({ msg: "application: ", insertedApplication });
       });
+      return c.json({ msg: "application: ", insertedApplication });
 
       // incremet the classes enrolledStudents? (When approved!)
     } catch (error) {
