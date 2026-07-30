@@ -74,12 +74,20 @@ export const readMyNotification = factory.createHandlers(async (c) => {
 
 export const deleteMyNotification = factory.createHandlers(async (c) => {
   const notificationId = c.req.param("notificationId");
+  const payload = c.get("jwtPayload") as JWTPayloadShape;
   try {
     const [deleted] = await db
       .delete(notifications)
-      .where(eq(notifications.id, Number(notificationId))).returning();
+      .where(
+        and(
+          eq(notifications.id, Number(notificationId)),
+          eq(notifications.userId, payload.id),
+        ),
+      )
+      .returning();
 
-      if (!deleted) throw new HTTPException(500, {message: 'Something went wrong!'});
+    if (!deleted)
+      throw new HTTPException(500, { message: "Something went wrong!" });
     return c.json({ msg: "notification has been deleted!" });
   } catch (error) {
     if (error instanceof HTTPException) throw error;
