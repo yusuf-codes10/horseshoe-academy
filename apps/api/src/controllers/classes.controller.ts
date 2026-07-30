@@ -192,16 +192,40 @@ export const getClassById = factory.createHandlers(async (c) => {
   }
 });
 
-export const getAllClasses = factory.createHandlers(
-  async (c) => {
-    const pageQuery = c.req.query("page");
-    const limitQuery = c.req.query("limit");
+export const getAllClasses = factory.createHandlers(async (c) => {
+  const pageQuery = c.req.query("page");
+  const limitQuery = c.req.query("limit");
 
-    // casting them
-    const page = Number(pageQuery) || 1;
-    const limit = Number(limitQuery) || 5;
-    const skip = (page - 1) * limit;
-    try {
+  // casting them
+  const page = Number(pageQuery) || 1;
+  const limit = Number(limitQuery) || 5;
+  const skip = (page - 1) * limit;
+
+  const payload = c.get("jwtPayload") as JWTPayloadShape;
+  try {
+    if (payload.role === "student") {
+      const fetchedClasses = await db
+        .select({
+          id: classes.id,
+          capacity: classes.capacity,
+          enrolledCount: classes.enrolledCount,
+          subjectId: classes.subjectId,
+          teacherId: classes.teacherId,
+          teacherName: users.fullName,
+          subjectName: subjects.name,
+        })
+        .from(classes)
+        .innerJoin(subjects, eq(subjects.id, classes.subjectId))
+        .innerJoin(teachers, eq(teachers.id, classes.teacherId))
+        .innerJoin(users, eq(users.id, teachers.id))
+        .limit(limit)
+        .offset(skip)
+        .orderBy(classes.id);
+
+      const classesCount = await db.$count(classes);
+
+      return c.json({ msg: "classes: ", fetchedClasses, classesCount });
+    } else {
       const fetchedClasses = await db
         .select({
           id: classes.id,
@@ -229,11 +253,11 @@ export const getAllClasses = factory.createHandlers(
       const classesCount = await db.$count(classes);
 
       return c.json({ msg: "classes: ", fetchedClasses, classesCount });
-    } catch (error) {
-      console.log(error);
     }
-  },
-);
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // get my classes (teacher)
 export const getMyClasses = factory.createHandlers(async (c) => {
