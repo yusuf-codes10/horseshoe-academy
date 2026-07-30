@@ -32,15 +32,17 @@ export const createApplication = factory.createHandlers(
       if (!foundClass)
         throw new HTTPException(404, { message: "class dpes mpt exost!" });
 
-              // grab the tacher of that class
-        const [foundTeacher] = await db.select({
-          id: teachers.id
+      // grab the tacher of that class
+      const [foundTeacher] = await db
+        .select({
+          id: teachers.id,
         })
         .from(teachers)
-        .innerJoin(classes, eq(classes.teacherId, teachers.id))
-        .where(eq(classes.id, classId));
+        .innerJoin(classes, eq(classes.id, classId))
+        .where(eq(classes.teacherId, teachers.id));
 
-        if (!foundTeacher) throw new HTTPException(404, {message: 'Not found!'});
+      if (!foundTeacher)
+        throw new HTTPException(404, { message: "Not found!" });
       await db.transaction(async (tx) => {
         const [insertedApplication] = await db
           .insert(applications)
