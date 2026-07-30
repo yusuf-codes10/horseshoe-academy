@@ -1,9 +1,9 @@
 import { createFactory } from "hono/factory";
 import type { NewNotification } from "@classroom/shared";
-import { applications, notifications } from "@/db/schema";
+import { notifications } from "@/db/schema";
 import { db } from "@/db/index";
 import type { JWTPayloadShape } from "@classroom/shared";
-import { eq } from "drizzle-orm";
+import { eq, and } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 
 const factory = createFactory<{
@@ -39,11 +39,18 @@ export const getMyNotifications = factory.createHandlers(async (c) => {
 
 // patch, read
 export const readMyNotification = factory.createHandlers(async (c) => {
-  const notificationId = c.req.param('notificationId');
+  const notificationId = c.req.param("notificationId");
+  const payload = c.get("jwtPayload") as JWTPayloadShape;
   try {
-    await db.update(notifications)
-    .set({isRead: true})
-    .where(eq(applications.id, Number(notificationId)));
+    await db
+      .update(notifications)
+      .set({ isRead: true })
+      .where(
+        and(
+          eq(notifications.id, Number(notificationId)),
+          eq(notifications.userId, payload.id),
+        ),
+      );
     return c.json({ msg: "notification has been read!" });
   } catch (error) {
     console.log(error);
