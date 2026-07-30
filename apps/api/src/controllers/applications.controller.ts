@@ -46,7 +46,7 @@ export const createApplication = factory.createHandlers(
 
       let insertedApplication;
       await db.transaction(async (tx) => {
-        [insertedApplication] = await db
+        [insertedApplication] = await tx
           .insert(applications)
           .values({
             studentId: payload.id,
@@ -60,8 +60,8 @@ export const createApplication = factory.createHandlers(
 
         // 2. notify the teacher of this class
         const notification: NewNotification = {
-          title: "Application Rejected",
-          content: "Your application to...",
+          title: "New Application",
+          content: "A new application to your class...",
           action: `applications/${insertedApplication.id}`,
           userId: foundTeacher.id,
           isRead: false,
