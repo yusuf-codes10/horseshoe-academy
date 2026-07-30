@@ -17,9 +17,9 @@ const getMyNotifications = async () => {
   }
 };
 
-const readMyNotification = async () => {
+const readMyNotification = async (notificationId: number) => {
   try {
-    const response = await api.patch(`/notifications/`);
+    const response = await api.patch(`/notifications/${notificationId}`);
     console.log(response.data);
   } catch (error) {
     console.log(error);
