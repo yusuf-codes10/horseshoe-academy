@@ -70,7 +70,6 @@ export const createApplication = factory.createHandlers(
       });
       return c.json({ msg: "application: ", insertedApplication });
 
-      // incremet the classes enrolledStudents? (When approved!)
     } catch (error) {
       console.log(error);
       if (error instanceof HTTPException) throw error;
