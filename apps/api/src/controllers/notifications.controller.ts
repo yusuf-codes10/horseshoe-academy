@@ -42,6 +42,16 @@ export const readMyNotification = factory.createHandlers(async (c) => {
   const notificationId = c.req.param("notificationId");
   const payload = c.get("jwtPayload") as JWTPayloadShape;
   try {
+    // 1. making sure the notification exists
+    const [foundNotification] = await db
+      .select()
+      .from(notifications)
+      .where(eq(notifications.id, Number(notificationId)));
+
+    if (!foundNotification)
+      throw new HTTPException(404, { message: "Notification not found!" });
+
+    // 2. reading the notification
     const [readNotification] = await db
       .update(notifications)
       .set({ isRead: true })
@@ -50,8 +60,9 @@ export const readMyNotification = factory.createHandlers(async (c) => {
           eq(notifications.id, Number(notificationId)),
           eq(notifications.userId, payload.id),
         ),
-      );
-      if (!readNotification) throw new HTTPException(500, {message: 'Oops! Somthing went wrong!'});
+      ).returning();
+    if (!readNotification)
+      throw new HTTPException(500, { message: "Oops! Somthing went wrong!" });
     return c.json({ msg: "notification has been read!" });
   } catch (error) {
     console.log(error);
