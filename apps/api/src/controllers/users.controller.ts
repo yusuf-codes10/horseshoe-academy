@@ -95,7 +95,6 @@ export const getUserProfile = factory.createHandlers(async (c) => {
   if (!username)
     throw new HTTPException(400, { message: "username is required!" });
 
-  const payload = c.get('jwtPayload') as JWTPayloadShape;
   try {
     const [baseUser] = await db
       .select({
