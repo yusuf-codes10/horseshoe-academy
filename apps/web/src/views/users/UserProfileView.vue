@@ -13,10 +13,10 @@ const route = useRoute();
 
 const viewMode = ref(true);
 const form = ref({
-  fullName: '',
-  username: ''
+  fullName: "",
+  username: "",
 });
-const loading = ref(false)
+const loading = ref(false);
 
 //TODO: dicrimate unions to distinguish between each branch
 // const currentUser = ref<NewUser | (NewUser & NewStudent) | (NewUser & NewTeacher) | null>(null);
@@ -65,26 +65,27 @@ const fetchUserProfile = async () => {
 };
 
 // edit my profile
-const editMyProfile = async() => {
-
+const editMyProfile = async () => {
   // TODO: note: we should check if the data really changed or not so we do not waste an API call
-  loading.value = true
+  loading.value = true;
   try {
     const response = await api.patch("/users/me", {
       fullName: form.value.fullName.trim(),
-      username: form.value.username.trim().toLowerCase()
+      username: form.value.username.trim().toLowerCase(),
     });
     console.log(response.data);
   } catch (error) {
     console.log(error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
 };
 
 onMounted(async () => {
-  if (isMyProfile.value) await fetchMyProfile();
-  else {
+  if (isMyProfile.value) {
+    await fetchMyProfile();
+    console.log("This is the current user data: ", currentUser.value);
+  } else {
     console.log("Oops not your profile");
     await fetchUserProfile();
   }
@@ -185,7 +186,7 @@ const canEditProfile = computed(() => isMyProfile.value);
       <label for="">Username</label>
       <BaseInput placeholder="username" v-model="form.username" />
 
-      <MainButton @click="editMyProfile" title="Edit Profile" :loading="loading"/>
+      <MainButton @click="editMyProfile" title="Edit Profile" :loading="loading" />
     </div>
   </div>
 </template>
