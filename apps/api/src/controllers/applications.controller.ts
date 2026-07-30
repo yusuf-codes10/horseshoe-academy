@@ -51,8 +51,8 @@ export const createApplication = factory.createHandlers(
           id: teachers.id
         })
         .from(teachers)
-        .innerJoin(classes, eq(classes.id, applications.classId))
-        .innerJoin(classes, eq(classes.id, applications.classId));
+        .innerJoin(classes, eq(classes.teacherId, teachers.id))
+        .where(eq(classes.id, classId));
 
         if (!foundTeacher) throw new HTTPException(404, {message: 'Not found!'});
 
