@@ -133,8 +133,31 @@ export const getUserProfile = factory.createHandlers(async (c) => {
         .innerJoin(teachers, eq(teachers.id, users.id))
         .where(eq(users.id, payload.id));
       return c.json({ msg: "user profile: ", foundUser });
+    }     // student
+    else if (baseUser.role === "student") {
+      const [foundUser] = await db
+        .select({
+          id: users.id,
+          username: users.username,
+          fullName: users.fullName,
+          email: users.email,
+          createdAt: users.createdAt,
+          gender: users.gender,
+          role: users.role,
+
+          // student fields
+          gpa: students.gpa,
+        })
+        .from(users)
+        .innerJoin(students, eq(students.id, users.id))
+        .where(eq(users.id, payload.id));
+      return c.json({ msg: "user profile: ", foundUser });
     }
-    return c.json({ msg: "user: ", baseUser });
+    // admin
+    else {
+      const foundUser = baseUser;
+      return c.json({ msg: "user profile: ", foundUser });
+    }
   } catch (error) {
     if (error instanceof HTTPException) throw error;
     console.log(error);
