@@ -76,6 +76,14 @@ export const deleteMyNotification = factory.createHandlers(async (c) => {
   const notificationId = c.req.param("notificationId");
   const payload = c.get("jwtPayload") as JWTPayloadShape;
   try {
+    // check if the notification exists (just in case)
+    const [notification] = await db.select()
+    .from(notifications)
+    .where(eq(notifications.id, payload.id));
+
+    if (!notification) throw new HTTPException(404, {message: 'notification does not exist!'});
+
+    // deleting the notification
     const [deleted] = await db
       .delete(notifications)
       .where(
