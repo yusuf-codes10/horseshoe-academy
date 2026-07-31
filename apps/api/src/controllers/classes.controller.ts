@@ -1,12 +1,11 @@
 import { createFactory } from "hono/factory";
-import type { NewClass, NewNotification } from "@classroom/shared";
+import type { NewClass, NewNotification, JWTPayloadShape } from "@classroom/shared";
 import { insertClassSchema } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
 import { db } from "@/db/index";
 import { classes, subjects, teachers, users, applications } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
-import type { JWTPayloadShape } from "@classroom/shared";
 import { pushNotification } from "@/services/pushNotifications";
 
 const factory = createFactory<{ Variables: { class: NewClass } }>();

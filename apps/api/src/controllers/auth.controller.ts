@@ -1,5 +1,5 @@
 import { createFactory } from "hono/factory";
-import type { SekishoUser } from "@classroom/shared";
+import type { SekishoUser, JWTPayloadShape } from "@classroom/shared";
 import {
   registerSchema,
   loginSchema,
@@ -12,7 +12,6 @@ import { users, students, teachers } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { clearToken } from "@/utils/destroyToken";
 import { issueSession } from "@/utils/issueSession";
-import type { JWTPayloadShape } from "@classroom/shared";
 
 const factory = createFactory<{ Variables: { user: SekishoUser } }>();
 

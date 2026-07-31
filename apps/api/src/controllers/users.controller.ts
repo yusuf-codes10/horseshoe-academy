@@ -1,9 +1,8 @@
 import { createFactory } from "hono/factory";
-import type { NewUser, NewStudent, NewTeacher } from "@classroom/shared";
+import type { NewUser, NewStudent, NewTeacher, JWTPayloadShape } from "@classroom/shared";
 import { db } from "@/db/index";
 import { users, teachers, students } from "@/db/schema";
 import { eq } from "drizzle-orm";
-import type { JWTPayloadShape } from "@classroom/shared";
 import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
 import { editUserSchema } from "@classroom/shared";

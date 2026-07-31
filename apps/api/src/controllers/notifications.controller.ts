@@ -1,8 +1,7 @@
 import { createFactory } from "hono/factory";
-import type { NewNotification } from "@classroom/shared";
+import type { NewNotification, JWTPayloadShape } from "@classroom/shared";
 import { notifications } from "@/db/schema";
 import { db } from "@/db/index";
-import type { JWTPayloadShape } from "@classroom/shared";
 import { eq, and } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 

@@ -1,12 +1,11 @@
 import { createFactory } from "hono/factory";
-import type { NewSession } from "@classroom/shared";
+import type { NewSession, JWTPayloadShape } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
 import { insertSessionSchema } from "@classroom/shared";
 import { db } from "@/db/index";
 import { classes, sessions, teachers } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
-import type { JWTPayloadShape } from "@classroom/shared";
 
 const factory = createFactory<{ Variables: { session: NewSession } }>();
 
