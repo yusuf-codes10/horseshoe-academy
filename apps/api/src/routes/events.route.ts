@@ -3,7 +3,7 @@ import { sendNotification } from '@/events/notifications.event';
 
 const router = new Hono();
 
-router.get('/stream', ...sendNotification);
+router.get('/', ...sendNotification);
 
 export default router;
 
