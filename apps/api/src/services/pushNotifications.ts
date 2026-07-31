@@ -2,6 +2,7 @@ import { notifications } from "@/db/schema";
 import { db } from "@/db/index";
 import type { NewNotification } from "@classroom/shared";
 import { HTTPException } from "hono/http-exception";
+import { activeConnections } from "@/events";
 
 export const pushNotification = async (
   notification: NewNotification,
@@ -23,6 +24,15 @@ export const pushNotification = async (
 
     if (!insertedNotification)
       throw new HTTPException(500, { message: "Could not insert!" });
+
+    // pushing to the SSE service
+    const connection = activeConnections.get(notification.userId);
+
+    if (connection) {
+      await connection.writeSSE({
+        data: JSON.stringify({type: 'new_notification'})
+      })
+    }
 
     return insertedNotification;
   } catch (error) {
