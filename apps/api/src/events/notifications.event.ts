@@ -12,6 +12,11 @@ export const sendNotification = factory.createHandlers(
 
             // setting the connection
             activeConnections.set(payload.id, stream);
+
+            // aborting the connection
+            stream.onAbort(() => {
+                activeConnections.delete(payload.id);
+            });
             console.log(stream);
         });
     }
