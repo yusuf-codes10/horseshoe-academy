@@ -12,6 +12,7 @@ import teachersRouter from '@/routes/teachers.route';
 import usersRouter from '@/routes/users.route';
 import enrollmentsRouter from '@/routes/enrollements.route';
 import notificationsRouter from '@/routes/notifications.route';
+import sseRouter from '@/routes/events.route';
 import type { JwtVariables } from 'hono/jwt'
 import {cors } from 'hono/cors';
 
@@ -29,6 +30,7 @@ server.use(customLogger);
 server.get('/', (c) => c.text('Hono!'));
 server.route('/auth', authRouter);
 server.route('/users', usersRouter);
+server.route('/stream', sseRouter);
 //? might need some flat routes too
 server.route('/teachers', teachersRouter);
 server.route('/departments', DepRouter);
