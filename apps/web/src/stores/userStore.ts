@@ -4,15 +4,17 @@ import api from "@/services/api";
 import type { RegisterDTO, LoginDTO } from "@classroom/shared";
 import type { User } from "@classroom/shared";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export const useUserStore = defineStore("user", () => {
   const user = ref<User | null>(null);
 
-  // in your auth store
+  // SEE
   const unreadCount = ref(0);
   let sseSource: EventSource | null = null;
 
   const connectSSE = () => {
-    sseSource = new EventSource("http://localhost:3000/stream");
+    sseSource = new EventSource(API_URL);
     sseSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.type === "new_notification") {
