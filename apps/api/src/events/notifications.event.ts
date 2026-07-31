@@ -17,7 +17,11 @@ export const sendNotification = factory.createHandlers(
             stream.onAbort(() => {
                 activeConnections.delete(payload.id);
             });
-            console.log(stream);
+
+            // keeping the connection alive
+            while (true) {
+                await stream.sleep(30000);
+            }
         });
     }
 );
