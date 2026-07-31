@@ -13,23 +13,43 @@ export const useUserStore = defineStore("user", () => {
   const unreadCount = ref(0);
   let sseSource: EventSource | null = null;
 
+  // const connectSSE = () => {
+  //   console.log("Connecting SSE...");
+
+  //   sseSource = new EventSource(`${API_URL}/stream`);
+  //   sseSource.onopen = () => {
+  //     console.log("SSE connected");
+  //   };
+  //   sseSource.onmessage = (event) => {
+  //     console.log("SSE:", event.data);
+
+  //     const data = JSON.parse(event.data);
+  //     if (data.type === "new_notification") {
+  //       unreadCount.value++;
+  //     }
+  //   };
+  //   sseSource.onerror = (err) => {
+  //     console.log("SSE error:", err);
+  //   };
+  // };
+
   const connectSSE = () => {
     console.log("Connecting SSE...");
 
-    sseSource = new EventSource(`${API_URL}/stream`);
+    sseSource = new EventSource(`${API_URL}/stream`, {
+      withCredentials: true,
+    });
+
     sseSource.onopen = () => {
       console.log("SSE connected");
     };
+
     sseSource.onmessage = (event) => {
       console.log("SSE:", event.data);
-
-      const data = JSON.parse(event.data);
-      if (data.type === "new_notification") {
-        unreadCount.value++;
-      }
     };
-    sseSource.onerror = (err) => {
-      console.log("SSE error:", err);
+
+    sseSource.onerror = (error) => {
+      console.log("SSE error:", error);
     };
   };
 
