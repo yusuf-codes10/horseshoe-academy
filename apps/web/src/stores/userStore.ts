@@ -45,9 +45,15 @@ export const useUserStore = defineStore("user", () => {
       const res = await api.get("/auth/me");
       user.value = res.data.user;
       console.log(user.value);
+
+      // calling the SSE connection
+      if (!sseSource) {
+        connectSSE();
+      }
     } catch (error) {
       console.log(error);
       user.value = null; //cookie expired
+      disconnectSSE();
     }
     // set the user ref right here
   };
