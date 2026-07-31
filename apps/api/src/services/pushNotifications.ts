@@ -26,12 +26,14 @@ export const pushNotification = async (
       throw new HTTPException(500, { message: "Could not insert!" });
 
     // pushing to the SSE service
-    const connection = activeConnections.get(notification.userId);
+    if (notification.userId) {
+      const connection = activeConnections.get(notification.userId);
 
-    if (connection) {
-      await connection.writeSSE({
-        data: JSON.stringify({type: 'new_notification'})
-      })
+      if (connection) {
+        await connection.writeSSE({
+          data: JSON.stringify({type: 'new_notification'})
+        })
+      }
     }
 
     return insertedNotification;
