@@ -14,7 +14,7 @@ export const useUserStore = defineStore("user", () => {
   let sseSource: EventSource | null = null;
 
   const connectSSE = () => {
-    sseSource = new EventSource(API_URL);
+    sseSource = new EventSource(`${API_URL}/stream`);
     sseSource.onmessage = (event) => {
       const data = JSON.parse(event.data);
       if (data.type === "new_notification") {
