@@ -97,13 +97,10 @@ export const useUserStore = defineStore("user", () => {
     user,
     isLoggedIn,
     unreadCount,
-    sseSource,
 
     register,
     login,
     fetchUser,
     logout,
-    connectSSE,
-    disconnectSSE,
   };
 });
