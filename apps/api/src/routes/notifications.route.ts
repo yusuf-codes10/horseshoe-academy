@@ -10,6 +10,9 @@ router.use('*', verifyToken);
 // create a notification
 router.get('/', ...getMyNotifications);
 
+// TODO: temporarily get /count
+router.get('/count');
+
 // read a notification
 router.patch('/:notificationId', ...readMyNotification);
 
