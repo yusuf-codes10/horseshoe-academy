@@ -108,10 +108,14 @@ export const deleteMyNotification = factory.createHandlers(async (c) => {
 export const getMyNotificationsCount = factory.createHandlers(async (c) => {
   const payload = c.get("jwtPayload") as JWTPayloadShape;
   try {
-    await db
-      .$count(notifications)
-      .where(eq(notifications.id, Number(payload.id)));
-    return c.json({ msg: "count is: " });
+    const notificationCount = await db.$count(
+      notifications,
+      and(
+        eq(notifications.userId, payload.id),
+        eq(notifications.isRead, false),
+      ),
+    );
+    return c.json({ msg: "count is: ", notificationCount });
   } catch (error) {
     console.log(error);
     if (error instanceof HTTPException) throw error;
