@@ -28,11 +28,14 @@ export const pushNotification = async (
     // pushing to the SSE service
     if (notification.userId) {
       const connection = activeConnections.get(notification.userId);
+      console.log("active connections:", activeConnections);
+      console.log("looking for userId:", notification.userId);
+      console.log("found connection:", connection);
 
       if (connection) {
         await connection.writeSSE({
-          data: JSON.stringify({type: 'new_notification'})
-        })
+          data: JSON.stringify({ type: "new_notification" }),
+        });
       }
     }
 
