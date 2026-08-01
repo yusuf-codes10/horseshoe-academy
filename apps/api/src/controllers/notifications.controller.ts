@@ -76,11 +76,13 @@ export const deleteMyNotification = factory.createHandlers(async (c) => {
   const payload = c.get("jwtPayload") as JWTPayloadShape;
   try {
     // check if the notification exists (just in case)
-    const [notification] = await db.select()
-    .from(notifications)
-    .where(eq(notifications.id, payload.id));
+    const [notification] = await db
+      .select()
+      .from(notifications)
+      .where(eq(notifications.id, payload.id));
 
-    if (!notification) throw new HTTPException(404, {message: 'notification does not exist!'});
+    if (!notification)
+      throw new HTTPException(404, { message: "notification does not exist!" });
 
     // deleting the notification
     const [deleted] = await db
@@ -97,6 +99,21 @@ export const deleteMyNotification = factory.createHandlers(async (c) => {
       throw new HTTPException(500, { message: "Something went wrong!" });
     return c.json({ msg: "notification has been deleted!" });
   } catch (error) {
+    if (error instanceof HTTPException) throw error;
+    throw new HTTPException(500, { message: "something went wrong" });
+  }
+});
+
+// TODO: temporarily get counnt
+export const getMyNotificationsCount = factory.createHandlers(async (c) => {
+  const payload = c.get("jwtPayload") as JWTPayloadShape;
+  try {
+    await db
+      .$count(notifications)
+      .where(eq(notifications.id, Number(payload.id)));
+    return c.json({ msg: "count is: " });
+  } catch (error) {
+    console.log(error);
     if (error instanceof HTTPException) throw error;
     throw new HTTPException(500, { message: "something went wrong" });
   }
