@@ -20,6 +20,7 @@ router.get("/me", verifyToken, ...verifyUser);
 router.post("/logout", ...logout);
 
 router.get("/sse-token", verifyToken, async (c) => {
+    // SSE issues
   const payload = c.get("jwtPayload") as JWTPayloadShape;
   const token = await sign(
     {
