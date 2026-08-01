@@ -16,6 +16,8 @@ export const useUserStore = defineStore("user", () => {
   const connectSSE = async () => {
     console.log("Connecting SSE...");
 
+    if (sseSource) return; // prevent multiple connections
+
     const res = await api.get("/auth/sse-token");
     const { token } = res.data;
     sseSource = new EventSource(`${API_URL}/stream?token=${token}`);
