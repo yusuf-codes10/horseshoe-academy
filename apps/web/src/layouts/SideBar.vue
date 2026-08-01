@@ -1,7 +1,17 @@
 <script setup lang="ts">
 import { useSideStore } from "@/stores/sideStore";
 import { useUserStore } from "@/stores/userStore";
-import { Home, Building2, BookOpen, School, PanelLeft, X, CalendarDays, ClipboardList } from "lucide-vue-next";
+import {
+  Home,
+  Building2,
+  BookOpen,
+  School,
+  PanelLeft,
+  X,
+  CalendarDays,
+  ClipboardList,
+  LogOut
+} from "lucide-vue-next";
 import { ref } from "vue";
 import type { Component } from "vue";
 import type { Permession } from "@/libs/permessions";
@@ -53,17 +63,17 @@ const sideBarItem: Item[] = [
     permission: "view:classes",
   },
   {
-    name: 'Sessions',
+    name: "Sessions",
     icon: CalendarDays,
-    path: '/sessions',
-    permission: 'view:sessions'
+    path: "/sessions",
+    permission: "view:sessions",
   },
   {
-    name: 'Applications',
+    name: "Applications",
     icon: ClipboardList,
-    path: '/applications',
-    permission: 'view:applications'
-  }
+    path: "/applications",
+    permission: "view:applications",
+  },
 ] as Item[];
 
 const sideStore = useSideStore();
@@ -76,8 +86,8 @@ const chooseItem = (item: Item) => {
 
 const handleLogout = async () => {
   await userStore.logout();
-  router.push('/login');
-}
+  router.push("/login");
+};
 
 // two ways to fix this
 // 1- either use a computed array
@@ -114,7 +124,6 @@ const handleLogout = async () => {
     <!-- Nav Links -->
     <nav class="flex-1 flex flex-col gap-1 px-2 py-3">
       <template v-for="(item, index) in sideBarItem">
-
         <RouterLink
           class="flex items-center gap-3 px-2.5 py-2 rounded-lg text-text-secondary hover:text-text-primary hover:bg-primary transition-colors group"
           :class="{ 'bg-primary': selectedItem?.name === item.name }"
@@ -132,18 +141,13 @@ const handleLogout = async () => {
     </nav>
     <!-- need profile section and logout here -->
 
-      <div class="mt-auto border-t border-bg-border px-2 py-2 flex flex-col gap-0.5">
+    <div class="mt-auto border-t border-bg-border px-2 py-2 flex flex-col gap-0.5">
       <!-- User row -->
       <div class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg">
-        <div class="w-7 h-7 rounded-full overflow-hidden shrink-0 flex-none">
-          <!-- <img
-            :src="userStore.user"
-            :alt="userStore.user"
-            class="w-full h-full object-cover block"
-            referrerpolicy="no-referrer"
-          /> -->
-        {{ userStore.user?.fullName?.charAt(0) ?? "?" }}
-
+        <div
+          class="w-7 h-7 rounded-full bg-primary flex items-center justify-center shrink-0 text-sm font-medium text-text-primary"
+        >
+          {{ userStore.user?.fullName?.charAt(0) ?? "?" }}
         </div>
         <transition
           enter-active-class="transition-opacity duration-150 ease-in"
@@ -155,7 +159,7 @@ const handleLogout = async () => {
             <span class="text-xs font-medium text-text-primary truncate">{{
               userStore.user?.username
             }}</span>
-            <span class="text-[11px] text-text-muted">Pro plan</span>
+            <span class="text-[11px] text-text-muted">{{ userStore.user?.role }}</span>
           </div>
         </transition>
       </div>
@@ -163,11 +167,9 @@ const handleLogout = async () => {
       <!-- Logout -->
       <div
         @click="handleLogout"
-        class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg cursor-pointer w-full hover:bg-red-500/10 text-text-muted hover:text-danger transition-colors"
+        class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg cursor-pointer hover:bg-red-500/10 text-text-muted hover:text-danger transition-colors"
       >
-        <span class="text-sm min-w-5 flex items-center justify-center">
-          <i class=" fa-solid"></i>
-        </span>
+        <LogOut :size="18" class="shrink-0" />
         <transition
           enter-active-class="transition-opacity duration-150 ease-in"
           leave-active-class="transition-opacity duration-150 ease-in"
