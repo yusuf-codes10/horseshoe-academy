@@ -13,10 +13,13 @@ export const useUserStore = defineStore("user", () => {
   const unreadCount = ref(0);
   let sseSource: EventSource | null = null;
 
-  const connectSSE = () => {
+  const connectSSE = async () => {
     console.log("Connecting SSE...");
 
-    sseSource = new EventSource(`${API_URL}/stream`);
+    const res = await api.get("/auth/sse-token");
+    const { token } = res.data;
+    sseSource = new EventSource(`${API_URL}/stream?token=${token}`);
+
     sseSource.onopen = () => {
       console.log("SSE connected");
     };
