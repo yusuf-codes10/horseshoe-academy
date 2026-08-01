@@ -3,11 +3,12 @@ import SecondaryButton from "@/components/shared/SecondaryButton.vue";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import { Bell } from "lucide-vue-next";
-import { onMounted } from "vue";
+import { onMounted, ref } from "vue";
 import api from '@/services/api';
 
 const userStore = useUserStore();
 const router = useRouter();
+const notificationsCount = ref(0);
 
 const logout = async () => {
   await userStore.logout();
@@ -26,13 +27,14 @@ const getCount = async () => {
   try {
     const response = await api.get('/notifications/count');
     console.log('count is: ', response.data);
+    return response.data.notificationCount;
   } catch (error) {
     console.log(error);
   }
 }
 
 onMounted(async () => {
-  await getCount();
+  notificationsCount.value =  await getCount();
 })
 </script>
 
@@ -45,7 +47,7 @@ onMounted(async () => {
       <span
         class="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs font-bold text-white"
       >
-        0
+        {{  notificationsCount  }}
       </span>
     </div>
     <SecondaryButton title="logout" class="mb-3" @click="logout" />
