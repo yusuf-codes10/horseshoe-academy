@@ -3,6 +3,8 @@ import SecondaryButton from "@/components/shared/SecondaryButton.vue";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import { Bell } from "lucide-vue-next";
+import { onMounted } from "vue";
+import api from '@/services/api';
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -19,6 +21,19 @@ const navigateToMyProfile = () => {
 const navigateToNotifications = () => {
   router.push({ name: "Notifications" });
 };
+
+const getCount = async () => {
+  try {
+    const response = await api.get('/notifications/count');
+    console.log('count is: ', response.data);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+onMounted(async () => {
+  await getCount();
+})
 </script>
 
 <template>
