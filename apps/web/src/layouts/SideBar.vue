@@ -6,6 +6,7 @@ import { ref } from "vue";
 import type { Component } from "vue";
 import type { Permession } from "@/libs/permessions";
 import { hasPermession } from "@/libs/permessions";
+import { useRouter } from "vue-router";
 
 defineProps({
   isOpen: {
@@ -16,7 +17,8 @@ defineProps({
 
 const emit = defineEmits(["toggle"]);
 
-const userStore = useUserStore()
+const userStore = useUserStore();
+const router = useRouter();
 
 type Item = {
   name: string;
@@ -71,6 +73,11 @@ const chooseItem = (item: Item) => {
   selectedItem.value = item;
   console.log("selected", selectedItem.value);
 };
+
+const handleLogout = async () => {
+  await userStore.logout();
+  router.push('/login');
+}
 
 // two ways to fix this
 // 1- either use a computed array
@@ -144,9 +151,9 @@ const chooseItem = (item: Item) => {
           enter-from-class="opacity-0"
           leave-to-class="opacity-0"
         >
-          <div v-if="effectiveOpen" class="flex flex-col min-w-0">
+          <div v-if="sideStore?.isOpen" class="flex flex-col min-w-0">
             <span class="text-xs font-medium text-text-primary truncate">{{
-              authStore.user?.name
+              userStore.user?.username
             }}</span>
             <span class="text-[11px] text-text-muted">Pro plan</span>
           </div>
@@ -155,7 +162,7 @@ const chooseItem = (item: Item) => {
 
       <!-- Logout -->
       <div
-        @click="handeLogout"
+        @click="handleLogout"
         class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg cursor-pointer w-full hover:bg-red-500/10 text-text-muted hover:text-danger transition-colors"
       >
         <span class="text-sm min-w-5 flex items-center justify-center">
