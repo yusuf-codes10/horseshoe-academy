@@ -3,7 +3,7 @@ import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import { Bell } from "lucide-vue-next";
 import { onMounted, ref } from "vue";
-import api from '@/services/api';
+import api from "@/services/api";
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -19,29 +19,28 @@ const navigateToNotifications = () => {
 
 const getCount = async () => {
   try {
-    const response = await api.get('/notifications/count');
-    console.log('count is: ', response.data);
+    const response = await api.get("/notifications/count");
+    console.log("count is: ", response.data);
     return response.data.notificationCount;
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 onMounted(async () => {
-  notificationsCount.value =  await getCount();
-})
+  notificationsCount.value = await getCount();
+});
 </script>
 
 <template>
-  <div class="flex justify-end items-center w-full border-b border-bg-border">
-
-      <div class="relative">
-      <Bell @click="navigateToNotifications" :size="20" class="cursor-pointer" />
+  <div class="flex justify-end gap-4 w-full border-b border-bg-border px-2 py-4">
+    <div class="relative cursor-pointer">
+      <Bell @click="navigateToNotifications" :size="20" />
 
       <span
         class="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs font-bold text-white"
       >
-        {{  notificationsCount  }}
+        {{ notificationsCount }}
       </span>
     </div>
     <div>
