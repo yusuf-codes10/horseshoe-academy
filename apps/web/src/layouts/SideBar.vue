@@ -89,6 +89,10 @@ const handleLogout = async () => {
   router.push("/login");
 };
 
+const navigateToProfile = () => {
+  router.push(`/${userStore.user?.username}`);
+}
+
 // two ways to fix this
 // 1- either use a computed array
 // 2- a template (not div) to act as a wrapper
@@ -143,7 +147,9 @@ const handleLogout = async () => {
 
     <div class="mt-auto border-t border-bg-border px-2 py-2 flex flex-col gap-0.5">
       <!-- User row -->
-      <div class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg">
+      <div
+      @click="navigateToProfile"
+      class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg cursor-pointer">
         <div
           class="w-7 h-7 rounded-full bg-primary flex items-center justify-center shrink-0 text-sm font-medium text-text-primary"
         >
