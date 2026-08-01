@@ -123,5 +123,53 @@ const chooseItem = (item: Item) => {
         </RouterLink>
       </template>
     </nav>
+    <!-- need profile section and logout here -->
+
+      <div class="mt-auto border-t border-bg-border px-2 py-2 flex flex-col gap-0.5">
+      <!-- User row -->
+      <div class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg">
+        <div class="w-7 h-7 rounded-full overflow-hidden shrink-0 flex-none">
+          <!-- <img
+            :src="userStore.user"
+            :alt="userStore.user"
+            class="w-full h-full object-cover block"
+            referrerpolicy="no-referrer"
+          /> -->
+        {{ userStore.user?.fullName?.charAt(0) ?? "?" }}
+
+        </div>
+        <transition
+          enter-active-class="transition-opacity duration-150 ease-in"
+          leave-active-class="transition-opacity duration-150 ease-in"
+          enter-from-class="opacity-0"
+          leave-to-class="opacity-0"
+        >
+          <div v-if="effectiveOpen" class="flex flex-col min-w-0">
+            <span class="text-xs font-medium text-text-primary truncate">{{
+              authStore.user?.name
+            }}</span>
+            <span class="text-[11px] text-text-muted">Pro plan</span>
+          </div>
+        </transition>
+      </div>
+
+      <!-- Logout -->
+      <div
+        @click="handeLogout"
+        class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg cursor-pointer w-full hover:bg-red-500/10 text-text-muted hover:text-danger transition-colors"
+      >
+        <span class="text-sm min-w-5 flex items-center justify-center">
+          <i :class="logoutItem.icon" class="fa-solid"></i>
+        </span>
+        <transition
+          enter-active-class="transition-opacity duration-150 ease-in"
+          leave-active-class="transition-opacity duration-150 ease-in"
+          enter-from-class="opacity-0"
+          leave-to-class="opacity-0"
+        >
+          <span v-if="effectiveOpen" class="whitespace-nowrap text-sm">{{ logoutItem.name }}</span>
+        </transition>
+      </div>
+    </div>
   </aside>
 </template>
