@@ -23,7 +23,16 @@ const navigateToNotifications = () => {
 
 <template>
   <div class="flex justify-end items-center w-full border-b border-bg-border">
-    <Bell @click="navigateToNotifications" :size="20" class="cursor-pointer" />
+
+      <div class="relative">
+      <Bell @click="navigateToNotifications" :size="20" class="cursor-pointer" />
+
+      <span
+        class="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1 text-xs font-bold text-white"
+      >
+        0
+      </span>
+    </div>
     <SecondaryButton title="logout" class="mb-3" @click="logout" />
     <div>
       <p class="cursor-pointer" @click="navigateToMyProfile">
