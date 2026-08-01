@@ -35,6 +35,8 @@ export const useUserStore = defineStore("user", () => {
     };
     sseSource.onerror = (err) => {
       console.log("SSE error:", err);
+      sseSource?.close();
+      sseSource = null; // allow reconnect later but don't loop
     };
   };
 
