@@ -166,7 +166,7 @@ const handleLogout = async () => {
         class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg cursor-pointer w-full hover:bg-red-500/10 text-text-muted hover:text-danger transition-colors"
       >
         <span class="text-sm min-w-5 flex items-center justify-center">
-          <i :class="logoutItem.icon" class="fa-solid"></i>
+          <i class=" fa-solid"></i>
         </span>
         <transition
           enter-active-class="transition-opacity duration-150 ease-in"
@@ -174,7 +174,7 @@ const handleLogout = async () => {
           enter-from-class="opacity-0"
           leave-to-class="opacity-0"
         >
-          <span v-if="effectiveOpen" class="whitespace-nowrap text-sm">{{ logoutItem.name }}</span>
+          <span v-if="sideStore?.isOpen" class="whitespace-nowrap text-sm">Logout</span>
         </transition>
       </div>
     </div>
