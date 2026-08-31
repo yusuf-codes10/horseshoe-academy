@@ -17,6 +17,10 @@ const userStore = useUserStore();
 const enrollements = ref([])
 const countNumber = ref(0)
 
+const rows = ref(5);
+const page = ref(1);
+const count = ref(0);
+
 const enrollmentsPath = userStore.user?.role === 'student'
   ? 'enrollements/me'
   : 'enrollements';
@@ -32,6 +36,14 @@ const getEnrollements = async () => {
     console.log(error);
   }
 }
+
+// const setRows = async (payload: number) => {
+//   page.value = payload;
+//   const data = await getEnrollements();
+//   // console.log('data is', data.counts.map(c => c.count));
+//   enrollements.value = data.enrolls;
+//   count.value = data.depsCount;
+// };
 
 onMounted(async () => {
   await getEnrollements();
