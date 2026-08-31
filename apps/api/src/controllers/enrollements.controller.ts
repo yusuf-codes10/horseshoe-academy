@@ -1,5 +1,9 @@
 import { createFactory } from "hono/factory";
-import type { NewEnrollement, NewNotification, JWTPayloadShape } from "@classroom/shared";
+import type {
+  NewEnrollement,
+  NewNotification,
+  JWTPayloadShape,
+} from "@classroom/shared";
 import { insertEnrollementSchema } from "@classroom/shared";
 import { db } from "@/db/index";
 import { eq, sql } from "drizzle-orm";
@@ -9,6 +13,8 @@ import {
   classes,
   students,
   users,
+  subjects,
+  teachers,
 } from "@/db/schema";
 import { zValidator } from "@hono/zod-validator";
 import { HTTPException } from "hono/http-exception";
@@ -100,7 +106,6 @@ export const rejectApplication = factory.createHandlers(
           isRead: false,
         };
         await pushNotification(notification, tx);
-
       });
       return c.json({ msg: "application rejected" });
     } catch (error) {
@@ -165,15 +170,30 @@ export const getMyEnrollements = factory.createHandlers(async (c) => {
   const payload = c.get("jwtPayload") as JWTPayloadShape;
 
   try {
-    const enrolls = await db.select()
-    .from(enrollements)
-    .where(eq(enrollements.studentId, Number(payload.id)))
-    .offset(skip)
-    .limit(limit)
-    return c.json({msg: 'Your Enrollements', enrolls});
+    const enrolls = await db
+      .select({
+        enrollmentId: enrollements.id,
+        classId: classes.id,
+        code: classes.code,
+        capacity: classes.capacity,
+        enrolledCount: classes.enrolledCount,
+        subjectName: subjects.name,
+        teacherName: users.fullName,
+      })
+      .from(enrollements)
+      .innerJoin(classes, eq(classes.id, enrollements.classId))
+      .innerJoin(subjects, eq(subjects.id, classes.subjectId))
+      .innerJoin(teachers, eq(teachers.id, classes.teacherId))
+      .innerJoin(users, eq(users.id, teachers.id))
+      .where(eq(enrollements.studentId, Number(payload.id)))
+      .offset(skip)
+      .limit(limit)
+      .orderBy(enrollements.id);
+
+    return c.json({ msg: "Your Enrollements", enrolls });
   } catch (error) {
-       console.log(error);
+    console.log(error);
     if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" }); 
+    throw new HTTPException(500, { message: "something went wrong" });
   }
-})
+});
