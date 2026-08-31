@@ -190,7 +190,9 @@ export const getMyEnrollements = factory.createHandlers(async (c) => {
       .limit(limit)
       .orderBy(enrollements.id);
 
-    return c.json({ msg: "Your Enrollements", enrolls });
+      const total = await db.$count(enrollements, eq(enrollements.studentId, Number(payload.id)));
+
+    return c.json({ msg: "Your Enrollements", enrolls, count: total });
   } catch (error) {
     console.log(error);
     if (error instanceof HTTPException) throw error;
