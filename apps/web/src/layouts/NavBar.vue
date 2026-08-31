@@ -5,6 +5,7 @@ import SecondaryButton from "@/components/shared/SecondaryButton.vue";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import { onMounted } from "vue";
+import { SunMoon } from 'lucide-vue-next';
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -31,6 +32,9 @@ const logout = async () => {
     <!-- <MainButton v-if="!userStroe.user" title="Log in" /> -->
     <div class="flex justify-between items-center">
       <!-- <SecondaryButton :isGhost="false" :loading="false" title="Sign In"/> -->
+       <div>
+        <SunMoon />
+       </div>
        <div v-if="userStore.isLoggedIn">
          <SecondaryButton @click="logout" title="Log out"/>
         Welcome {{ userStore.user?.username }}
