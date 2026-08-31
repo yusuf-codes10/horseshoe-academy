@@ -30,7 +30,7 @@ router.patch(
 // get enrolled Students | enrollements join | students enrolled for this class
 router.get("/:classId", ...getEnrolledStudentsPerClass);
 
-router.get('/', verifyToken, isStudent, ...getMyEnrollements);
+router.get('/me', verifyToken, isStudent, ...getMyEnrollements);
 
 export default router;
 
