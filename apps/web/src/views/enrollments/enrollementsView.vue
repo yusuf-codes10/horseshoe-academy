@@ -3,6 +3,7 @@ import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
+import MainTable from "@/components/shared/MainTable.vue";
 
 const userStore = useUserStore();
 </script>
@@ -19,5 +20,19 @@ const userStore = useUserStore();
         />
       </div>
     </ActionsBar>
+
+    <div>
+      <MainTable
+        :columns="[
+          { key: 'code', label: 'Code' },
+          { key: 'name', label: 'Name' },
+          { key: 'subjectsCount', label: 'Subjects' },
+          { key: 'description', label: 'Description' },
+          { key: 'details', label: 'Details' },
+        ]"
+        :data="[]"
+        :loading="true"
+      />
+    </div>
   </div>
 </template>
