@@ -1,5 +1,5 @@
 import { createFactory } from "hono/factory";
-import type { NewEnrollement, NewNotification } from "@classroom/shared";
+import type { NewEnrollement, NewNotification, JWTPayloadShape } from "@classroom/shared";
 import { insertEnrollementSchema } from "@classroom/shared";
 import { db } from "@/db/index";
 import { eq, sql } from "drizzle-orm";
@@ -162,7 +162,16 @@ export const getMyEnrollements = factory.createHandlers(async (c) => {
   const limit = Number(limitQuery) || 10;
   const skip = (page - 1) * limit;
 
+  const payload = c.get("jwtPayload") as JWTPayloadShape;
+
   try {
+    await db.select()
+    .from(enrollements)
+    .innerJoin(students, eq(students.id, payload.id))
+    .innerJoin(users, eq(users.id, payload.id))
+    .innerJoin(enrollements, eq(enrollements.studentId, payload.id))
+    .offset(skip)
+    .limit(limit)
     return c.json({msg: 'Your Enrollements'});
   } catch (error) {
        console.log(error);
