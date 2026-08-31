@@ -151,3 +151,22 @@ export const getEnrolledStudentsPerClass = factory.createHandlers(async (c) => {
     throw new HTTPException(500, { message: "something went wrong" });
   }
 });
+
+// get my enrollements per student
+// ! NOTE: Do not collapse into one GET controller and let the role decide
+export const getMyEnrollements = factory.createHandlers(async (c) => {
+    const pageQuery = c.req.query("page");
+  const limitQuery = c.req.query("limit");
+
+  const page = Number(pageQuery) || 1;
+  const limit = Number(limitQuery) || 10;
+  const skip = (page - 1) * limit;
+
+  try {
+    return c.json({msg: 'Your Enrollements'});
+  } catch (error) {
+       console.log(error);
+    if (error instanceof HTTPException) throw error;
+    throw new HTTPException(500, { message: "something went wrong" }); 
+  }
+})
