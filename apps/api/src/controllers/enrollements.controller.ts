@@ -155,7 +155,7 @@ export const getEnrolledStudentsPerClass = factory.createHandlers(async (c) => {
 // get my enrollements per student
 // ! NOTE: Do not collapse into one GET controller and let the role decide
 export const getMyEnrollements = factory.createHandlers(async (c) => {
-    const pageQuery = c.req.query("page");
+  const pageQuery = c.req.query("page");
   const limitQuery = c.req.query("limit");
 
   const page = Number(pageQuery) || 1;
@@ -167,9 +167,7 @@ export const getMyEnrollements = factory.createHandlers(async (c) => {
   try {
     await db.select()
     .from(enrollements)
-    .innerJoin(students, eq(students.id, enrollements.studentId))
-    .innerJoin(users, eq(users.id, students.id))
-    .where(eq(students.id, payload.id))
+    .where(eq(enrollements.studentId, payload.id))
     .offset(skip)
     .limit(limit)
     return c.json({msg: 'Your Enrollements'});
