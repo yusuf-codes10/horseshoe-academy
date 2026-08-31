@@ -10,7 +10,8 @@ import {
   X,
   CalendarDays,
   ClipboardList,
-  LogOut
+  LogOut,
+  GraduationCap
 } from "lucide-vue-next";
 import { ref } from "vue";
 import type { Component } from "vue";
@@ -74,6 +75,12 @@ const sideBarItem: Item[] = [
     path: "/applications",
     permission: "view:applications",
   },
+  {
+    name: 'Enrollements',
+    icon: GraduationCap,
+    path: '/enrollements',
+    permession: 'view:enrollements'
+  }
 ] as Item[];
 
 const sideStore = useSideStore();
