@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
-import { Bell } from "lucide-vue-next";
+import { Bell, SunMoon } from "lucide-vue-next";
 import { onMounted, ref } from "vue";
 import api from "@/services/api";
 
@@ -34,6 +34,7 @@ onMounted(async () => {
 
 <template>
   <div class="flex justify-end gap-4 w-full border-b border-bg-border px-2 py-4">
+    <SunMoon class="cursor-pointer" :size="20" />
     <div class="relative cursor-pointer">
       <Bell @click="navigateToNotifications" :size="20" />
 
