@@ -6,6 +6,7 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainTable from "@/components/shared/MainTable.vue";
 import { ref, onMounted } from 'vue';
 import api from '@/services/api';
+import PaginationBar from "@/components/shared/PaginationBar.vue";
 
 const userStore = useUserStore();
 
@@ -14,6 +15,7 @@ const userStore = useUserStore();
 // }
 
 const enrollements = ref([])
+const countNumber = ref(0)
 
 const enrollmentsPath = userStore.user?.role === 'student'
   ? 'enrollements/me'
@@ -22,8 +24,10 @@ const enrollmentsPath = userStore.user?.role === 'student'
 const getEnrollements = async () => {
   try {
     const { data } = await api.get(`/${enrollmentsPath}`);
-    const { enrolls } = data;
+    const { enrolls, count } = data;
     console.log('ENROLLS HERE: ', enrolls);
+    enrollements.value = enrolls
+    countNumber.value = count
   } catch (error) {
     console.log(error);
   }
@@ -50,7 +54,7 @@ onMounted(async () => {
     <div>
       <MainTable
         :columns="[
-          { key: 'enrollementId', label: 'ID'},
+          { key: 'enrollmentId', label: 'ID'},
           { key: 'code', label: 'Code' },
           { key: 'subjectName', label: 'Subject' },
           { key: 'teacherName', label: 'Teacher' },
@@ -59,6 +63,7 @@ onMounted(async () => {
         :data="enrollements"
         :loading="true"
       />
+      <PaginationBar v-if="countNumber" :count="countNumber"/>
     </div>
   </div>
 </template>
