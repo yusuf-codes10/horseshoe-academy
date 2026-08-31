@@ -50,11 +50,11 @@ onMounted(async () => {
     <div>
       <MainTable
         :columns="[
+          { key: 'enrollementId', label: 'ID'},
           { key: 'code', label: 'Code' },
-          { key: 'name', label: 'Name' },
-          { key: 'subjectsCount', label: 'Subjects' },
-          { key: 'description', label: 'Description' },
-          { key: 'details', label: 'Details' },
+          { key: 'subjectName', label: 'Subject' },
+          { key: 'teacherName', label: 'Teacher' },
+          { key: 'enrolledCount', label: 'Enrolled Students Number' }
         ]"
         :data="enrollements"
         :loading="true"
