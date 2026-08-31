@@ -21,8 +21,9 @@ const enrollmentsPath = userStore.user?.role === 'student'
 
 const getEnrollements = async () => {
   try {
-    const response = await api.get(`/${enrollmentsPath}`);
-    console.log('ENROLLS HERE: ', response);
+    const { data } = await api.get(`/${enrollmentsPath}`);
+    const { enrolls } = data;
+    console.log('ENROLLS HERE: ', enrolls);
   } catch (error) {
     console.log(error);
   }
