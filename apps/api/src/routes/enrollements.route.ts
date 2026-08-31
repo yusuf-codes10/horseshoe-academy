@@ -11,6 +11,8 @@ import { isStudent } from "@/middlewares/student";
 
 const router = new Hono();
 
+router.get('/me', verifyToken, isStudent, ...getMyEnrollements);
+
 // aceept application
 router.patch(
   "/:applicationId/accept",
@@ -30,7 +32,6 @@ router.patch(
 // get enrolled Students | enrollements join | students enrolled for this class
 router.get("/:classId", ...getEnrolledStudentsPerClass);
 
-router.get('/me', verifyToken, isStudent, ...getMyEnrollements);
 
 export default router;
 
