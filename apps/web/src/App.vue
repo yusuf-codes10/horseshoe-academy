@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import NavBar from '@/layouts/NavBar.vue';
 import { useUserStore } from './stores/userStore';
+import { useThemeStore } from './stores/themeStore';
 
-const userStore = useUserStore()
+const userStore = useUserStore();
+useThemeStore();
 </script>
 
 <template>
