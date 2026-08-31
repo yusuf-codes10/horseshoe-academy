@@ -3,9 +3,11 @@ import {
   acceptApplications,
   rejectApplication,
   getEnrolledStudentsPerClass,
+  getMyEnrollements
 } from "@/controllers/enrollements.controller";
 import { isTeacher } from "@/middlewares/teacher";
 import { verifyToken } from "@/middlewares/verifyToken";
+import { isStudent } from "@/middlewares/student";
 
 const router = new Hono();
 
@@ -27,6 +29,8 @@ router.patch(
 
 // get enrolled Students | enrollements join | students enrolled for this class
 router.get("/:classId", ...getEnrolledStudentsPerClass);
+
+router.get('/', verifyToken, isStudent, ...getMyEnrollements);
 
 export default router;
 
