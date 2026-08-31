@@ -165,12 +165,12 @@ export const getMyEnrollements = factory.createHandlers(async (c) => {
   const payload = c.get("jwtPayload") as JWTPayloadShape;
 
   try {
-    await db.select()
+    const enrolls = await db.select()
     .from(enrollements)
-    .where(eq(enrollements.studentId, payload.id))
+    .where(eq(enrollements.studentId, Number(payload.id)))
     .offset(skip)
     .limit(limit)
-    return c.json({msg: 'Your Enrollements'});
+    return c.json({msg: 'Your Enrollements', enrolls});
   } catch (error) {
        console.log(error);
     if (error instanceof HTTPException) throw error;
