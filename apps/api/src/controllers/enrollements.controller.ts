@@ -167,9 +167,9 @@ export const getMyEnrollements = factory.createHandlers(async (c) => {
   try {
     await db.select()
     .from(enrollements)
-    .innerJoin(students, eq(students.id, payload.id))
-    .innerJoin(users, eq(users.id, payload.id))
-    .innerJoin(enrollements, eq(enrollements.studentId, payload.id))
+    .innerJoin(students, eq(students.id, enrollements.studentId))
+    .innerJoin(users, eq(users.id, students.id))
+    .where(eq(students.id, payload.id))
     .offset(skip)
     .limit(limit)
     return c.json({msg: 'Your Enrollements'});
