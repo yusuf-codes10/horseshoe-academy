@@ -4,8 +4,33 @@ import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainTable from "@/components/shared/MainTable.vue";
+import { ref, onMounted } from 'vue';
+import api from '@/services/api';
 
 const userStore = useUserStore();
+
+// type Enrollement = {
+
+// }
+
+const enrollements = ref([])
+
+const enrollmentsPath = userStore.user?.role === 'student'
+  ? 'enrollements/me'
+  : 'enrollements';
+
+const getEnrollements = async () => {
+  try {
+    const response = await api.get(`/${enrollmentsPath}`);
+    console.log('ENROLLS HERE: ', response);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+onMounted(async () => {
+  await getEnrollements();
+})
 </script>
 
 <template>
@@ -30,7 +55,7 @@ const userStore = useUserStore();
           { key: 'description', label: 'Description' },
           { key: 'details', label: 'Details' },
         ]"
-        :data="[]"
+        :data="enrollements"
         :loading="true"
       />
     </div>
