@@ -23,6 +23,8 @@ const rows = ref(5);
 const page = ref(1);
 const count = ref(0);
 
+const departmentsPath = "departments";
+
 const createDep = () => {
   router.push({ name: "CreateDepartment" });
 };
