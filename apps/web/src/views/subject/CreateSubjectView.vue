@@ -3,9 +3,8 @@ import { ref } from "vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import { AxiosError } from "axios";
-import { createSubject } from '@/services/subject.service';
-import type { NewSubject } from "@classroom/shared";
-
+import { createSubject } from "@/services/subject.service";
+// import type { NewSubject } from "@classroom/shared";
 
 const name = ref("");
 const code = ref("");
@@ -15,22 +14,24 @@ const error = ref("");
 const loading = ref(false);
 
 const create = async () => {
-  const sub: NewSubject = {
+  const sub = {
     name: name.value,
-    departmentId: code.value,
+    departmentCode: code.value,
     description: description.value,
   };
-  loading.value = true
+  loading.value = true;
   try {
     const created = await createSubject(sub);
     console.log(created);
   } catch (err) {
-        error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
+    error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
     console.log("failed to create a subject", err);
-  }
-   finally {
+    if (err instanceof AxiosError) {
+      console.log(err.response?.data); // this will tell you exactly what the backend rejected
+    }
+  } finally {
     loading.value = false;
-   }
+  }
 };
 
 // const createSubject = async () => {
