@@ -19,7 +19,7 @@ const router = useRouter();
 const route = useRoute();
 const userStore = useUserStore();
 
-const rows = ref(5);
+const limit = ref(3);
 const page = ref(1);
 const count = ref(0);
 
@@ -34,7 +34,7 @@ if (userStore.user) {
 }
 
 const loadDeps = async () => {
-  const {deps, depsCount} = await getAllDepartments(departmentsPath, page.value, rows.value);
+  const {deps, depsCount} = await getAllDepartments(departmentsPath, page.value, limit.value);
   departments.value = deps;
   count.value = depsCount;
 }
