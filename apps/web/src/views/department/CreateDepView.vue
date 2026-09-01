@@ -15,8 +15,8 @@ const error = ref<string>("");
 
   const create = async () => {
     const dep: NewDepartment = {code: code.value, name: name.value};
-    const { response } = await createDep(dep);
-    console.log(response);
+    const created  = await createDep(dep);
+    console.log(created);
   }
 
 // create a department
