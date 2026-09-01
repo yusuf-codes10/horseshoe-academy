@@ -22,7 +22,8 @@ const create = async () => {
   };
   loading.value = true
   try {
-    await createSubject(sub);
+    const created = await createSubject(sub);
+    console.log(created);
   } catch (err) {
         error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
     console.log("failed to create a subject", err);

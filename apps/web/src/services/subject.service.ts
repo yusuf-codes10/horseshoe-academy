@@ -7,5 +7,6 @@ export const getSubjects = async (page = 1, limit = 5): Promise<{subs: Subject[]
 }
 
 export const createSubject = async (sub: NewSubject) => {
-  await api.post('/subjects', {sub});
+  const { data } = await api.post('/subjects', {sub});
+  return data;
 }
