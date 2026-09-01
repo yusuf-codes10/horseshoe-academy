@@ -3,30 +3,37 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 // import type { NewDepartment } from "@classroom/shared";
 import { ref } from "vue";
-import api from "@/services/api";
+import { createDep } from "@/services/department.service";
 import { AxiosError } from "axios";
+import type { NewDepartment } from '@classroom/shared';
 
 const code = ref("");
 const name = ref("");
 const loading = ref(false);
 const error = ref<string>("");
 
-// create a department
-const createDep = async () => {
-  loading.value = true;
-  try {
-    const createdDep = await api.post("/departments", {
-      code: code.value,
-      name: name.value,
-    });
-    console.log(createdDep);
-  } catch (err) {
-    console.log(err);
-    error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
-  } finally {
-    loading.value = false;
+
+  const create = async () => {
+    const dep: NewDepartment = {code: code.value, name: name.value};
+    await createDep(dep)
   }
-};
+
+// create a department
+// const createDep = async () => {
+//   loading.value = true;
+//   try {
+//     const createdDep = await api.post("/departments", {
+//       code: code.value,
+//       name: name.value,
+//     });
+//     console.log(createdDep);
+//   } catch (err) {
+//     console.log(err);
+//     error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
+//   } finally {
+//     loading.value = false;
+//   }
+// };
 </script>
 
 <template>
