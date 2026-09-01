@@ -10,12 +10,13 @@ import MainTable from "@/components/shared/MainTable.vue";
 import { ref, onMounted } from 'vue';
 import PaginationBar from "@/components/shared/PaginationBar.vue";
 import { getSubjects } from '@/services/subject.service';
+import type { Subject } from "@classroom/shared";
 
 const userStore = useUserStore();
 const router = useRouter();
 const route = useRoute();
 
-const subjects = ref([]);
+const subjects = ref<Subject[]>([]);
 
 const limit = ref(5);
 const page = ref(1);
@@ -43,10 +44,7 @@ const loadSubjects = async () => {
 // emit handler
 const setRows = async (payload: number) => {
   page.value = payload;
-  const data = await getAllSubjects();
-
-  subjects.value = data.subs;
-  count.value = data.subsCount;
+  await getSubjects();
 }
 
 onMounted(async () => {
