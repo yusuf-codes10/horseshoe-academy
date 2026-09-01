@@ -23,7 +23,7 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   // let counts;
 
   const page = Number(pageQuery) || 1;
-  const limit = Number(limitQuery) || 10;
+  const limit = Number(limitQuery) || 5;
   const skip = (page - 1) * limit;
 
   try {

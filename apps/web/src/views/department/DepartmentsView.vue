@@ -8,8 +8,8 @@ import { useRoute } from "vue-router";
 import { hasPermession } from "@/libs/permessions";
 import { useUserStore } from "@/stores/userStore";
 import { ref, onMounted } from "vue";
-import api from "@/services/api";
 import PaginationBar from "@/components/shared/PaginationBar.vue";
+import { getAllDepartments } from '@/services/department.service';
 // import type { NewDepartment } from '@classroom/shared';
 
 const departments = ref([]);
@@ -33,45 +33,20 @@ if (userStore.user) {
   console.log(userStore.user);
 }
 
-const fetchAllDeps = async () => {
-  const response = await api.get(`/departments?page=${page.value}&limit=${rows.value}`);
-  console.log(response.data.deps);
-  // console.log(response.data.counts);
-  // const departments: NewDepartment = response.data.deps;
-  // const counts = response.data.counts
-  // console.log(departments);
-  // console.log(counts);
-  return {
-    deps: response.data.deps,
-    depsCount: response.data.depsCount,
-  };
-};
+const loadDeps = async () => {
+  const {deps, depsCount} = await getAllDepartments(departmentsPath, page.value, rows.value);
+  departments.value = deps;
+  count.value = depsCount;
+}
 
 // emit handler
 const setRows = async (payload: number) => {
   page.value = payload;
-  const data = await fetchAllDeps();
-  // console.log('data is', data.counts.map(c => c.count));
-  departments.value = data.deps;
-  count.value = data.depsCount;
+  await loadDeps();
 };
 
-// fetch the real departments first
-// :TODO fix the type here later
 onMounted(async () => {
-  const data = await fetchAllDeps();
-  // console.log('data is', data.counts.map(c => c.count));
-  departments.value = data.deps;
-  count.value = data.depsCount;
-  // .map((dep) => {
-  //   const match = data.counts.find((c) => c.depId === dep.id);
-  //   return {
-  //     ...dep,
-  //     subjects_count: match?.count ?? 0,
-  //   };
-  // });
-  console.log(departments.value);
-  console.log("count from dep", count.value);
+  await loadDeps();
 });
 </script>
 
