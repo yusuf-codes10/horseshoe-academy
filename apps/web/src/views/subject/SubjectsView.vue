@@ -32,15 +32,6 @@ const loadSubjects = async () => {
   count.value = subjectsCount;
  }
 
-// const getAllSubjects = async () => {
-//   const response = await api.get(`/subjects?page=${page.value}&limit=${limit.value}`);
-//   console.log(response.data.subs);
-//   return {
-//     subs: response.data.subs,
-//     subsCount: response.data.subjectsCount
-//   };
-// }
-
 // emit handler
 const setRows = async (payload: number) => {
   page.value = payload;
