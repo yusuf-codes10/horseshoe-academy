@@ -41,13 +41,10 @@ const loadEnrolls = async () => {
   countNumber.value = count;
 };
 
-// const setRows = async (payload: number) => {
-//   page.value = payload;
-//   const data = await getEnrollements();
-//   // console.log('data is', data.counts.map(c => c.count));
-//   enrollements.value = data.enrolls;
-//   count.value = data.depsCount;
-// };
+const setRows = async (payload: number) => {
+  page.value = payload;
+  await loadEnrolls();
+};
 
 onMounted(async () => {
   await loadEnrolls();
@@ -79,7 +76,7 @@ onMounted(async () => {
         :data="enrollements"
         :loading="true"
       />
-      <PaginationBar v-if="countNumber" :count="countNumber" />
+      <PaginationBar v-if="countNumber" :count="countNumber" @sendPage="setRows" />
     </div>
   </div>
 </template>
