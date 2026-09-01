@@ -4,6 +4,7 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import { AxiosError } from "axios";
 import { createSubject } from "@/services/subject.service";
+import { useRouter } from "vue-router";
 import type { Subject } from "@classroom/shared";
 
 const name = ref("");
@@ -12,6 +13,8 @@ const description = ref("");
 
 const error = ref("");
 const loading = ref(false);
+
+const router = useRouter();
 
 // @classroom/shared
 type NewSubject = Omit<Subject, 'id' | 'departmentId'> & {
@@ -28,6 +31,7 @@ const create = async () => {
   try {
     const created = await createSubject(sub);
     console.log(created);
+    router.push({name: 'Subjects'});
   } catch (err) {
     error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
     console.log("failed to create a subject", err);
@@ -38,23 +42,6 @@ const create = async () => {
     loading.value = false;
   }
 };
-
-// const createSubject = async () => {
-//   loading.value = true;
-//   try {
-//     const response = await api.post("/subjects", {
-//       name: name.value,
-//       departmentCode: code.value,
-//       description: description.value,
-//     });
-//     console.log(response);
-//   } catch (err) {
-//     error.value = err instanceof AxiosError ? err.response?.data.message : String(err);
-//     console.log("failed to create a subject", err);
-//   } finally {
-//     loading.value = false;
-//   }
-// };
 </script>
 
 <template>
