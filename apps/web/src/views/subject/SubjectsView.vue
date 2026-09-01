@@ -17,7 +17,7 @@ const route = useRoute();
 
 const subjects = ref([]);
 
-const rows = ref(5);
+const limit = ref(5);
 const page = ref(1);
 const count = ref(0)
 
@@ -26,7 +26,7 @@ const createSubject = () => {
 }
 
 const getAllSubjects = async () => {
-  const response = await api.get(`/subjects?page=${page.value}&limit=${rows.value}`);
+  const response = await api.get(`/subjects?page=${page.value}&limit=${limit.value}`);
   console.log(response.data.subs);
   return {
     subs: response.data.subs,
