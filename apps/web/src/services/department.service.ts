@@ -2,8 +2,8 @@ import api from '@/services/api';
 import type { NewDepartment, Department } from '@classroom/shared';
 
 export const getAllDepartments = async (departmentsPath: string, page = 1, limit = 5): Promise<{deps: Department[], depsCount: number}> => {
-  const { data } = await api.get(`/${departmentsPath}`, {params: {page, limit}});
-  return data;
+  const { data: {deps, depsCount} } = await api.get(`/${departmentsPath}`, {params: {page, limit}});
+  return { deps, depsCount };
 }
 
 export const createDep = async (dep: NewDepartment): Promise<Department> => {

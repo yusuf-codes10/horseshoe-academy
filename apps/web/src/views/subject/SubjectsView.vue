@@ -7,9 +7,9 @@ import { useRouter } from "vue-router";
 import { useRoute } from 'vue-router';
 import { hasPermession } from "@/libs/permessions";
 import MainTable from "@/components/shared/MainTable.vue";
-import api from '@/services/api';
 import { ref, onMounted } from 'vue';
 import PaginationBar from "@/components/shared/PaginationBar.vue";
+import { getSubjects } from '@/services/subject.service';
 
 const userStore = useUserStore();
 const router = useRouter();
@@ -25,14 +25,20 @@ const createSubject = () => {
   router.push({name: 'CreateSubject'})
 }
 
-const getAllSubjects = async () => {
-  const response = await api.get(`/subjects?page=${page.value}&limit=${limit.value}`);
-  console.log(response.data.subs);
-  return {
-    subs: response.data.subs,
-    subsCount: response.data.subjectsCount
-  };
-}
+const loadSubjects = async () => {
+  const { subjectsCount, subs} = await getSubjects(page.value, limit.value);
+  subjects.value = subs;
+  count.value = subjectsCount;
+ }
+
+// const getAllSubjects = async () => {
+//   const response = await api.get(`/subjects?page=${page.value}&limit=${limit.value}`);
+//   console.log(response.data.subs);
+//   return {
+//     subs: response.data.subs,
+//     subsCount: response.data.subjectsCount
+//   };
+// }
 
 // emit handler
 const setRows = async (payload: number) => {
@@ -44,13 +50,7 @@ const setRows = async (payload: number) => {
 }
 
 onMounted(async () => {
-  const {subs, subsCount} = await getAllSubjects();
-  subjects.value = subs;
-  count.value = subsCount;
-  console.log('fetchiiiiiiiiiiiiiiiiiiiiing AGAIN!!!!!!!!!!!!!!!!!');
-
-  console.log('subjects: ', subjects.value);
-  console.log('subjects count: ', count.value);
+  await loadSubjects();
 })
 </script>
 
