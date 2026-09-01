@@ -15,7 +15,8 @@ const error = ref<string>("");
 
   const create = async () => {
     const dep: NewDepartment = {code: code.value, name: name.value};
-    await createDep(dep)
+    const { response } = await createDep(dep);
+    console.log(response);
   }
 
 // create a department
@@ -40,7 +41,7 @@ const error = ref<string>("");
   <h1 class="title">Create Department</h1>
   <div class="flex justify-center items-center mx-4">
     <form
-      @submit.prevent="createDep"
+      @submit.prevent="create"
       class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-full my-4 md:w-90 shadow-sm"
     >
       <label for="code">Department code *</label>
