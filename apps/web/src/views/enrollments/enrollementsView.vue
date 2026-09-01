@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/userStore";
-import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainTable from "@/components/shared/MainTable.vue";
@@ -19,24 +18,11 @@ const countNumber = ref(0);
 
 const rows = ref(5);
 const page = ref(1);
-const count = ref(0);
 
 const enrollmentsPath = userStore.user?.role === "student" ? "enrollements/me" : "enrollements";
 
-// const getEnrollements = async () => {
-//   try {
-//     const { data } = await api.get(`/${enrollmentsPath}`);
-//     const { enrolls, count } = data;
-//     console.log('ENROLLS HERE: ', enrolls);
-//     enrollements.value = enrolls
-//     countNumber.value = count
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }
-
 const loadEnrolls = async () => {
-  const { enrolls, count } = await getAllEnrollements(enrollmentsPath);
+  const { enrolls, count } = await getAllEnrollements(enrollmentsPath, page.value, rows.value);
   enrollements.value = enrolls;
   countNumber.value = count;
 };
@@ -56,11 +42,6 @@ onMounted(async () => {
     <ActionsBar title="Enrollements" description="lorem lorem">
       <div class="flex gap-2">
         <BaseInput type="search" placeholder="Search Enrollement" class="h-10" />
-        <MainButton
-          v-if="userStore.user && hasPermession(userStore.user, 'create:departments')"
-          title="Create"
-          @click="'createDep'"
-        />
       </div>
     </ActionsBar>
 
