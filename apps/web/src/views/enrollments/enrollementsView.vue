@@ -4,9 +4,9 @@ import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainTable from "@/components/shared/MainTable.vue";
-import { ref, onMounted } from 'vue';
+import { ref, onMounted } from "vue";
 import PaginationBar from "@/components/shared/PaginationBar.vue";
-import { getAllEnrollements } from '@/services/enrollement.service';
+import { getAllEnrollements } from "@/services/enrollement.service";
 
 const userStore = useUserStore();
 
@@ -14,16 +14,14 @@ const userStore = useUserStore();
 
 // }
 
-const enrollements = ref([])
-const countNumber = ref(0)
+const enrollements = ref([]);
+const countNumber = ref(0);
 
 const rows = ref(5);
 const page = ref(1);
 const count = ref(0);
 
-const enrollmentsPath = userStore.user?.role === 'student'
-  ? 'enrollements/me'
-  : 'enrollements';
+const enrollmentsPath = userStore.user?.role === "student" ? "enrollements/me" : "enrollements";
 
 // const getEnrollements = async () => {
 //   try {
@@ -37,6 +35,12 @@ const enrollmentsPath = userStore.user?.role === 'student'
 //   }
 // }
 
+const loadEnrolls = async () => {
+  const { enrolls, count } = await getAllEnrollements(enrollmentsPath);
+  enrollements.value = enrolls;
+  countNumber.value = count;
+};
+
 // const setRows = async (payload: number) => {
 //   page.value = payload;
 //   const data = await getEnrollements();
@@ -46,9 +50,8 @@ const enrollmentsPath = userStore.user?.role === 'student'
 // };
 
 onMounted(async () => {
-  const {enrolls, count} = await getAllEnrollements(enrollmentsPath);
-  console.log(enrolls, count);
-})
+  await loadEnrolls();
+});
 </script>
 
 <template>
@@ -67,16 +70,16 @@ onMounted(async () => {
     <div>
       <MainTable
         :columns="[
-          { key: 'enrollmentId', label: 'ID'},
+          { key: 'enrollmentId', label: 'ID' },
           { key: 'code', label: 'Code' },
           { key: 'subjectName', label: 'Subject' },
           { key: 'teacherName', label: 'Teacher' },
-          { key: 'enrolledCount', label: 'Enrolled Students Number' }
+          { key: 'enrolledCount', label: 'Enrolled Students Number' },
         ]"
         :data="enrollements"
         :loading="true"
       />
-      <PaginationBar v-if="countNumber" :count="countNumber"/>
+      <PaginationBar v-if="countNumber" :count="countNumber" />
     </div>
   </div>
 </template>
