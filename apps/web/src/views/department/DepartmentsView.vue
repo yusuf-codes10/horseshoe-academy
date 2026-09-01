@@ -10,9 +10,10 @@ import { useUserStore } from "@/stores/userStore";
 import { ref, onMounted } from "vue";
 import PaginationBar from "@/components/shared/PaginationBar.vue";
 import { getAllDepartments } from '@/services/department.service';
+import type { NewDepartment, Department } from '@classroom/shared';
 // import type { NewDepartment } from '@classroom/shared';
 
-const departments = ref([]);
+const departments = ref<Department[]>();
 // const counts = ref([]);
 
 const router = useRouter();
