@@ -5,8 +5,8 @@ import ActionsBar from "@/components/shared/ActionsBar.vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainTable from "@/components/shared/MainTable.vue";
 import { ref, onMounted } from 'vue';
-import api from '@/services/api';
 import PaginationBar from "@/components/shared/PaginationBar.vue";
+import { getAllEnrollements } from '@/services/enrollement.service';
 
 const userStore = useUserStore();
 
@@ -25,17 +25,17 @@ const enrollmentsPath = userStore.user?.role === 'student'
   ? 'enrollements/me'
   : 'enrollements';
 
-const getEnrollements = async () => {
-  try {
-    const { data } = await api.get(`/${enrollmentsPath}`);
-    const { enrolls, count } = data;
-    console.log('ENROLLS HERE: ', enrolls);
-    enrollements.value = enrolls
-    countNumber.value = count
-  } catch (error) {
-    console.log(error);
-  }
-}
+// const getEnrollements = async () => {
+//   try {
+//     const { data } = await api.get(`/${enrollmentsPath}`);
+//     const { enrolls, count } = data;
+//     console.log('ENROLLS HERE: ', enrolls);
+//     enrollements.value = enrolls
+//     countNumber.value = count
+//   } catch (error) {
+//     console.log(error);
+//   }
+// }
 
 // const setRows = async (payload: number) => {
 //   page.value = payload;
@@ -46,7 +46,8 @@ const getEnrollements = async () => {
 // };
 
 onMounted(async () => {
-  await getEnrollements();
+  const {enrolls, count} = await getAllEnrollements(enrollmentsPath);
+  console.log(enrolls, count);
 })
 </script>
 
