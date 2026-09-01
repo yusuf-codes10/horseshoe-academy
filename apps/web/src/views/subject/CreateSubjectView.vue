@@ -4,7 +4,7 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import { AxiosError } from "axios";
 import { createSubject } from "@/services/subject.service";
-// import type { NewSubject } from "@classroom/shared";
+import type { Subject } from "@classroom/shared";
 
 const name = ref("");
 const code = ref("");
@@ -13,8 +13,13 @@ const description = ref("");
 const error = ref("");
 const loading = ref(false);
 
+// @classroom/shared
+type NewSubject = Omit<Subject, 'id' | 'departmentId'> & {
+  departmentCode: string
+}
+
 const create = async () => {
-  const sub = {
+  const sub: NewSubject = {
     name: name.value,
     departmentCode: code.value,
     description: description.value,
