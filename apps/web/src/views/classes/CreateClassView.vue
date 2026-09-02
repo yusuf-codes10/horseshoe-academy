@@ -2,9 +2,10 @@
 import { ref } from "vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
-import api from "@/services/api";
 import { useRouter } from "vue-router";
 import { AxiosError } from "axios";
+import { createClass } from '@/services/class.service';
+import type { NewClass } from "@classroom/shared";
 
 const code = ref("");
 const capacity = ref(0);
@@ -15,10 +16,17 @@ const error = ref("");
 
 const router = useRouter();
 
-const create = () => {
+const create = async () => {
   loading.value = true;
+  const cls: NewClass = {
+      code: code.value,
+      capacity: Number(capacity.value),
+      description: description.value,
+      subjectId: Number(subjectId.value),
+    }
   try {
-
+    await createClass(cls);
+    router.push({name: 'Classes'});
   } catch (err) {
         console.log(err);
     if (err instanceof AxiosError) {
@@ -58,7 +66,7 @@ const create = () => {
     <h1 class="title">Create Subject</h1>
     <div class="flex justify-center items-center mx-4">
       <form
-        @submit.prevent="createClass"
+        @submit.prevent="create"
         class="flex flex-col gap-2 bg-popover border border-border rounded-xl py-8 px-6 w-full my-4 md:w-90 shadow-sm"
       >
         <label for="code">Class Code *</label>
