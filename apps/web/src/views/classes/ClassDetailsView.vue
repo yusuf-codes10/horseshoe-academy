@@ -10,6 +10,7 @@ import MainTable from "@/components/shared/MainTable.vue";
 import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
+import { getClassById } from '@/services/class.service';
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -50,19 +51,23 @@ const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value;
 };
 
-const getClassById = async () => {
-  loading.value = true;
-  try {
-    const fetchedClass = await api.get(`classes/${route.params.classId}`);
-    console.log("found class is: ", fetchedClass.data.foundClass);
-    foundClass.value = fetchedClass.data.foundClass;
-    isApplied.value = !!fetchedClass.data.isApplied;
-  } catch (err) {
-    console.log(err);
-  } finally {
-    loading.value = false;
-  }
-};
+const loadClassById = async () => {
+  await getClassById(route.params.classId);
+}
+
+// const getClassById = async () => {
+//   loading.value = true;
+//   try {
+//     const fetchedClass = await api.get(`classes/${route.params.classId}`);
+//     console.log("found class is: ", fetchedClass.data.foundClass);
+//     foundClass.value = fetchedClass.data.foundClass;
+//     isApplied.value = !!fetchedClass.data.isApplied;
+//   } catch (err) {
+//     console.log(err);
+//   } finally {
+//     loading.value = false;
+//   }
+// };
 
 // patch request right here
 // TODO: conditional render assign teacher + all teachers in a dropdown vs assigned teacher + delete
