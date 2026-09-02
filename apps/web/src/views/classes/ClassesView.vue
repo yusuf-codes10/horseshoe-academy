@@ -22,51 +22,6 @@ const count = ref(0);
 const page = ref(1);
 const limit = ref(5);
 
-// const fetchAllClasses = async () => {
-//   try {
-//     const response = await api.get(`/classes?page=${page.value}&limit=${rows.value}`);
-//     console.log('all classes for the admin: ', response.data.fetchedClasses);
-//     return {
-//       fetchedClasses: response.data.fetchedClasses,
-//       classesCount: response.data.classesCount,
-//     };
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-
-const loadClasses = async (): Promise<void> => {
- const { fetchedClasses, classesCount } = await getAllClasses(page.value, limit.value);
- classes.value = fetchedClasses;
- count.value = classesCount
-}
-
-const loadMyClasses = async (): Promise<void> => {
-  const { myClasses} = await getMyClasses();
-  console.log(myClasses);
-  classes.value = myClasses;
-}
-
-// const fetchMyClasses = async () => {
-//   try {
-//     const response = await api.get("/classes/me");
-//     console.log("my classes: ", response.data);
-//     return {
-//       myClasses: response.data.myClasses,
-//       // classesCount: response.data.classesCount,
-//     };
-//   } catch (error) {
-//     console.log(error);
-//     return { myClasses: [] }; // 👈 must have return here too
-//   }
-// };
-
-// emit handler
-const setRows = async (payload: number) => {
-  page.value = payload;
-  await loadClasses();
-};
-
 const columns = [
   { key: "id", label: "ID" },
   { key: "capacity", label: "Capacity" },
@@ -76,14 +31,31 @@ const columns = [
   { key: "teacherName", label: "Teacher Name"}
 ];
 
+const loadClasses = async (): Promise<void> => {
+ const { fetchedClasses, classesCount } = await getAllClasses(page.value, limit.value);
+ classes.value = fetchedClasses;
+ count.value = classesCount
+}
+
+// TODO: needs its own pagaination and count return too
+const loadMyClasses = async (): Promise<void> => {
+  const { myClasses} = await getMyClasses();
+  console.log(myClasses);
+  classes.value = myClasses;
+}
+
+// emit handler
+const setRows = async (payload: number) => {
+  page.value = payload;
+  await loadClasses();
+};
+
 const createClass = () => {
   router.push({ name: "CreateClass" });
 };
 
 onMounted(async () => {
   if (userStore.user?.role === "teacher") {
-    // const { myClasses } = (await fetchMyClasses()) ?? { myClasses: [] }; // 👈 destructure
-    // classes.value = myClasses;
     await loadMyClasses();
   } else {
     await loadClasses();
