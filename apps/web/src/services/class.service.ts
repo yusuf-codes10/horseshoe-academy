@@ -11,7 +11,9 @@ export const getAllClasses = async (
   return { fetchedClasses, classesCount };
 };
 
-export const getMyClasses = async (): Promise<{myClaesses: Class[] }> => {
-  const { data: { myClasses } } = await api.get('/classes/me');
-  return myClasses;
-}
+export const getMyClasses = async (): Promise<{ myClasses: Class[] }> => {
+  const {
+    data: { myClasses },
+  } = await api.get("/classes/me");
+  return { myClasses };
+};

@@ -42,9 +42,9 @@ const loadClasses = async (): Promise<void> => {
 }
 
 const loadMyClasses = async (): Promise<void> => {
-  const { myClaesses} = await getMyClasses();
-  console.log(myClaesses);
-  classes.value = myClaesses;
+  const { myClasses} = await getMyClasses();
+  console.log(myClasses);
+  classes.value = myClasses;
 }
 
 // const fetchMyClasses = async () => {
