@@ -11,13 +11,14 @@ import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import PaginationBar from "@/components/shared/PaginationBar.vue";
 import { getAllClasses } from '@/services/class.service';
+import type { Class } from "@classroom/shared";
 
 const userStore = useUserStore();
 
 const route = useRoute();
 const router = useRouter();
 
-const classes = ref([]);
+const classes = ref<Class[]>([]);
 const count = ref(0);
 const page = ref(1);
 const limit = ref(5);
@@ -36,8 +37,9 @@ const limit = ref(5);
 // };
 
 const loadClasses = async () => {
- const data = await getAllClasses(page.value, limit.value);
- console.log(data);
+ const { fetchedClasses, classesCount } = await getAllClasses(page.value, limit.value);
+ classes.value = fetchedClasses;
+ count.value = classesCount
 }
 
 const fetchMyClasses = async () => {
@@ -57,9 +59,7 @@ const fetchMyClasses = async () => {
 // emit handler
 const setRows = async (payload: number) => {
   page.value = payload;
-  const { fetchedClasses, classesCount } = (await fetchAllClasses()) ?? { fetchedClasses: [] };
-  classes.value = fetchedClasses;
-  count.value = classesCount;
+  await loadClasses();
 };
 
 const columns = [
@@ -80,9 +80,6 @@ onMounted(async () => {
     const { myClasses } = (await fetchMyClasses()) ?? { myClasses: [] }; // 👈 destructure
     classes.value = myClasses;
   } else {
-    // const { fetchedClasses, classesCount } = (await fetchAllClasses()) ?? { fetchedClasses: [] };
-    // classes.value = fetchedClasses;
-    // count.value = classesCount;
     await loadClasses();
   }
 });
