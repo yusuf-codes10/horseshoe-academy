@@ -10,6 +10,7 @@ import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import PaginationBar from "@/components/shared/PaginationBar.vue";
+import { getAllClasses } from '@/services/class.service';
 
 const userStore = useUserStore();
 
@@ -19,20 +20,25 @@ const router = useRouter();
 const classes = ref([]);
 const count = ref(0);
 const page = ref(1);
-const rows = ref(5);
+const limit = ref(5);
 
-const fetchAllClasses = async () => {
-  try {
-    const response = await api.get(`/classes?page=${page.value}&limit=${rows.value}`);
-    console.log('all classes for the admin: ', response.data.fetchedClasses);
-    return {
-      fetchedClasses: response.data.fetchedClasses,
-      classesCount: response.data.classesCount,
-    };
-  } catch (error) {
-    console.log(error);
-  }
-};
+// const fetchAllClasses = async () => {
+//   try {
+//     const response = await api.get(`/classes?page=${page.value}&limit=${rows.value}`);
+//     console.log('all classes for the admin: ', response.data.fetchedClasses);
+//     return {
+//       fetchedClasses: response.data.fetchedClasses,
+//       classesCount: response.data.classesCount,
+//     };
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
+
+const loadClasses = async () => {
+ const data = await getAllClasses(page.value, limit.value);
+ console.log(data);
+}
 
 const fetchMyClasses = async () => {
   try {
@@ -74,9 +80,10 @@ onMounted(async () => {
     const { myClasses } = (await fetchMyClasses()) ?? { myClasses: [] }; // 👈 destructure
     classes.value = myClasses;
   } else {
-    const { fetchedClasses, classesCount } = (await fetchAllClasses()) ?? { fetchedClasses: [] };
-    classes.value = fetchedClasses;
-    count.value = classesCount;
+    // const { fetchedClasses, classesCount } = (await fetchAllClasses()) ?? { fetchedClasses: [] };
+    // classes.value = fetchedClasses;
+    // count.value = classesCount;
+    await loadClasses();
   }
 });
 </script>
