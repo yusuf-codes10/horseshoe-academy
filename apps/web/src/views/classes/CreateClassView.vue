@@ -4,7 +4,7 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import { useRouter } from "vue-router";
 import { AxiosError } from "axios";
-import { createClass } from '@/services/class.service';
+import { createClass } from "@/services/class.service";
 import type { NewClass } from "@classroom/shared";
 
 const code = ref("");
@@ -19,46 +19,25 @@ const router = useRouter();
 const create = async () => {
   loading.value = true;
   const cls: NewClass = {
-      code: code.value,
-      capacity: Number(capacity.value),
-      description: description.value,
-      subjectId: Number(subjectId.value),
-    }
+    code: code.value,
+    capacity: Number(capacity.value),
+    description: description.value,
+    subjectId: Number(subjectId.value),
+  };
   try {
     await createClass(cls);
-    router.push({name: 'Classes'});
+    router.push({ name: "Classes" });
   } catch (err) {
-        console.log(err);
+    console.log(err);
     if (err instanceof AxiosError) {
       error.value = err.response?.data?.message ?? err.response?.data ?? "Something went wrong";
     } else {
       error.value = String(err);
     }
+  } finally {
+    loading.value = false;
   }
-}
-
-// const createClass = async () => {
-//   loading.value = true;
-//   try {
-//     const createdClass = await api.post("/classes", {
-//       code: code.value,
-//       capacity: Number(capacity.value),
-//       description: description.value,
-//       subjectId: Number(subjectId.value),
-//     });
-//     console.log(createdClass);
-//     router.push({ name: "Classes" });
-//   } catch (err) {
-//     console.log(err);
-//     if (err instanceof AxiosError) {
-//       error.value = err.response?.data?.message ?? err.response?.data ?? "Something went wrong";
-//     } else {
-//       error.value = String(err);
-//     }
-//   } finally {
-//     loading.value = false;
-//   }
-// };
+};
 </script>
 
 <template>
