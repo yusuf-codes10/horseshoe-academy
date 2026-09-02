@@ -63,20 +63,6 @@ const loadClassById = async () => {
   }
 };
 
-// const getClassById = async () => {
-//   loading.value = true;
-//   try {
-//     const fetchedClass = await api.get(`classes/${route.params.classId}`);
-//     console.log("found class is: ", fetchedClass.data.foundClass);
-//     foundClass.value = fetchedClass.data.foundClass;
-//     isApplied.value = !!fetchedClass.data.isApplied;
-//   } catch (err) {
-//     console.log(err);
-//   } finally {
-//     loading.value = false;
-//   }
-// };
-
 // patch request right here
 // TODO: conditional render assign teacher + all teachers in a dropdown vs assigned teacher + delete
 const assignTeacher = async (teacherId: number) => {
