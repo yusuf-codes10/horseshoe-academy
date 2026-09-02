@@ -151,10 +151,12 @@ const getEnrolledStudents = async () => {
 
 onMounted(async () => {
   await loadClassById();
-  await showAvailableTeachers();
-  await fetchTeacher();
-  await fetchSessionsPerClass();
-  await getEnrolledStudents();
+  await Promise.all([
+    showAvailableTeachers(),
+    fetchTeacher(),
+    fetchSessionsPerClass(),
+    getEnrolledStudents(),
+  ]);
 });
 </script>
 
