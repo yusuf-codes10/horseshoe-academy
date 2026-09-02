@@ -15,28 +15,42 @@ const error = ref("");
 
 const router = useRouter();
 
-const createClass = async () => {
+const create = () => {
   loading.value = true;
   try {
-    const createdClass = await api.post("/classes", {
-      code: code.value,
-      capacity: Number(capacity.value),
-      description: description.value,
-      subjectId: Number(subjectId.value),
-    });
-    console.log(createdClass);
-    router.push({ name: "Classes" });
+
   } catch (err) {
-    console.log(err);
+        console.log(err);
     if (err instanceof AxiosError) {
       error.value = err.response?.data?.message ?? err.response?.data ?? "Something went wrong";
     } else {
       error.value = String(err);
     }
-  } finally {
-    loading.value = false;
   }
-};
+}
+
+// const createClass = async () => {
+//   loading.value = true;
+//   try {
+//     const createdClass = await api.post("/classes", {
+//       code: code.value,
+//       capacity: Number(capacity.value),
+//       description: description.value,
+//       subjectId: Number(subjectId.value),
+//     });
+//     console.log(createdClass);
+//     router.push({ name: "Classes" });
+//   } catch (err) {
+//     console.log(err);
+//     if (err instanceof AxiosError) {
+//       error.value = err.response?.data?.message ?? err.response?.data ?? "Something went wrong";
+//     } else {
+//       error.value = String(err);
+//     }
+//   } finally {
+//     loading.value = false;
+//   }
+// };
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 import api from "@/services/api";
-import type { Class } from "@classroom/shared";
+import type { Class, NewClass } from "@classroom/shared";
 
 export const getAllClasses = async (
   page = 1,
@@ -17,3 +17,7 @@ export const getMyClasses = async (): Promise<{ myClasses: Class[] }> => {
   } = await api.get("/classes/me");
   return { myClasses };
 };
+
+export const createClass = async (cls: NewClass) => {
+  await api.post('/classes', cls);
+}
