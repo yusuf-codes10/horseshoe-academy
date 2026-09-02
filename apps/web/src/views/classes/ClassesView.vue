@@ -35,15 +35,16 @@ const limit = ref(5);
 //   }
 // };
 
-const loadClasses = async () => {
+const loadClasses = async (): Promise<void> => {
  const { fetchedClasses, classesCount } = await getAllClasses(page.value, limit.value);
  classes.value = fetchedClasses;
  count.value = classesCount
 }
 
-const loadMyClasses = async () => {
-  const data = await getMyClasses();
-  console.log(data);
+const loadMyClasses = async (): Promise<void> => {
+  const { myClaesses} = await getMyClasses();
+  console.log(myClaesses);
+  classes.value = myClaesses;
 }
 
 // const fetchMyClasses = async () => {
