@@ -11,6 +11,7 @@ import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
 import { getClassById } from '@/services/class.service';
+import { Database } from "lucide-vue-next";
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -52,7 +53,16 @@ const toggleModal = () => {
 };
 
 const loadClassById = async () => {
-  await getClassById(route.params.classId);
+  loading.value = true;
+  try {
+    const data = await getClassById(route.params.classId);
+    console.log(data);
+
+  } catch (err) {
+    console.log(err);
+  } finally {
+    loading.value = false;
+  }
 }
 
 // const getClassById = async () => {
@@ -156,7 +166,7 @@ const getEnrolledStudents = async () => {
 };
 
 onMounted(async () => {
-  await getClassById();
+  await loadClassById();
   await showAvailableTeachers();
   await fetchTeacher();
   await fetchSessionsPerClass();
