@@ -5,12 +5,11 @@ import { hasPermession } from "@/libs/permessions";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainButton from "@/components/shared/MainButton.vue";
 import MainTable from "@/components/shared/MainTable.vue";
-import api from "@/services/api";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 import { useRouter } from "vue-router";
 import PaginationBar from "@/components/shared/PaginationBar.vue";
-import { getAllClasses } from '@/services/class.service';
+import { getAllClasses, getMyClasses } from '@/services/class.service';
 import type { Class } from "@classroom/shared";
 
 const userStore = useUserStore();
@@ -42,19 +41,24 @@ const loadClasses = async () => {
  count.value = classesCount
 }
 
-const fetchMyClasses = async () => {
-  try {
-    const response = await api.get("/classes/me");
-    console.log("my classes: ", response.data);
-    return {
-      myClasses: response.data.myClasses,
-      // classesCount: response.data.classesCount,
-    };
-  } catch (error) {
-    console.log(error);
-    return { myClasses: [] }; // 👈 must have return here too
-  }
-};
+const loadMyClasses = async () => {
+  const data = await getMyClasses();
+  console.log(data);
+}
+
+// const fetchMyClasses = async () => {
+//   try {
+//     const response = await api.get("/classes/me");
+//     console.log("my classes: ", response.data);
+//     return {
+//       myClasses: response.data.myClasses,
+//       // classesCount: response.data.classesCount,
+//     };
+//   } catch (error) {
+//     console.log(error);
+//     return { myClasses: [] }; // 👈 must have return here too
+//   }
+// };
 
 // emit handler
 const setRows = async (payload: number) => {
@@ -77,8 +81,9 @@ const createClass = () => {
 
 onMounted(async () => {
   if (userStore.user?.role === "teacher") {
-    const { myClasses } = (await fetchMyClasses()) ?? { myClasses: [] }; // 👈 destructure
-    classes.value = myClasses;
+    // const { myClasses } = (await fetchMyClasses()) ?? { myClasses: [] }; // 👈 destructure
+    // classes.value = myClasses;
+    await loadMyClasses();
   } else {
     await loadClasses();
   }

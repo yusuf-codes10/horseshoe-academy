@@ -10,3 +10,8 @@ export const getAllClasses = async (
   } = await api.get("/classes", { params: { page, limit } });
   return { fetchedClasses, classesCount };
 };
+
+export const getMyClasses = async () => {
+  const { data } = await api.get('/classes/me');
+  return data;
+}
