@@ -18,7 +18,7 @@ export const getMyClasses = async (): Promise<{ myClasses: Class[] }> => {
   return { myClasses };
 };
 
-export const getClassById = async (id: string | string[] | undefined): Promise<{foundClass: Class}> => {
+export const getClassById = async (id: string | string[] | undefined): Promise<{foundClass: Class & { subjectName: string } }> => {
   const { data: foundClass } = await api.get(`/classes/${id}`);
   return { foundClass };
 }

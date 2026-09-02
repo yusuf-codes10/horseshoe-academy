@@ -10,7 +10,7 @@ import MainTable from "@/components/shared/MainTable.vue";
 import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
-import { getClassById } from '@/services/class.service';
+import { getClassById } from "@/services/class.service";
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -54,16 +54,14 @@ const toggleModal = () => {
 const loadClassById = async () => {
   loading.value = true;
   try {
-    const currentClass = await getClassById(route.params.classId);
-    console.log(currentClass);
-    foundClass.value = currentClass;
-
+    const { foundClass: fetchedClass } = await getClassById(route.params.classId);
+    foundClass.value = fetchedClass;
   } catch (err) {
     console.log(err);
   } finally {
     loading.value = false;
   }
-}
+};
 
 // const getClassById = async () => {
 //   loading.value = true;
