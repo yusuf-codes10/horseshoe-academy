@@ -11,7 +11,6 @@ import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
 import { getClassById } from '@/services/class.service';
-import { Database } from "lucide-vue-next";
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -55,8 +54,9 @@ const toggleModal = () => {
 const loadClassById = async () => {
   loading.value = true;
   try {
-    const data = await getClassById(route.params.classId);
-    console.log(data);
+    const currentClass = await getClassById(route.params.classId);
+    console.log(currentClass);
+    foundClass.value = currentClass;
 
   } catch (err) {
     console.log(err);
