@@ -78,7 +78,9 @@ const showAvailableTeachers = async () => {
 const fetchTeacher = async () => {
   if (!foundClass.value?.teacherId) return; // optional chaining, no assertion
   try {
-    await getTeacherById(foundClass.value.teacherId);
+    const { foundTeacher } = await getTeacherById(foundClass.value.teacherId);
+    console.log(foundTeacher);
+    assignedTeacher.value = foundTeacher;
   } catch (error) {
     console.log(error);
   }
