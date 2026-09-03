@@ -130,3 +130,9 @@ export type generalUser = RegisterDTO &
     | { role: "student"; gpa: number; degree?: never; major?: never }
     | { role: "teacher"; gpa?: never; degree: string; major: string }
   );
+
+
+// ! Extra Types
+export type ClassDetail = Class & {
+  subjectName: string
+}
