@@ -106,22 +106,6 @@ const scheduleSession = async () => {
   }
 }
 
-// const scheduleSession = async () => {
-//   loading.value = true;
-//   try {
-//     await api.post(`/classes/${route.params.classId}/sessions`, {
-//       name: name.value,
-//       date: date.value,
-//       location: location.value,
-//     });
-//     // console.log(response.data);
-//   } catch (error) {
-//     console.log(error);
-//   } finally {
-//     loading.value = false;
-//   }
-// };
-
 const fetchSessionsPerClass = async () => {
   try {
     const response = await api.get(`/classes/${route.params.classId}/sessions`);
