@@ -27,3 +27,9 @@ export const createClass = async (cls: NewClass): Promise<Class> => {
   const {data} = await api.post('/classes', cls);
   return data;
 }
+
+
+// assign a teacher to a class (by the admin)
+export const assignTeacher = async (id: string | string[] | undefined) => {
+  await api.patch(`/classes/${id}`)
+}
