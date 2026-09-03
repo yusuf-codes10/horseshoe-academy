@@ -12,6 +12,7 @@ import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
 import { getClassById } from "@/services/class.service";
 import { assignTeacher, getTeachers, getTeacherById } from '@/services/teacher.service';
+import { createSession } from "@/services/session.service";
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -86,35 +87,30 @@ const fetchTeacher = async () => {
   }
 }
 
-// ! perfect use case of the null assestion (100% sure not null) and fiaing silently
-// const fetchTeacher = async () => {
-//   try {
-//     // I am 100% that this is not null
-//     if (!foundClass.value!.teacherId) return;
-//     const response = await api.get(`/teachers/${foundClass.value!.teacherId}`);
-//     console.log("current Assigned Teacher:", response.data.foundTeacher);
-//     assignedTeacher.value = response.data.foundTeacher;
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
-console.log("this is the id", route.params.classId);
-
 const scheduleSession = async () => {
-  loading.value = true;
   try {
-    await api.post(`/classes/${route.params.classId}/sessions`, {
-      name: name.value,
-      date: date.value,
-      location: location.value,
-    });
-    // console.log(response.data);
+    await createSession(route.params.classId);
   } catch (error) {
     console.log(error);
-  } finally {
-    loading.value = false;
+
   }
-};
+}
+
+// const scheduleSession = async () => {
+//   loading.value = true;
+//   try {
+//     await api.post(`/classes/${route.params.classId}/sessions`, {
+//       name: name.value,
+//       date: date.value,
+//       location: location.value,
+//     });
+//     // console.log(response.data);
+//   } catch (error) {
+//     console.log(error);
+//   } finally {
+//     loading.value = false;
+//   }
+// };
 
 const fetchSessionsPerClass = async () => {
   try {
