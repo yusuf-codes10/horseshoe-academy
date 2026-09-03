@@ -5,7 +5,7 @@ import BaseInput from "@/components/shared/BaseInput.vue";
 import MainTable from "@/components/shared/MainTable.vue";
 import { ref, onMounted } from "vue";
 import PaginationBar from "@/components/shared/PaginationBar.vue";
-import { getAllEnrollements } from "@/services/enrollement.service";
+import { getAllEnrollments } from "@/services/enrollement.service";
 
 const userStore = useUserStore();
 
@@ -16,13 +16,13 @@ const userStore = useUserStore();
 const enrollements = ref([]);
 const countNumber = ref(0);
 
-const rows = ref(5);
+const limit = ref(5);
 const page = ref(1);
 
 const enrollmentsPath = userStore.user?.role === "student" ? "enrollements/me" : "enrollements";
 
 const loadEnrolls = async () => {
-  const { enrolls, count } = await getAllEnrollements(enrollmentsPath, page.value, rows.value);
+  const { enrolls, count } = await getAllEnrollments(enrollmentsPath, page.value, limit.value);
   enrollements.value = enrolls;
   countNumber.value = count;
 };

@@ -3,8 +3,8 @@ import type { NewUser } from '@classroom/shared';
 
 // type EnrolledStudent = Pick<NewUser, 'id' | 'fullName' | 'username'>;
 
-export const getAllEnrollments = async (page = 1, limit = 5) => {
-  const { data: { enrolls, count } } = await api.get('/enrollements', { params: { page, limit } });
+export const getAllEnrollments = async (enrollementPath: string, page = 1, limit = 5) => {
+  const { data: { enrolls, count } } = await api.get(`${enrollementPath}`, { params: { page, limit } });
   return { enrolls, count };
 }
 
