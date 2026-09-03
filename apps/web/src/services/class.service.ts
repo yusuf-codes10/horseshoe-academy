@@ -30,6 +30,6 @@ export const createClass = async (cls: NewClass): Promise<Class> => {
 
 
 // assign a teacher to a class (by the admin)
-export const assignTeacher = async (id: string | string[] | undefined) => {
-  await api.patch(`/classes/${id}`)
+export const assignTeacher = async (classId: string | string[] | undefined, teacherId: number) => {
+  await api.patch(`/classes/${classId}`, teacherId);
 }

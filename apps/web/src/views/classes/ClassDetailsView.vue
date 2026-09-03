@@ -10,7 +10,7 @@ import MainTable from "@/components/shared/MainTable.vue";
 import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
-import { getClassById } from "@/services/class.service";
+import { getClassById, assignTeacher } from "@/services/class.service";
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -65,16 +65,23 @@ const loadClassById = async () => {
 
 // patch request right here
 // TODO: conditional render assign teacher + all teachers in a dropdown vs assigned teacher + delete
-const assignTeacher = async (teacherId: number) => {
+const patchTeacher = async (teacherId: number) => {
   try {
-    await api.patch(`/classes/${route.params.classId}`, {
-      teacherId: teacherId,
-    });
-    console.log("teacher has been assigned");
+    await assignTeacher(route.params.classId, teacherId)
   } catch (error) {
     console.log(error);
   }
-};
+}
+// const assignTeacher = async (teacherId: number) => {
+//   try {
+//     await api.patch(`/classes/${route.params.classId}`, {
+//       teacherId: teacherId,
+//     });
+//     console.log("teacher has been assigned");
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 const showAvailableTeachers = async () => {
   try {
