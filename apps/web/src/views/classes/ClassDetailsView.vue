@@ -13,6 +13,7 @@ import ActionsBar from "@/components/shared/ActionsBar.vue";
 import { getClassById } from "@/services/class.service";
 import { assignTeacher, getTeachers, getTeacherById } from '@/services/teacher.service';
 import { createSession, getSessionsByClass } from "@/services/session.service";
+import { applyToClass } from '@/services/application.service';
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -118,8 +119,7 @@ const fetchSessionsPerClass = async () => {
 const enrollToClass = async () => {
   loading.value = true;
   try {
-    await api.post(`/classes/${route.params.classId}/applications`);
-    // console.log(response.data);
+    await applyToClass(route.params.classId);
   } catch (error) {
     console.log(error);
   } finally {
