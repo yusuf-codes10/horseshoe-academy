@@ -1,5 +1,5 @@
 import api from "@/services/api";
-import type { Class, NewClass, ClassDetail } from "@classroom/shared";
+import type { Class, NewClass } from "@classroom/shared";
 
 export const getAllClasses = async (
   page = 1,
@@ -26,11 +26,4 @@ export const getClassById = async (id: string | string[] | undefined): Promise<{
 export const createClass = async (cls: NewClass): Promise<Class> => {
   const {data} = await api.post('/classes', cls);
   return data;
-}
-
-
-// assign a teacher to a class (by the admin)
-export const assignTeacher = async (classId: string | string[] | undefined, teacherId: number): Promise<{ updatedClass: ClassDetail | null}> => {
-  const { data: updatedClass } = await api.patch(`/classes/${classId}`, teacherId);
-  return { updatedClass };
 }

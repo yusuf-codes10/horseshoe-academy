@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import { ref, onMounted, computed } from "vue";
+import { ref, onMounted } from "vue";
 import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
 import type { NewUser, Teacher, ClassDetail } from "@classroom/shared";
@@ -10,7 +10,8 @@ import MainTable from "@/components/shared/MainTable.vue";
 import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
-import { getClassById, assignTeacher } from "@/services/class.service";
+import { getClassById } from "@/services/class.service";
+import { assignTeacher } from '@/services/teacher.service';
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -34,7 +35,7 @@ const enrolledStudents = ref([]);
 const sessions = ref([]);
 const isApplied = ref(false);
 
-const open = computed(() => foundClass.value?.enrolledCount <= foundClass.value?.capacity);
+// const open = computed(() => foundClass.value?.enrolledCount <= foundClass.value?.capacity);
 
 const toggleModal = () => {
   isModalOpen.value = !isModalOpen.value;
