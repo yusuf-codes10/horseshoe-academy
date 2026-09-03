@@ -12,7 +12,7 @@ import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
 import { getClassById } from "@/services/class.service";
 import { assignTeacher, getTeachers, getTeacherById } from '@/services/teacher.service';
-import { createSession } from "@/services/session.service";
+import { createSession, getSessionsByClass } from "@/services/session.service";
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -108,9 +108,8 @@ const scheduleSession = async () => {
 
 const fetchSessionsPerClass = async () => {
   try {
-    const response = await api.get(`/classes/${route.params.classId}/sessions`);
-    // console.log("all sessions per this class", response.data);
-    sessions.value = response.data.foundSessions;
+    const { foundSessions } = await getSessionsByClass(route.params.classId);
+    sessions.value = foundSessions;
   } catch (error) {
     console.log(error);
   }
