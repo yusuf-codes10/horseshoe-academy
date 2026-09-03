@@ -1,5 +1,5 @@
 import api from "@/services/api";
-import type { Class, NewClass } from "@classroom/shared";
+import type { Class, NewClass, ClassDetail } from "@classroom/shared";
 
 export const getAllClasses = async (
   page = 1,
@@ -30,7 +30,7 @@ export const createClass = async (cls: NewClass): Promise<Class> => {
 
 
 // assign a teacher to a class (by the admin)
-export const assignTeacher = async (classId: string | string[] | undefined, teacherId: number): Promise<(Class & { subjectName: string })> => {
+export const assignTeacher = async (classId: string | string[] | undefined, teacherId: number): Promise<{ updatedClass: ClassDetail | null}> => {
   const { data: updatedClass } = await api.patch(`/classes/${classId}`, teacherId);
   return { updatedClass };
 }

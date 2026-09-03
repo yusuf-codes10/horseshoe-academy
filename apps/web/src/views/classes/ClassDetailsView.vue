@@ -3,7 +3,7 @@ import { useRoute } from "vue-router";
 import { ref, onMounted, computed } from "vue";
 import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
-import type { NewUser, Teacher, Class } from "@classroom/shared";
+import type { NewUser, Teacher, ClassDetail } from "@classroom/shared";
 import ModalCard from "@/components/ui/ModalCard.vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainTable from "@/components/shared/MainTable.vue";
@@ -33,7 +33,7 @@ const location = ref("");
 //   subjectName: string;
 // };
 
-const foundClass = ref<(Class & { subjectName: string }) | null>(null);
+const foundClass = ref<ClassDetail | null>(null);
 const assignedTeacher = ref<(NewUser & Teacher) | null>(null);
 const loading = ref(false);
 // const error = ref('')
@@ -67,12 +67,13 @@ const loadClassById = async () => {
 // TODO: conditional render assign teacher + all teachers in a dropdown vs assigned teacher + delete
 const patchTeacher = async (teacherId: number) => {
   try {
-    const { data } = await assignTeacher(route.params.classId, teacherId)
-    console.log(data);
+    const { updatedClass } = await assignTeacher(route.params.classId, teacherId);
+    foundClass.value = updatedClass; // update locally, no refetch needed
+    showDropdown.value = false; // close the dropdown
   } catch (error) {
     console.log(error);
   }
-}
+};
 // const assignTeacher = async (teacherId: number) => {
 //   try {
 //     await api.patch(`/classes/${route.params.classId}`, {
