@@ -3,7 +3,7 @@ import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
-import type { NewUser, Teacher, ClassDetail } from "@classroom/shared";
+import type { NewUser, Teacher, ClassDetail, NewSession } from "@classroom/shared";
 import ModalCard from "@/components/ui/ModalCard.vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainTable from "@/components/shared/MainTable.vue";
@@ -88,11 +88,21 @@ const fetchTeacher = async () => {
 }
 
 const scheduleSession = async () => {
+  const session: NewSession = {
+      name: name.value,
+      date: date.value,
+      location: location.value,
+    }
+    loading.value = true;
   try {
-    await createSession(route.params.classId);
+    const created = await createSession(route.params.classId, session);
+    console.log(created);
+
   } catch (error) {
     console.log(error);
-
+  }
+  finally {
+    loading.value = false;
   }
 }
 
