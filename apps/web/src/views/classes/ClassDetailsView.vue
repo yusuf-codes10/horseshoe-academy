@@ -32,7 +32,7 @@ const loading = ref(false);
 
 const isModalOpen = ref(false);
 
-const studentsList = ref([]);
+const studentsList = ref<NewUser []>([]);
 
 const sessions = ref([]);
 const isApplied = ref(false);
