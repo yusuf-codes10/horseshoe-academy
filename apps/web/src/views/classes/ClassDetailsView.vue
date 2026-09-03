@@ -11,7 +11,7 @@ import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
 import { getClassById } from "@/services/class.service";
-import { assignTeacher, getTeachers } from '@/services/teacher.service';
+import { assignTeacher, getTeachers, getTeacherById } from '@/services/teacher.service';
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -75,28 +75,27 @@ const showAvailableTeachers = async () => {
     }
 }
 
-// const showAvailableTeachers = async () => {
+const fetchTeacher = async () => {
+  if (!foundClass.value?.teacherId) return; // optional chaining, no assertion
+  try {
+    await getTeacherById(foundClass.value.teacherId);
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+// ! perfect use case of the null assestion (100% sure not null) and fiaing silently
+// const fetchTeacher = async () => {
 //   try {
-//     const response = await api.get("/teachers");
-//     console.log("all teachers: ", response.data.allTeachers);
-//     teachers.value = response.data.allTeachers;
+//     // I am 100% that this is not null
+//     if (!foundClass.value!.teacherId) return;
+//     const response = await api.get(`/teachers/${foundClass.value!.teacherId}`);
+//     console.log("current Assigned Teacher:", response.data.foundTeacher);
+//     assignedTeacher.value = response.data.foundTeacher;
 //   } catch (error) {
 //     console.log(error);
 //   }
 // };
-
-// ! perfect use case of the null assestion (100% sure not null) and fiaing silently
-const fetchTeacher = async () => {
-  try {
-    // I am 100% that this is not null
-    if (!foundClass.value!.teacherId) return;
-    const response = await api.get(`/teachers/${foundClass.value!.teacherId}`);
-    console.log("current Assigned Teacher:", response.data.foundTeacher);
-    assignedTeacher.value = response.data.foundTeacher;
-  } catch (error) {
-    console.log(error);
-  }
-};
 console.log("this is the id", route.params.classId);
 
 const scheduleSession = async () => {

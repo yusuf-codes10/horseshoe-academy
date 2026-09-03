@@ -12,3 +12,8 @@ export const getTeachers = async (): Promise<{allTeachers: (Teacher & NewUser) [
   const { data: allTeachers } = await api.get('/teachers');
   return { allTeachers };
 }
+
+export const getTeacherById = async (teacherId: number) => {
+  const { data} = await api.get(`/teachers/${teacherId}`);
+  return data;
+}
