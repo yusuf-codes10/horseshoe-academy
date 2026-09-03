@@ -1,7 +1,6 @@
 import { Hono } from "hono";
 import {
   createClass,
-  assignTacherToClass,
   getClassById,
   getAllClasses,
   getMyClasses
@@ -19,9 +18,6 @@ router.get("/", verifyToken, ...getAllClasses);
 
 // get My Classes (teacher)
 router.get('/me', verifyToken, isTeacher, ...getMyClasses);
-
-// assign a teacher to a class
-router.patch("/:classId", verifyToken, ...assignTacherToClass);
 
 // get classes per subject
 // ! ditching this one, as it intrupts the GET classes/:classId
