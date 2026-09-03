@@ -22,17 +22,6 @@ const name = ref("");
 const date = ref("");
 const location = ref("");
 
-// TODO: should probably use whatever is on packages/shared
-// type FoundClass = {
-//   id: number;
-//   code: string;
-//   description?: string;
-//   capacity: number;
-//   subjectId: number;
-//   teacherId?: number;
-//   subjectName: string;
-// };
-
 const foundClass = ref<ClassDetail | null>(null);
 const assignedTeacher = ref<(NewUser & Teacher) | null>(null);
 const loading = ref(false);
@@ -70,20 +59,11 @@ const patchTeacher = async (teacherId: number) => {
     const { updatedClass } = await assignTeacher(route.params.classId, teacherId);
     foundClass.value = updatedClass; // update locally, no refetch needed
     showDropdown.value = false; // close the dropdown
+    console.log("teacher has been assigned");
   } catch (error) {
     console.log(error);
   }
 };
-// const assignTeacher = async (teacherId: number) => {
-//   try {
-//     await api.patch(`/classes/${route.params.classId}`, {
-//       teacherId: teacherId,
-//     });
-//     console.log("teacher has been assigned");
-//   } catch (error) {
-//     console.log(error);
-//   }
-// };
 
 const showAvailableTeachers = async () => {
   try {
