@@ -32,7 +32,7 @@ const loading = ref(false);
 
 const isModalOpen = ref(false);
 
-const enrolledStudents = ref([]);
+const studentsList = ref([]);
 
 const sessions = ref([]);
 const isApplied = ref(false);
@@ -132,7 +132,7 @@ const getEnrolledStudents = async () => {
   try {
     const response = await api.get(`/enrollements/${route.params.classId}`);
     // console.log("all enrollements: ", response.data);
-    enrolledStudents.value = response.data.enrolledStudents;
+    studentsList.value = response.data.enrolledStudents;
   } catch (error) {
     console.log(error);
   }
@@ -258,7 +258,7 @@ onMounted(async () => {
       v-if="userStore.user && hasPermession(userStore.user, 'view:applications')"
       class="bg-popover border border-border rounded-xl p-6"
     >
-      <div v-if="enrolledStudents" class="flex flex-col mb-4">
+      <div v-if="studentsList" class="flex flex-col mb-4">
         <h2 class="font-medium">Enrolled Students</h2>
         <!-- <button class="text-sm text-primary cursor-pointer">+ Enroll Student</button> -->
         <MainTable
@@ -269,7 +269,7 @@ onMounted(async () => {
             // { key: 'classId', label: '' },
             // { key: 'classCode', label: 'Class' },
           ]"
-          :data="enrolledStudents"
+          :data="studentsList"
           :loading="true"
         />
       </div>
