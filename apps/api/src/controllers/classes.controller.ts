@@ -1,12 +1,11 @@
 import { createFactory } from "hono/factory";
-import type { NewClass, NewNotification, JWTPayloadShape } from "@classroom/shared";
+import type { NewClass, JWTPayloadShape } from "@classroom/shared";
 import { insertClassSchema } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
 import { db } from "@/db/index";
 import { classes, subjects, teachers, users, applications } from "@/db/schema";
 import { eq, and } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
-import { pushNotification } from "@/services/pushNotifications";
 
 const factory = createFactory<{ Variables: { class: NewClass } }>();
 
@@ -48,68 +47,6 @@ export const createClass = factory.createHandlers(
 
       console.log("the new class", insertedClass);
       return c.json({ msg: "class has been created", insertedClass });
-    } catch (error) {
-      console.log(error);
-      if (error instanceof HTTPException) throw error;
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
-  },
-);
-
-// asign a teacher to a class
-export const assignTacherToClass = factory.createHandlers(
-  zValidator(
-    "json",
-    insertClassSchema.pick({
-      teacherId: true,
-    }),
-  ),
-  async (c) => {
-    // grab the class id
-    const classId = Number(c.req.param("classId"));
-    const body = c.req.valid("json");
-
-    try {
-      // check if class exists
-      const [foundClass] = await db
-        .select()
-        .from(classes)
-        .where(eq(classes.id, classId));
-
-      if (!foundClass)
-        throw new HTTPException(404, { message: "class not found!" });
-
-      // check if the teacher exists too
-      const [foundTeacher] = await db
-        .select()
-        .from(teachers)
-        .where(eq(teachers.id, Number(body.teacherId)));
-
-      if (!foundTeacher)
-        throw new HTTPException(404, { message: "Teacher does not exist!" });
-
-      // TODO: we need another notification here for assigning a teacher
-      let updatedClass;
-      await db.transaction(async (tx) => {
-        // 1. assign the teacher
-        [updatedClass] = await tx
-          .update(classes)
-          .set({ teacherId: body.teacherId })
-          .where(eq(classes.id, classId))
-          .returning();
-        // 2. notify the teacher
-        // 2. notify the user
-        const notification: NewNotification = {
-          title: "Assigned to A Class",
-          content: "Congratulations! You have been Asigned to...",
-          action: `classes/${classId}`,
-          userId: body.teacherId,
-          isRead: false,
-        };
-        await pushNotification(notification, tx);
-      });
-
-      return c.json({ msg: "teacher assigned", updatedClass });
     } catch (error) {
       console.log(error);
       if (error instanceof HTTPException) throw error;
