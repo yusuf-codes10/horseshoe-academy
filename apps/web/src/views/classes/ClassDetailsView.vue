@@ -11,7 +11,7 @@ import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
 import ActionsBar from "@/components/shared/ActionsBar.vue";
 import { getClassById } from "@/services/class.service";
-import { assignTeacher } from '@/services/teacher.service';
+import { assignTeacher, getTeachers } from '@/services/teacher.service';
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -67,14 +67,23 @@ const patchTeacher = async (teacherId: number) => {
 };
 
 const showAvailableTeachers = async () => {
-  try {
-    const response = await api.get("/teachers");
-    console.log("all teachers: ", response.data.allTeachers);
-    teachers.value = response.data.allTeachers;
-  } catch (error) {
-    console.log(error);
-  }
-};
+    try {
+      const { allTeachers } = await getTeachers();
+      teachers.value = allTeachers;
+    } catch (error) {
+      console.log(error);
+    }
+}
+
+// const showAvailableTeachers = async () => {
+//   try {
+//     const response = await api.get("/teachers");
+//     console.log("all teachers: ", response.data.allTeachers);
+//     teachers.value = response.data.allTeachers;
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };
 
 // ! perfect use case of the null assestion (100% sure not null) and fiaing silently
 const fetchTeacher = async () => {
