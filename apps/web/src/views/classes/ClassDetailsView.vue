@@ -79,7 +79,7 @@ const fetchTeacher = async () => {
   if (!foundClass.value?.teacherId) return; // optional chaining, no assertion
   try {
     const { foundTeacher } = await getTeacherById(foundClass.value.teacherId);
-    console.log(foundTeacher);
+    // console.log(foundTeacher);
     assignedTeacher.value = foundTeacher;
   } catch (error) {
     console.log(error);
@@ -103,12 +103,12 @@ console.log("this is the id", route.params.classId);
 const scheduleSession = async () => {
   loading.value = true;
   try {
-    const response = await api.post(`/classes/${route.params.classId}/sessions`, {
+    await api.post(`/classes/${route.params.classId}/sessions`, {
       name: name.value,
       date: date.value,
       location: location.value,
     });
-    console.log(response.data);
+    // console.log(response.data);
   } catch (error) {
     console.log(error);
   } finally {
@@ -119,7 +119,7 @@ const scheduleSession = async () => {
 const fetchSessionsPerClass = async () => {
   try {
     const response = await api.get(`/classes/${route.params.classId}/sessions`);
-    console.log("all sessions per this class", response.data);
+    // console.log("all sessions per this class", response.data);
     sessions.value = response.data.foundSessions;
   } catch (error) {
     console.log(error);
@@ -129,8 +129,8 @@ const fetchSessionsPerClass = async () => {
 const enrollToClass = async () => {
   loading.value = true;
   try {
-    const response = await api.post(`/classes/${route.params.classId}/applications`);
-    console.log(response.data);
+    await api.post(`/classes/${route.params.classId}/applications`);
+    // console.log(response.data);
   } catch (error) {
     console.log(error);
   } finally {
@@ -142,7 +142,7 @@ const enrollToClass = async () => {
 const getEnrolledStudents = async () => {
   try {
     const response = await api.get(`/enrollements/${route.params.classId}`);
-    console.log("all enrollements: ", response.data);
+    // console.log("all enrollements: ", response.data);
     enrolledStudents.value = response.data.enrolledStudents;
   } catch (error) {
     console.log(error);
@@ -151,12 +151,15 @@ const getEnrolledStudents = async () => {
 
 onMounted(async () => {
   await loadClassById();
+  console.log('foundClass after load:', foundClass.value);
   await Promise.all([
     showAvailableTeachers(),
     fetchTeacher(),
     fetchSessionsPerClass(),
     getEnrolledStudents(),
   ]);
+  console.log('teachers:', teachers.value);
+  console.log('assignedTeacher:', assignedTeacher.value);
 });
 </script>
 

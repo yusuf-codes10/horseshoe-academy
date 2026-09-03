@@ -13,7 +13,7 @@ export const getTeachers = async (): Promise<{allTeachers: (Teacher & NewUser) [
   return { allTeachers };
 }
 
-export const getTeacherById = async (teacherId: number) => {
+export const getTeacherById = async (teacherId: number): Promise<{ foundTeacher: (Teacher & NewUser)}> => {
   const { data: foundTeacher} = await api.get(`/teachers/${teacherId}`);
   return {foundTeacher};
 }
