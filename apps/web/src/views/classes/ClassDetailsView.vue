@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
-import api from "@/services/api";
 import MainButton from "@/components/shared/MainButton.vue";
 import type { NewUser, Teacher, ClassDetail, NewSession } from "@classroom/shared";
 import ModalCard from "@/components/ui/ModalCard.vue";
@@ -14,6 +13,7 @@ import { getClassById } from "@/services/class.service";
 import { assignTeacher, getTeachers, getTeacherById } from '@/services/teacher.service';
 import { createSession, getSessionsByClass } from "@/services/session.service";
 import { applyToClass } from '@/services/application.service';
+import { getEnrolledStudentsByClass } from '@/services/enrollement.service';
 
 const route = useRoute();
 const teachers = ref<(NewUser & Teacher)[]>([]);
@@ -128,11 +128,10 @@ const enrollToClass = async () => {
 };
 
 // get enrolled Students!
-const getEnrolledStudents = async () => {
+const loadEnrolledStudents = async () => {
   try {
-    const response = await api.get(`/enrollements/${route.params.classId}`);
-    // console.log("all enrollements: ", response.data);
-    studentsList.value = response.data.enrolledStudents;
+    const { enrolledStudents } = await getEnrolledStudentsByClass(route.params.classId);
+    studentsList.value = enrolledStudents; // ⚠️ name clash — rename the ref
   } catch (error) {
     console.log(error);
   }
@@ -145,7 +144,7 @@ onMounted(async () => {
     showAvailableTeachers(),
     fetchTeacher(),
     fetchSessionsPerClass(),
-    getEnrolledStudents(),
+    loadEnrolledStudents(),
   ]);
   console.log('teachers:', teachers.value);
   console.log('assignedTeacher:', assignedTeacher.value);
