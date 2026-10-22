@@ -195,3 +195,4 @@ export const logout = factory.createHandlers((c) => {
 
 
 // TODO: 1- fix the url navigation for pagination, always rely on the vue url
+// TODO: add the dashboard and stats in the web app
