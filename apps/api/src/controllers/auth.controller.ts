@@ -192,3 +192,6 @@ export const logout = factory.createHandlers((c) => {
   clearToken(c);
   return c.json({ msg: "logged out succesfuly!" });
 });
+
+
+// TODO: 1- fix the url navigation for pagination, always rely on the vue url
