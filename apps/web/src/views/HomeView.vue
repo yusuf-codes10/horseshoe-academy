@@ -93,7 +93,7 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
         </h1>
 
         <p class="mt-8 max-w-md text-lg leading-relaxed text-text-muted">
-          Classroom keeps departments, subjects, applications and schedules in one place, so admins,
+          Horseshoe Academy keeps departments, subjects, applications and schedules in one place, so admins,
           teachers and students always see the same picture.
         </p>
 
