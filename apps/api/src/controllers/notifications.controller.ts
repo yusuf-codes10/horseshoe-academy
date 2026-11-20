@@ -19,7 +19,7 @@ export const getMyNotifications = factory.createHandlers(async (c) => {
   const page = Number(pageQuery) || 1;
   const limit = Number(limitQuery) || 5;
   const skip = (page - 1) * limit;
-  try {
+
     const allNotifications = await db
       .select()
       .from(notifications)
@@ -29,18 +29,12 @@ export const getMyNotifications = factory.createHandlers(async (c) => {
       .orderBy(notifications.id);
 
     return c.json({ msg: "notifications", allNotifications });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // patch, read
 export const readMyNotification = factory.createHandlers(async (c) => {
   const notificationId = c.req.param("notificationId");
   const payload = c.get("jwtPayload") as JWTPayloadShape;
-  try {
     // 1. making sure the notification exists
     const [foundNotification] = await db
       .select()
@@ -64,17 +58,11 @@ export const readMyNotification = factory.createHandlers(async (c) => {
     if (!readNotification)
       throw new HTTPException(500, { message: "Oops! Somthing went wrong!" });
     return c.json({ msg: "notification has been read!" });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 export const deleteMyNotification = factory.createHandlers(async (c) => {
   const notificationId = c.req.param("notificationId");
   const payload = c.get("jwtPayload") as JWTPayloadShape;
-  try {
     // check if the notification exists (just in case)
     const [notification] = await db
       .select()
@@ -98,16 +86,11 @@ export const deleteMyNotification = factory.createHandlers(async (c) => {
     if (!deleted)
       throw new HTTPException(500, { message: "Something went wrong!" });
     return c.json({ msg: "notification has been deleted!" });
-  } catch (error) {
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // TODO: temporarily get counnt
 export const getMyNotificationsCount = factory.createHandlers(async (c) => {
   const payload = c.get("jwtPayload") as JWTPayloadShape;
-  try {
     const notificationCount = await db.$count(
       notifications,
       and(
@@ -116,9 +99,4 @@ export const getMyNotificationsCount = factory.createHandlers(async (c) => {
       ),
     );
     return c.json({ msg: "count is: ", notificationCount });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });

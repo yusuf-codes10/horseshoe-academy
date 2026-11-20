@@ -17,7 +17,6 @@ export const createSubjectForDepartment = factory.createHandlers(
 
     // grab credentials from the body
     const body = c.req.valid("json");
-    try {
       // we should find department by the code
       // make sure the dep exists
       const [dep] = await db
@@ -37,11 +36,6 @@ export const createSubjectForDepartment = factory.createHandlers(
         })
         .returning();
       return c.json(subject);
-    } catch (error) {
-      console.log(error);
-      if (error instanceof HTTPException) throw error;
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
   },
 );
 
@@ -50,7 +44,6 @@ export const getSubjectByDepId = factory.createHandlers(async (c) => {
   //grab dep id
   const depId = Number(c.req.param("id"));
 
-  try {
     const [foundDep] = await db
       .select()
       .from(departments)
@@ -66,16 +59,12 @@ export const getSubjectByDepId = factory.createHandlers(async (c) => {
       .where(eq(subjects.departmentId, depId));
 
     return c.json(foundSubjects);
-  } catch (error) {
-    console.log(error);
-  }
 });
 
 // delete a subject
 export const deleteSujectById = factory.createHandlers(async (c) => {
   const subjectId = Number(c.req.param("subjectId"));
 
-  try {
     const [foundSubject] = await db
       .select()
       .from(subjects)
@@ -88,18 +77,12 @@ export const deleteSujectById = factory.createHandlers(async (c) => {
     await db.delete(subjects).where(eq(subjects.id, subjectId));
 
     return c.json({ msg: "subject deleted successfuly!" });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 export const getSubjectById = factory.createHandlers(
   async (c) => {
     const subjectId = Number(c.req.param('subjectId'));
 
-    try {
       const [foundSubject] = await db.select()
       .from(subjects)
       .where(eq(subjects.id, subjectId));
@@ -107,11 +90,6 @@ export const getSubjectById = factory.createHandlers(
       if (!foundSubject) throw new HTTPException(404, {message: 'Subject not found!'});
 
       return c.json({msg: 'subject: ', foundSubject});
-    } catch (error) {
-          console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-    }
   }
 );
 
@@ -124,7 +102,6 @@ export const getAllSubjects = factory.createHandlers(
     const page = Number(pageQuery) || 1;
     const limit = Number(limitQuery) || 2;
     const skip = (page - 1) * limit;
-    try {
       const subs = await db.select({
         id: subjects.id,
         name: subjects.name,
@@ -146,8 +123,5 @@ export const getAllSubjects = factory.createHandlers(
 
       const subjectsCount = await db.$count(subjects);
       return c.json({msg: 'subjects', subs, subjectsCount});
-    } catch (error) {
-      console.log(error);
-    }
   }
 );

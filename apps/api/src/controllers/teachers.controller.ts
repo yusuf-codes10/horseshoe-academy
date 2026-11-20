@@ -12,7 +12,6 @@ import { zValidator } from "@hono/zod-validator";
 const factory = createFactory<{ Variables: { teacher: NewTeacher } }>();
 
 export const getAllTeacher = factory.createHandlers(async (c) => {
-  try {
     const allTeachers = await db
       .select({
         id: teachers.id,
@@ -29,17 +28,11 @@ export const getAllTeacher = factory.createHandlers(async (c) => {
       .from(teachers)
       .innerJoin(users, eq(users.id, teachers.id));
     return c.json({ msg: "teachers: ", allTeachers });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // get teacher by id
 export const getTeacherById = factory.createHandlers(async (c) => {
   const teacherId = Number(c.req.param("teacherId"));
-  try {
     const [foundTeacher] = await db
       .select({
         id: teachers.id,
@@ -60,11 +53,6 @@ export const getTeacherById = factory.createHandlers(async (c) => {
     if (!foundTeacher)
       throw new HTTPException(404, { message: "Teacher not found!" });
     return c.json({ msg: "Found Teacher: ", foundTeacher });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // asign a teacher to a class
@@ -80,7 +68,6 @@ export const assignTacherToClass = factory.createHandlers(
     const classId = Number(c.req.param("classId"));
     const body = c.req.valid("json");
 
-    try {
       // check if class exists
       const [foundClass] = await db
         .select()
@@ -121,10 +108,5 @@ export const assignTacherToClass = factory.createHandlers(
       });
 
       return c.json({ msg: "teacher assigned", updatedClass });
-    } catch (error) {
-      console.log(error);
-      if (error instanceof HTTPException) throw error;
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
   },
 );

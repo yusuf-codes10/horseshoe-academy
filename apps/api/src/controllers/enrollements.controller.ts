@@ -30,8 +30,6 @@ export const acceptApplications = factory.createHandlers(
     // const payload = c.get('jwtPayload') as JWTPayloadShape;
     const applicationsId = c.req.param("applicationId");
     const body = c.req.valid("json");
-
-    try {
       await db.transaction(async (tx) => {
         // 1. update application status to accepted
         await tx
@@ -63,11 +61,6 @@ export const acceptApplications = factory.createHandlers(
         await pushNotification(notification, tx);
       });
       return c.json({ msg: "application accepted!" });
-    } catch (error) {
-      console.log(error);
-      if (error instanceof HTTPException) throw error;
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
   },
 );
 
@@ -77,8 +70,6 @@ export const rejectApplication = factory.createHandlers(
   async (c) => {
     const applicationsId = c.req.param("applicationId");
     const body = c.req.valid("json");
-
-    try {
       // check if applications exists!
       const [foundApplication] = await db
         .select()
@@ -108,11 +99,6 @@ export const rejectApplication = factory.createHandlers(
         await pushNotification(notification, tx);
       });
       return c.json({ msg: "application rejected" });
-    } catch (error) {
-      console.log(error);
-      if (error instanceof HTTPException) throw error;
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
   },
 );
 
@@ -127,7 +113,6 @@ export const getEnrolledStudentsPerClass = factory.createHandlers(async (c) => {
   const limit = Number(limitQuery) || 10;
   const skip = (page - 1) * limit;
 
-  try {
     const enrolledStudents = await db
       .select({
         id: enrollements.id,
@@ -150,11 +135,6 @@ export const getEnrolledStudentsPerClass = factory.createHandlers(async (c) => {
       .limit(limit)
       .orderBy(enrollements.id);
     return c.json({ msg: "enrolled students: ", enrolledStudents });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // get my enrollements per student
@@ -169,7 +149,6 @@ export const getMyEnrollements = factory.createHandlers(async (c) => {
 
   const payload = c.get("jwtPayload") as JWTPayloadShape;
 
-  try {
     const enrolls = await db
       .select({
         enrollmentId: enrollements.id,
@@ -193,9 +172,4 @@ export const getMyEnrollements = factory.createHandlers(async (c) => {
       const total = await db.$count(enrollements, eq(enrollements.studentId, Number(payload.id)));
 
     return c.json({ msg: "Your Enrollements", enrolls, count: total });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });

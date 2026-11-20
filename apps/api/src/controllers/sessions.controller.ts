@@ -16,7 +16,6 @@ export const createSession = factory.createHandlers(
     const classId = Number(c.req.param("classId"));
     const body = c.req.valid("json");
 
-    try {
       const [foundClass] = await db
         .select()
         .from(classes)
@@ -36,11 +35,6 @@ export const createSession = factory.createHandlers(
         })
         .returning();
       return c.json({ msg: "new session: ", insertedSession });
-    } catch (error) {
-      console.log(error);
-      if (error instanceof HTTPException) throw error;
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
   },
 );
 
@@ -49,7 +43,6 @@ export const getSessionPerClass = factory.createHandlers(async (c) => {
   // grab classId
   const classId = Number(c.req.param("classId"));
 
-  try {
     // make sure class exist
     const [foundClass] = await db
       .select()
@@ -65,18 +58,12 @@ export const getSessionPerClass = factory.createHandlers(async (c) => {
       .where(eq(sessions.classId, classId));
 
     return c.json({ msg: "session: ", foundSessions });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // get a single session by id
 export const getSessionById = factory.createHandlers(async (c) => {
   // grab the id
   const sessionId = Number(c.req.param("sessionId"));
-  try {
     const [foundSession] = await db
       .select()
       .from(sessions)
@@ -86,19 +73,12 @@ export const getSessionById = factory.createHandlers(async (c) => {
       throw new HTTPException(404, { message: "Session does not exist!" });
 
     return c.json({ msg: "session: ", foundSession });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // delete session
 export const deleteSession = factory.createHandlers(async (c) => {
   // grab the session id
   const sessionId = Number(c.req.param("sessionId"));
-
-  try {
     // make sure the session exist
     const result = await db.delete(sessions).where(eq(sessions.id, sessionId));
 
@@ -106,11 +86,6 @@ export const deleteSession = factory.createHandlers(async (c) => {
       throw new HTTPException(404, { message: "session does not exist" });
 
     return c.json({ msg: "record has been deleted!" });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // get all sessions (admin only)
@@ -121,7 +96,6 @@ export const getAllSessions = factory.createHandlers(async (c) => {
   const page = Number(pageQuery) || 1;
   const limit = Number(limitQuery) || 5;
   const skip = (page - 1) * limit;
-  try {
     const allSessions = await db
       .select()
       .from(sessions)
@@ -133,17 +107,11 @@ export const getAllSessions = factory.createHandlers(async (c) => {
       // return the count too
       const sessionsCount = await db.$count(sessions);
     return c.json({ msg: "All Sessions:", allSessions, sessionsCount });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // get my seesions
 export const getMySessions = factory.createHandlers(async (c) => {
   const payload = c.get("jwtPayload") as JWTPayloadShape;
-  try {
     // check if teacher exists
     const [foundTeacher] = await db
       .select()
@@ -168,10 +136,5 @@ export const getMySessions = factory.createHandlers(async (c) => {
     .innerJoin(classes, eq(classes.id, sessions.classId))
     .where(eq(classes.teacherId, foundTeacher.id));
     return c.json({msg: 'My sessions: ', mySessions});
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 // TODO: next clean the usage of the ! operator when needed

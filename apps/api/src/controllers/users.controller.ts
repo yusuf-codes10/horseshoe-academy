@@ -16,7 +16,6 @@ export const getMyProfile = factory.createHandlers(async (c) => {
   // grab the user id only from the auth middleware
   const payload = c.get("jwtPayload") as JWTPayloadShape;
 
-  try {
     const [baseUser] = await db
       .select({
         id: users.id,
@@ -80,11 +79,6 @@ export const getMyProfile = factory.createHandlers(async (c) => {
       const foundUser = baseUser;
       return c.json({ msg: "user profile: ", foundUser });
     }
-  } catch (error) {
-    if (error instanceof HTTPException) throw error;
-    console.log(error);
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // get another user
@@ -94,7 +88,6 @@ export const getUserProfile = factory.createHandlers(async (c) => {
   if (!username)
     throw new HTTPException(400, { message: "username is required!" });
 
-  try {
     const [baseUser] = await db
       .select({
         id: users.id,
@@ -156,11 +149,6 @@ export const getUserProfile = factory.createHandlers(async (c) => {
       const foundUser = baseUser;
       return c.json({ msg: "user profile: ", foundUser });
     }
-  } catch (error) {
-    if (error instanceof HTTPException) throw error;
-    console.log(error);
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // edit user profile
@@ -172,7 +160,6 @@ export const editUserProfile = factory.createHandlers(
     // starting with the fullName and the username only
     const payload = c.get("jwtPayload") as JWTPayloadShape;
 
-    try {
       // 1- verify user actually exit
       const [profileToEdit] = await db
         .select()
@@ -191,11 +178,6 @@ export const editUserProfile = factory.createHandlers(
         .where(eq(users.id, payload.id));
 
       return c.json({ msg: "profile has been updated!", updatedUser });
-    } catch (error) {
-      if (error instanceof HTTPException) throw error;
-      console.log(error);
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
   },
 );
 // TODO: inner joins to return full users based on role <Teacher | Student | Admin>

@@ -25,8 +25,6 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   const page = Number(pageQuery) || 1;
   const limit = Number(limitQuery) || 5;
   const skip = (page - 1) * limit;
-
-  try {
     // if (subjects_count) {
     // }
     // counts = await db
@@ -56,14 +54,10 @@ export const getAllDeps = factory.createHandlers(async (c) => {
     // const filteredDeps = deps.slice(skip, skip + limit);
 
     return c.json({ msg: "departemetns", deps, depsCount });
-  } catch (error) {
-    console.log(error);
-  }
 });
 
 export const getDepById = factory.createHandlers(async (c) => {
   const id = Number(c.req.param("id"));
-  try {
     const [dep] = await db
       .select()
       .from(departments)
@@ -72,11 +66,6 @@ export const getDepById = factory.createHandlers(async (c) => {
     if (!dep) throw new HTTPException(404, { message: "dep not found" });
 
     return c.json({ msg: "found!", dep });
-  } catch (error) {
-    if (error instanceof HTTPException) throw error;
-    console.log(error);
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 export const createNewDepartment = factory.createHandlers(
@@ -87,7 +76,6 @@ export const createNewDepartment = factory.createHandlers(
     console.log('body', body);
 
     // check is the depratemnt is already in the databse
-    try {
       const [duplicate] = await db
         .select()
         .from(departments)
@@ -105,10 +93,5 @@ export const createNewDepartment = factory.createHandlers(
         })
         .returning();
       return c.json({ msg: "departement has been created!", dep });
-    } catch (error) {
-      if (error instanceof HTTPException) throw error;
-      console.log(error);
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
   },
 );

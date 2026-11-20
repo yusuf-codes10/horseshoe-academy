@@ -17,8 +17,6 @@ export const createClass = factory.createHandlers(
     const body = c.req.valid("json");
 
     const { subjectId, capacity, code, description } = body;
-
-    try {
       // type narrowing for the subjectId
       if (!subjectId)
         throw new HTTPException(400, { message: "Subject ID is required" });
@@ -47,19 +45,12 @@ export const createClass = factory.createHandlers(
 
       console.log("the new class", insertedClass);
       return c.json({ msg: "class has been created", insertedClass });
-    } catch (error) {
-      console.log(error);
-      if (error instanceof HTTPException) throw error;
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
   },
 );
 
 // get classes per subject
 export const getClassesBySubjectId = factory.createHandlers(async (c) => {
   const subjectId = Number(c.req.param("subjectId"));
-
-  try {
     const [foundSubject] = await db
       .select()
       .from(subjects)
@@ -74,11 +65,6 @@ export const getClassesBySubjectId = factory.createHandlers(async (c) => {
       .where(eq(classes.subjectId, subjectId));
 
     return c.json({ msg: "classes...", foundClasses });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // get a single class by id
@@ -87,7 +73,6 @@ export const getClassById = factory.createHandlers(async (c) => {
 
   const payload = c.get("jwtPayload") as JWTPayloadShape;
   // adding the subject name here as an inner join
-  try {
     // TODO: we should migrate and add current student in this class
     const [foundClass] = await db
       .select({
@@ -121,11 +106,6 @@ export const getClassById = factory.createHandlers(async (c) => {
       return c.json({ msg: "class: ", foundClass, isApplied });
     }
     return c.json({ msg: "class: ", foundClass });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 export const getAllClasses = factory.createHandlers(async (c) => {
@@ -138,7 +118,6 @@ export const getAllClasses = factory.createHandlers(async (c) => {
   const skip = (page - 1) * limit;
 
   const payload = c.get("jwtPayload") as JWTPayloadShape;
-  try {
     if (payload.role === "student") {
       const fetchedClasses = await db
         .select({
@@ -190,15 +169,11 @@ export const getAllClasses = factory.createHandlers(async (c) => {
 
       return c.json({ msg: "classes: ", fetchedClasses, classesCount });
     }
-  } catch (error) {
-    console.log(error);
-  }
 });
 
 // get my classes (teacher)
 export const getMyClasses = factory.createHandlers(async (c) => {
   const payload = c.get("jwtPayload") as JWTPayloadShape;
-  try {
     // check if teacher exists
     const [foundTeacher] = await db
       .select()
@@ -223,9 +198,4 @@ export const getMyClasses = factory.createHandlers(async (c) => {
       .innerJoin(users, eq(users.id, teachers.id))
       .where(eq(classes.teacherId, foundTeacher.id));
     return c.json({ msg: "My Classes:", myClasses });
-  } catch (error) {
-    if (error instanceof HTTPException) throw error;
-    console.log(error);
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
