@@ -61,10 +61,7 @@ const logout = async () => {
             <circle cx="18" cy="6.5" r="0.75" />
           </g>
         </svg>
-        <span
-          class="text-xl leading-none text-text-primary"
-          style="font-family: Rye, Georgia, serif"
-        >
+        <span class="text-xl leading-none text-text-primary font-[Rye,Georgia,serif]">
           {{ brand.name }}
         </span>
         <span class="text-sm text-text-muted">{{ brand.suffix }}</span>
