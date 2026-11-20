@@ -18,8 +18,8 @@ const blocks: Block[] = [
 ];
 const blockStyle: Record<Block["v"], string> = {
   solid: "bg-primary text-primary-foreground",
-  soft: "bg-primary/15 border border-primary/40",
-  pending: "bg-amber-400/10 border border-dashed border-amber-400/60",
+  soft: "bg-primary/15 border border-primary/40 text-text-primary",
+  pending: "bg-amber-500/15 border border-dashed border-amber-500/70 text-text-primary",
 };
 
 /* ---------- Roles: switchable preview ---------- */
@@ -65,10 +65,10 @@ const active = ref<RoleKey>("admin");
 const panel = computed(() => roles[active.value]);
 
 const tones: Record<Tone, string> = {
-  accepted: "bg-emerald-400/15 text-emerald-300",
-  pending: "bg-amber-400/15 text-amber-300",
-  rejected: "bg-red-400/15 text-red-300",
-  live: "bg-primary/25 text-primary-foreground",
+  accepted: "bg-emerald-500/20 text-text-primary",
+  pending: "bg-amber-500/20 text-text-primary",
+  rejected: "bg-red-500/20 text-text-primary",
+  live: "bg-primary/20 text-text-primary",
 };
 
 /* ---------- Flow ---------- */
@@ -81,7 +81,7 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
 </script>
 
 <template>
-  <div class="text-primary-foreground">
+  <div class="text-text-primary">
     <!-- Hero -->
     <section class="grid items-center gap-14 px-6 py-16 lg:grid-cols-[1.05fr_1fr] lg:px-10 lg:py-24">
       <div>
@@ -92,7 +92,7 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
           <span class="ml-10 block sm:ml-20 xl:ml-32">Every session.</span>
         </h1>
 
-        <p class="mt-8 max-w-md text-lg leading-relaxed text-primary-foreground/70">
+        <p class="mt-8 max-w-md text-lg leading-relaxed text-text-muted">
           Classroom keeps departments, subjects, applications and schedules in one place, so admins,
           teachers and students always see the same picture.
         </p>
@@ -100,13 +100,13 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
         <div class="mt-8 flex flex-wrap gap-3">
           <RouterLink
             to="/classes"
-            class="inline-flex h-11 items-center rounded-md bg-primary px-6 transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="inline-flex h-11 items-center rounded-md bg-primary px-6 text-primary-foreground transition-opacity hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             Browse classes
           </RouterLink>
           <a
             href="#roles"
-            class="inline-flex h-11 items-center rounded-md border border-primary-foreground/20 px-6 transition-colors hover:border-primary-foreground/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+            class="inline-flex h-11 items-center rounded-md border border-text-muted/40 px-6 transition-colors hover:border-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
           >
             See what each role gets
           </a>
@@ -115,7 +115,7 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
 
       <!-- Right-hand visual. Replace this whole wrapper with an <img> if you prefer. -->
       <div class="relative">
-        <div class="rounded-xl border border-primary-foreground/15 bg-primary-foreground/[0.03] p-4">
+        <div class="rounded-xl border border-text-muted/25 bg-text-primary/[0.03] p-4">
           <div
             class="grid text-sm"
             :style="{ gridTemplateColumns: '3rem repeat(5, minmax(0, 1fr))', gridTemplateRows: 'auto repeat(6, 3.5rem)' }"
@@ -125,7 +125,7 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
             <div
               v-for="(day, i) in days"
               :key="day"
-              class="pb-2 text-center text-primary-foreground/60"
+              class="pb-2 text-center text-text-muted"
               :style="{ gridColumn: i + 2, gridRow: 1 }"
             >
               {{ day }}
@@ -134,11 +134,11 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
             <!-- hour rules + labels -->
             <template v-for="(h, i) in hours" :key="h">
               <div
-                class="border-t border-primary-foreground/10"
+                class="border-t border-text-muted/20"
                 :style="{ gridColumn: '1 / -1', gridRow: i + 2 }"
               />
               <div
-                class="pt-1 text-xs tabular-nums text-primary-foreground/45"
+                class="pt-1 text-xs tabular-nums text-text-muted"
                 :style="{ gridColumn: 1, gridRow: i + 2 }"
               >
                 {{ h }}
@@ -164,7 +164,7 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
         </div>
 
         <div
-          class="absolute -bottom-5 left-4 flex items-center gap-2 rounded-full border border-primary-foreground/15 bg-background px-4 py-2 text-sm lg:-left-6"
+          class="absolute -bottom-5 left-4 flex items-center gap-2 rounded-full border border-text-muted/25 bg-background px-4 py-2 text-sm text-text-primary lg:-left-6"
         >
           <span class="h-2 w-2 rounded-full bg-emerald-400" />
           Application accepted for Class 8
@@ -175,7 +175,7 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
     <!-- Roles -->
     <section
       id="roles"
-      class="scroll-mt-6 border-t border-primary-foreground/10 px-6 py-16 lg:px-10 lg:py-24"
+      class="scroll-mt-6 border-t border-text-muted/20 px-6 py-16 lg:px-10 lg:py-24"
     >
       <div class="grid gap-12 lg:grid-cols-[1fr_1.2fr] lg:items-start">
         <div>
@@ -186,7 +186,7 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
           <div
             role="tablist"
             aria-label="Choose a role"
-            class="mt-8 inline-flex rounded-lg border border-primary-foreground/15 p-1"
+            class="mt-8 inline-flex rounded-lg border border-text-muted/25 p-1"
           >
             <button
               v-for="key in roleKeys"
@@ -194,19 +194,19 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
               role="tab"
               :aria-selected="active === key"
               class="cursor-pointer rounded-md px-4 py-2 transition-colors focus-visible:outline-2 focus-visible:outline-primary"
-              :class="active === key ? 'bg-primary' : 'text-primary-foreground/70 hover:text-primary-foreground'"
+              :class="active === key ? 'bg-primary text-primary-foreground' : 'text-text-muted hover:text-text-primary'"
               @click="active = key"
             >
               {{ roles[key].label }}
             </button>
           </div>
 
-          <p class="mt-6 max-w-md leading-relaxed text-primary-foreground/70">
+          <p class="mt-6 max-w-md leading-relaxed text-text-muted">
             {{ panel.text }}
           </p>
         </div>
 
-        <div class="min-h-72 rounded-xl border border-primary-foreground/15 p-5">
+        <div class="min-h-72 rounded-xl border border-text-muted/25 p-5">
           <Transition name="swap" mode="out-in">
             <div :key="active" role="tabpanel">
               <h3 class="mb-3 font-medium">{{ panel.title }}</h3>
@@ -214,11 +214,11 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
                 <li
                   v-for="row in panel.rows"
                   :key="row.main"
-                  class="flex items-center justify-between gap-4 border-t border-primary-foreground/10 py-3"
+                  class="flex items-center justify-between gap-4 border-t border-text-muted/20 py-3"
                 >
                   <div class="min-w-0">
                     <div class="truncate">{{ row.main }}</div>
-                    <div class="text-sm text-primary-foreground/55">{{ row.sub }}</div>
+                    <div class="text-sm text-text-muted">{{ row.sub }}</div>
                   </div>
                   <span class="shrink-0 rounded-full px-3 py-1 text-sm" :class="tones[row.tone]">
                     {{ row.tag }}
@@ -232,20 +232,20 @@ const stages: { tag: string; tone: Tone; text: string }[] = [
     </section>
 
     <!-- Flow -->
-    <section class="border-t border-primary-foreground/10 px-6 py-16 lg:px-10 lg:py-24">
+    <section class="border-t border-text-muted/20 px-6 py-16 lg:px-10 lg:py-24">
       <h2 class="text-3xl font-semibold tracking-tight md:text-4xl">
         From application to first session
       </h2>
 
       <ol class="relative mt-12 grid gap-8 lg:grid-cols-4">
-        <div class="absolute left-0 right-0 top-3 hidden h-px bg-primary-foreground/15 lg:block" />
+        <div class="absolute left-0 right-0 top-3 hidden h-px bg-text-muted/25 lg:block" />
         <li v-for="s in stages" :key="s.tag" class="relative lg:pt-10">
           <span class="bg-background lg:absolute lg:left-0 lg:top-0 lg:pr-3">
             <span class="inline-block rounded-full px-3 py-1 text-sm" :class="tones[s.tone]">
               {{ s.tag }}
             </span>
           </span>
-          <p class="mt-3 max-w-56 leading-relaxed text-primary-foreground/70 lg:mt-0">
+          <p class="mt-3 max-w-56 leading-relaxed text-text-muted lg:mt-0">
             {{ s.text }}
           </p>
         </li>
