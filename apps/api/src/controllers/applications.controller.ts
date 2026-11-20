@@ -22,7 +22,6 @@ export const createApplication = factory.createHandlers(
     // TODO: replace with c.get('jwtPayload').id once auth middleware is in place
     const payload = c.get("jwtPayload") as JWTPayloadShape;
 
-    try {
       // verify that class exists
       const [foundClass] = await db
         .select()
@@ -69,12 +68,6 @@ export const createApplication = factory.createHandlers(
         await pushNotification(notification, tx);
       });
       return c.json({ msg: "application: ", insertedApplication });
-
-    } catch (error) {
-      console.log(error);
-      if (error instanceof HTTPException) throw error;
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
   },
 );
 
@@ -83,7 +76,6 @@ export const getApplicationsPerClass = factory.createHandlers(async (c) => {
   // grab class id
   const classId = Number(c.req.param("classId"));
 
-  try {
     const [foundClass] = await db
       .select()
       .from(classes)
@@ -98,11 +90,6 @@ export const getApplicationsPerClass = factory.createHandlers(async (c) => {
       .where(eq(applications.classId, classId));
 
     return c.json({ msg: "applications: ", foundApplications });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // get all applications (admin)
@@ -115,7 +102,6 @@ export const getAllApplications = factory.createHandlers(async (c) => {
   const skip = (page - 1) * limit;
 
   const payload = c.get("jwtPayload") as JWTPayloadShape;
-  try {
     if (payload.role === "admin") {
       const allApplications = await db
         .select({
@@ -198,17 +184,11 @@ export const getAllApplications = factory.createHandlers(async (c) => {
     } else {
       throw new HTTPException(403, { message: "forbidden" });
     }
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });
 
 // get Application By id
 export const getApplicationById = factory.createHandlers(async (c) => {
   const applicationId = Number(c.req.param("applicationId"));
-  try {
     const [foundApplication] = await db
       .select({
         id: applications.id,
@@ -229,9 +209,4 @@ export const getApplicationById = factory.createHandlers(async (c) => {
     if (!foundApplication)
       throw new HTTPException(404, { message: "application does not exist!" });
     return c.json({ msg: "foundApplication: ", foundApplication });
-  } catch (error) {
-    console.log(error);
-    if (error instanceof HTTPException) throw error;
-    throw new HTTPException(500, { message: "something went wrong" });
-  }
 });

@@ -20,7 +20,6 @@ export const registerUser = factory.createHandlers(
   zValidator("json", registerSchema),
   async (c) => {
     console.log(process.env.DATABASE_URL);
-    try {
       const body = c.req.valid("json");
 
       // const {username, password, email, fullName} = body;
@@ -45,7 +44,6 @@ export const registerUser = factory.createHandlers(
       console.log("actual user", safeUser);
 
       // check classroom db
-      try {
         const [duplicateUser] = await db
           .select()
           .from(users)
@@ -105,25 +103,12 @@ export const registerUser = factory.createHandlers(
           role: newUser.role,
         });
         return c.json({ user: newUser });
-      } catch (dbError) {
-        console.log("failed inserting user", dbError);
-        if (dbError instanceof HTTPException) throw dbError;
-        throw new HTTPException(500, {
-          message: "registered but classroom setup failed",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      if (error instanceof HTTPException) throw error;
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
   },
 );
 
 export const logUserIn = factory.createHandlers(
   zValidator("json", loginSchema),
   async (c) => {
-    try {
       const body = c.req.valid("json");
       console.log("Sekisho raw response:", JSON.stringify(body, null, 2));
       const response = await fetch("https://sekisho.onrender.com/auth/login", {
@@ -141,7 +126,6 @@ export const logUserIn = factory.createHandlers(
       const { safeUser } = data;
 
       // deal with classroom db
-      try {
         // find user in db
         const [foundUser] = await db
           .select()
@@ -161,19 +145,6 @@ export const logUserIn = factory.createHandlers(
         });
         console.log("actual user", foundUser);
         return c.json({ user: foundUser });
-      } catch (dbError) {
-        console.log("failed inserting user", dbError);
-        if (dbError instanceof HTTPException) throw dbError; // ← let it bubble up
-        throw new HTTPException(500, {
-          message: "registered but classroom setup failed",
-        });
-      }
-    } catch (error) {
-      console.log(error);
-      if (error instanceof HTTPException) throw error;
-
-      throw new HTTPException(500, { message: "something went wrong" });
-    }
   },
 );
 
