@@ -5,25 +5,27 @@ import SecondaryButton from "@/components/shared/SecondaryButton.vue";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import { onMounted } from "vue";
-import { SunMoon } from 'lucide-vue-next';
+import { SunMoon } from "lucide-vue-next";
+import { useThemeStore } from "@/stores/themeStore";
 
+const themeStore = useThemeStore();
 const userStore = useUserStore();
 const router = useRouter();
 
-onMounted(async() => {
+onMounted(async () => {
   await userStore.fetchUser();
   if (!userStore.user) {
-    console.log('no logged in user!');
+    console.log("no logged in user!");
   }
   console.log(userStore.user);
-})
+});
 
 // logout function
 const logout = async () => {
-  console.log('logging out....');
+  console.log("logging out....");
   await userStore.logout();
-  router.push('/');
-}
+  router.push("/");
+};
 </script>
 
 <template>
@@ -32,13 +34,13 @@ const logout = async () => {
     <!-- <MainButton v-if="!userStroe.user" title="Log in" /> -->
     <div class="flex justify-between items-center">
       <!-- <SecondaryButton :isGhost="false" :loading="false" title="Sign In"/> -->
-       <div>
-        <SunMoon />
-       </div>
-       <div v-if="userStore.isLoggedIn">
-         <SecondaryButton @click="logout" title="Log out"/>
+      <div>
+        <SunMoon @click="themeStore.toggleTheme" class="cursor-pointer" :size="20" />
+      </div>
+      <div v-if="userStore.isLoggedIn">
+        <SecondaryButton @click="logout" title="Log out" />
         Welcome {{ userStore.user?.username }}
-       </div>
+      </div>
       <RouterLink v-else :to="{ name: 'Register' }">
         <MainButton title="Sign Up" />
       </RouterLink>
