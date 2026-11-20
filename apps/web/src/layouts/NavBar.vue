@@ -63,7 +63,7 @@ const logout = async () => {
         </svg>
         <span
           class="text-xl leading-none text-text-primary"
-          style="font-family: &quot;Rye&quot;, Georgia, serif"
+          style="font-family: Rye, Georgia, serif"
         >
           {{ brand.name }}
         </span>
