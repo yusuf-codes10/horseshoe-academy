@@ -32,7 +32,7 @@ const logout = async () => {
   <nav class="flex justify-between items-center px-4 py-2 sticky w-full">
     <h1>ClassRoom</h1>
     <!-- <MainButton v-if="!userStroe.user" title="Log in" /> -->
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center gap-4">
       <!-- <SecondaryButton :isGhost="false" :loading="false" title="Sign In"/> -->
       <div>
         <SunMoon @click="themeStore.toggleTheme" class="cursor-pointer" :size="20" />
