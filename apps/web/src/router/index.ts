@@ -1,26 +1,8 @@
-import DashboardView from "@/views/DashboardView.vue";
-import HomeView from "@/views/HomeView.vue";
-import LoginView from "@/views/auth/LoginView.vue";
-import RegisterView from "@/views/auth/RegisterView.vue";
 import { createRouter, createWebHistory } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
-import DashHomeView from "@/views/DashboardHome.vue";
-import DepartmentsView from "@/views/department/DepartmentsView.vue";
-import SubjectsView from "@/views/subject/SubjectsView.vue";
-import CreateDepView from "@/views/department/CreateDepView.vue";
-import CreateSubjectView from "@/views/subject/CreateSubjectView.vue";
 import { hasPermession } from "@/libs/permessions";
 
 import type { Permession } from "@/libs/permessions";
-import ClassesView from "@/views/classes/ClassesView.vue";
-import CreateClassView from "@/views/classes/CreateClassView.vue";
-import ClassDetailsView from "@/views/classes/ClassDetailsView.vue";
-import UserProfileView from "@/views/users/UserProfileView.vue";
-import SessionView from "@/views/sessions/SessionView.vue";
-import ApplicationsView from "@/views/applications/ApplicationsView.vue";
-import ApplicationsDetailsView from "@/views/applications/ApplicationsDetailsView.vue";
-import NotificationsView from "@/views/notifications/NotificationsView.vue";
-import EnrollementsView from "@/views/enrollments/enrollementsView.vue";
 
 declare module "vue-router" {
   interface RouteMeta {
@@ -34,107 +16,109 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: HomeView,
+    component: () => import("@/views/HomeView.vue"),
     meta: { guestOnly: true },
   },
   {
     path: "/register",
     name: "Register",
-    component: RegisterView,
+    component: () => import("@/views/auth/RegisterView.vue"),
     meta: { guestOnly: true },
   },
   {
     path: "/login",
     name: "Login",
-    component: LoginView,
+    component: () => import("@/views/auth/LoginView.vue"),
     meta: { guestOnly: true },
   },
   {
     path: "/",
     name: "Dashboard",
-    component: DashboardView,
+    component: () => import("@/views/DashboardView.vue"),
     meta: { requiresAuth: true },
     children: [
       {
         path: "",
         name: "DashboardHome",
-        component: DashHomeView,
+        component: () => import("@/views/DashboardHome.vue"),
       },
       {
         path: "departments",
         name: "Departments",
-        component: DepartmentsView,
+        component: () => import("@/views/department/DepartmentsView.vue"),
         meta: { requiresAuth: true, permission: "view:departments" } as const,
         children: [
           {
             path: "create",
             name: "CreateDepartment",
-            component: CreateDepView,
+            component: () => import("@/views/department/CreateDepView.vue"),
           },
         ],
       },
       {
         path: "subjects",
         name: "Subjects",
-        component: SubjectsView,
+        component: () => import("@/views/subject/SubjectsView.vue"),
         children: [
           {
             path: "create",
             name: "CreateSubject",
-            component: CreateSubjectView,
+            component: () => import("@/views/subject/CreateSubjectView.vue"),
           },
         ],
       },
       {
         path: "classes",
         name: "Classes",
-        component: ClassesView,
+        component: () => import("@/views/classes/ClassesView.vue"),
         children: [
           {
             path: "create",
             name: "CreateClass",
-            component: CreateClassView,
+            component: () => import("@/views/classes/CreateClassView.vue"),
           },
         ],
       },
       {
         path: "classes/:classId",
         name: "ClasseDetails",
-        component: ClassDetailsView,
+        component: () => import("@/views/classes/ClassDetailsView.vue"),
       },
       {
         path: "sessions",
         name: "Sessions",
-        component: SessionView,
+        component: () => import("@/views/sessions/SessionView.vue"),
       },
       {
         path: "applications",
         name: "Applications",
-        component: ApplicationsView,
+        component: () => import("@/views/applications/ApplicationsView.vue"),
       },
       {
         path: "applications/:applicationId",
         name: "ApplicationsDetails",
-        component: ApplicationsDetailsView,
-      },{
-        path: 'enrollements',
-        name: 'Enrollements',
-        component: EnrollementsView
+        component: () =>
+          import("@/views/applications/ApplicationsDetailsView.vue"),
       },
       {
-        path: 'notifications',
-        name: 'Notifications',
-        component: NotificationsView
+        path: "enrollements",
+        name: "Enrollements",
+        component: () => import("@/views/enrollments/enrollementsView.vue"),
       },
       {
-        path: 'teachers',
-        name: 'Teachers',
-        component: () => import('@/views/teachers/TeachersView.vue'),
+        path: "notifications",
+        name: "Notifications",
+        component: () => import("@/views/notifications/NotificationsView.vue"),
+      },
+      {
+        path: "teachers",
+        name: "Teachers",
+        component: () => import("@/views/teachers/TeachersView.vue"),
       },
       {
         path: ":username",
         name: "UserProfule",
-        component: UserProfileView,
+        component: () => import("@/views/users/UserProfileView.vue"),
       },
     ],
   },
