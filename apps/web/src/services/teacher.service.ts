@@ -9,7 +9,7 @@ export const assignTeacher = async (classId: string | string[] | undefined, teac
 
 // get teachers
 export const getTeachers = async (  page = 1, limit = 5): Promise<{allTeachers: (Teacher & NewUser) [], teachersCount: number}> => {
-  const { data: {allTeachers, teachersCount} } = await api.get("/classes", { params: { page, limit } });
+  const { data: {allTeachers, teachersCount} } = await api.get("/teachers", { params: { page, limit } });
   return { allTeachers, teachersCount };
 }
 
