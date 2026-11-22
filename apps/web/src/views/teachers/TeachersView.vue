@@ -2,7 +2,7 @@
 import ActionsBar from "@/components/shared/ActionsBar.vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
 import MainTable from "@/components/shared/MainTable.vue";
-// import PaginationBar from "@/components/shared/PaginationBar.vue";
+import PaginationBar from "@/components/shared/PaginationBar.vue";
 import { getTeachers } from "@/services/teacher.service";
 import { ref, onMounted } from "vue";
 
@@ -30,8 +30,8 @@ const loadTeachers = async (): Promise<void> => {
   loading.value = true;
   try {
     const { allTeachers, teachersCount } = await getTeachers(page.value, limit.value);
-    teachers.value = allTeachers;
-    count.value = teachersCount;
+    teachers.value = allTeachers ?? [];
+    count.value = teachersCount ?? 0;
   } finally {
     loading.value = false;
   }
