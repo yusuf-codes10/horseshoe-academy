@@ -12,9 +12,9 @@ type TeacherRow = Awaited<ReturnType<typeof getTeachers>>["allTeachers"][number]
 const teachers = ref<TeacherRow[]>([]);
 const loading = ref(false);
 
-// const count = ref(0);
-// const page = ref(1);
-// const limit = ref(5);
+const count = ref(0);
+const page = ref(1);
+const limit = ref(5);
 
 const columns = [
   { key: "id", label: "ID" },
@@ -29,18 +29,19 @@ const columns = [
 const loadTeachers = async (): Promise<void> => {
   loading.value = true;
   try {
-    const { allTeachers } = await getTeachers();
+    const { allTeachers, teachersCount } = await getTeachers(page.value, limit.value);
     teachers.value = allTeachers;
+    count.value = teachersCount;
   } finally {
     loading.value = false;
   }
 };
 
 // Once the service supports pagination:
-// const setRows = async (payload: number) => {
-//   page.value = payload;
-//   await loadTeachers();
-// };
+const setRows = async (payload: number) => {
+  page.value = payload;
+  await loadTeachers();
+};
 
 onMounted(loadTeachers);
 </script>
@@ -65,7 +66,7 @@ onMounted(loadTeachers);
       </MainTable>
 
       <!-- Pagination placeholder: enable when the service returns a count -->
-      <!-- <PaginationBar v-if="count" :count="count" @sendPage="setRows" /> -->
+      <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
     </div>
   </div>
 </template>
