@@ -8,9 +8,9 @@ export const assignTeacher = async (classId: string | string[] | undefined, teac
 }
 
 // get teachers
-export const getTeachers = async (): Promise<{allTeachers: (Teacher & NewUser) []}> => {
-  const { data: {allTeachers} } = await api.get('/teachers');
-  return { allTeachers };
+export const getTeachers = async (): Promise<{allTeachers: (Teacher & NewUser) [], teachersCount: number}> => {
+  const { data: {allTeachers, teachersCount} } = await api.get('/teachers');
+  return { allTeachers, teachersCount };
 }
 
 export const getTeacherById = async (teacherId: number): Promise<{ foundTeacher: (Teacher & NewUser)}> => {
