@@ -11,7 +11,7 @@ import {
   CalendarDays,
   ClipboardList,
   LogOut,
-  GraduationCap
+  GraduationCap,
 } from "lucide-vue-next";
 import { ref } from "vue";
 import type { Component } from "vue";
@@ -76,10 +76,16 @@ const sideBarItem: Item[] = [
     permission: "view:applications",
   },
   {
-    name: 'Enrollements',
+    name: "Enrollements",
     icon: GraduationCap,
-    path: '/enrollements'
-  }
+    path: "/enrollements",
+  },
+  {
+    name: "Teachers",
+    icon: GraduationCap,
+    path: "/teachers",
+    permission: "view:teachers",
+  },
 ] as Item[];
 
 const sideStore = useSideStore();
@@ -97,7 +103,7 @@ const handleLogout = async () => {
 
 const navigateToProfile = () => {
   router.push(`/${userStore.user?.username}`);
-}
+};
 
 // two ways to fix this
 // 1- either use a computed array
@@ -140,7 +146,9 @@ const navigateToProfile = () => {
           :key="index"
           @click="chooseItem(item)"
           :to="item?.path"
-          v-if="userStore.user && (!item.permission || hasPermession(userStore.user, item.permission!))"
+          v-if="
+            userStore.user && (!item.permission || hasPermession(userStore.user, item.permission!))
+          "
         >
           <!-- <LayoutDashboard :size="18" class="shrink-0" />
             -->
@@ -154,8 +162,9 @@ const navigateToProfile = () => {
     <div class="mt-auto border-t border-bg-border px-2 py-2 flex flex-col gap-0.5">
       <!-- User row -->
       <div
-      @click="navigateToProfile"
-      class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg cursor-pointer">
+        @click="navigateToProfile"
+        class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg cursor-pointer"
+      >
         <div
           class="w-7 h-7 rounded-full bg-primary flex items-center justify-center shrink-0 text-sm font-medium text-text-primary"
         >
