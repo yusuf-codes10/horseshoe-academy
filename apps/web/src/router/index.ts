@@ -127,6 +127,11 @@ const routes = [
         component: NotificationsView
       },
       {
+        path: 'teachers',
+        name: 'Teachers',
+        component: () => import('@/views/teachers/TeachersView.vue'),
+      },
+      {
         path: ":username",
         name: "UserProfule",
         component: UserProfileView,
