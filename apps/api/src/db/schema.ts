@@ -32,6 +32,7 @@ export const users = pgTable("users", {
   gender: genderEnum('gender').notNull(),
   fullName: text("fullName"),
   role: roleEnum("role").notNull(),
+  avatarUrl: text("avatarUrl"),
   avatarPublicId: text("avatarPublicId"),
   createdAt: timestamp("createdAt").defaultNow(),
 });
