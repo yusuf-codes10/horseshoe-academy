@@ -153,9 +153,9 @@ export const getUserProfile = factory.createHandlers(async (c) => {
 
 // edit user profile
 export const editUserProfile = factory.createHandlers(
-  zValidator("json", editUserSchema),
+  zValidator("form", editUserSchema),
   async (c) => {
-    const data = c.req.valid("json");
+    const data = c.req.valid("form");
 
     // starting with the fullName and the username only
     const payload = c.get("jwtPayload") as JWTPayloadShape;

@@ -17,6 +17,7 @@ const viewMode = ref(true);
 const form = ref({
   fullName: "",
   username: "",
+  avatarPublicId: ""
 });
 const avatarFile = ref<File | null>(null);
 const loading = ref(false);
@@ -48,6 +49,7 @@ const fetchMyProfile = async () => {
     form.value = {
       fullName: currentUser.value?.fullName,
       username: currentUser.value?.username,
+      avatarPublicId: currentUser.value?.avatarPublicId
     };
   } catch (err) {
     console.log(err);
