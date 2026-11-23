@@ -17,7 +17,7 @@ const viewMode = ref(true);
 const form = ref({
   fullName: "",
   username: "",
-  avatarPublicId: ""
+  avatarPublicId: "",
 });
 const avatarFile = ref<File | null>(null);
 const loading = ref(false);
@@ -49,7 +49,7 @@ const fetchMyProfile = async () => {
     form.value = {
       fullName: currentUser.value?.fullName,
       username: currentUser.value?.username,
-      avatarPublicId: currentUser.value?.avatarPublicId
+      avatarPublicId: currentUser.value?.avatarPublicId,
     };
   } catch (err) {
     console.log(err);
@@ -73,7 +73,16 @@ const fetchUserProfile = async () => {
 const editMyProfile = async () => {
   // TODO: note: we should check if the data really changed or not so we do not waste an API call
   loading.value = true;
+  error.value = "";
   try {
+    const data = new FormData();
+    data.append("fullName", form.value.fullName.trim());
+    data.append("username", form.value.username.trim().toLowerCase());
+    if (avatarFile.value) data.append("avatar", avatarFile.value);
+
+    await api.patch("/users/me", data);
+
+    avatarFile.value = null;
     const response = await api.patch("/users/me", {
       fullName: form.value.fullName.trim(),
       username: form.value.username.trim().toLowerCase(),
@@ -85,13 +94,6 @@ const editMyProfile = async () => {
     loading.value = false;
   }
 };
-
-const data = new FormData();
-data.append("fullName", form.value.fullName.trim());
-data.append("username", form.value.username.trim().toLowerCase());
-if (avatarFile.value) data.append("avatar", avatarFile.value);
-
-await api.patch("/users/me", data);
 
 onMounted(async () => {
   if (isMyProfile.value) {
