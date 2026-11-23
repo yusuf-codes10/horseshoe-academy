@@ -8,6 +8,7 @@ import { AxiosError } from "axios";
 import MainButton from "@/components/MainButton.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
+import AvatarDropzone from "@/components/AvatarDropzone.vue";
 
 const userStore = useUserStore();
 const route = useRoute();
@@ -181,6 +182,7 @@ const canEditProfile = computed(() => isMyProfile.value);
   <!-- edit mode -->
   <div v-else>
     <h1 class="title">Edit mode</h1>
+    <AvatarDropzone />
     <div class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3">
       <label for="">Full Name</label>
       <BaseInput type="text" placeholder="FullName" v-model="form.fullName" />
