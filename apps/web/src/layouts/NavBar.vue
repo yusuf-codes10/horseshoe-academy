@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import MainButton from "@/components/shared/MainButton.vue";
+import MainButton from "@/components/MainButton.vue";
 import SecondaryButton from "@/components/shared/SecondaryButton.vue";
 // import SecondaryButton from '@/components/shared/SecondaryButton.vue';
 import { useUserStore } from "@/stores/userStore";

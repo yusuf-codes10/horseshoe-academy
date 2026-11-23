@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import BaseInput from "@/components/shared/BaseInput.vue";
-import MainButton from "@/components/shared/MainButton.vue";
+import BaseInput from "@/components/BaseInput.vue";
+import MainButton from "@/components/MainButton.vue";
 import { useRouter } from "vue-router";
 import { AxiosError } from "axios";
 import { createClass } from "@/services/class.service";

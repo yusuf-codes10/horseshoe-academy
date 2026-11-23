@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
-import ActionsBar from "@/components/shared/ActionsBar.vue";
-import MainButton from "@/components/shared/MainButton.vue";
+import ActionsBar from "@/components/ActionsBar.vue";
+import MainButton from "@/components/MainButton.vue";
 import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
 import { ref, onMounted, computed } from "vue";

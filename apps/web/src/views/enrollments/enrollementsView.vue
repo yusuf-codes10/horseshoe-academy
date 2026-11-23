@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { useUserStore } from "@/stores/userStore";
-import ActionsBar from "@/components/shared/ActionsBar.vue";
-import BaseInput from "@/components/shared/BaseInput.vue";
-import MainTable from "@/components/shared/MainTable.vue";
+import ActionsBar from "@/components/ActionsBar.vue";
+import BaseInput from "@/components/BaseInput.vue";
+import MainTable from "@/components/MainTable.vue";
 import { ref, onMounted } from "vue";
-import PaginationBar from "@/components/shared/PaginationBar.vue";
+import PaginationBar from "@/components/PaginationBar.vue";
 import { getAllEnrollments } from "@/services/enrollement.service";
 
 const userStore = useUserStore();

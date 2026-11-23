@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import ActionsBar from "@/components/shared/ActionsBar.vue";
-import BaseInput from "@/components/shared/BaseInput.vue";
+import ActionsBar from "@/components/ActionsBar.vue";
+import BaseInput from "@/components/BaseInput.vue";
 import { useUserStore } from "@/stores/userStore";
 // import { hasPermession } from "@/libs/permessions";
-import MainTable from "@/components/shared/MainTable.vue";
-import PaginationBar from "@/components/shared/PaginationBar.vue";
+import MainTable from "@/components/MainTable.vue";
+import PaginationBar from "@/components/PaginationBar.vue";
 import { ref, onMounted } from "vue";
 // import type { NewUser, NewTeacher } from "@classroom/shared";
 import api from "@/services/api";

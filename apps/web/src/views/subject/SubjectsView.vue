@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import ActionsBar from "@/components/shared/ActionsBar.vue";
-import BaseInput from "@/components/shared/BaseInput.vue";
-import MainButton from "@/components/shared/MainButton.vue";
+import ActionsBar from "@/components/ActionsBar.vue";
+import BaseInput from "@/components/BaseInput.vue";
+import MainButton from "@/components/MainButton.vue";
 import { useUserStore } from "@/stores/userStore";
 import { useRouter } from "vue-router";
 import { useRoute } from 'vue-router';
 import { hasPermession } from "@/libs/permessions";
-import MainTable from "@/components/shared/MainTable.vue";
+import MainTable from "@/components/MainTable.vue";
 import { ref, onMounted } from 'vue';
-import PaginationBar from "@/components/shared/PaginationBar.vue";
+import PaginationBar from "@/components/PaginationBar.vue";
 import { getSubjects } from '@/services/subject.service';
 import type { Subject } from "@classroom/shared";
 

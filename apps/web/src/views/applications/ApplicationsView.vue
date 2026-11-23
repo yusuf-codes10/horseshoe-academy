@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import MainTable from "@/components/shared/MainTable.vue";
+import MainTable from "@/components/MainTable.vue";
 import { ref, onMounted } from "vue";
 import api from "@/services/api";
 import { useUserStore } from "@/stores/userStore";
-import PaginationBar from "@/components/shared/PaginationBar.vue";
+import PaginationBar from "@/components/PaginationBar.vue";
 
 const applications = ref([]);
 const userStore = useUserStore();

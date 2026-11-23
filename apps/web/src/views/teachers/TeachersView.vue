@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import ActionsBar from "@/components/shared/ActionsBar.vue";
-import BaseInput from "@/components/shared/BaseInput.vue";
-import MainTable from "@/components/shared/MainTable.vue";
-import PaginationBar from "@/components/shared/PaginationBar.vue";
+import ActionsBar from "@/components/ActionsBar.vue";
+import BaseInput from "@/components/BaseInput.vue";
+import MainTable from "@/components/MainTable.vue";
+import PaginationBar from "@/components/PaginationBar.vue";
 import { getTeachers } from "@/services/teacher.service";
 import { ref, onMounted } from "vue";
 

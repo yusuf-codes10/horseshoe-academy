@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BaseInput from "@/components/shared/BaseInput.vue";
-import MainButton from "@/components/shared/MainButton.vue";
+import BaseInput from "@/components/BaseInput.vue";
+import MainButton from "@/components/MainButton.vue";
 import { ref } from "vue";
 import { createDep } from "@/services/department.service";
 import { AxiosError } from "axios";

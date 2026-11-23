@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import BaseInput from "@/components/shared/BaseInput.vue";
-import MainButton from "@/components/shared/MainButton.vue";
+import BaseInput from "@/components/BaseInput.vue";
+import MainButton from "@/components/MainButton.vue";
 import { ref } from "vue";
 import { School, GraduationCap } from "lucide-vue-next";
 import { useUserStore } from "@/stores/userStore";

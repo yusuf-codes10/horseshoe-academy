@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
-import MainButton from "@/components/shared/MainButton.vue";
+import MainButton from "@/components/MainButton.vue";
 import type { NewUser, Teacher, ClassDetail, NewSession } from "@classroom/shared";
 import ModalCard from "@/components/ui/ModalCard.vue";
-import BaseInput from "@/components/shared/BaseInput.vue";
-import MainTable from "@/components/shared/MainTable.vue";
+import BaseInput from "@/components/BaseInput.vue";
+import MainTable from "@/components/MainTable.vue";
 import { useUserStore } from "@/stores/userStore";
 import { hasPermession } from "@/libs/permessions";
-import ActionsBar from "@/components/shared/ActionsBar.vue";
+import ActionsBar from "@/components/ActionsBar.vue";
 import { getClassById } from "@/services/class.service";
 import { assignTeacher, getTeachers, getTeacherById } from '@/services/teacher.service';
 import { createSession, getSessionsByClass } from "@/services/session.service";

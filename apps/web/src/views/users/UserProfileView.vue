@@ -5,8 +5,8 @@ import { ref, computed, onMounted } from "vue";
 import api from "@/services/api";
 import type { NewUser, NewStudent, NewTeacher } from "@classroom/shared";
 import { AxiosError } from "axios";
-import MainButton from "@/components/shared/MainButton.vue";
-import BaseInput from "@/components/shared/BaseInput.vue";
+import MainButton from "@/components/MainButton.vue";
+import BaseInput from "@/components/BaseInput.vue";
 import UserAvatar from "@/components/UserAvatar.vue";
 
 const userStore = useUserStore();
