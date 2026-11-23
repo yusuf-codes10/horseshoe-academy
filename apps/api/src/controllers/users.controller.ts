@@ -11,6 +11,7 @@ import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
 import { editUserSchema } from "@classroom/shared";
+import { uploadImage } from "@/libs/cloudinary";
 
 const factory = createFactory<{
   Variables: { user: (NewUser & NewStudent) | (NewUser & NewTeacher) };
@@ -187,7 +188,7 @@ export const editUserProfile = factory.createHandlers(
         throw new HTTPException(400, { message: "Image must be under 2MB" });
 
       const { secure_url, public_id } = await uploadImage(file);
-      // updates.avatarUrl = secure_url;
+      updates.avatarUrl = secure_url;
       updates.avatarPublicId = public_id;
     }
 
