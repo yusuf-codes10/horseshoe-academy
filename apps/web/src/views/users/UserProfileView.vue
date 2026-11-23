@@ -196,7 +196,7 @@ const canEditProfile = computed(() => isMyProfile.value);
       <div class="flex flex-col items-center gap-2">
         <AvatarDropzone
           v-model="avatarFile"
-          :current-url="currentUser?.avatarUrl"
+          :current-url="currentUser?.avatarPublicId"
           :name="form.fullName"
           @error="error = $event"
         />
