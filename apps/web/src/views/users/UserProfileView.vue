@@ -18,6 +18,7 @@ const form = ref({
   fullName: "",
   username: "",
 });
+const avatarFile = ref<File | null>(null);
 const loading = ref(false);
 
 //TODO: dicrimate unions to distinguish between each branch
@@ -82,6 +83,13 @@ const editMyProfile = async () => {
     loading.value = false;
   }
 };
+
+const data = new FormData();
+data.append("fullName", form.value.fullName.trim());
+data.append("username", form.value.username.trim().toLowerCase());
+if (avatarFile.value) data.append("avatar", avatarFile.value);
+
+await api.patch("/users/me", data);
 
 onMounted(async () => {
   if (isMyProfile.value) {
@@ -180,17 +188,39 @@ const canEditProfile = computed(() => isMyProfile.value);
     </div>
   </div>
   <!-- edit mode -->
-  <div v-else>
-    <h1 class="title">Edit mode</h1>
-    <AvatarDropzone />
-    <div class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-3">
-      <label for="">Full Name</label>
-      <BaseInput type="text" placeholder="FullName" v-model="form.fullName" />
+  <div v-else class="mx-4 my-6 max-w-xl flex flex-col gap-4">
+    <h1 class="text-2xl font-semibold">Edit profile</h1>
 
-      <label for="">Username</label>
-      <BaseInput placeholder="username" v-model="form.username" />
+    <div class="bg-popover border border-border rounded-xl p-6 flex flex-col gap-5">
+      <!-- Avatar -->
+      <div class="flex flex-col items-center gap-2">
+        <AvatarDropzone
+          v-model="avatarFile"
+          :current-url="currentUser?.avatarUrl"
+          :name="form.fullName"
+          @error="error = $event"
+        />
+        <p class="text-xs text-muted-foreground">JPG, PNG or WebP, max 2MB</p>
+      </div>
 
-      <MainButton @click="editMyProfile" title="Edit Profile" :loading="loading" />
+      <!-- Fields -->
+      <div class="flex flex-col justify-center gap-1.5">
+        <label for="fullName" class="text-sm font-medium">Full Name</label>
+        <BaseInput id="fullName" type="text" placeholder="Full name" v-model="form.fullName" />
+      </div>
+
+      <div class="flex flex-col gap-1.5">
+        <label for="username" class="text-sm font-medium">Username</label>
+        <BaseInput id="username" placeholder="username" v-model="form.username" />
+      </div>
+
+      <p v-if="error" class="text-red-400 text-sm">{{ error }}</p>
+
+      <!-- Actions -->
+      <div class="flex justify-end gap-2 pt-2">
+        <MainButton variant="action" title="Cancel" @click="switchMode" />
+        <MainButton title="Save changes" :loading="loading" @click="editMyProfile" />
+      </div>
     </div>
   </div>
 </template>
