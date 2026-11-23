@@ -7,6 +7,7 @@ import type { NewUser, NewStudent, NewTeacher } from "@classroom/shared";
 import { AxiosError } from "axios";
 import MainButton from "@/components/shared/MainButton.vue";
 import BaseInput from "@/components/shared/BaseInput.vue";
+import UserAvatar from "@/components/UserAvatar.vue";
 
 const userStore = useUserStore();
 const route = useRoute();
@@ -109,11 +110,12 @@ const canEditProfile = computed(() => isMyProfile.value);
     <!-- Profile Header -->
     <div class="bg-popover border border-border rounded-xl p-6 flex items-center gap-6">
       <!-- Avatar -->
-      <div
+      <!-- <div
         class="w-20 h-20 rounded-full bg-accent border border-border flex items-center justify-center text-2xl font-bold text-primary shrink-0"
       >
         {{ currentUser?.fullName?.charAt(0) ?? "?" }}
-      </div>
+      </div> -->
+      <UserAvatar :name="currentUser?.fullName" />
       <!-- Name & username -->
       <div>
         <h1 class="text-2xl font-semibold">{{ currentUser?.fullName }}</h1>
