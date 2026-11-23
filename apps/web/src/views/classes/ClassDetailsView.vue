@@ -3,7 +3,7 @@ import { useRoute } from "vue-router";
 import { ref, onMounted } from "vue";
 import MainButton from "@/components/MainButton.vue";
 import type { NewUser, Teacher, ClassDetail, NewSession } from "@classroom/shared";
-import ModalCard from "@/components/ui/ModalCard.vue";
+import ModalCard from "@/components/ModalCard.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import MainTable from "@/components/MainTable.vue";
 import { useUserStore } from "@/stores/userStore";

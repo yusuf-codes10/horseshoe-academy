@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import api from "@/services/api";
-import NotificationCard from "@/components/notifications/NotificationCard.vue";
+import NotificationCard from "@/components/NotificationCard.vue";
 import type { Notification } from "@classroom/shared";
 
 const notifications = ref<Notification []>([]);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NavigatorBar from "@/components/shared/NavigatorBar.vue";
+import NavigatorBar from "@/components/NavigatorBar.vue";
 import SideBar from "@/layouts/SideBar.vue";
 import TopBar from "@/layouts/TopBar.vue";
 import { useSideStore } from "@/stores/sideStore";
