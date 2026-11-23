@@ -11,7 +11,7 @@ import { eq } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 import { zValidator } from "@hono/zod-validator";
 import { editUserSchema } from "@classroom/shared";
-import { uploadImage } from "@/libs/cloudinary";
+import { uploadImage, cloudinary } from "@/libs/cloudinary";
 
 const factory = createFactory<{
   Variables: { user: (NewUser & NewStudent) | (NewUser & NewTeacher) };
@@ -181,7 +181,7 @@ export const editUserProfile = factory.createHandlers(
     const body = await c.req.parseBody();
     const file = body["avatar"];
 
-        if (file instanceof File) {
+    if (file instanceof File) {
       if (!["image/jpeg", "image/png", "image/webp"].includes(file.type))
         throw new HTTPException(400, { message: "Invalid image type" });
       if (file.size > 2 * 1024 * 1024)
@@ -197,6 +197,10 @@ export const editUserProfile = factory.createHandlers(
 
     // grab the value (actually we do not need to grab any data)
     await db.update(users).set(data).where(eq(users.id, profileToEdit.id));
+
+    // delete the old image only after the new one is saved
+    if (updates.avatarPublicId && profileToEdit.avatarPublicId)
+      await cloudinary.uploader.destroy(profileToEdit.avatarPublicId);
 
     const [updatedUser] = await db
       .select()
