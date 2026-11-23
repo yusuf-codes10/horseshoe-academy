@@ -198,9 +198,17 @@ export const editUserProfile = factory.createHandlers(
     // grab the value (actually we do not need to grab any data)
     await db.update(users).set(data).where(eq(users.id, profileToEdit.id));
 
+    if (updates.avatarPublicId && profileToEdit.avatarPublicId) {
+      try {
+        await cloudinary.uploader.destroy(profileToEdit.avatarPublicId);
+      } catch (err) {
+        console.error("cloudinary destroy failed:", err); // don't fail the request over cleanup
+      }
+    }
+
     // delete the old image only after the new one is saved
-    if (updates.avatarPublicId && profileToEdit.avatarPublicId)
-      await cloudinary.uploader.destroy(profileToEdit.avatarPublicId);
+    // if (updates.avatarPublicId && profileToEdit.avatarPublicId)
+    //   await cloudinary.uploader.destroy(profileToEdit.avatarPublicId);
 
     const [updatedUser] = await db
       .select()
