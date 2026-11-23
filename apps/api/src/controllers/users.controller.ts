@@ -180,6 +180,20 @@ export const editUserProfile = factory.createHandlers(
     const body = await c.req.parseBody();
     const file = body["avatar"];
 
+        if (file instanceof File) {
+      if (!["image/jpeg", "image/png", "image/webp"].includes(file.type))
+        throw new HTTPException(400, { message: "Invalid image type" });
+      if (file.size > 2 * 1024 * 1024)
+        throw new HTTPException(400, { message: "Image must be under 2MB" });
+
+      const { secure_url, public_id } = await uploadImage(file);
+      // updates.avatarUrl = secure_url;
+      updates.avatarPublicId = public_id;
+    }
+
+    if (Object.keys(updates).length === 0)
+      throw new HTTPException(400, { message: "Nothing to update" });
+
     // grab the value (actually we do not need to grab any data)
     await db.update(users).set(data).where(eq(users.id, profileToEdit.id));
 
