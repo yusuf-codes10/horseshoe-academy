@@ -3,34 +3,35 @@ import ActionsBar from "@/components/ActionsBar.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import MainTable from "@/components/MainTable.vue";
 // import PaginationBar from "@/components/shared/PaginationBar.vue";
-import { getTeachers } from "@/services/teacher.service";
+import { getStudents } from "@/services/students.service";
 import { ref, onMounted } from "vue";
 
 // Derived from the service so extra fields (username, email, fullName...) are typed too
-type TeacherRow = Awaited<ReturnType<typeof getTeachers>>["allTeachers"][number];
+type StudentRow = Awaited<ReturnType<typeof getStudents>>["allStudents"][number];
 
-const teachers = ref<TeacherRow[]>([]);
+const students = ref<StudentRow[]>([]);
 const loading = ref(false);
 
 // const count = ref(0);
 // const page = ref(1);
 // const limit = ref(5);
 
-const columns = [
+type Column<T> = { key: keyof T & string; label: string };
+
+
+const columns: Column<StudentRow>[] = [
   { key: "id", label: "ID" },
   { key: "fullName", label: "Full Name" },
   { key: "username", label: "Username" },
   { key: "email", label: "Email" },
-  { key: "degree", label: "Degree" },
-  { key: "major", label: "Major" },
-  { key: "salary", label: "Salary" },
+  { key: "gpa", label: "GPA" },
 ];
 
-const loadTeachers = async (): Promise<void> => {
+const loadStudents = async (): Promise<void> => {
   loading.value = true;
   try {
-    const { allTeachers } = await getTeachers();
-    teachers.value = allTeachers;
+    const { allStudents } = await getStudents();
+    students.value = allStudents;
   } finally {
     loading.value = false;
   }
@@ -42,19 +43,19 @@ const loadTeachers = async (): Promise<void> => {
 //   await loadTeachers();
 // };
 
-onMounted(loadTeachers);
+onMounted(loadStudents);
 </script>
 
 <template>
   <div>
-    <ActionsBar title="Teachers" description="lorem lorem lorem">
+    <ActionsBar title="Students" description="lorem lorem lorem">
       <div class="flex gap-2">
-        <BaseInput type="search" placeholder="Search Teacher" class="h-10" />
+        <BaseInput type="search" placeholder="Search Student" class="h-10" />
       </div>
     </ActionsBar>
 
     <div>
-      <MainTable :columns="columns" :data="teachers" :loading="loading">
+      <MainTable :columns="columns" :data="students" :loading="loading">
         <template #row="{ row }">
           <td v-for="col in columns" :key="col.key" class="py-3 px-4">
             <RouterLink :to="`/${row.username}`" class="block">
