@@ -75,6 +75,8 @@ export const getMyProfile = factory.createHandlers(async (c) => {
         createdAt: users.createdAt,
         gender: users.gender,
         role: users.role,
+        avatarPublicId: users.avatarPublicId,
+        avatarUrl: users.avatarUrl,
 
         // student fields
         gpa: students.gpa,
@@ -107,6 +109,8 @@ export const getUserProfile = factory.createHandlers(async (c) => {
       createdAt: users.createdAt,
       gender: users.gender,
       role: users.role,
+      avatarPublicId: users.avatarPublicId,
+      avatarUrl: users.avatarUrl,
     })
     .from(users)
     .where(eq(users.username, username));
@@ -124,6 +128,8 @@ export const getUserProfile = factory.createHandlers(async (c) => {
         createdAt: users.createdAt,
         gender: users.gender,
         role: users.role,
+        avatarPublicId: users.avatarPublicId,
+        avatarUrl: users.avatarUrl,
 
         // teacher fields
         degree: teachers.degree,
@@ -145,6 +151,8 @@ export const getUserProfile = factory.createHandlers(async (c) => {
         createdAt: users.createdAt,
         gender: users.gender,
         role: users.role,
+        avatarPublicId: users.avatarPublicId,
+        avatarUrl: users.avatarUrl,
 
         // student fields
         gpa: students.gpa,
