@@ -18,6 +18,7 @@ import type { Component } from "vue";
 import type { Permession } from "@/libs/permessions";
 import { hasPermession } from "@/libs/permessions";
 import { useRouter } from "vue-router";
+import UserAvatar from "@/components/UserAvatar.vue";
 
 defineProps({
   isOpen: {
@@ -165,11 +166,8 @@ const navigateToProfile = () => {
         @click="navigateToProfile"
         class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg cursor-pointer"
       >
-        <div
-          class="w-7 h-7 rounded-full bg-primary flex items-center justify-center shrink-0 text-sm font-medium text-text-primary"
-        >
-          {{ userStore.user?.fullName?.charAt(0) ?? "?" }}
-        </div>
+                <UserAvatar :name="userStore.user?.fullName" :src="userStore.user?.avatarUrl" :size="40"/>
+
         <transition
           enter-active-class="transition-opacity duration-150 ease-in"
           leave-active-class="transition-opacity duration-150 ease-in"
