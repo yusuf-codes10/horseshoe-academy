@@ -1,4 +1,4 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends Record<string, any>">
 type Column = {
   key: string;
   label: string;
@@ -8,10 +8,14 @@ type Column = {
 
 const props = defineProps<{
   columns: Column[];
-  data: Record<string, unknown>[];
+  data: T[];
   loading?: boolean;
   limit?: number;
   clickable?: boolean;
+}>();
+
+defineSlots<{
+  row(props: { row: T; index: number }): unknown;
 }>();
 </script>
 

@@ -17,7 +17,9 @@ const count = ref(0);
 const page = ref(1);
 const limit = ref(5);
 
-const columns = [
+type Column<T> = { key: keyof T & string; label: string };
+
+const columns: Column<TeacherRow>[] = [
   { key: "id", label: "ID" },
   { key: "avatarUrl", label: "PIC" },
   { key: "fullName", label: "Full Name" },
