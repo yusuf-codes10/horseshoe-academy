@@ -80,13 +80,19 @@ const sideBarItem: Item[] = [
     name: "Enrollements",
     icon: GraduationCap,
     path: "/enrollements",
-    permission: "view:enrollements"
+    permission: "view:enrollements",
   },
   {
     name: "Teachers",
     icon: GraduationCap,
     path: "/teachers",
     permission: "view:teachers",
+  },
+  {
+    name: "Students",
+    icon: GraduationCap,
+    path: "/students",
+    permission: "view:students",
   },
 ] as Item[];
 
@@ -167,7 +173,7 @@ const navigateToProfile = () => {
         @click="navigateToProfile"
         class="flex items-center gap-2.5 px-2.5 py-2 rounded-lg cursor-pointer"
       >
-                <UserAvatar :name="userStore.user?.fullName" :src="userStore.user?.avatarUrl" :size="40"/>
+        <UserAvatar :name="userStore.user?.fullName" :src="userStore.user?.avatarUrl" :size="40" />
 
         <transition
           enter-active-class="transition-opacity duration-150 ease-in"
