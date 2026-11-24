@@ -14,6 +14,8 @@ export const getAllStudents = factory.createHandlers(async (c) => {
   const limit = Number(limitQuery) || 10;
   const skip = (page - 1) * limit;
 
+    const studentsCount = await db.$count(students);
+
   const allStudents = await db
     .select({
       id: students.id,
@@ -32,5 +34,5 @@ export const getAllStudents = factory.createHandlers(async (c) => {
     .offset(skip)
     .limit(limit)
     .orderBy(students.id);
-  return c.json({ msg: "all Students...", allStudents });
+  return c.json({ msg: "all Students...", allStudents, studentsCount });
 });
