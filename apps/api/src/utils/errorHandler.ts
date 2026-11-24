@@ -8,6 +8,10 @@ const errorHandler = (err: Error & { status?: StatusCode }, c: Context) => {
   // ContentfulStatusCode: in hono, a status code that is allowed to have a response body
   const isHttp = err instanceof HTTPException;
   const status = (err.status ?? 500) as ContentfulStatusCode;
+
+  const cause = (err as any).cause;
+  console.error("db cause:", cause?.code, cause?.constraint_name, cause?.detail ?? cause?.message);
+  
   console.error(
     chalk.red(`[ERROR] ${c.req.method} ${c.req.path}`) +
       chalk.gray(` → ${status} ${err.message}`),
