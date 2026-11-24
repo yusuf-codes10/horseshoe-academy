@@ -5,6 +5,7 @@ import MainTable from "@/components/MainTable.vue";
 import PaginationBar from "@/components/PaginationBar.vue";
 import { getTeachers } from "@/services/teacher.service";
 import { ref, onMounted } from "vue";
+import UserAvatar from "@/components/UserAvatar.vue";
 
 // Derived from the service so extra fields (username, email, fullName...) are typed too
 type TeacherRow = Awaited<ReturnType<typeof getTeachers>>["allTeachers"][number];
@@ -18,6 +19,7 @@ const limit = ref(5);
 
 const columns = [
   { key: "id", label: "ID" },
+  { key: "avatarUrl", label: "PIC" },
   { key: "fullName", label: "Full Name" },
   { key: "username", label: "Username" },
   { key: "email", label: "Email" },
@@ -58,6 +60,12 @@ onMounted(loadTeachers);
       <MainTable :columns="columns" :data="teachers" :loading="loading">
         <template #row="{ row }">
           <td v-for="col in columns" :key="col.key" class="py-3 px-4">
+            <UserAvatar
+              v-if="col.key === 'avatarUrl'"
+              :src="row.avatarUrl"
+              :name="row.fullName"
+              :size="36"
+            />
             <RouterLink :to="`/${row.username}`" class="block">
               {{ row[col.key] }}
             </RouterLink>
