@@ -3,7 +3,7 @@ import type { ClassDetail, Teacher, NewUser } from '@classroom/shared';
 
 // assign a teacher to a class (by the admin)
 export const assignTeacher = async (classId: string | string[] | undefined, teacherId: number): Promise<{ updatedClass: ClassDetail | null}> => {
-  const { data: {updatedClass} } = await api.patch(`/teachers/${classId}`, teacherId);
+  const { data: {updatedClass} } = await api.patch(`/teachers/${classId}`, {teacherId});
   return { updatedClass };
 }
 
