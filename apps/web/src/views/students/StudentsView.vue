@@ -2,9 +2,11 @@
 import ActionsBar from "@/components/ActionsBar.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import MainTable from "@/components/MainTable.vue";
-// import PaginationBar from "@/components/shared/PaginationBar.vue";
+import PaginationBar from "@/components/PaginationBar.vue";
 import { getStudents } from "@/services/students.service";
 import { ref, onMounted } from "vue";
+import UserAvatar from "@/components/UserAvatar.vue";
+
 
 // Derived from the service so extra fields (username, email, fullName...) are typed too
 type StudentRow = Awaited<ReturnType<typeof getStudents>>["allStudents"][number];
@@ -21,6 +23,7 @@ type Column<T> = { key: keyof T & string; label: string };
 
 const columns: Column<StudentRow>[] = [
   { key: "id", label: "ID" },
+  { key: "avatarUrl", label: "PIC"},
   { key: "fullName", label: "Full Name" },
   { key: "username", label: "Username" },
   { key: "email", label: "Email" },
@@ -60,7 +63,13 @@ onMounted(loadStudents);
         <template #row="{ row }">
           <td v-for="col in columns" :key="col.key" class="py-3 px-4">
             <RouterLink :to="`/${row.username}`" class="block">
-              {{ row[col.key] }}
+              <UserAvatar
+                v-if="col.key === 'avatarUrl'"
+                :src="row.avatarUrl"
+                :name="row.fullName"
+                :size="36"
+              />
+              <template v-else>{{ row[col.key] }}</template>
             </RouterLink>
           </td>
         </template>
