@@ -161,61 +161,72 @@ export const getUserProfile = factory.createHandlers(async (c) => {
 export const editUserProfile = factory.createHandlers(
   zValidator("form", editUserSchema),
   async (c) => {
-    const data = c.req.valid("form");
+    try {
+      // debugging...
+      console.log("content-type:", c.req.header("content-type"));
+      console.log("raw body:", await c.req.parseBody());
+      console.log("validated:", c.req.valid("form"));
 
-    // starting with the fullName and the username only
-    const payload = c.get("jwtPayload") as JWTPayloadShape;
+      const data = c.req.valid("form");
 
-    // 1- verify user actually exit
-    const [profileToEdit] = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, payload.id));
+      // starting with the fullName and the username only
+      const payload = c.get("jwtPayload") as JWTPayloadShape;
 
-    if (!profileToEdit)
-      throw new HTTPException(404, { message: "user does not exist!" });
+      // 1- verify user actually exit
+      const [profileToEdit] = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, payload.id));
 
-    const updates: Partial<typeof users.$inferInsert> = { ...data };
+      if (!profileToEdit)
+        throw new HTTPException(404, { message: "user does not exist!" });
 
-    // avatar (optional)
-    const body = await c.req.parseBody();
-    const file = body["avatar"];
+      const updates: Partial<typeof users.$inferInsert> = { ...data };
 
-    if (file instanceof File) {
-      if (!["image/jpeg", "image/png", "image/webp"].includes(file.type))
-        throw new HTTPException(400, { message: "Invalid image type" });
-      if (file.size > 2 * 1024 * 1024)
-        throw new HTTPException(400, { message: "Image must be under 2MB" });
+      // avatar (optional)
+      const body = await c.req.parseBody();
+      const file = body["avatar"];
 
-      const { secure_url, public_id } = await uploadImage(file);
-      updates.avatarUrl = secure_url;
-      updates.avatarPublicId = public_id;
-    }
+      if (file instanceof File) {
+        if (!["image/jpeg", "image/png", "image/webp"].includes(file.type))
+          throw new HTTPException(400, { message: "Invalid image type" });
+        if (file.size > 2 * 1024 * 1024)
+          throw new HTTPException(400, { message: "Image must be under 2MB" });
 
-    if (Object.keys(updates).length === 0)
-      throw new HTTPException(400, { message: "Nothing to update" });
-
-    // grab the value (actually we do not need to grab any data)
-    await db.update(users).set(data).where(eq(users.id, profileToEdit.id));
-
-    if (updates.avatarPublicId && profileToEdit.avatarPublicId) {
-      try {
-        await cloudinary.uploader.destroy(profileToEdit.avatarPublicId);
-      } catch (err) {
-        console.error("cloudinary destroy failed:", err); // don't fail the request over cleanup
+        const { secure_url, public_id } = await uploadImage(file);
+        updates.avatarUrl = secure_url;
+        updates.avatarPublicId = public_id;
       }
+
+      if (Object.keys(updates).length === 0)
+        throw new HTTPException(400, { message: "Nothing to update" });
+
+      // grab the value (actually we do not need to grab any data)
+      // ! possible bug
+      await db.update(users).set(updates).where(eq(users.id, profileToEdit.id));
+
+      if (updates.avatarPublicId && profileToEdit.avatarPublicId) {
+        try {
+          await cloudinary.uploader.destroy(profileToEdit.avatarPublicId);
+        } catch (err) {
+          console.error("cloudinary destroy failed:", err); // don't fail the request over cleanup
+        }
+      }
+
+      // delete the old image only after the new one is saved
+      // if (updates.avatarPublicId && profileToEdit.avatarPublicId)
+      //   await cloudinary.uploader.destroy(profileToEdit.avatarPublicId);
+
+      const [updatedUser] = await db
+        .select()
+        .from(users)
+        .where(eq(users.id, payload.id));
+
+      return c.json({ msg: "profile has been updated!", updatedUser });
+    } catch (err) {
+      console.error("cause:", (err as any).cause);
+      throw err;
     }
-
-    // delete the old image only after the new one is saved
-    // if (updates.avatarPublicId && profileToEdit.avatarPublicId)
-    //   await cloudinary.uploader.destroy(profileToEdit.avatarPublicId);
-
-    const [updatedUser] = await db
-      .select()
-      .from(users)
-      .where(eq(users.id, payload.id));
-
-    return c.json({ msg: "profile has been updated!", updatedUser });
   },
 );
 // TODO: inner joins to return full users based on role <Teacher | Student | Admin>
