@@ -60,14 +60,14 @@ onMounted(loadTeachers);
       <MainTable :columns="columns" :data="teachers" :loading="loading">
         <template #row="{ row }">
           <td v-for="col in columns" :key="col.key" class="py-3 px-4">
-            <UserAvatar
-              v-if="col.key === 'avatarUrl'"
-              :src="row.avatarUrl"
-              :name="row.fullName"
-              :size="36"
-            />
             <RouterLink :to="`/${row.username}`" class="block">
-              {{ row[col.key] }}
+              <UserAvatar
+                v-if="col.key === 'avatarUrl'"
+                :src="row.avatarUrl"
+                :name="row.fullName"
+                :size="36"
+              />
+              <template v-else>{{ row[col.key] }}</template>
             </RouterLink>
           </td>
         </template>

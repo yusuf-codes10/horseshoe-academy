@@ -31,6 +31,8 @@ export const getAllTeacher = factory.createHandlers(async (c) => {
       createdAt: users.createdAt,
       degree: teachers.degree,
       major: teachers.major,
+      avatarPublicId: users.avatarPublicId,
+      avatarUrl: users.avatarUrl,
       salary: teachers.salary,
     })
     .from(teachers)
@@ -56,6 +58,8 @@ export const getTeacherById = factory.createHandlers(async (c) => {
       degree: teachers.degree,
       major: teachers.major,
       salary: teachers.salary,
+      avatarPublicId: users.avatarPublicId,
+      avatarUrl: users.avatarUrl,
     })
     .from(teachers)
     .innerJoin(users, eq(users.id, teachers.id))
