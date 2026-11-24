@@ -9,6 +9,7 @@ import classesRouter from '@/routes/classes.route';
 import sessionRouter from '@/routes/sessions.route';
 import applicationRouter from '@/routes/applications.route';
 import teachersRouter from '@/routes/teachers.route';
+import studentsRouter from '@/routes/students.route';
 import usersRouter from '@/routes/users.route';
 import enrollmentsRouter from '@/routes/enrollements.route';
 import notificationsRouter from '@/routes/notifications.route';
@@ -31,6 +32,7 @@ server.route('/auth', authRouter);
 server.route('/users', usersRouter);
 //? might need some flat routes too
 server.route('/teachers', teachersRouter);
+server.route('/students', studentsRouter);
 server.route('/departments', DepRouter);
 server.route('/subject', SubjectRouter);
 server.route('/departments/:id/subjects', SubjectRouter);
