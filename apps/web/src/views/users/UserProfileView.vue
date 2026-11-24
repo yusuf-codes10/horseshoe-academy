@@ -17,7 +17,7 @@ const viewMode = ref(true);
 const form = ref({
   fullName: "",
   username: "",
-  avatarPublicId: "",
+  avatarUrl: "",
 });
 const avatarFile = ref<File | null>(null);
 const loading = ref(false);
@@ -49,7 +49,7 @@ const fetchMyProfile = async () => {
     form.value = {
       fullName: currentUser.value?.fullName,
       username: currentUser.value?.username,
-      avatarPublicId: currentUser.value?.avatarPublicId,
+      avatarUrl: currentUser.value?.avatarUrl,
     };
   } catch (err) {
     console.log(err);
@@ -125,7 +125,7 @@ const canEditProfile = computed(() => isMyProfile.value);
       >
         {{ currentUser?.fullName?.charAt(0) ?? "?" }}
       </div> -->
-      <UserAvatar :name="currentUser?.fullName" />
+      <UserAvatar :name="currentUser?.fullName" :src="currentUser?.avatarUrl" />
       <!-- Name & username -->
       <div>
         <h1 class="text-2xl font-semibold">{{ currentUser?.fullName }}</h1>
@@ -197,7 +197,7 @@ const canEditProfile = computed(() => isMyProfile.value);
       <div class="flex flex-col items-center gap-2">
         <AvatarDropzone
           v-model="avatarFile"
-          :current-url="currentUser?.avatarPublicId"
+          :current-url="currentUser?.avatarUrl"
           :name="form.fullName"
           @error="error = $event"
         />
