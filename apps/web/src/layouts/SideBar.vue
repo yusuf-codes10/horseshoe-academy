@@ -80,6 +80,7 @@ const sideBarItem: Item[] = [
     name: "Enrollements",
     icon: GraduationCap,
     path: "/enrollements",
+    permission: "view:enrollements"
   },
   {
     name: "Teachers",
