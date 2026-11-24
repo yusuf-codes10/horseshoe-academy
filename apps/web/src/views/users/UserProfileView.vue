@@ -83,11 +83,8 @@ const editMyProfile = async () => {
     await api.patch("/users/me", data);
 
     avatarFile.value = null;
-    const response = await api.patch("/users/me", {
-      fullName: form.value.fullName.trim(),
-      username: form.value.username.trim().toLowerCase(),
-    });
-    console.log(response.data);
+    await fetchMyProfile(); // refresh so the new avatarUrl shows
+    viewMode.value = true;
   } catch (error) {
     console.log(error);
   } finally {
