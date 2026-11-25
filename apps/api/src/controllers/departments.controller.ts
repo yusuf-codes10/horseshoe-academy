@@ -4,7 +4,7 @@ import { insertDepartmentSchema } from "@classroom/shared";
 import { zValidator } from "@hono/zod-validator";
 import { db } from "@/db/index";
 import { departments, subjects } from "@/db/schema";
-import { count, eq, ilike } from "drizzle-orm";
+import { count, eq, ilike, and } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 
 const factory = createFactory<{ Variables: { department: NewDepartment } }>();
@@ -25,6 +25,8 @@ export const getAllDeps = factory.createHandlers(async (c) => {
   if (searchQuery !== undefined)
     conditions.push(ilike(departments.name, `%${searchQuery}%`));
 
+  const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+
   const deps = await db
     .select({
       id: departments.id,
@@ -36,6 +38,7 @@ export const getAllDeps = factory.createHandlers(async (c) => {
     .from(departments)
     .leftJoin(subjects, eq(subjects.departmentId, departments.id))
     .groupBy(departments.id)
+    .where(whereClause)
     .limit(limit)
     .offset(skip)
     .orderBy(departments.id);
