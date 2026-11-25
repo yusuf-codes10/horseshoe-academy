@@ -9,8 +9,8 @@ import { hasPermession } from "@/libs/permessions";
 import { useUserStore } from "@/stores/userStore";
 import { ref, onMounted } from "vue";
 import PaginationBar from "@/components/PaginationBar.vue";
-import { getAllDepartments } from '@/services/department.service';
-import type { Department } from '@classroom/shared';
+import { getAllDepartments } from "@/services/department.service";
+import type { Department } from "@classroom/shared";
 // import type { NewDepartment } from '@classroom/shared';
 
 const departments = ref<Department[]>([]);
@@ -35,10 +35,10 @@ if (userStore.user) {
 }
 
 const loadDeps = async () => {
-  const {deps, depsCount} = await getAllDepartments(departmentsPath, page.value, limit.value);
+  const { deps, depsCount } = await getAllDepartments(departmentsPath, page.value, limit.value);
   departments.value = deps;
   count.value = depsCount;
-}
+};
 
 // emit handler
 const setRows = async (payload: number) => {
@@ -52,7 +52,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div>
+  <div v-if="route.name !== 'CreateDepartment'">
     <!-- <h2 class="title">Departments</h2> -->
     <ActionsBar title="Departments" description="lorem lorem">
       <div class="flex gap-2">
@@ -79,5 +79,8 @@ onMounted(async () => {
       />
       <PaginationBar v-if="count" :count="count" @sendPage="setRows" />
     </div>
+  </div>
+  <div v-else>
+    <RouterView />
   </div>
 </template>
