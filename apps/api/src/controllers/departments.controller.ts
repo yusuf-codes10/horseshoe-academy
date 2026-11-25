@@ -32,7 +32,7 @@ export const getAllDeps = factory.createHandlers(async (c) => {
       id: departments.id,
       code: departments.code,
       name: departments.name,
-      departments: departments.description,
+      description: departments.description,
       subjectsCount: count(subjects.id),
     })
     .from(departments)
