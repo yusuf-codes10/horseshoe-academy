@@ -26,6 +26,8 @@ const count = ref(0);
 
 const departmentsPath = "departments";
 
+const searchInput = ref<string>('');
+
 const createDep = () => {
   router.push({ name: "CreateDepartment" });
 };
@@ -39,6 +41,11 @@ const loadDeps = async () => {
   departments.value = deps;
   count.value = depsCount;
 };
+
+const searchDep = async () => {
+  const { deps } = await getAllDepartments(`departments?search=${searchInput.value}`, page.value, limit.value);
+  departments.value = deps;
+}
 
 // emit handler
 const setRows = async (payload: number) => {
@@ -56,7 +63,7 @@ onMounted(async () => {
     <!-- <h2 class="title">Departments</h2> -->
     <ActionsBar title="Departments" description="lorem lorem">
       <div class="flex gap-2">
-        <BaseInput type="search" placeholder="Search Department" class="h-10" />
+        <BaseInput v-model="searchInput" type="search" placeholder="Search Department" class="h-10" @keyup.enter="searchDep" />
         <MainButton
           v-if="userStore.user && hasPermession(userStore.user, 'create:departments')"
           title="Create"
