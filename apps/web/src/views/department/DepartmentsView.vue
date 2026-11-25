@@ -43,8 +43,9 @@ const loadDeps = async () => {
 };
 
 const searchDep = async () => {
-  const { deps } = await getAllDepartments(`departments?search=${searchInput.value}`, page.value, limit.value);
+  const { deps, depsCount } = await getAllDepartments(`departments?search=${searchInput.value}`, page.value, limit.value);
   departments.value = deps;
+  count.value = depsCount;
 }
 
 // emit handler
