@@ -31,7 +31,7 @@ const createSubject = () => {
 };
 
 const loadSubjects = async () => {
-  const { subjectsCount, subs } = await getSubjects(page.value, limit.value);
+  const { subjectsCount, subs } = await getSubjects( `/${subjectPAth}`,page.value, limit.value);
   subjects.value = subs;
   count.value = subjectsCount;
 };
