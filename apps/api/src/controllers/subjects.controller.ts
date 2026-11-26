@@ -127,6 +127,7 @@ export const getAllSubjects = factory.createHandlers(async (c) => {
     .from(subjects)
     .innerJoin(departments, eq(departments.id, subjects.departmentId))
     .groupBy(subjects.id, departments.id)
+    .where(whereClause)
     .limit(limit)
     .offset(skip)
     .orderBy(subjects.id);
