@@ -24,23 +24,21 @@ const count = ref(0);
 
 const searchInput = ref<string>();
 
-const subjectPAth = 'subjects';
-
 const createSubject = () => {
   router.push({ name: "CreateSubject" });
 };
 
 const loadSubjects = async () => {
-  const { subjectsCount, subs } = await getSubjects( `/${subjectPAth}`,page.value, limit.value);
+  const { subjectsCount, subs } = await getSubjects(page.value, limit.value);
   subjects.value = subs;
   count.value = subjectsCount;
 };
 
 const searchSubject = async () => {
   const { subs, subjectsCount } = await getSubjects(
-    `subjects?search=${searchInput.value}`,
     page.value,
     limit.value,
+    searchInput.value
   );
   subjects.value = subs;
   count.value = subjectsCount;
@@ -49,7 +47,7 @@ const searchSubject = async () => {
 // emit handler
 const setRows = async (payload: number) => {
   page.value = payload;
-  await getSubjects(`/${subjectPAth}`);
+  await getSubjects();
 };
 
 onMounted(async () => {
