@@ -4,7 +4,7 @@ import { zValidator } from "@hono/zod-validator";
 import { insertSubjectSchemaWithDepCode } from "@classroom/shared";
 import { db } from "@/db/index";
 import { departments, subjects } from "@/db/schema";
-import { eq, and, ilike, or } from "drizzle-orm";
+import { eq, and, ilike, or, sql } from "drizzle-orm";
 import { HTTPException } from "hono/http-exception";
 
 const factory = createFactory<{ Variables: { subject: NewSubject } }>();
@@ -117,12 +117,14 @@ export const getAllSubjects = factory.createHandlers(async (c) => {
   
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
-  const subs = await db
+  const rows = await db
     .select({
       id: subjects.id,
       name: subjects.name,
       description: subjects.description,
       departmentCode: departments.code,
+
+      total: sql<number>`count(*) over()`.mapWith(Number),
     })
     .from(subjects)
     .innerJoin(departments, eq(departments.id, subjects.departmentId))
@@ -138,6 +140,12 @@ export const getAllSubjects = factory.createHandlers(async (c) => {
   // .from(departments)
   // .where(eq(departments.id, subjects.departmentId));
 
-  const subjectsCount = await db.$count(subjects);
+    // Every row carries the same total
+  const subjectsCount = rows[0]?.total ?? 0;
+
+  // Don't leak the helper column into each row of the response
+  const subs = rows.map(({ ...dep }) => dep);
+
+  // const subjectsCount = await db.$count(subjects);
   return c.json({ msg: "subjects", subs, subjectsCount });
 });
