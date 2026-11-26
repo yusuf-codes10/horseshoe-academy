@@ -36,7 +36,7 @@ const loadSubjects = async () => {
 
 const searchSubject = async () => {
   const { subs, subjectsCount } = await getSubjects(
-    `departments?search=${searchInput.value}`,
+    `subjects?search=${searchInput.value}`,
     page.value,
     limit.value,
   );
